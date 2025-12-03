@@ -1,0 +1,46 @@
+# Gitleaks configuration
+# See https://github.com/gitleaks/gitleaks#configuration
+
+title = "Gitleaks Configuration for vscode-f5xc-tools"
+
+[extend]
+# Use the default gitleaks config as a base
+useDefault = true
+
+# Paths to ignore
+[allowlist]
+description = "Global allowlist"
+paths = [
+    '''node_modules''',
+    '''dist''',
+    '''out''',
+    '''\.git''',
+    '''package-lock\.json''',
+    '''\.vsix$''',
+    '''docs/specifications/api/.*\.json$''',
+]
+
+# Commits to ignore (add known false positive commits here)
+commits = []
+
+# Regex patterns to allow (false positives)
+regexes = [
+    # Example API key patterns in documentation
+    '''example[-_]?api[-_]?key''',
+    '''YOUR[-_]?API[-_]?KEY''',
+    '''<api[-_]?key>''',
+    # Test fixtures
+    '''test[-_]?token''',
+    '''mock[-_]?secret''',
+    '''fake[-_]?password''',
+    # Schema placeholders
+    '''placeholder''',
+    '''xxxxxxxx''',
+]
+
+# Custom rules can be added here if needed
+# [[rules]]
+# id = "custom-rule"
+# description = "Custom secret detection rule"
+# regex = '''pattern'''
+# tags = ["custom"]
