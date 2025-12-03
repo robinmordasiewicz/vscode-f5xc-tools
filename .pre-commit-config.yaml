@@ -94,6 +94,7 @@ repos:
       - id: eslint
         files: \.[jt]sx?$
         types: [file]
+        exclude: webpack\.config\.js$
         args: [--fix, --max-warnings=0]
         additional_dependencies:
           - eslint@8.56.0

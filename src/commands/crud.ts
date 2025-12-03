@@ -1,0 +1,542 @@
+import * as vscode from 'vscode';
+import { F5XCExplorerProvider, ResourceNode } from '../tree/f5xcExplorer';
+import { ProfileManager } from '../config/profiles';
+import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
+import { getLogger } from '../utils/logger';
+import { RESOURCE_TYPES, getResourceTypeByApiPath } from '../api/resourceTypes';
+
+const logger = getLogger();
+
+/**
+ * Register CRUD commands for F5 XC resources
+ */
+export function registerCrudCommands(
+  context: vscode.ExtensionContext,
+  explorer: F5XCExplorerProvider,
+  profileManager: ProfileManager,
+): void {
+  // GET - View resource as JSON
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.get', async (node: ResourceNode) => {
+      await withErrorHandling(async () => {
+        const data = node.getData();
+        const profile = profileManager.getProfile(data.profileName);
+
+        if (!profile) {
+          showWarning(`Profile "${data.profileName}" not found`);
+          return;
+        }
+
+        const client = await profileManager.getClient(data.profileName);
+        const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
+
+        const content = JSON.stringify(resource, null, 2);
+        const doc = await vscode.workspace.openTextDocument({
+          content,
+          language: 'json',
+        });
+
+        await vscode.window.showTextDocument(doc, { preview: false });
+        logger.info(`Opened resource: ${data.name}`);
+      }, 'Get resource');
+    }),
+  );
+
+  // EDIT - Open resource for editing
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.edit', async (node: ResourceNode) => {
+      await withErrorHandling(async () => {
+        const data = node.getData();
+        const profile = profileManager.getProfile(data.profileName);
+
+        if (!profile) {
+          showWarning(`Profile "${data.profileName}" not found`);
+          return;
+        }
+
+        const client = await profileManager.getClient(data.profileName);
+
+        // Get resource with format suitable for update
+        const resource = await client.get(
+          data.namespace,
+          data.resourceType.apiPath,
+          data.name,
+          'GET_RSP_FORMAT_FOR_REPLACE',
+        );
+
+        const content = JSON.stringify(resource, null, 2);
+
+        // Create a file with descriptive name
+        const fileName = `${data.name}.${data.resourceTypeKey}.f5xc.json`;
+        const uri = vscode.Uri.parse(`untitled:${fileName}`);
+
+        const doc = await vscode.workspace.openTextDocument(uri);
+        const edit = new vscode.WorkspaceEdit();
+        edit.insert(uri, new vscode.Position(0, 0), content);
+        await vscode.workspace.applyEdit(edit);
+
+        await vscode.window.showTextDocument(doc, { preview: false });
+        logger.info(`Editing resource: ${data.name}`);
+      }, 'Edit resource');
+    }),
+  );
+
+  // CREATE - Create new resource from template
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.create', async (arg?: unknown) => {
+      await withErrorHandling(async () => {
+        // Determine resource type from context or prompt user
+        let resourceTypeKey: string | undefined;
+        let namespace = 'default';
+
+        // If called from tree view with resource type context
+        if (arg && typeof arg === 'object' && 'getData' in arg) {
+          const nodeData = (
+            arg as { getData: () => { resourceTypeKey: string; namespace: string } }
+          ).getData();
+          resourceTypeKey = nodeData.resourceTypeKey;
+          namespace = nodeData.namespace;
+        }
+
+        // If no resource type, prompt user to select
+        if (!resourceTypeKey) {
+          const items = Object.entries(RESOURCE_TYPES).map(([key, info]) => ({
+            label: info.displayName,
+            description: info.category,
+            detail: info.description,
+            key,
+          }));
+
+          const selected = await vscode.window.showQuickPick(items, {
+            placeHolder: 'Select resource type to create',
+            matchOnDescription: true,
+            matchOnDetail: true,
+          });
+
+          if (!selected) {
+            return;
+          }
+
+          resourceTypeKey = selected.key;
+        }
+
+        const resourceType = RESOURCE_TYPES[resourceTypeKey];
+        if (!resourceType) {
+          showWarning(`Unknown resource type: ${resourceTypeKey}`);
+          return;
+        }
+
+        // Get namespace
+        const namespaceInput = await vscode.window.showInputBox({
+          prompt: 'Enter namespace',
+          value: namespace,
+          placeHolder: 'default',
+        });
+
+        if (!namespaceInput) {
+          return;
+        }
+
+        // Create template
+        const template = createResourceTemplate(resourceTypeKey, namespaceInput);
+        const content = JSON.stringify(template, null, 2);
+
+        // Create document
+        const doc = await vscode.workspace.openTextDocument({
+          content,
+          language: 'json',
+        });
+
+        await vscode.window.showTextDocument(doc, { preview: false });
+        showInfo(
+          `Created template for ${resourceType.displayName}. Edit and use "F5 XC: Apply" to create.`,
+        );
+      }, 'Create resource');
+    }),
+  );
+
+  // APPLY - Create or update resource from current editor
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.apply', async () => {
+      await withErrorHandling(async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+          showWarning('No active editor');
+          return;
+        }
+
+        const document = editor.document;
+        const content = document.getText();
+
+        let resource: { metadata?: { name?: string; namespace?: string }; spec?: unknown };
+        try {
+          resource = JSON.parse(content) as typeof resource;
+        } catch {
+          showWarning('Invalid JSON in editor');
+          return;
+        }
+
+        const namespace = resource.metadata?.namespace;
+        const name = resource.metadata?.name;
+
+        if (!namespace || !name) {
+          showWarning('Resource must have metadata.namespace and metadata.name');
+          return;
+        }
+
+        // Detect resource type from file name or content
+        const resourceTypeKey = detectResourceType(document.fileName, resource);
+        if (!resourceTypeKey) {
+          showWarning(
+            'Could not determine resource type. Use naming convention: *.{type}.f5xc.json',
+          );
+          return;
+        }
+
+        const resourceType = RESOURCE_TYPES[resourceTypeKey];
+        if (!resourceType) {
+          showWarning(`Unknown resource type: ${resourceTypeKey}`);
+          return;
+        }
+
+        // Get active profile
+        const activeProfile = profileManager.getActiveProfile();
+        if (!activeProfile) {
+          showWarning('No active profile. Configure a profile first.');
+          return;
+        }
+
+        const client = await profileManager.getClient(activeProfile.name);
+
+        // Try to get existing resource to determine create vs update
+        let exists = false;
+        try {
+          await client.get(namespace, resourceType.apiPath, name);
+          exists = true;
+        } catch {
+          exists = false;
+        }
+
+        // Confirm action
+        const action = exists ? 'Update' : 'Create';
+        const confirm = await vscode.window.showInformationMessage(
+          `${action} ${resourceType.displayName} "${name}" in namespace "${namespace}"?`,
+          { modal: true },
+          action,
+        );
+
+        if (confirm !== action) {
+          return;
+        }
+
+        // Apply resource - cast to any since we've validated the required fields exist
+        await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: `${action === 'Update' ? 'Updating' : 'Creating'} ${name}...`,
+            cancellable: false,
+          },
+          async () => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+            const resourceData = resource as any;
+            if (exists) {
+              await client.replace(namespace, resourceType.apiPath, name, resourceData);
+            } else {
+              await client.create(namespace, resourceType.apiPath, resourceData);
+            }
+          },
+        );
+
+        showInfo(`${action}d ${resourceType.displayName}: ${name}`);
+        explorer.refresh();
+      }, 'Apply resource');
+    }),
+  );
+
+  // DELETE - Delete resource
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.delete', async (node: ResourceNode) => {
+      await withErrorHandling(async () => {
+        const data = node.getData();
+
+        // Confirm deletion
+        const confirmDelete = vscode.workspace
+          .getConfiguration('f5xc')
+          .get<boolean>('confirmDelete', true);
+
+        if (confirmDelete) {
+          const confirm = await vscode.window.showWarningMessage(
+            `Delete ${data.resourceType.displayName} "${data.name}" from namespace "${data.namespace}"?`,
+            { modal: true },
+            'Delete',
+          );
+
+          if (confirm !== 'Delete') {
+            return;
+          }
+        }
+
+        const client = await profileManager.getClient(data.profileName);
+
+        await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: `Deleting ${data.name}...`,
+            cancellable: false,
+          },
+          async () => {
+            await client.delete(data.namespace, data.resourceType.apiPath, data.name);
+          },
+        );
+
+        showInfo(`Deleted ${data.resourceType.displayName}: ${data.name}`);
+        explorer.refresh();
+      }, 'Delete resource');
+    }),
+  );
+
+  // DIFF - Compare local with remote
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.diff', async (node?: ResourceNode) => {
+      await withErrorHandling(async () => {
+        let remoteContent: string;
+        let localUri: vscode.Uri;
+        let name: string;
+
+        if (node) {
+          // Called from tree view
+          const data = node.getData();
+          const client = await profileManager.getClient(data.profileName);
+          const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
+          remoteContent = JSON.stringify(resource, null, 2);
+          name = data.name;
+
+          // Check if there's an active editor with this resource
+          const editor = vscode.window.activeTextEditor;
+          if (editor) {
+            localUri = editor.document.uri;
+          } else {
+            showWarning('Open the resource in editor first to compare');
+            return;
+          }
+        } else {
+          // Called from editor
+          const editor = vscode.window.activeTextEditor;
+          if (!editor) {
+            showWarning('No active editor');
+            return;
+          }
+
+          localUri = editor.document.uri;
+          const content = editor.document.getText();
+
+          let resource: { metadata?: { name?: string; namespace?: string } };
+          try {
+            resource = JSON.parse(content) as typeof resource;
+          } catch {
+            showWarning('Invalid JSON in editor');
+            return;
+          }
+
+          const namespace = resource.metadata?.namespace;
+          name = resource.metadata?.name || 'unknown';
+
+          if (!namespace || !name) {
+            showWarning('Resource must have metadata.namespace and metadata.name');
+            return;
+          }
+
+          const resourceTypeKey = detectResourceType(editor.document.fileName, resource);
+          if (!resourceTypeKey) {
+            showWarning('Could not determine resource type');
+            return;
+          }
+
+          const resourceType = RESOURCE_TYPES[resourceTypeKey];
+          if (!resourceType) {
+            showWarning(`Unknown resource type: ${resourceTypeKey}`);
+            return;
+          }
+
+          const activeProfile = profileManager.getActiveProfile();
+          if (!activeProfile) {
+            showWarning('No active profile');
+            return;
+          }
+
+          const client = await profileManager.getClient(activeProfile.name);
+          const remoteResource = await client.get(namespace, resourceType.apiPath, name);
+          remoteContent = JSON.stringify(remoteResource, null, 2);
+        }
+
+        // Create virtual document for remote content
+        const remoteUri = vscode.Uri.parse(`f5xc-remote:${name}.json`);
+
+        // Register content provider if not already registered
+        const provider = new (class implements vscode.TextDocumentContentProvider {
+          provideTextDocumentContent(): string {
+            return remoteContent;
+          }
+        })();
+
+        context.subscriptions.push(
+          vscode.workspace.registerTextDocumentContentProvider('f5xc-remote', provider),
+        );
+
+        // Show diff
+        await vscode.commands.executeCommand(
+          'vscode.diff',
+          remoteUri,
+          localUri,
+          `${name} (Remote ↔ Local)`,
+        );
+      }, 'Compare with remote');
+    }),
+  );
+
+  // COPY NAME - Copy resource name to clipboard
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.copyName', async (node: ResourceNode) => {
+      const data = node.getData();
+      await vscode.env.clipboard.writeText(data.name);
+      showInfo(`Copied: ${data.name}`);
+    }),
+  );
+
+  // COPY AS JSON - Copy resource JSON to clipboard
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.copyAsJson', async (node: ResourceNode) => {
+      await withErrorHandling(async () => {
+        const data = node.getData();
+        const client = await profileManager.getClient(data.profileName);
+        const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
+
+        const json = JSON.stringify(resource, null, 2);
+        await vscode.env.clipboard.writeText(json);
+        showInfo(`Copied ${data.name} JSON to clipboard`);
+      }, 'Copy as JSON');
+    }),
+  );
+
+  // OPEN IN BROWSER - Open resource in F5 XC console
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.openInBrowser', async (node: ResourceNode) => {
+      const data = node.getData();
+      const profile = profileManager.getProfile(data.profileName);
+
+      if (!profile) {
+        showWarning(`Profile "${data.profileName}" not found`);
+        return;
+      }
+
+      // Construct console URL
+      const baseUrl = profile.apiUrl.replace('/api', '');
+      const consoleUrl = `${baseUrl}/web/workspaces/default/manage/load-balancers/${data.resourceType.apiPath}/${data.name}?namespace=${data.namespace}`;
+
+      await vscode.env.openExternal(vscode.Uri.parse(consoleUrl));
+    }),
+  );
+}
+
+/**
+ * Create a resource template for a given type
+ */
+function createResourceTemplate(resourceTypeKey: string, namespace: string): object {
+  const baseTemplate = {
+    metadata: {
+      name: `new-${resourceTypeKey}`,
+      namespace,
+      labels: {},
+      annotations: {},
+    },
+    spec: {},
+  };
+
+  // Add type-specific spec templates
+  switch (resourceTypeKey) {
+    case 'http_loadbalancer':
+      return {
+        ...baseTemplate,
+        spec: {
+          domains: ['example.com'],
+          http: {
+            dns_volterra_managed: true,
+          },
+          default_route_pools: [
+            {
+              pool: {
+                tenant: '',
+                namespace,
+                name: 'my-origin-pool',
+              },
+              weight: 1,
+            },
+          ],
+          advertise_on_public_default_vip: {},
+        },
+      };
+
+    case 'origin_pool':
+      return {
+        ...baseTemplate,
+        spec: {
+          origin_servers: [
+            {
+              public_ip: {
+                ip: '1.2.3.4',
+              },
+            },
+          ],
+          port: 443,
+          use_tls: {
+            use_host_header_as_sni: {},
+          },
+          loadbalancer_algorithm: 'LB_OVERRIDE',
+        },
+      };
+
+    case 'app_firewall':
+      return {
+        ...baseTemplate,
+        spec: {
+          blocking: {},
+          detection_settings: {
+            signature_selection_setting: {
+              default_attack_type_settings: {},
+            },
+          },
+        },
+      };
+
+    default:
+      return baseTemplate;
+  }
+}
+
+/**
+ * Detect resource type from filename or content
+ */
+function detectResourceType(fileName: string, _resource: object): string | undefined {
+  // Try to extract from filename pattern: *.{type}.f5xc.json or *.{type}.json
+  const patterns = [/\.([a-z_]+)\.f5xc\.json$/i, /\.([a-z_]+)\.json$/i];
+
+  for (const pattern of patterns) {
+    const match = fileName.match(pattern);
+    if (match && match[1]) {
+      const typeKey = match[1];
+      if (RESOURCE_TYPES[typeKey]) {
+        return typeKey;
+      }
+      // Try to find by API path
+      const byApiPath = getResourceTypeByApiPath(typeKey);
+      if (byApiPath) {
+        const entry = Object.entries(RESOURCE_TYPES).find(([, v]) => v === byApiPath);
+        if (entry) {
+          return entry[0];
+        }
+      }
+    }
+  }
+
+  return undefined;
+}
