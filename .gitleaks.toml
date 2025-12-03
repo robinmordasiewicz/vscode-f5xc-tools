@@ -36,6 +36,11 @@ regexes = [
     # Schema placeholders
     '''placeholder''',
     '''xxxxxxxx''',
+    # PKI/PKCS12 OID identifiers (used for certificate parsing)
+    '''certBag''',
+    '''keyBag''',
+    '''pkcs8ShroudedKeyBag''',
+    '''forge\.pki\.oids''',
 ]
 
 # Custom rules can be added here if needed

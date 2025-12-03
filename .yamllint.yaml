@@ -8,6 +8,7 @@ ignore: |
   dist/
   out/
   .git/
+  .serena/
 
 rules:
   # Line length - disabled for flexibility
@@ -90,5 +91,5 @@ rules:
 
   # Truthy values
   truthy:
-    allowed-values: ['true', 'false', 'yes', 'no', 'on', 'off']
+    allowed-values: ["true", "false", "yes", "no", "on", "off"]
     check-keys: false
