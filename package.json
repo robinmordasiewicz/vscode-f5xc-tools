@@ -1,0 +1,415 @@
+{
+  "name": "vscode-f5xc-tools",
+  "displayName": "F5 Distributed Cloud Tools",
+  "description": "Manage F5 Distributed Cloud resources directly from VS Code",
+  "version": "0.1.0",
+  "publisher": "f5networks",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/f5networks/vscode-f5xc-tools"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Cloud"
+  ],
+  "keywords": [
+    "f5",
+    "distributed cloud",
+    "f5xc",
+    "volterra",
+    "kubernetes",
+    "load balancer",
+    "waf",
+    "cdn"
+  ],
+  "icon": "resources/f5-icon.png",
+  "galleryBanner": {
+    "color": "#e01f27",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onView:f5xc.explorer",
+    "onCommand:f5xc.addProfile"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "F5 Distributed Cloud",
+      "properties": {
+        "f5xc.logLevel": {
+          "type": "string",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "default": "info",
+          "description": "Log level for F5 XC extension"
+        },
+        "f5xc.defaultNamespace": {
+          "type": "string",
+          "default": "default",
+          "description": "Default namespace for new resources"
+        },
+        "f5xc.confirmDelete": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show confirmation dialog before deleting resources"
+        },
+        "f5xc.autoRefreshInterval": {
+          "type": "number",
+          "default": 0,
+          "description": "Auto-refresh interval in seconds (0 to disable)"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "f5xc-explorer",
+          "title": "F5 Distributed Cloud",
+          "icon": "resources/f5-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "f5xc-explorer": [
+        {
+          "id": "f5xc.explorer",
+          "name": "Resources",
+          "contextualTitle": "F5 XC Resources"
+        },
+        {
+          "id": "f5xc.profiles",
+          "name": "Profiles",
+          "contextualTitle": "F5 XC Profiles"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "f5xc.explorer",
+        "contents": "No F5 XC profile configured.\n[Add Profile](command:f5xc.addProfile)\nLearn more about [F5 Distributed Cloud](https://www.f5.com/cloud)."
+      }
+    ],
+    "commands": [
+      {
+        "command": "f5xc.addProfile",
+        "title": "Add Profile",
+        "category": "F5 XC",
+        "icon": "$(add)"
+      },
+      {
+        "command": "f5xc.editProfile",
+        "title": "Edit Profile",
+        "category": "F5 XC",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "f5xc.deleteProfile",
+        "title": "Delete Profile",
+        "category": "F5 XC",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "f5xc.setActiveProfile",
+        "title": "Set as Active Profile",
+        "category": "F5 XC",
+        "icon": "$(check)"
+      },
+      {
+        "command": "f5xc.refresh",
+        "title": "Refresh",
+        "category": "F5 XC",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "f5xc.create",
+        "title": "Create Resource",
+        "category": "F5 XC",
+        "icon": "$(add)"
+      },
+      {
+        "command": "f5xc.get",
+        "title": "View Resource",
+        "category": "F5 XC",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "f5xc.edit",
+        "title": "Edit Resource",
+        "category": "F5 XC",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "f5xc.delete",
+        "title": "Delete Resource",
+        "category": "F5 XC",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "f5xc.apply",
+        "title": "Apply",
+        "category": "F5 XC",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "f5xc.diff",
+        "title": "Compare with Remote",
+        "category": "F5 XC",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "f5xc.copyName",
+        "title": "Copy Name",
+        "category": "F5 XC"
+      },
+      {
+        "command": "f5xc.copyAsJson",
+        "title": "Copy as JSON",
+        "category": "F5 XC"
+      },
+      {
+        "command": "f5xc.viewLogs",
+        "title": "View Logs",
+        "category": "F5 XC",
+        "icon": "$(output)"
+      },
+      {
+        "command": "f5xc.viewMetrics",
+        "title": "View Metrics",
+        "category": "F5 XC",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "f5xc.createFromTemplate",
+        "title": "New from Template",
+        "category": "F5 XC",
+        "icon": "$(file-add)"
+      },
+      {
+        "command": "f5xc.openInBrowser",
+        "title": "Open in Browser",
+        "category": "F5 XC",
+        "icon": "$(link-external)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "f5xc.refresh",
+          "when": "view == f5xc.explorer",
+          "group": "navigation"
+        },
+        {
+          "command": "f5xc.addProfile",
+          "when": "view == f5xc.profiles",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "f5xc.setActiveProfile",
+          "when": "view == f5xc.profiles && viewItem == profile",
+          "group": "inline"
+        },
+        {
+          "command": "f5xc.editProfile",
+          "when": "view == f5xc.profiles && viewItem == profile",
+          "group": "1_profile@1"
+        },
+        {
+          "command": "f5xc.deleteProfile",
+          "when": "view == f5xc.profiles && viewItem == profile",
+          "group": "1_profile@2"
+        },
+        {
+          "command": "f5xc.refresh",
+          "when": "view == f5xc.explorer && viewItem =~ /namespace|category/",
+          "group": "inline"
+        },
+        {
+          "command": "f5xc.create",
+          "when": "view == f5xc.explorer && viewItem =~ /resourceType/",
+          "group": "inline"
+        },
+        {
+          "command": "f5xc.get",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "1_resource@1"
+        },
+        {
+          "command": "f5xc.edit",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "1_resource@2"
+        },
+        {
+          "command": "f5xc.delete",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "1_resource@3"
+        },
+        {
+          "command": "f5xc.diff",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "2_compare@1"
+        },
+        {
+          "command": "f5xc.copyName",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "3_copy@1"
+        },
+        {
+          "command": "f5xc.copyAsJson",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "3_copy@2"
+        },
+        {
+          "command": "f5xc.viewLogs",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:http_loadbalancer|resource:tcp_loadbalancer/",
+          "group": "4_observe@1"
+        },
+        {
+          "command": "f5xc.viewMetrics",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:http_loadbalancer|resource:tcp_loadbalancer|resource:origin_pool/",
+          "group": "4_observe@2"
+        },
+        {
+          "command": "f5xc.openInBrowser",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "5_external@1"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "f5xc.apply",
+          "when": "resourceExtname == .f5xc.json || resourceFilename =~ /.*\\.(http_loadbalancer|origin_pool|app_firewall)\\.json$/",
+          "group": "navigation"
+        },
+        {
+          "command": "f5xc.diff",
+          "when": "resourceExtname == .f5xc.json || resourceFilename =~ /.*\\.(http_loadbalancer|origin_pool|app_firewall)\\.json$/",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "f5xc.setActiveProfile",
+          "when": "false"
+        },
+        {
+          "command": "f5xc.copyName",
+          "when": "false"
+        },
+        {
+          "command": "f5xc.copyAsJson",
+          "when": "false"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "f5xc.apply",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a",
+        "when": "editorTextFocus && resourceExtname == .json"
+      },
+      {
+        "command": "f5xc.refresh",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "view == f5xc.explorer"
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": "*.f5xc.json",
+        "url": "./schemas/f5xc-resource.schema.json"
+      },
+      {
+        "fileMatch": "*.http_loadbalancer.json",
+        "url": "./schemas/http_loadbalancer.schema.json"
+      },
+      {
+        "fileMatch": "*.origin_pool.json",
+        "url": "./schemas/origin_pool.schema.json"
+      },
+      {
+        "fileMatch": "*.app_firewall.json",
+        "url": "./schemas/app_firewall.schema.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "lint:fix": "eslint src --ext ts --fix",
+    "test": "vscode-test",
+    "test:unit": "jest --config jest.config.js",
+    "clean": "rimraf dist out",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky",
+    "pre-commit": "lint-staged",
+    "audit:security": "npm audit --audit-level=high"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.{json,yaml,yml}": [
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write",
+      "markdownlint --fix"
+    ]
+  },
+  "dependencies": {
+    "node-forge": "^1.3.1",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@types/jest": "^29.5.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "20.x",
+    "@types/node-forge": "^1.3.11",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.8",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.10",
+    "markdownlint-cli": "^0.43.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

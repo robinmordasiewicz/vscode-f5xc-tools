@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# Husky commit-msg hook
+# Validates commit messages against conventional commits standard
+
+npx --no -- commitlint --edit "$1"

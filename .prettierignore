@@ -1,0 +1,24 @@
+# Build outputs
+dist/
+out/
+
+# Dependencies
+node_modules/
+
+# Git
+.git/
+
+# Lock files
+package-lock.json
+
+# API specifications (auto-generated, large files)
+docs/specifications/api/
+
+# VSCode extension package
+*.vsix
+
+# Coverage reports
+coverage/
+
+# Serena memories (managed by tool)
+.serena/memories/
