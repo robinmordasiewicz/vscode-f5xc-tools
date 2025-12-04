@@ -9,6 +9,14 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.8] - 2024-12-04
+
+### Improved
+
+- Edit Resource now uses virtual file system - press Cmd+S to save directly to
+  F5 XC API instead of saving locally
+- No longer need to use "F5 XC: Apply" command after editing
+
 ## [0.1.7] - 2024-12-04
 
 ### Fixed
@@ -103,7 +111,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.7...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.8...HEAD
+[0.1.8]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.7...v0.1.8
 [0.1.7]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.6...v0.1.7
 [0.1.6]:

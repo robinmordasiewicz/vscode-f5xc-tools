@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { F5XCExplorerProvider, ResourceNode } from '../tree/f5xcExplorer';
 import { ProfileManager } from '../config/profiles';
+import { F5XCFileSystemProvider } from '../providers/f5xcFileSystemProvider';
 import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
 import { getLogger } from '../utils/logger';
 import { RESOURCE_TYPES, getResourceTypeByApiPath } from '../api/resourceTypes';
@@ -22,6 +23,7 @@ export function registerCrudCommands(
   context: vscode.ExtensionContext,
   explorer: F5XCExplorerProvider,
   profileManager: ProfileManager,
+  fsProvider: F5XCFileSystemProvider,
 ): void {
   // GET - View resource as JSON
   context.subscriptions.push(
@@ -58,7 +60,7 @@ export function registerCrudCommands(
     }),
   );
 
-  // EDIT - Open resource for editing
+  // EDIT - Open resource for editing using f5xc:// virtual file system
   context.subscriptions.push(
     vscode.commands.registerCommand('f5xc.edit', async (node: ResourceNode) => {
       await withErrorHandling(async () => {
@@ -70,31 +72,23 @@ export function registerCrudCommands(
           return;
         }
 
-        const client = await profileManager.getClient(data.profileName);
-
-        // Get resource with format suitable for update
-        const resource = await client.get(
+        // Create f5xc:// URI for the resource
+        const uri = F5XCFileSystemProvider.createUri(
+          data.profileName,
           data.namespace,
-          data.resourceType.apiPath,
+          data.resourceTypeKey,
           data.name,
-          'GET_RSP_FORMAT_FOR_REPLACE',
         );
 
-        const content = JSON.stringify(resource, null, 2);
+        // Clear any cached content to ensure fresh data
+        fsProvider.clearCache(uri);
 
-        // Create document with content (using openTextDocument with content creates a proper untitled file)
-        const doc = await vscode.workspace.openTextDocument({
-          content,
-          language: 'json',
-        });
-
+        // Open the document using the f5xc:// file system
+        const doc = await vscode.workspace.openTextDocument(uri);
         await vscode.window.showTextDocument(doc, { preview: false });
-        logger.info(`Editing resource: ${data.name}`);
 
-        // Show hint about applying changes
-        showInfo(
-          `Editing ${data.name}. Use "F5 XC: Apply" (Cmd+Shift+A) to save changes to F5 XC.`,
-        );
+        logger.info(`Editing resource: ${data.name}`);
+        showInfo(`Editing ${data.name}. Press Cmd+S to save changes to F5 XC.`);
       }, 'Edit resource');
     }),
   );
