@@ -4,8 +4,16 @@ import { ProfileManager } from '../config/profiles';
 import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
 import { getLogger } from '../utils/logger';
 import { RESOURCE_TYPES, getResourceTypeByApiPath } from '../api/resourceTypes';
+import { filterResource, getFilterOptionsForViewMode, ViewMode } from '../utils/resourceFilter';
 
 const logger = getLogger();
+
+/**
+ * Get the current view mode from settings
+ */
+function getViewMode(): ViewMode {
+  return vscode.workspace.getConfiguration('f5xc').get<ViewMode>('viewMode', 'console');
+}
 
 /**
  * Register CRUD commands for F5 XC resources
@@ -30,14 +38,22 @@ export function registerCrudCommands(
         const client = await profileManager.getClient(data.profileName);
         const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
 
-        const content = JSON.stringify(resource, null, 2);
+        // Apply view mode filtering
+        const viewMode = getViewMode();
+        const filterOptions = getFilterOptionsForViewMode(viewMode);
+        const filteredResource = filterResource(
+          resource as unknown as Record<string, unknown>,
+          filterOptions,
+        );
+
+        const content = JSON.stringify(filteredResource, null, 2);
         const doc = await vscode.workspace.openTextDocument({
           content,
           language: 'json',
         });
 
         await vscode.window.showTextDocument(doc, { preview: false });
-        logger.info(`Opened resource: ${data.name}`);
+        logger.info(`Opened resource: ${data.name} (view mode: ${viewMode})`);
       }, 'Get resource');
     }),
   );
@@ -411,9 +427,17 @@ export function registerCrudCommands(
         const client = await profileManager.getClient(data.profileName);
         const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
 
-        const json = JSON.stringify(resource, null, 2);
+        // Apply view mode filtering
+        const viewMode = getViewMode();
+        const filterOptions = getFilterOptionsForViewMode(viewMode);
+        const filteredResource = filterResource(
+          resource as unknown as Record<string, unknown>,
+          filterOptions,
+        );
+
+        const json = JSON.stringify(filteredResource, null, 2);
         await vscode.env.clipboard.writeText(json);
-        showInfo(`Copied ${data.name} JSON to clipboard`);
+        showInfo(`Copied ${data.name} JSON to clipboard (${viewMode} view)`);
       }, 'Copy as JSON');
     }),
   );
@@ -434,6 +458,24 @@ export function registerCrudCommands(
       const consoleUrl = `${baseUrl}/web/workspaces/default/manage/load-balancers/${data.resourceType.apiPath}/${data.name}?namespace=${data.namespace}`;
 
       await vscode.env.openExternal(vscode.Uri.parse(consoleUrl));
+    }),
+  );
+
+  // TOGGLE VIEW MODE - Switch between console and full API views
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.toggleViewMode', async () => {
+      const config = vscode.workspace.getConfiguration('f5xc');
+      const currentMode = config.get<ViewMode>('viewMode', 'console');
+      const newMode: ViewMode = currentMode === 'console' ? 'full' : 'console';
+
+      await config.update('viewMode', newMode, vscode.ConfigurationTarget.Global);
+
+      const modeDescription =
+        newMode === 'console'
+          ? 'Console View (clean, filtered output)'
+          : 'Full API View (complete response)';
+      showInfo(`Switched to ${modeDescription}`);
+      logger.info(`View mode changed to: ${newMode}`);
     }),
   );
 }

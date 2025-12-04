@@ -9,6 +9,16 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.3] - 2024-12-04
+
+### Added
+
+- Console View mode - displays clean JSON output matching F5 Distributed Cloud
+  Console (filters out system metadata, null values, and internal fields)
+- Toggle View Mode command (`F5 XC: Toggle View Mode`) to switch between Console
+  and Full API views
+- New `f5xc.viewMode` setting to control default resource display mode
+
 ## [0.1.2] - 2024-12-04
 
 ### Fixed
@@ -64,7 +74,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.2...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.3...HEAD
+[0.1.3]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.2...v0.1.3
 [0.1.2]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.1...v0.1.2
 [0.1.1]:
