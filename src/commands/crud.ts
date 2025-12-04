@@ -3,6 +3,7 @@ import { F5XCExplorerProvider, ResourceNode } from '../tree/f5xcExplorer';
 import { ProfileManager } from '../config/profiles';
 import { F5XCFileSystemProvider } from '../providers/f5xcFileSystemProvider';
 import { F5XCViewProvider } from '../providers/f5xcViewProvider';
+import { F5XCDescribeProvider } from '../providers/f5xcDescribeProvider';
 import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
 import { getLogger } from '../utils/logger';
 import { RESOURCE_TYPES, getResourceTypeByApiPath } from '../api/resourceTypes';
@@ -26,6 +27,7 @@ export function registerCrudCommands(
   profileManager: ProfileManager,
   fsProvider: F5XCFileSystemProvider,
   viewProvider: F5XCViewProvider,
+  describeProvider: F5XCDescribeProvider,
 ): void {
   // GET - View resource as JSON (read-only)
   context.subscriptions.push(
@@ -57,6 +59,24 @@ export function registerCrudCommands(
         const viewMode = getViewMode();
         logger.info(`Viewing resource: ${data.name} (view mode: ${viewMode})`);
       }, 'View resource');
+    }),
+  );
+
+  // DESCRIBE - Show formatted resource description in WebView
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.describe', async (node: ResourceNode) => {
+      await withErrorHandling(async () => {
+        const data = node.getData();
+
+        await describeProvider.showDescribe(
+          data.profileName,
+          data.namespace,
+          data.resourceType.apiPath,
+          data.name,
+        );
+
+        logger.info(`Describing resource: ${data.name}`);
+      }, 'Describe resource');
     }),
   );
 

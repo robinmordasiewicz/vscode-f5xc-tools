@@ -4,6 +4,7 @@ import { F5XCExplorerProvider } from './tree/f5xcExplorer';
 import { ProfilesProvider } from './tree/profilesProvider';
 import { F5XCFileSystemProvider } from './providers/f5xcFileSystemProvider';
 import { F5XCViewProvider } from './providers/f5xcViewProvider';
+import { F5XCDescribeProvider } from './providers/f5xcDescribeProvider';
 import { registerCrudCommands } from './commands/crud';
 import { registerProfileCommands } from './commands/profile';
 import { registerObservabilityCommands } from './commands/observability';
@@ -46,6 +47,9 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.workspace.registerTextDocumentContentProvider('f5xc-view', viewProvider),
   );
 
+  // Initialize the describe provider for formatted resource descriptions
+  const describeProvider = new F5XCDescribeProvider(profileManager);
+
   // Register tree views
   const explorerView = vscode.window.createTreeView('f5xc.explorer', {
     treeDataProvider: explorerProvider,
@@ -71,7 +75,14 @@ export function activate(context: vscode.ExtensionContext): void {
   registerProfileCommands(context, profileManager, profilesProvider, explorerProvider);
 
   // Register CRUD commands
-  registerCrudCommands(context, explorerProvider, profileManager, fsProvider, viewProvider);
+  registerCrudCommands(
+    context,
+    explorerProvider,
+    profileManager,
+    fsProvider,
+    viewProvider,
+    describeProvider,
+  );
 
   // Register observability commands
   registerObservabilityCommands(context, profileManager);
