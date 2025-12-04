@@ -9,6 +9,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.1] - 2024-12-04
+
+### Fixed
+
+- Input dialogs no longer cancel when switching windows to copy/paste values
+  (added `ignoreFocusOut: true` to all profile input boxes and quick picks)
+
 ## [0.1.0] - 2024-12-03
 
 ### Added
@@ -50,6 +57,8 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.0...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.1...HEAD
+[0.1.1]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.0...v0.1.1
 [0.1.0]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/releases/tag/v0.1.0

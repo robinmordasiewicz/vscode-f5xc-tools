@@ -21,6 +21,7 @@ export function registerProfileCommands(
         const name = await vscode.window.showInputBox({
           prompt: 'Enter a name for this profile',
           placeHolder: 'production',
+          ignoreFocusOut: true,
           validateInput: (value) => {
             if (!value || value.trim().length === 0) {
               return 'Profile name is required';
@@ -41,6 +42,7 @@ export function registerProfileCommands(
           prompt: 'Enter F5 XC API URL',
           placeHolder: 'https://tenant.console.ves.volterra.io',
           value: 'https://',
+          ignoreFocusOut: true,
           validateInput: (value) => {
             if (!value || !value.startsWith('https://')) {
               return 'API URL must start with https://';
@@ -74,6 +76,7 @@ export function registerProfileCommands(
           ],
           {
             placeHolder: 'Select authentication method',
+            ignoreFocusOut: true,
           },
         );
 
@@ -90,6 +93,7 @@ export function registerProfileCommands(
             prompt: 'Enter your API token',
             password: true,
             placeHolder: 'Your API token',
+            ignoreFocusOut: true,
             validateInput: (value) => {
               if (!value || value.trim().length === 0) {
                 return 'API token is required';
@@ -126,6 +130,7 @@ export function registerProfileCommands(
             prompt: 'Enter P12 certificate password',
             password: true,
             placeHolder: 'Certificate password',
+            ignoreFocusOut: true,
             validateInput: (value) => {
               if (!value) {
                 return 'Password is required';
@@ -200,7 +205,7 @@ export function registerProfileCommands(
               description: p.apiUrl,
               detail: `Auth: ${p.authType}`,
             })),
-            { placeHolder: 'Select profile to edit' },
+            { placeHolder: 'Select profile to edit', ignoreFocusOut: true },
           );
 
           if (!selected) {
@@ -225,7 +230,7 @@ export function registerProfileCommands(
               ? [{ label: 'P12 File', description: `Current: ${profile.p12Path || 'Not set'}` }]
               : []),
           ],
-          { placeHolder: 'What would you like to edit?' },
+          { placeHolder: 'What would you like to edit?', ignoreFocusOut: true },
         );
 
         if (!editOption) {
@@ -240,6 +245,7 @@ export function registerProfileCommands(
             const newUrl = await vscode.window.showInputBox({
               prompt: 'Enter new API URL',
               value: profile.apiUrl,
+              ignoreFocusOut: true,
               validateInput: (value) => {
                 if (!value || !value.startsWith('https://')) {
                   return 'API URL must start with https://';
@@ -262,6 +268,7 @@ export function registerProfileCommands(
                 prompt: 'Enter new API token',
                 password: true,
                 placeHolder: 'New API token',
+                ignoreFocusOut: true,
               });
 
               if (!newToken) {
@@ -274,6 +281,7 @@ export function registerProfileCommands(
                 prompt: 'Enter new P12 password',
                 password: true,
                 placeHolder: 'New P12 password',
+                ignoreFocusOut: true,
               });
 
               if (!newPassword) {
@@ -340,7 +348,7 @@ export function registerProfileCommands(
               label: p.name,
               description: p.apiUrl,
             })),
-            { placeHolder: 'Select profile to delete' },
+            { placeHolder: 'Select profile to delete', ignoreFocusOut: true },
           );
 
           if (!selected) {
@@ -391,7 +399,7 @@ export function registerProfileCommands(
               description: p.isActive ? '(active)' : '',
               detail: p.apiUrl,
             })),
-            { placeHolder: 'Select profile to activate' },
+            { placeHolder: 'Select profile to activate', ignoreFocusOut: true },
           );
 
           if (!selected) {
