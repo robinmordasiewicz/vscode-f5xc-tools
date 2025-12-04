@@ -149,6 +149,12 @@
         "icon": "$(eye)"
       },
       {
+        "command": "f5xc.describe",
+        "title": "Describe Resource",
+        "category": "F5 XC",
+        "icon": "$(info)"
+      },
+      {
         "command": "f5xc.edit",
         "title": "Edit Resource",
         "category": "F5 XC",
@@ -258,14 +264,19 @@
           "group": "1_resource@1"
         },
         {
-          "command": "f5xc.edit",
+          "command": "f5xc.describe",
           "when": "view == f5xc.explorer && viewItem =~ /resource:/",
           "group": "1_resource@2"
         },
         {
-          "command": "f5xc.delete",
+          "command": "f5xc.edit",
           "when": "view == f5xc.explorer && viewItem =~ /resource:/",
           "group": "1_resource@3"
+        },
+        {
+          "command": "f5xc.delete",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:/",
+          "group": "1_resource@4"
         },
         {
           "command": "f5xc.diff",
