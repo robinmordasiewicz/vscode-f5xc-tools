@@ -16,6 +16,7 @@ export interface F5XCTreeItem {
  * Context value prefixes for tree items
  */
 export const TreeItemContext = {
+  NAMESPACE_GROUP: 'namespaceGroup',
   NAMESPACE: 'namespace',
   CATEGORY: 'category',
   RESOURCE_TYPE: 'resourceType',

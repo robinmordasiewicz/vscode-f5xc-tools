@@ -62,18 +62,89 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
       const client = await this.clientFactory(activeProfile);
       const namespaces = await client.listNamespaces();
 
-      return namespaces.map(
-        (ns) =>
-          new NamespaceNode(
-            { name: ns.name, profileName: activeProfile.name },
+      // Built-in namespaces that should appear at the top
+      const builtInNames = ['system', 'shared', 'default'];
+
+      // Separate built-in and custom namespaces
+      const builtInNamespaces = namespaces.filter((ns) => builtInNames.includes(ns.name));
+      const customNamespaces = namespaces.filter((ns) => !builtInNames.includes(ns.name));
+
+      // Sort built-in namespaces in the specified order
+      builtInNamespaces.sort((a, b) => builtInNames.indexOf(a.name) - builtInNames.indexOf(b.name));
+
+      // Sort custom namespaces alphabetically
+      customNamespaces.sort((a, b) => a.name.localeCompare(b.name));
+
+      const groups: F5XCTreeItem[] = [];
+
+      // Add built-in namespaces group if any exist
+      if (builtInNamespaces.length > 0) {
+        groups.push(
+          new NamespaceGroupNode(
+            'Built-in Namespaces',
+            builtInNamespaces.map((ns) => ns.name),
+            activeProfile.name,
             this.clientFactory,
             this.profileManager,
+            'symbol-namespace',
           ),
-      );
+        );
+      }
+
+      // Add custom namespaces group if any exist
+      if (customNamespaces.length > 0) {
+        groups.push(
+          new NamespaceGroupNode(
+            'Custom Namespaces',
+            customNamespaces.map((ns) => ns.name),
+            activeProfile.name,
+            this.clientFactory,
+            this.profileManager,
+            'folder-library',
+          ),
+        );
+      }
+
+      return groups;
     } catch (error) {
       this.logger.error('Failed to load namespaces', error as Error);
       return [];
     }
+  }
+}
+
+/**
+ * Namespace group node (Built-in Namespaces, Custom Namespaces)
+ */
+class NamespaceGroupNode implements F5XCTreeItem {
+  constructor(
+    private readonly groupName: string,
+    private readonly namespaceNames: string[],
+    private readonly profileName: string,
+    private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
+    private readonly profileManager: ProfileManager,
+    private readonly icon: string,
+  ) {}
+
+  getTreeItem(): vscode.TreeItem {
+    const item = new vscode.TreeItem(this.groupName, vscode.TreeItemCollapsibleState.Expanded);
+    item.contextValue = TreeItemContext.NAMESPACE_GROUP;
+    item.iconPath = new vscode.ThemeIcon(this.icon);
+    item.tooltip = `${this.namespaceNames.length} namespaces`;
+    return item;
+  }
+
+  getChildren(): Promise<F5XCTreeItem[]> {
+    return Promise.resolve(
+      this.namespaceNames.map(
+        (name) =>
+          new NamespaceNode(
+            { name, profileName: this.profileName },
+            this.clientFactory,
+            this.profileManager,
+          ),
+      ),
+    );
   }
 }
 
@@ -246,7 +317,7 @@ export class ResourceNode implements F5XCTreeItem {
     const item = new vscode.TreeItem(this.data.name, vscode.TreeItemCollapsibleState.None);
     item.contextValue = `${TreeItemContext.RESOURCE}:${this.data.resourceTypeKey}`;
     item.iconPath = new vscode.ThemeIcon('file');
-    item.tooltip = `${this.data.resourceType.displayName}: ${this.data.name}`;
+    item.tooltip = `${this.data.resourceType.displayName}: ${this.data.name}\nNamespace: ${this.data.namespace}\nCategory: ${this.data.resourceType.category}`;
     item.command = {
       command: 'f5xc.get',
       title: 'View Resource',

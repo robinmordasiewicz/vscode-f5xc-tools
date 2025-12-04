@@ -9,6 +9,39 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.13] - 2024-12-04
+
+### Added
+
+- Filter Resources command (`F5 XC: Filter Resources`) - filters the tree view
+  to show only matching resources
+- Filter icon in Resources view title bar for quick access
+- Clear Filter command to restore normal tree view
+- Tree view title shows active filter text
+- Fuzzy matching for filter (e.g., "azure lb" matches "my-azure-http-lb")
+
+### Improved
+
+- Find Resource and Filter Resources both load in parallel for faster results
+
+## [0.1.12] - 2024-12-04
+
+### Added
+
+- Find Resource command (`F5 XC: Find Resource`) - searchable list of all
+  resources across namespaces
+- Search icon in Resources view title bar for quick access
+- Keyboard shortcut `Cmd+Shift+F` (when focused on F5 XC explorer) to open
+  search
+
+## [0.1.11] - 2024-12-04
+
+### Fixed
+
+- Fixed handling of different F5 XC API response structures when opening
+  resources for editing
+- API responses wrapped in `object` or `get_spec` are now properly unwrapped
+
 ## [0.1.10] - 2024-12-04
 
 ### Fixed
@@ -125,7 +158,13 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.10...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.13...HEAD
+[0.1.13]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.12...v0.1.13
+[0.1.12]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.11...v0.1.12
+[0.1.11]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.10...v0.1.11
 [0.1.10]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.9...v0.1.10
 [0.1.9]:
