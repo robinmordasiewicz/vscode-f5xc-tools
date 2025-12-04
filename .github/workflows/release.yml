@@ -137,11 +137,15 @@ jobs:
         with:
           name: vsix-package
 
+      - name: Find VSIX file
+        id: vsix
+        run: echo "filename=$(ls *.vsix)" >> $GITHUB_OUTPUT
+
       - name: Publish to Open VSX Registry
         uses: HaaLeo/publish-vscode-extension@v2
         with:
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
-          extensionFile: "*.vsix"
+          extensionFile: ${{ steps.vsix.outputs.filename }}
           skipDuplicate: true
 
   # Publish to VS Code Marketplace (when token is configured)
@@ -169,10 +173,14 @@ jobs:
         with:
           name: vsix-package
 
+      - name: Find VSIX file
+        id: vsix
+        run: echo "filename=$(ls *.vsix)" >> $GITHUB_OUTPUT
+
       - name: Publish to VS Code Marketplace
         uses: HaaLeo/publish-vscode-extension@v2
         with:
           pat: ${{ secrets.VS_MARKETPLACE_TOKEN }}
           registryUrl: https://marketplace.visualstudio.com
-          extensionFile: "*.vsix"
+          extensionFile: ${{ steps.vsix.outputs.filename }}
           skipDuplicate: true
