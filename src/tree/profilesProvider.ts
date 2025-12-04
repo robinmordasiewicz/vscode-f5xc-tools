@@ -45,6 +45,15 @@ export class ProfileTreeItem implements F5XCTreeItem {
     item.tooltip = this.buildTooltip();
     item.description = this.profile.apiUrl;
 
+    // Click to activate profile (only if not already active)
+    if (!this.profile.isActive) {
+      item.command = {
+        command: 'f5xc.setActiveProfile',
+        title: 'Set as Active Profile',
+        arguments: [this],
+      };
+    }
+
     return item;
   }
 

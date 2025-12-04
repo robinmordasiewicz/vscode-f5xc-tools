@@ -9,6 +9,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.6] - 2024-12-04
+
+### Improved
+
+- Clicking on a profile in the Profiles list now automatically sets it as the
+  active profile and refreshes the Resources view
+
 ## [0.1.5] - 2024-12-04
 
 ### Fixed
@@ -87,7 +94,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.5...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.6...HEAD
+[0.1.6]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.5...v0.1.6
 [0.1.5]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.4...v0.1.5
 [0.1.4]:
