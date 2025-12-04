@@ -130,12 +130,64 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
 
     try {
       const client = await this.profileManager.getClient(profileName);
-      const resource = await client.get(
-        namespace,
-        resourceTypeInfo.apiPath,
-        resourceName,
-        'GET_RSP_FORMAT_FOR_REPLACE',
-      );
+
+      // Get the full resource (without GET_RSP_FORMAT_FOR_REPLACE which returns spec-only)
+      const response = await client.get(namespace, resourceTypeInfo.apiPath, resourceName);
+
+      // Handle different F5 XC API response structures
+      const responseAny = response as unknown as Record<string, unknown>;
+
+      // Extract metadata and spec from the response
+      let metadata: Record<string, unknown> | undefined;
+      let spec: Record<string, unknown> | undefined;
+
+      if (responseAny.metadata && responseAny.spec) {
+        // Direct format: { metadata, spec, ... }
+        metadata = responseAny.metadata as Record<string, unknown>;
+        spec = responseAny.spec as Record<string, unknown>;
+      } else if (responseAny.object) {
+        // Wrapped in object: { object: { metadata, spec } }
+        const obj = responseAny.object as Record<string, unknown>;
+        metadata = obj.metadata as Record<string, unknown>;
+        spec = obj.spec as Record<string, unknown>;
+      } else if (responseAny.replace_form) {
+        // replace_form wrapper: { metadata: {...}, replace_form: { spec: {...} } }
+        // OR: { replace_form: { metadata: {...}, spec: {...} } }
+        const replaceForm = responseAny.replace_form as Record<string, unknown>;
+
+        // Check if metadata is at root level alongside replace_form
+        if (responseAny.metadata) {
+          metadata = responseAny.metadata as Record<string, unknown>;
+          spec = replaceForm.spec as Record<string, unknown>;
+        } else if (replaceForm.metadata && replaceForm.spec) {
+          // Both inside replace_form
+          metadata = replaceForm.metadata as Record<string, unknown>;
+          spec = replaceForm.spec as Record<string, unknown>;
+        } else if (replaceForm.spec) {
+          // Only spec in replace_form - construct minimal metadata from URI
+          spec = replaceForm.spec as Record<string, unknown>;
+          metadata = {
+            name: resourceName,
+            namespace: namespace,
+          };
+        }
+      } else if (responseAny.get_spec) {
+        // get_spec might contain the full resource or just spec
+        const getSpec = responseAny.get_spec as Record<string, unknown>;
+        if (getSpec.metadata && getSpec.spec) {
+          metadata = getSpec.metadata as Record<string, unknown>;
+          spec = getSpec.spec as Record<string, unknown>;
+        }
+      }
+
+      // If we couldn't find metadata/spec, fail gracefully
+      if (!metadata || !spec) {
+        logger.error(`Failed to extract metadata/spec from API response`);
+        throw new Error('API response does not contain expected metadata and spec fields');
+      }
+
+      // Build the editable resource with only metadata and spec
+      const resource = { metadata, spec };
 
       const content = JSON.stringify(resource, null, 2);
       const data = new TextEncoder().encode(content);
@@ -167,8 +219,9 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
 
     // Parse the content as JSON
     let parsedContent: Record<string, unknown>;
+    let text: string;
     try {
-      const text = new TextDecoder().decode(content);
+      text = new TextDecoder().decode(content);
       parsedContent = JSON.parse(text) as Record<string, unknown>;
     } catch {
       showError('Invalid JSON content');
@@ -176,8 +229,38 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
     }
 
     // Extract metadata and spec - the only fields needed for replace
-    const metadata = parsedContent.metadata as Record<string, unknown> | undefined;
-    const spec = parsedContent.spec as Record<string, unknown> | undefined;
+    // Handle case where content might be wrapped in a response structure
+    let metadata = parsedContent.metadata as Record<string, unknown> | undefined;
+    let spec = parsedContent.spec as Record<string, unknown> | undefined;
+
+    // If no direct metadata/spec, check for common wrapper patterns
+    if (!metadata || !spec) {
+      // Try common F5 XC API wrapper keys
+      const wrapperKeys = ['object', 'get_spec', 'replace_spec', 'create_form', 'replace_form'];
+      for (const key of wrapperKeys) {
+        const wrapper = parsedContent[key] as Record<string, unknown> | undefined;
+        if (wrapper && wrapper.metadata && wrapper.spec) {
+          metadata = wrapper.metadata as Record<string, unknown>;
+          spec = wrapper.spec as Record<string, unknown>;
+          break;
+        }
+      }
+    }
+
+    // If still not found, try searching all top-level keys for an object with metadata/spec
+    if (!metadata || !spec) {
+      for (const key of Object.keys(parsedContent)) {
+        const value = parsedContent[key];
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+          const obj = value as Record<string, unknown>;
+          if (obj.metadata && obj.spec) {
+            metadata = obj.metadata as Record<string, unknown>;
+            spec = obj.spec as Record<string, unknown>;
+            break;
+          }
+        }
+      }
+    }
 
     // Validate required fields exist
     if (!metadata) {
