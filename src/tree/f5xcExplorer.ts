@@ -191,17 +191,40 @@ class ResourceTypeNode implements F5XCTreeItem {
       const client = await this.clientFactory(profile);
       const resources = await client.list(this.data.namespace, this.data.resourceType.apiPath);
 
-      return resources.map(
-        (resource) =>
-          new ResourceNode({
-            name: resource.metadata?.name || 'unknown',
-            namespace: this.data.namespace,
-            resourceType: this.data.resourceType,
-            resourceTypeKey: this.data.resourceTypeKey,
-            profileName: this.data.profileName,
-            metadata: resource.metadata as unknown as Record<string, unknown>,
-          }),
-      );
+      return resources.map((resource) => {
+        // Handle multiple possible response structures from F5 XC API
+        // The API may return: { metadata: { name } }, { name }, { get_spec: { name } }, etc.
+        const resourceAny = resource as unknown as Record<string, unknown>;
+        const metadata = resourceAny.metadata as Record<string, unknown> | undefined;
+        const getSpec = resourceAny.get_spec as Record<string, unknown> | undefined;
+        const objectData = resourceAny.object as Record<string, unknown> | undefined;
+        const objectMetadata = objectData?.metadata as Record<string, unknown> | undefined;
+
+        // Debug: log the actual response structure to help diagnose issues
+        this.logger.debug(`Resource structure keys: ${Object.keys(resourceAny).join(', ')}`);
+
+        const name =
+          (metadata?.name as string) ||
+          (resourceAny.name as string) ||
+          (getSpec?.name as string) ||
+          (objectMetadata?.name as string) ||
+          'unknown';
+
+        if (name === 'unknown') {
+          this.logger.warn(
+            `Could not extract name from resource. Keys: ${Object.keys(resourceAny).join(', ')}`,
+          );
+        }
+
+        return new ResourceNode({
+          name,
+          namespace: this.data.namespace,
+          resourceType: this.data.resourceType,
+          resourceTypeKey: this.data.resourceTypeKey,
+          profileName: this.data.profileName,
+          metadata: metadata || objectMetadata || {},
+        });
+      });
     } catch (error) {
       this.logger.error(`Failed to load ${this.data.resourceType.displayName}`, error as Error);
       return [];

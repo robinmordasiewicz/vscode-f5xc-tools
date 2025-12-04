@@ -9,6 +9,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.2] - 2024-12-04
+
+### Fixed
+
+- Resource names now correctly displayed in tree view instead of "unknown"
+  (improved handling of multiple F5 XC API response formats)
+
 ## [0.1.1] - 2024-12-04
 
 ### Fixed
@@ -57,7 +64,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.1...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.2...HEAD
+[0.1.2]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.1...v0.1.2
 [0.1.1]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.0...v0.1.1
 [0.1.0]:
