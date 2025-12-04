@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { ProfileManager } from '../config/profiles';
 import { RESOURCE_TYPES } from '../api/resourceTypes';
+import { Resource } from '../api/client';
 import { getLogger } from '../utils/logger';
 import { showInfo, showError } from '../utils/errors';
 
@@ -50,7 +51,10 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
       );
     }
 
-    const [profileName, namespace, resourceType, resourceNameWithExt] = parts;
+    const profileName = parts[0] as string;
+    const namespace = parts[1] as string;
+    const resourceType = parts[2] as string;
+    const resourceNameWithExt = parts[3] as string;
     const resourceName = resourceNameWithExt.replace(/\.json$/, '');
 
     return { profileName, namespace, resourceType, resourceName };
@@ -200,7 +204,7 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
             namespace,
             resourceTypeInfo.apiPath,
             resourceName,
-            resource as Record<string, unknown>,
+            resource as Resource,
           );
         },
       );
