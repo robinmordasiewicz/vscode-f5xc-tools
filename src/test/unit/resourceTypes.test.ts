@@ -34,8 +34,8 @@ describe('Resource Types Registry', () => {
         for (const field of requiredFields) {
           expect(resourceType[field]).toBeDefined();
         }
-        // Validate apiPath format (should be plural, lowercase with underscores)
-        expect(resourceType.apiPath).toMatch(/^[a-z_]+s$/);
+        // Validate apiPath format (should be plural, lowercase with underscores, may include version numbers)
+        expect(resourceType.apiPath).toMatch(/^[a-z0-9_]+s$/);
       }
     });
 
