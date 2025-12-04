@@ -9,6 +9,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.9] - 2024-12-04
+
+### Fixed
+
+- Fixed f5xc:// URI parsing to correctly extract profile name from authority
+
 ## [0.1.8] - 2024-12-04
 
 ### Improved
@@ -111,7 +117,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.8...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.9...HEAD
+[0.1.9]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.8...v0.1.9
 [0.1.8]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.7...v0.1.8
 [0.1.7]:

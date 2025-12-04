@@ -43,18 +43,19 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
    */
   private parseUri(uri: vscode.Uri): F5XCUri {
     // URI format: f5xc://profile/namespace/resourceType/resourceName.json
+    // The profile is in the authority, path contains namespace/resourceType/resourceName.json
+    const profileName = uri.authority;
     const parts = uri.path.split('/').filter((p) => p.length > 0);
 
-    if (parts.length !== 4) {
+    if (!profileName || parts.length !== 3) {
       throw vscode.FileSystemError.FileNotFound(
         `Invalid F5 XC URI format: ${uri.toString()}. Expected: f5xc://profile/namespace/resourceType/resourceName.json`,
       );
     }
 
-    const profileName = parts[0] as string;
-    const namespace = parts[1] as string;
-    const resourceType = parts[2] as string;
-    const resourceNameWithExt = parts[3] as string;
+    const namespace = parts[0] as string;
+    const resourceType = parts[1] as string;
+    const resourceNameWithExt = parts[2] as string;
     const resourceName = resourceNameWithExt.replace(/\.json$/, '');
 
     return { profileName, namespace, resourceType, resourceName };
