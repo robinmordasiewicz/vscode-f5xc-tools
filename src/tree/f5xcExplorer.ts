@@ -3,9 +3,10 @@ import { ProfileManager, F5XCProfile } from '../config/profiles';
 import { F5XCClient } from '../api/client';
 import {
   RESOURCE_TYPES,
-  getCategorizedResourceTypes,
+  getCategorizedResourceTypesForNamespace,
   getCategoryIcon,
   ResourceTypeInfo,
+  isResourceTypeAvailableForNamespace,
 } from '../api/resourceTypes';
 import { getLogger } from '../utils/logger';
 import {
@@ -167,7 +168,8 @@ class NamespaceNode implements F5XCTreeItem {
   }
 
   getChildren(): Promise<F5XCTreeItem[]> {
-    const categories = getCategorizedResourceTypes();
+    // Get categories filtered by namespace scope
+    const categories = getCategorizedResourceTypesForNamespace(this.data.name);
     const nodes: F5XCTreeItem[] = [];
 
     for (const [category] of categories) {
@@ -207,8 +209,11 @@ class CategoryNode implements F5XCTreeItem {
   }
 
   getChildren(): Promise<F5XCTreeItem[]> {
+    // Filter by category AND namespace scope
     const types = Object.entries(RESOURCE_TYPES).filter(
-      ([, info]) => info.category === this.data.category,
+      ([, info]) =>
+        info.category === this.data.category &&
+        isResourceTypeAvailableForNamespace(info, this.data.namespace),
     );
 
     return Promise.resolve(
@@ -260,7 +265,12 @@ class ResourceTypeNode implements F5XCTreeItem {
       }
 
       const client = await this.clientFactory(profile);
-      const resources = await client.list(this.data.namespace, this.data.resourceType.apiPath);
+      const listOptions = F5XCClient.buildListOptions(this.data.resourceType);
+      const resources = await client.listWithOptions(
+        this.data.namespace,
+        this.data.resourceType.apiPath,
+        listOptions,
+      );
 
       return resources.map((resource) => {
         // Handle multiple possible response structures from F5 XC API

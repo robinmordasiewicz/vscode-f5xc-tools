@@ -38,7 +38,14 @@ export function registerCrudCommands(
         }
 
         const client = await profileManager.getClient(data.profileName);
-        const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
+        const apiBase = data.resourceType.apiBase || 'config';
+        const resource = await client.get(
+          data.namespace,
+          data.resourceType.apiPath,
+          data.name,
+          undefined,
+          apiBase,
+        );
 
         // Apply view mode filtering
         const viewMode = getViewMode();
@@ -219,11 +226,12 @@ export function registerCrudCommands(
         }
 
         const client = await profileManager.getClient(activeProfile.name);
+        const apiBase = resourceType.apiBase || 'config';
 
         // Try to get existing resource to determine create vs update
         let exists = false;
         try {
-          await client.get(namespace, resourceType.apiPath, name);
+          await client.get(namespace, resourceType.apiPath, name, undefined, apiBase);
           exists = true;
         } catch {
           exists = false;
@@ -252,9 +260,9 @@ export function registerCrudCommands(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
             const resourceData = resource as any;
             if (exists) {
-              await client.replace(namespace, resourceType.apiPath, name, resourceData);
+              await client.replace(namespace, resourceType.apiPath, name, resourceData, apiBase);
             } else {
-              await client.create(namespace, resourceType.apiPath, resourceData);
+              await client.create(namespace, resourceType.apiPath, resourceData, apiBase);
             }
           },
         );
@@ -289,6 +297,7 @@ export function registerCrudCommands(
         }
 
         const client = await profileManager.getClient(data.profileName);
+        const apiBase = data.resourceType.apiBase || 'config';
 
         await vscode.window.withProgress(
           {
@@ -297,7 +306,13 @@ export function registerCrudCommands(
             cancellable: false,
           },
           async () => {
-            await client.delete(data.namespace, data.resourceType.apiPath, data.name);
+            await client.delete(
+              data.namespace,
+              data.resourceType.apiPath,
+              data.name,
+              false,
+              apiBase,
+            );
           },
         );
 
@@ -319,7 +334,14 @@ export function registerCrudCommands(
           // Called from tree view
           const data = node.getData();
           const client = await profileManager.getClient(data.profileName);
-          const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
+          const apiBase = data.resourceType.apiBase || 'config';
+          const resource = await client.get(
+            data.namespace,
+            data.resourceType.apiPath,
+            data.name,
+            undefined,
+            apiBase,
+          );
           remoteContent = JSON.stringify(resource, null, 2);
           name = data.name;
 
@@ -377,7 +399,14 @@ export function registerCrudCommands(
           }
 
           const client = await profileManager.getClient(activeProfile.name);
-          const remoteResource = await client.get(namespace, resourceType.apiPath, name);
+          const apiBase = resourceType.apiBase || 'config';
+          const remoteResource = await client.get(
+            namespace,
+            resourceType.apiPath,
+            name,
+            undefined,
+            apiBase,
+          );
           remoteContent = JSON.stringify(remoteResource, null, 2);
         }
 
@@ -421,7 +450,14 @@ export function registerCrudCommands(
       await withErrorHandling(async () => {
         const data = node.getData();
         const client = await profileManager.getClient(data.profileName);
-        const resource = await client.get(data.namespace, data.resourceType.apiPath, data.name);
+        const apiBase = data.resourceType.apiBase || 'config';
+        const resource = await client.get(
+          data.namespace,
+          data.resourceType.apiPath,
+          data.name,
+          undefined,
+          apiBase,
+        );
 
         // Apply view mode filtering
         const viewMode = getViewMode();
