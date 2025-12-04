@@ -10,7 +10,7 @@ suite('Extension Test Suite', () => {
   // Allow extension to activate
   suiteSetup(async () => {
     // Wait for the extension to activate
-    const ext = vscode.extensions.getExtension('f5networks.vscode-f5xc-tools');
+    const ext = vscode.extensions.getExtension('RobinMordasiewicz.vscode-f5xc-tools');
     if (ext && !ext.isActive) {
       await ext.activate();
     }
@@ -19,12 +19,12 @@ suite('Extension Test Suite', () => {
   });
 
   test('Extension should be present', () => {
-    const extension = vscode.extensions.getExtension('f5networks.vscode-f5xc-tools');
+    const extension = vscode.extensions.getExtension('RobinMordasiewicz.vscode-f5xc-tools');
     assert.ok(extension, 'Extension should be found');
   });
 
   test('Extension should activate', async () => {
-    const extension = vscode.extensions.getExtension('f5networks.vscode-f5xc-tools');
+    const extension = vscode.extensions.getExtension('RobinMordasiewicz.vscode-f5xc-tools');
     assert.ok(extension, 'Extension should be found');
 
     if (!extension.isActive) {
@@ -61,7 +61,7 @@ suite('Extension Test Suite', () => {
     // Views are declared in package.json, so they should exist
     // We can't directly test view visibility without UI interaction
     // but we can verify the extension doesn't throw during activation
-    const extension = vscode.extensions.getExtension('f5networks.vscode-f5xc-tools');
+    const extension = vscode.extensions.getExtension('RobinMordasiewicz.vscode-f5xc-tools');
     assert.ok(extension?.isActive, 'Extension should be active with views registered');
   });
 

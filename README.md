@@ -102,7 +102,7 @@ The extension supports 40+ F5 XC resource types organized by category:
 
 ```bash
 # Clone the repository
-git clone https://github.com/f5networks/vscode-f5xc-tools.git
+git clone https://github.com/robinmordasiewicz/vscode-f5xc-tools.git
 cd vscode-f5xc-tools
 
 # Install dependencies
@@ -163,5 +163,5 @@ This project is licensed under the Apache License 2.0 - see the
 
 ## Support
 
-- [GitHub Issues](https://github.com/f5networks/vscode-f5xc-tools/issues)
+- [GitHub Issues](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues)
 - [F5 Distributed Cloud Documentation](https://docs.cloud.f5.com/)
