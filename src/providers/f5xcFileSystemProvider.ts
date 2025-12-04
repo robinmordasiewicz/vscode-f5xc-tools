@@ -130,9 +130,16 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
 
     try {
       const client = await this.profileManager.getClient(profileName);
+      const apiBase = resourceTypeInfo.apiBase || 'config';
 
       // Get the full resource (without GET_RSP_FORMAT_FOR_REPLACE which returns spec-only)
-      const response = await client.get(namespace, resourceTypeInfo.apiPath, resourceName);
+      const response = await client.get(
+        namespace,
+        resourceTypeInfo.apiPath,
+        resourceName,
+        undefined,
+        apiBase,
+      );
 
       // Handle different F5 XC API response structures
       const responseAny = response as unknown as Record<string, unknown>;
@@ -298,6 +305,7 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
     // Apply to F5 XC
     try {
       const client = await this.profileManager.getClient(profileName);
+      const apiBase = resourceTypeInfo.apiBase || 'config';
 
       await vscode.window.withProgress(
         {
@@ -306,7 +314,13 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
           cancellable: false,
         },
         async () => {
-          await client.replace(namespace, resourceTypeInfo.apiPath, resourceName, requestBody);
+          await client.replace(
+            namespace,
+            resourceTypeInfo.apiPath,
+            resourceName,
+            requestBody,
+            apiBase,
+          );
         },
       );
 
