@@ -50,5 +50,6 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/f5networks/vscode-f5xc-tools/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/f5networks/vscode-f5xc-tools/releases/tag/v0.1.0
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.0...HEAD
+[0.1.0]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/releases/tag/v0.1.0
