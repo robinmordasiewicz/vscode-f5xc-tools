@@ -82,17 +82,19 @@ export function registerCrudCommands(
 
         const content = JSON.stringify(resource, null, 2);
 
-        // Create a file with descriptive name
-        const fileName = `${data.name}.${data.resourceTypeKey}.f5xc.json`;
-        const uri = vscode.Uri.parse(`untitled:${fileName}`);
-
-        const doc = await vscode.workspace.openTextDocument(uri);
-        const edit = new vscode.WorkspaceEdit();
-        edit.insert(uri, new vscode.Position(0, 0), content);
-        await vscode.workspace.applyEdit(edit);
+        // Create document with content (using openTextDocument with content creates a proper untitled file)
+        const doc = await vscode.workspace.openTextDocument({
+          content,
+          language: 'json',
+        });
 
         await vscode.window.showTextDocument(doc, { preview: false });
         logger.info(`Editing resource: ${data.name}`);
+
+        // Show hint about applying changes
+        showInfo(
+          `Editing ${data.name}. Use "F5 XC: Apply" (Cmd+Shift+A) to save changes to F5 XC.`,
+        );
       }, 'Edit resource');
     }),
   );

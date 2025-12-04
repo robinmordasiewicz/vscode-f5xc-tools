@@ -9,6 +9,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.7] - 2024-12-04
+
+### Fixed
+
+- Fixed Edit Resource command creating invalid file URI that caused "read-only
+  file system" error when saving
+- Added hint message explaining how to apply changes using "F5 XC: Apply"
+  command
+
 ## [0.1.6] - 2024-12-04
 
 ### Improved
@@ -94,7 +103,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.6...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.7...HEAD
+[0.1.7]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.6...v0.1.7
 [0.1.6]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.5...v0.1.6
 [0.1.5]:
