@@ -3,6 +3,7 @@ import { ProfileManager } from './config/profiles';
 import { F5XCExplorerProvider } from './tree/f5xcExplorer';
 import { ProfilesProvider } from './tree/profilesProvider';
 import { F5XCFileSystemProvider } from './providers/f5xcFileSystemProvider';
+import { F5XCViewProvider } from './providers/f5xcViewProvider';
 import { registerCrudCommands } from './commands/crud';
 import { registerProfileCommands } from './commands/profile';
 import { registerObservabilityCommands } from './commands/observability';
@@ -31,12 +32,18 @@ export function activate(context: vscode.ExtensionContext): void {
     explorerProvider.refresh();
   });
 
-  // Register the file system provider
+  // Register the file system provider for editing resources
   context.subscriptions.push(
     vscode.workspace.registerFileSystemProvider('f5xc', fsProvider, {
       isCaseSensitive: true,
       isReadonly: false,
     }),
+  );
+
+  // Initialize and register the view provider for read-only resource viewing
+  const viewProvider = new F5XCViewProvider(profileManager);
+  context.subscriptions.push(
+    vscode.workspace.registerTextDocumentContentProvider('f5xc-view', viewProvider),
   );
 
   // Register tree views
@@ -64,7 +71,7 @@ export function activate(context: vscode.ExtensionContext): void {
   registerProfileCommands(context, profileManager, profilesProvider, explorerProvider);
 
   // Register CRUD commands
-  registerCrudCommands(context, explorerProvider, profileManager, fsProvider);
+  registerCrudCommands(context, explorerProvider, profileManager, fsProvider, viewProvider);
 
   // Register observability commands
   registerObservabilityCommands(context, profileManager);

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { F5XCExplorerProvider, ResourceNode } from '../tree/f5xcExplorer';
 import { ProfileManager } from '../config/profiles';
 import { F5XCFileSystemProvider } from '../providers/f5xcFileSystemProvider';
+import { F5XCViewProvider } from '../providers/f5xcViewProvider';
 import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
 import { getLogger } from '../utils/logger';
 import { RESOURCE_TYPES, getResourceTypeByApiPath } from '../api/resourceTypes';
@@ -24,8 +25,9 @@ export function registerCrudCommands(
   explorer: F5XCExplorerProvider,
   profileManager: ProfileManager,
   fsProvider: F5XCFileSystemProvider,
+  viewProvider: F5XCViewProvider,
 ): void {
-  // GET - View resource as JSON
+  // GET - View resource as JSON (read-only)
   context.subscriptions.push(
     vscode.commands.registerCommand('f5xc.get', async (node: ResourceNode) => {
       await withErrorHandling(async () => {
@@ -37,33 +39,24 @@ export function registerCrudCommands(
           return;
         }
 
-        const client = await profileManager.getClient(data.profileName);
-        const apiBase = data.resourceType.apiBase || 'config';
-        const resource = await client.get(
+        // Create f5xc-view:// URI for read-only viewing
+        const uri = F5XCViewProvider.createUri(
+          data.profileName,
           data.namespace,
           data.resourceType.apiPath,
           data.name,
-          undefined,
-          apiBase,
         );
 
-        // Apply view mode filtering
-        const viewMode = getViewMode();
-        const filterOptions = getFilterOptionsForViewMode(viewMode);
-        const filteredResource = filterResource(
-          resource as unknown as Record<string, unknown>,
-          filterOptions,
-        );
+        // Refresh the content to ensure fresh data
+        viewProvider.refresh(uri);
 
-        const content = JSON.stringify(filteredResource, null, 2);
-        const doc = await vscode.workspace.openTextDocument({
-          content,
-          language: 'json',
-        });
-
+        // Open the document using the f5xc-view:// content provider
+        const doc = await vscode.workspace.openTextDocument(uri);
         await vscode.window.showTextDocument(doc, { preview: false });
-        logger.info(`Opened resource: ${data.name} (view mode: ${viewMode})`);
-      }, 'Get resource');
+
+        const viewMode = getViewMode();
+        logger.info(`Viewing resource: ${data.name} (view mode: ${viewMode})`);
+      }, 'View resource');
     }),
   );
 
