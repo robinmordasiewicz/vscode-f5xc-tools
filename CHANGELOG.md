@@ -9,6 +9,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.5] - 2024-12-04
+
+### Fixed
+
+- Fixed View Logs sort order enum value for F5 XC API compatibility
+
 ## [0.1.4] - 2024-12-04
 
 ### Added
@@ -81,7 +87,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.4...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.5...HEAD
+[0.1.5]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.4...v0.1.5
 [0.1.4]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.3...v0.1.4
 [0.1.3]:

@@ -94,7 +94,7 @@ export function registerObservabilityCommands(
                     query: `{vh_name="${data.name}"}`,
                     start_time: startTime.toISOString(),
                     end_time: endTime.toISOString(),
-                    sort: 'SORT_DESCENDING',
+                    sort: 'DESCENDING',
                     limit: 100,
                     scroll: false,
                     aggs: {},
