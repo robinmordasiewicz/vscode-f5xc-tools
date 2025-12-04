@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/f5networks/vscode-f5xc-tools"
+    "url": "https://github.com/robinmordasiewicz/vscode-f5xc-tools"
   },
   "engines": {
     "vscode": "^1.85.0"
