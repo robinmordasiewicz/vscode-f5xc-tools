@@ -1,4 +1,14 @@
 /**
+ * Namespace scope - which namespaces can access this resource type
+ */
+export type NamespaceScope = 'any' | 'system' | 'shared' | 'custom';
+
+/**
+ * API base path type - different F5 XC APIs use different base paths
+ */
+export type ApiBase = 'config' | 'web';
+
+/**
  * Resource categories for organizing the tree view
  */
 export enum ResourceCategory {
@@ -41,6 +51,18 @@ export interface ResourceTypeInfo {
   supportsLogs?: boolean;
   /** Whether the resource supports metrics */
   supportsMetrics?: boolean;
+  /** Namespace scope - which namespaces can access this resource (default: 'any') */
+  namespaceScope?: NamespaceScope;
+  /** API base path - 'config' for /api/config or 'web' for /api/web (default: 'config') */
+  apiBase?: ApiBase;
+  /** Custom list endpoint path (overrides standard path construction) */
+  customListPath?: string;
+  /** HTTP method for list operation - some APIs use POST instead of GET (default: 'GET') */
+  listMethod?: 'GET' | 'POST';
+  /** Whether this is a tenant-level resource (no namespace in path) */
+  tenantLevel?: boolean;
+  /** Response field containing list items (default: 'items') */
+  listResponseField?: string;
 }
 
 /**
@@ -313,6 +335,7 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     icon: 'cloud',
     description: 'AWS VPC-based edge sites',
     schemaFile: 'docs-cloud-f5-com.0066.public.ves.io.schema.views.aws_vpc_site.ves-swagger.json',
+    namespaceScope: 'system',
   },
   aws_tgw_site: {
     apiPath: 'aws_tgw_sites',
@@ -322,6 +345,7 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     icon: 'cloud',
     description: 'AWS Transit Gateway sites',
     schemaFile: 'docs-cloud-f5-com.0065.public.ves.io.schema.views.aws_tgw_site.ves-swagger.json',
+    namespaceScope: 'system',
   },
   azure_vnet_site: {
     apiPath: 'azure_vnet_sites',
@@ -332,6 +356,7 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     description: 'Azure Virtual Network sites',
     schemaFile:
       'docs-cloud-f5-com.0068.public.ves.io.schema.views.azure_vnet_site.ves-swagger.json',
+    namespaceScope: 'system',
   },
   gcp_vpc_site: {
     apiPath: 'gcp_vpc_sites',
@@ -341,6 +366,7 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     icon: 'cloud',
     description: 'GCP Virtual Private Cloud sites',
     schemaFile: 'docs-cloud-f5-com.0072.public.ves.io.schema.views.gcp_vpc_site.ves-swagger.json',
+    namespaceScope: 'system',
   },
   voltstack_site: {
     apiPath: 'voltstack_sites',
@@ -350,6 +376,7 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     icon: 'server',
     description: 'Voltstack (AppStack) edge sites',
     schemaFile: 'docs-cloud-f5-com.0067.public.ves.io.schema.views.voltstack_site.ves-swagger.json',
+    namespaceScope: 'system',
   },
   securemesh_site: {
     apiPath: 'securemesh_sites',
@@ -360,6 +387,18 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     description: 'SecureMesh edge sites',
     schemaFile:
       'docs-cloud-f5-com.0076.public.ves.io.schema.views.securemesh_site.ves-swagger.json',
+    namespaceScope: 'system',
+  },
+  securemesh_site_v2: {
+    apiPath: 'securemesh_site_v2s',
+    displayName: 'SecureMesh Sites V2',
+    category: ResourceCategory.Sites,
+    supportsCustomOps: true,
+    icon: 'server-process',
+    description: 'SecureMesh edge sites (V2)',
+    schemaFile:
+      'docs-cloud-f5-com.0077.public.ves.io.schema.views.securemesh_site_v2.ves-swagger.json',
+    namespaceScope: 'system',
   },
 
   // =====================================================
@@ -404,24 +443,21 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
 
   // =====================================================
   // IAM & Configuration
+  // Note: IAM resources use /api/web/ paths instead of /api/config/ paths
   // =====================================================
-  namespace: {
-    apiPath: 'namespaces',
-    displayName: 'Namespaces',
-    category: ResourceCategory.IAM,
-    supportsCustomOps: true,
-    icon: 'folder',
-    description: 'Logical workspaces for resource organization',
-    schemaFile: 'docs-cloud-f5-com.0166.public.ves.io.schema.namespace.ves-swagger.json',
-  },
   user: {
-    apiPath: 'users',
+    apiPath: 'user',
     displayName: 'Users',
     category: ResourceCategory.IAM,
     supportsCustomOps: false,
     icon: 'person',
     description: 'User accounts',
     schemaFile: 'docs-cloud-f5-com.0251.public.ves.io.schema.user.ves-swagger.json',
+    namespaceScope: 'system',
+    apiBase: 'web',
+    customListPath: '/api/scim/v2/Users',
+    listMethod: 'GET',
+    listResponseField: 'Resources',
   },
   role: {
     apiPath: 'roles',
@@ -431,6 +467,8 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     icon: 'organization',
     description: 'Access control roles',
     schemaFile: 'docs-cloud-f5-com.0195.public.ves.io.schema.role.ves-swagger.json',
+    namespaceScope: 'system',
+    apiBase: 'web',
   },
   api_credential: {
     apiPath: 'api_credentials',
@@ -440,15 +478,18 @@ export const RESOURCE_TYPES: Record<string, ResourceTypeInfo> = {
     icon: 'key',
     description: 'API access credentials',
     schemaFile: 'docs-cloud-f5-com.0007.public.ves.io.schema.api_credential.ves-swagger.json',
+    namespaceScope: 'system',
+    apiBase: 'web',
   },
-  cloud_credentials: {
-    apiPath: 'cloud_credentials',
-    displayName: 'Cloud Credentials',
-    category: ResourceCategory.CloudConnect,
+  service_credential: {
+    apiPath: 'service_credentials',
+    displayName: 'Service Credentials',
+    category: ResourceCategory.IAM,
     supportsCustomOps: false,
     icon: 'key',
-    description: 'Cloud provider credentials',
-    schemaFile: 'docs-cloud-f5-com.0059.public.ves.io.schema.cloud_credentials.ves-swagger.json',
+    description: 'Service account credentials',
+    namespaceScope: 'system',
+    apiBase: 'web',
   },
   certificate: {
     apiPath: 'certificates',
@@ -571,4 +612,72 @@ export function getCategoryIcon(category: ResourceCategory): string {
   };
 
   return icons[category] || 'folder';
+}
+
+/** Built-in namespace names */
+const BUILT_IN_NAMESPACES = ['system', 'shared', 'default'];
+
+/**
+ * Check if a namespace is a built-in namespace
+ */
+export function isBuiltInNamespace(namespace: string): boolean {
+  return BUILT_IN_NAMESPACES.includes(namespace);
+}
+
+/**
+ * Check if a resource type is available for a given namespace
+ */
+export function isResourceTypeAvailableForNamespace(
+  resourceType: ResourceTypeInfo,
+  namespace: string,
+): boolean {
+  const scope = resourceType.namespaceScope || 'any';
+
+  switch (scope) {
+    case 'system':
+      return namespace === 'system';
+    case 'shared':
+      return namespace === 'shared';
+    case 'custom':
+      return !BUILT_IN_NAMESPACES.includes(namespace);
+    case 'any':
+    default:
+      return true;
+  }
+}
+
+/**
+ * Get resource types filtered by namespace
+ */
+export function getResourceTypesForNamespace(namespace: string): Record<string, ResourceTypeInfo> {
+  const filtered: Record<string, ResourceTypeInfo> = {};
+
+  for (const [key, info] of Object.entries(RESOURCE_TYPES)) {
+    if (isResourceTypeAvailableForNamespace(info, namespace)) {
+      filtered[key] = info;
+    }
+  }
+
+  return filtered;
+}
+
+/**
+ * Get categorized resource types filtered by namespace
+ */
+export function getCategorizedResourceTypesForNamespace(
+  namespace: string,
+): Map<ResourceCategory, Array<[string, ResourceTypeInfo]>> {
+  const categorized = new Map<ResourceCategory, Array<[string, ResourceTypeInfo]>>();
+
+  for (const [key, info] of Object.entries(RESOURCE_TYPES)) {
+    if (!isResourceTypeAvailableForNamespace(info, namespace)) {
+      continue;
+    }
+
+    const existing = categorized.get(info.category) || [];
+    existing.push([key, info]);
+    categorized.set(info.category, existing);
+  }
+
+  return categorized;
 }
