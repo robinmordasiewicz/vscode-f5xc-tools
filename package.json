@@ -354,9 +354,12 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "lint:fix": "eslint src --ext ts --fix",
-    "test": "vscode-test",
-    "test:unit": "jest --config jest.config.js",
-    "clean": "rimraf dist out",
+    "test": "npm run test:unit",
+    "test:unit": "jest",
+    "test:integration": "npm run compile-tests && vscode-test",
+    "test:coverage": "jest --coverage",
+    "test:all": "npm run test:unit && npm run test:integration",
+    "clean": "rimraf dist out coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
@@ -366,10 +369,6 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "eslint --fix --max-warnings=0",
-      "prettier --write"
-    ],
-    "*.{js,jsx}": [
       "eslint --fix --max-warnings=0",
       "prettier --write"
     ],
@@ -389,6 +388,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
+    "@types/glob": "^8.1.0",
     "@types/jest": "^29.5.11",
     "@types/mocha": "^10.0.6",
     "@types/node": "20.x",
@@ -400,6 +400,7 @@
     "@vscode/test-electron": "^2.3.8",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
+    "glob": "^10.3.10",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.10",
