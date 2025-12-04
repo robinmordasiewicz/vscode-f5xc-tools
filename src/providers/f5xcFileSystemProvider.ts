@@ -166,29 +166,51 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
     }
 
     // Parse the content as JSON
-    let resource: { metadata?: { name?: string; namespace?: string }; spec?: unknown };
+    let parsedContent: Record<string, unknown>;
     try {
       const text = new TextDecoder().decode(content);
-      resource = JSON.parse(text) as typeof resource;
+      parsedContent = JSON.parse(text) as Record<string, unknown>;
     } catch {
       showError('Invalid JSON content');
       throw vscode.FileSystemError.NoPermissions('Invalid JSON content');
     }
 
+    // Extract metadata and spec - the only fields needed for replace
+    const metadata = parsedContent.metadata as Record<string, unknown> | undefined;
+    const spec = parsedContent.spec as Record<string, unknown> | undefined;
+
+    // Validate required fields exist
+    if (!metadata) {
+      showError('Resource must have a metadata field');
+      throw vscode.FileSystemError.NoPermissions('Missing metadata field');
+    }
+
+    if (!spec) {
+      showError('Resource must have a spec field');
+      throw vscode.FileSystemError.NoPermissions('Missing spec field');
+    }
+
     // Validate metadata matches URI
-    if (resource.metadata?.name && resource.metadata.name !== resourceName) {
+    const metadataName = metadata.name as string | undefined;
+    const metadataNamespace = metadata.namespace as string | undefined;
+
+    if (metadataName && metadataName !== resourceName) {
       showError(
-        `Resource name in JSON (${resource.metadata.name}) does not match file name (${resourceName})`,
+        `Resource name in JSON (${metadataName}) does not match file name (${resourceName})`,
       );
       throw vscode.FileSystemError.NoPermissions('Resource name mismatch');
     }
 
-    if (resource.metadata?.namespace && resource.metadata.namespace !== namespace) {
-      showError(
-        `Namespace in JSON (${resource.metadata.namespace}) does not match file path (${namespace})`,
-      );
+    if (metadataNamespace && metadataNamespace !== namespace) {
+      showError(`Namespace in JSON (${metadataNamespace}) does not match file path (${namespace})`);
       throw vscode.FileSystemError.NoPermissions('Namespace mismatch');
     }
+
+    // Build the request body with only metadata and spec (strip system_metadata, status, etc.)
+    const requestBody = {
+      metadata,
+      spec,
+    } as unknown as Resource;
 
     // Apply to F5 XC
     try {
@@ -201,12 +223,7 @@ export class F5XCFileSystemProvider implements vscode.FileSystemProvider {
           cancellable: false,
         },
         async () => {
-          await client.replace(
-            namespace,
-            resourceTypeInfo.apiPath,
-            resourceName,
-            resource as Resource,
-          );
+          await client.replace(namespace, resourceTypeInfo.apiPath, resourceName, requestBody);
         },
       );
 

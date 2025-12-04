@@ -9,6 +9,14 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.10] - 2024-12-04
+
+### Fixed
+
+- Fixed "Nil spec in Replace Request" error when saving edited resources
+- Now properly strips system_metadata and status fields before sending to API
+- Added validation to ensure metadata and spec fields exist before save
+
 ## [0.1.9] - 2024-12-04
 
 ### Fixed
@@ -117,7 +125,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.9...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.10...HEAD
+[0.1.10]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.9...v0.1.10
 [0.1.9]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.8...v0.1.9
 [0.1.8]:
