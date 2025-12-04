@@ -4,6 +4,7 @@ import { F5XCExplorerProvider } from './tree/f5xcExplorer';
 import { ProfilesProvider } from './tree/profilesProvider';
 import { registerCrudCommands } from './commands/crud';
 import { registerProfileCommands } from './commands/profile';
+import { registerObservabilityCommands } from './commands/observability';
 import { Logger } from './utils/logger';
 
 let logger: Logger;
@@ -50,6 +51,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Register CRUD commands
   registerCrudCommands(context, explorerProvider, profileManager);
+
+  // Register observability commands
+  registerObservabilityCommands(context, profileManager);
 
   // Register views
   context.subscriptions.push(explorerView);

@@ -9,6 +9,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.1.4] - 2024-12-04
+
+### Added
+
+- View Logs command - displays access logs for HTTP/TCP load balancers
+- View Metrics command - displays metrics for load balancers and origin pools
+
 ## [0.1.3] - 2024-12-04
 
 ### Added
@@ -74,7 +81,9 @@ and this project adheres to
 - P12 certificate password encrypted in secure storage
 
 [Unreleased]:
-  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.3...HEAD
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.4...HEAD
+[0.1.4]:
+  https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.3...v0.1.4
 [0.1.3]:
   https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.2...v0.1.3
 [0.1.2]:
