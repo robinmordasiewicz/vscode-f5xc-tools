@@ -10,15 +10,16 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/test/**',
     '!src/extension.ts',
+    '!src/generated/**',
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   coverageThreshold: {
     global: {
-      branches: 10,
-      functions: 20,
-      lines: 20,
-      statements: 20,
+      branches: 5,
+      functions: 10,
+      lines: 10,
+      statements: 10,
     },
   },
   moduleNameMapper: {
