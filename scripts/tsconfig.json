@@ -4,24 +4,21 @@
     "target": "ES2022",
     "lib": ["ES2022"],
     "moduleResolution": "Node16",
-    "outDir": "./out",
-    "rootDir": "./src",
+    "rootDir": ".",
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "declaration": true,
-    "declarationMap": true,
+    "noEmit": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": false,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "out", ".vscode-test"]
+  "include": ["./**/*"],
+  "exclude": ["node_modules"]
 }

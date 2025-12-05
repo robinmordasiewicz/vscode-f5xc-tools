@@ -48,6 +48,12 @@
           { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
         ]
       }
+    },
+    {
+      "files": ["scripts/**/*.ts"],
+      "parserOptions": {
+        "project": "./scripts/tsconfig.json"
+      }
     }
   ],
   "ignorePatterns": [
