@@ -4,6 +4,7 @@ import * as forge from 'node-forge';
 import { AuthProvider, P12AuthConfig } from './index';
 import { getLogger } from '../../utils/logger';
 import { AuthenticationError } from '../../utils/errors';
+import { API_ENDPOINTS } from '../../generated/constants';
 
 /**
  * P12 Certificate-based authentication provider for F5 XC
@@ -122,7 +123,7 @@ export class P12AuthProvider implements AuthProvider {
       const headers = this.getHeaders();
 
       return new Promise((resolve) => {
-        const url = new URL('/api/web/namespaces', this.apiUrl);
+        const url = new URL(API_ENDPOINTS.NAMESPACES, this.apiUrl);
 
         const options: https.RequestOptions = {
           hostname: url.hostname,

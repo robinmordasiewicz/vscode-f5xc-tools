@@ -1,6 +1,7 @@
 import * as https from 'https';
 import { AuthProvider, TokenAuthConfig } from './index';
 import { getLogger } from '../../utils/logger';
+import { API_ENDPOINTS } from '../../generated/constants';
 
 /**
  * API Token-based authentication provider for F5 XC
@@ -36,7 +37,7 @@ export class TokenAuthProvider implements AuthProvider {
       const headers = this.getHeaders();
 
       return new Promise((resolve) => {
-        const url = new URL('/api/web/namespaces', this.apiUrl);
+        const url = new URL(API_ENDPOINTS.NAMESPACES, this.apiUrl);
 
         const options: https.RequestOptions = {
           hostname: url.hostname,
