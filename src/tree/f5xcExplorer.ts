@@ -272,40 +272,68 @@ class ResourceTypeNode implements F5XCTreeItem {
         listOptions,
       );
 
-      return resources.map((resource) => {
-        // Handle multiple possible response structures from F5 XC API
-        // The API may return: { metadata: { name } }, { name }, { get_spec: { name } }, etc.
-        const resourceAny = resource as unknown as Record<string, unknown>;
-        const metadata = resourceAny.metadata as Record<string, unknown> | undefined;
-        const getSpec = resourceAny.get_spec as Record<string, unknown> | undefined;
-        const objectData = resourceAny.object as Record<string, unknown> | undefined;
-        const objectMetadata = objectData?.metadata as Record<string, unknown> | undefined;
+      return (
+        resources
+          .map((resource) => {
+            // Handle multiple possible response structures from F5 XC API
+            // The API may return: { metadata: { name } }, { name }, { get_spec: { name } }, etc.
+            const resourceAny = resource as unknown as Record<string, unknown>;
+            const metadata = resourceAny.metadata as Record<string, unknown> | undefined;
+            const getSpec = resourceAny.get_spec as Record<string, unknown> | undefined;
+            const objectData = resourceAny.object as Record<string, unknown> | undefined;
+            const objectMetadata = objectData?.metadata as Record<string, unknown> | undefined;
+            const getSpecMetadata = getSpec?.metadata as Record<string, unknown> | undefined;
 
-        // Debug: log the actual response structure to help diagnose issues
-        this.logger.debug(`Resource structure keys: ${Object.keys(resourceAny).join(', ')}`);
+            const name =
+              (metadata?.name as string) ||
+              (resourceAny.name as string) ||
+              (getSpec?.name as string) ||
+              (objectMetadata?.name as string) ||
+              (getSpecMetadata?.name as string) ||
+              'unknown';
 
-        const name =
-          (metadata?.name as string) ||
-          (resourceAny.name as string) ||
-          (getSpec?.name as string) ||
-          (objectMetadata?.name as string) ||
-          'unknown';
+            // Get resource's actual namespace from metadata - check multiple locations
+            // Do NOT fallback to current namespace as that defeats the filter
+            const resourceNamespace =
+              (metadata?.namespace as string) ||
+              (objectMetadata?.namespace as string) ||
+              (getSpecMetadata?.namespace as string) ||
+              (resourceAny.namespace as string) ||
+              (getSpec?.namespace as string) ||
+              null; // No fallback - if we can't find it, we'll log and exclude
 
-        if (name === 'unknown') {
-          this.logger.warn(
-            `Could not extract name from resource. Keys: ${Object.keys(resourceAny).join(', ')}`,
-          );
-        }
+            // Debug: log namespace detection for troubleshooting
+            this.logger.debug(
+              `Resource "${name}" namespace detection: found="${resourceNamespace}", expected="${this.data.namespace}", keys=[${Object.keys(resourceAny).join(', ')}]`,
+            );
 
-        return new ResourceNode({
-          name,
-          namespace: this.data.namespace,
-          resourceType: this.data.resourceType,
-          resourceTypeKey: this.data.resourceTypeKey,
-          profileName: this.data.profileName,
-          metadata: metadata || objectMetadata || {},
-        });
-      });
+            if (name === 'unknown') {
+              this.logger.warn(
+                `Could not extract name from resource. Keys: ${Object.keys(resourceAny).join(', ')}`,
+              );
+            }
+
+            return {
+              name,
+              resourceNamespace,
+              metadata: metadata || objectMetadata || {},
+            };
+          })
+          // Filter out resources from different namespaces (e.g., shared namespace resources
+          // showing up in other namespace listings)
+          // If namespace couldn't be determined (null), exclude the resource to be safe
+          .filter((r) => r.resourceNamespace === this.data.namespace)
+          .map((r) => {
+            return new ResourceNode({
+              name: r.name,
+              namespace: this.data.namespace,
+              resourceType: this.data.resourceType,
+              resourceTypeKey: this.data.resourceTypeKey,
+              profileName: this.data.profileName,
+              metadata: r.metadata,
+            });
+          })
+      );
     } catch (error) {
       this.logger.error(`Failed to load ${this.data.resourceType.displayName}`, error as Error);
       return [];

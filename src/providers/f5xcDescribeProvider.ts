@@ -76,17 +76,6 @@ export class F5XCDescribeProvider {
   }
 
   /**
-   * Parse CN from "CN=value,O=org,C=country" format
-   */
-  private parseCommonName(str: string | undefined): string | undefined {
-    if (!str) {
-      return undefined;
-    }
-    const match = str.match(/CN=([^,]+)/);
-    return match ? match[1] : str;
-  }
-
-  /**
    * Format ISO date to short format "Mar 4, 2026"
    */
   private formatDateShort(isoString: string | undefined): string | undefined {
@@ -154,8 +143,10 @@ export class F5XCDescribeProvider {
     disableKey: string,
     enableKey: string,
   ): { enabled: boolean; value: string } | null {
-    const isDisabled = spec[disableKey] !== undefined && !this.isEmpty(spec[disableKey]);
-    const isEnabled = spec[enableKey] !== undefined && !this.isEmpty(spec[enableKey]);
+    // In F5 XC API, the presence of the key indicates selection, even if value is empty {}
+    // e.g., "disable_trust_client_ip_headers": {} means disabled IS selected
+    const isDisabled = disableKey in spec;
+    const isEnabled = enableKey in spec;
 
     if (isDisabled) {
       return { enabled: false, value: 'Disable' };
@@ -333,6 +324,8 @@ export class F5XCDescribeProvider {
     switch (apiPath) {
       case 'http_loadbalancers':
         return this.extractHttpLbSections(metadata, systemMetadata, spec, namespace);
+      case 'origin_pools':
+        return this.extractOriginPoolSections(metadata, systemMetadata, spec, namespace);
       default:
         return this.extractGenericSections(metadata, systemMetadata, spec, namespace);
     }
@@ -369,7 +362,11 @@ export class F5XCDescribeProvider {
     const httpConfig = spec?.http as Record<string, unknown> | undefined;
     const activeConfig = httpsAutoConfig || httpsConfig || httpConfig;
 
+    // Track LB type for conditional section rendering
+    let lbType: 'https_auto' | 'https_custom' | 'http' | 'unknown' = 'unknown';
+
     if (httpsAutoConfig && !this.isEmpty(httpsAutoConfig)) {
+      lbType = 'https_auto';
       domainsFields.push({ key: 'Load Balancer Type', value: 'HTTPS with Automatic Certificate' });
 
       // HTTP Redirect to HTTPS
@@ -420,9 +417,24 @@ export class F5XCDescribeProvider {
         domainsFields.push({ key: 'mTLS', value: 'Enable', status: 'enabled' });
       }
     } else if (httpsConfig && !this.isEmpty(httpsConfig)) {
+      lbType = 'https_custom';
       domainsFields.push({ key: 'Load Balancer Type', value: 'HTTPS with Custom Certificate' });
     } else if (httpConfig && !this.isEmpty(httpConfig)) {
+      lbType = 'http';
       domainsFields.push({ key: 'Load Balancer Type', value: 'HTTP' });
+
+      // HTTP Listen Port
+      if (httpConfig.port !== undefined) {
+        domainsFields.push({ key: 'HTTP Listen Port', value: String(httpConfig.port) });
+      }
+
+      // DNS Management
+      if (httpConfig.dns_volterra_managed !== undefined) {
+        domainsFields.push({
+          key: 'DNS Info',
+          value: httpConfig.dns_volterra_managed ? 'F5 XC Managed' : 'Manual DNS Configuration',
+        });
+      }
     }
 
     // Server Response Header (at spec level)
@@ -799,82 +811,308 @@ export class F5XCDescribeProvider {
     }
     sections.push({ id: 'vh-state', title: 'Virtual Host State', fields: vhStateFields });
 
-    // Certificate sections - each as separate sidebar item matching F5 Console
-    const autoCertInfo = spec?.auto_cert_info as Record<string, unknown> | undefined;
+    // Certificate sections - only show for HTTPS types (not HTTP)
+    // HTTP type has cert_state = "AutoCertNotApplicable" which is not relevant to display
+    if (lbType !== 'http') {
+      const autoCertInfo = spec?.auto_cert_info as Record<string, unknown> | undefined;
 
-    // 12. Auto Cert State
-    const autoCertStateFields: FieldDefinition[] = [];
-    if (autoCertInfo?.auto_cert_state) {
-      const certState = String(autoCertInfo.auto_cert_state);
-      const isValid = certState.toLowerCase().includes('valid');
-      autoCertStateFields.push({
-        key: 'Auto Cert State',
-        value: isValid ? 'Certificate Valid' : certState,
-        status: isValid ? 'good' : 'bad',
+      // 12. Auto Cert State
+      const autoCertStateFields: FieldDefinition[] = [];
+      if (autoCertInfo?.auto_cert_state) {
+        const certState = String(autoCertInfo.auto_cert_state);
+        const isValid = certState.toLowerCase().includes('valid');
+        autoCertStateFields.push({
+          key: 'Auto Cert State',
+          value: isValid ? 'Certificate Valid' : certState,
+          status: isValid ? 'good' : 'bad',
+        });
+      }
+      sections.push({
+        id: 'auto-cert-state',
+        title: 'Auto Cert State',
+        fields: autoCertStateFields,
       });
-    }
-    sections.push({ id: 'auto-cert-state', title: 'Auto Cert State', fields: autoCertStateFields });
 
-    // 13. Auto Cert Expiry Timestamp
-    const autoCertExpiryFields: FieldDefinition[] = [];
-    if (autoCertInfo?.auto_cert_expiry) {
-      const formatted = this.formatDateShort(String(autoCertInfo.auto_cert_expiry));
-      autoCertExpiryFields.push({
-        key: 'Auto Cert Expiry Timestamp',
-        value: formatted || String(autoCertInfo.auto_cert_expiry),
+      // 13. Auto Cert Expiry Timestamp
+      const autoCertExpiryFields: FieldDefinition[] = [];
+      if (autoCertInfo?.auto_cert_expiry) {
+        const formatted = this.formatDateShort(String(autoCertInfo.auto_cert_expiry));
+        autoCertExpiryFields.push({
+          key: 'Auto Cert Expiry Timestamp',
+          value: formatted || String(autoCertInfo.auto_cert_expiry),
+        });
+      }
+      sections.push({
+        id: 'auto-cert-expiry',
+        title: 'Auto Cert Expiry Timestamp',
+        fields: autoCertExpiryFields,
       });
-    }
-    sections.push({
-      id: 'auto-cert-expiry',
-      title: 'Auto Cert Expiry Timestamp',
-      fields: autoCertExpiryFields,
-    });
 
-    // 14. Auto Cert Subject
-    const autoCertSubjectFields: FieldDefinition[] = [];
-    if (autoCertInfo?.auto_cert_subject) {
-      const cn = this.parseCommonName(String(autoCertInfo.auto_cert_subject));
-      autoCertSubjectFields.push({
-        key: 'Auto Cert Subject',
-        value: cn || String(autoCertInfo.auto_cert_subject),
+      // 14. Auto Cert Subject - show full DN value (e.g., "CN=domain.com") for F5 XC Console consistency
+      const autoCertSubjectFields: FieldDefinition[] = [];
+      if (autoCertInfo?.auto_cert_subject) {
+        autoCertSubjectFields.push({
+          key: 'Auto Cert Subject',
+          value: String(autoCertInfo.auto_cert_subject),
+        });
+      }
+      sections.push({
+        id: 'auto-cert-subject',
+        title: 'Auto Cert Subject',
+        fields: autoCertSubjectFields,
       });
-    }
-    sections.push({
-      id: 'auto-cert-subject',
-      title: 'Auto Cert Subject',
-      fields: autoCertSubjectFields,
-    });
 
-    // 15. Auto Cert Issuer
-    const autoCertIssuerFields: FieldDefinition[] = [];
-    if (autoCertInfo?.auto_cert_issuer) {
-      const cn = this.parseCommonName(String(autoCertInfo.auto_cert_issuer));
-      autoCertIssuerFields.push({
-        key: 'Auto Cert Issuer',
-        value: cn || String(autoCertInfo.auto_cert_issuer),
+      // 15. Auto Cert Issuer - show full value (organization info is valuable)
+      const autoCertIssuerFields: FieldDefinition[] = [];
+      if (autoCertInfo?.auto_cert_issuer) {
+        autoCertIssuerFields.push({
+          key: 'Auto Cert Issuer',
+          value: String(autoCertInfo.auto_cert_issuer),
+        });
+      }
+      sections.push({
+        id: 'auto-cert-issuer',
+        title: 'Auto Cert Issuer',
+        fields: autoCertIssuerFields,
       });
-    }
-    sections.push({
-      id: 'auto-cert-issuer',
-      title: 'Auto Cert Issuer',
-      fields: autoCertIssuerFields,
-    });
 
-    // 16. Cert State
-    const certStateFields: FieldDefinition[] = [];
-    const certState = spec?.cert_state as string | undefined;
-    if (certState) {
-      const isValid = certState.toLowerCase().includes('valid');
-      certStateFields.push({
-        key: 'Cert State',
-        value: isValid ? 'Certificate Valid' : certState,
-        status: isValid ? 'good' : 'bad',
-      });
+      // 16. Cert State
+      const certStateFields: FieldDefinition[] = [];
+      const certState = spec?.cert_state as string | undefined;
+      if (certState) {
+        const isValid = certState.toLowerCase().includes('valid');
+        certStateFields.push({
+          key: 'Cert State',
+          value: isValid ? 'Certificate Valid' : certState,
+          status: isValid ? 'good' : 'bad',
+        });
+      }
+      sections.push({ id: 'cert-state', title: 'Cert State', fields: certStateFields });
     }
-    sections.push({ id: 'cert-state', title: 'Cert State', fields: certStateFields });
 
     // Return all sections (empty ones will show "Not Configured")
     return sections;
+  }
+
+  /**
+   * Extract Origin Pool sections matching F5 XC Console layout
+   */
+  private extractOriginPoolSections(
+    metadata: Record<string, unknown> | undefined,
+    _systemMetadata: Record<string, unknown> | undefined,
+    spec: Record<string, unknown> | undefined,
+    _namespace: string,
+  ): SectionDefinition[] {
+    const sections: SectionDefinition[] = [];
+
+    // Display name mappings for enums
+    const lbAlgorithmDisplay: Record<string, string> = {
+      LB_OVERRIDE: 'Load Balancer Override',
+      ROUND_ROBIN: 'Round Robin',
+      LEAST_ACTIVE: 'Least Active',
+      RANDOM: 'Random',
+      SOURCE_IP_STICKINESS: 'Source IP Stickiness',
+      COOKIE_STICKINESS: 'Cookie Stickiness',
+      RING_HASH: 'Ring Hash',
+    };
+
+    const endpointSelectionDisplay: Record<string, string> = {
+      LOCAL_PREFERRED: 'Local Endpoints Preferred',
+      LOCAL_ONLY: 'Local Endpoints Only',
+      DISTRIBUTED: 'Distributed',
+    };
+
+    // 1. Metadata
+    const metadataFields: FieldDefinition[] = [];
+    if (metadata?.name) {
+      metadataFields.push({ key: 'Name', value: String(metadata.name) });
+    }
+    sections.push({ id: 'metadata', title: 'Metadata', fields: metadataFields });
+
+    // 2. Origin Servers section with sub-group for servers table
+    const serversSubGroupFields: FieldDefinition[] = [];
+    const originServers = spec?.origin_servers as Array<Record<string, unknown>> | undefined;
+    if (originServers && originServers.length > 0) {
+      originServers.forEach((server, index) => {
+        const serverInfo = this.getOriginServerTypeAndValue(server);
+        serversSubGroupFields.push({
+          key: `Server ${index + 1} Type`,
+          value: serverInfo.type,
+        });
+        serversSubGroupFields.push({
+          key: `Server ${index + 1} Name/IP`,
+          value: serverInfo.value,
+        });
+        // Add labels if present
+        const labels = server.labels as Record<string, string> | undefined;
+        if (labels && Object.keys(labels).length > 0) {
+          const labelStr = Object.entries(labels)
+            .map(([k, v]) => `${k}=${v}`)
+            .join(', ');
+          serversSubGroupFields.push({
+            key: `Server ${index + 1} Labels`,
+            value: labelStr,
+          });
+        }
+      });
+    }
+
+    // Build sub-groups for Origin Servers section
+    const originServersSubGroups: SubGroupDefinition[] = [];
+    if (serversSubGroupFields.length > 0) {
+      originServersSubGroups.push({
+        id: 'servers-list',
+        title: 'Origin Servers',
+        fields: serversSubGroupFields,
+      });
+    }
+
+    // Fields below the sub-group (port, connection pool, health check, LB algo, endpoint selection)
+    const originServersFields: FieldDefinition[] = [];
+
+    // Origin Server Port
+    if (spec?.port !== undefined) {
+      originServersFields.push({ key: 'Origin server Port', value: 'Port' });
+      originServersFields.push({ key: 'Port', value: String(spec.port) });
+    }
+
+    // Connection Pool Reuse
+    const connPoolType = spec?.upstream_conn_pool_reuse_type as Record<string, unknown> | undefined;
+    if (connPoolType) {
+      if ('enable_conn_pool_reuse' in connPoolType) {
+        originServersFields.push({
+          key: 'Select upstream connection pool reuse state',
+          value: 'Enable Connection Pool Reuse',
+          status: 'enabled',
+        });
+      } else if ('disable_conn_pool_reuse' in connPoolType) {
+        originServersFields.push({
+          key: 'Select upstream connection pool reuse state',
+          value: 'Disable Connection Pool Reuse',
+          status: 'disabled',
+        });
+      }
+    }
+
+    // Health Check Port
+    if ('same_as_endpoint_port' in (spec || {})) {
+      originServersFields.push({ key: 'Port used for health check', value: 'Endpoint port' });
+    } else if (spec?.port_override !== undefined) {
+      originServersFields.push({
+        key: 'Port used for health check',
+        value: String(spec.port_override),
+      });
+    }
+
+    // Load Balancer Algorithm
+    if (spec?.loadbalancer_algorithm) {
+      const algo = String(spec.loadbalancer_algorithm);
+      originServersFields.push({
+        key: 'LoadBalancer Algorithm',
+        value: lbAlgorithmDisplay[algo] || algo,
+      });
+    }
+
+    // Endpoint Selection
+    if (spec?.endpoint_selection) {
+      const selection = String(spec.endpoint_selection);
+      originServersFields.push({
+        key: 'Endpoint Selection',
+        value: endpointSelectionDisplay[selection] || selection,
+      });
+    }
+
+    sections.push({
+      id: 'origin-servers',
+      title: 'Origin Servers',
+      subGroups: originServersSubGroups.length > 0 ? originServersSubGroups : undefined,
+      fields: originServersFields,
+    });
+
+    // 3. TLS
+    const tlsFields: FieldDefinition[] = [];
+    if ('no_tls' in (spec || {})) {
+      tlsFields.push({ key: 'TLS', value: 'Disable', status: 'disabled' });
+    } else if (spec?.use_tls) {
+      tlsFields.push({ key: 'TLS', value: 'Enable', status: 'enabled' });
+      // Extract TLS settings if present
+      const tlsConfig = spec.use_tls as Record<string, unknown>;
+      if (tlsConfig) {
+        if ('use_host_header_as_sni' in tlsConfig) {
+          tlsFields.push({ key: 'SNI', value: 'Use Host Header as SNI' });
+        } else if (tlsConfig.sni) {
+          tlsFields.push({ key: 'SNI', value: String(tlsConfig.sni) });
+        }
+        if ('skip_server_verification' in tlsConfig) {
+          tlsFields.push({ key: 'Server Verification', value: 'Skip', status: 'warning' });
+        } else if ('use_server_verification' in tlsConfig) {
+          tlsFields.push({ key: 'Server Verification', value: 'Enable', status: 'enabled' });
+        }
+        if ('volterra_trusted_ca' in tlsConfig) {
+          tlsFields.push({ key: 'Trusted CA', value: 'F5 Distributed Cloud Trusted CA' });
+        }
+      }
+    }
+    sections.push({ id: 'tls', title: 'TLS', fields: tlsFields });
+
+    return sections;
+  }
+
+  /**
+   * Get origin server type and value from server configuration
+   */
+  private getOriginServerTypeAndValue(server: Record<string, unknown>): {
+    type: string;
+    value: string;
+  } {
+    if (server.public_ip) {
+      const ip = server.public_ip as Record<string, unknown>;
+      return { type: 'Public IP', value: String(ip.ip || 'Unknown') };
+    }
+    if (server.private_ip) {
+      const ip = server.private_ip as Record<string, unknown>;
+      const ipValue = String(ip.ip || 'Unknown');
+      const site = ip.site_locator as Record<string, unknown> | undefined;
+      const siteRef = site?.site as Record<string, unknown> | undefined;
+      const siteName = siteRef?.name ? ` (${String(siteRef.name)})` : '';
+      return { type: 'Private IP', value: `${ipValue}${siteName}` };
+    }
+    if (server.public_name) {
+      const dns = server.public_name as Record<string, unknown>;
+      return { type: 'Public DNS', value: String(dns.dns_name || 'Unknown') };
+    }
+    if (server.private_name) {
+      const dns = server.private_name as Record<string, unknown>;
+      const dnsName = String(dns.dns_name || 'Unknown');
+      const site = dns.site_locator as Record<string, unknown> | undefined;
+      const siteRef = site?.site as Record<string, unknown> | undefined;
+      const siteName = siteRef?.name ? ` (${String(siteRef.name)})` : '';
+      return { type: 'Private DNS', value: `${dnsName}${siteName}` };
+    }
+    if (server.k8s_service) {
+      const k8s = server.k8s_service as Record<string, unknown>;
+      const name = String(k8s.service_name || 'Unknown');
+      const ns = k8s.service_namespace ? `${String(k8s.service_namespace)}/` : '';
+      return { type: 'K8s Service', value: `${ns}${name}` };
+    }
+    if (server.consul_service) {
+      const consul = server.consul_service as Record<string, unknown>;
+      return { type: 'Consul Service', value: String(consul.service_name || 'Unknown') };
+    }
+    if (server.custom_endpoint_object) {
+      const custom = server.custom_endpoint_object as Record<string, unknown>;
+      const endpoint = custom.endpoint as Record<string, unknown> | undefined;
+      return { type: 'Custom Endpoint', value: String(endpoint?.name || 'Unknown') };
+    }
+    if (server.vn_private_ip) {
+      const vn = server.vn_private_ip as Record<string, unknown>;
+      return { type: 'VN Private IP', value: String(vn.ip || 'Unknown') };
+    }
+    if (server.vn_private_name) {
+      const vn = server.vn_private_name as Record<string, unknown>;
+      return { type: 'VN Private DNS', value: String(vn.dns_name || 'Unknown') };
+    }
+    return { type: 'Unknown', value: 'Unknown' };
   }
 
   /**
@@ -943,6 +1181,19 @@ export class F5XCDescribeProvider {
       `;
     }
 
+    // Check for single-field section with matching key - render as compact inline row
+    // This eliminates redundant headers like "Virtual Host State" -> "Virtual Host State: READY"
+    const firstField = section.fields[0];
+    const isSingleFieldWithMatchingKey =
+      section.fields.length === 1 &&
+      (!section.subGroups || section.subGroups.length === 0) &&
+      !section.subCategoryLabel &&
+      firstField?.key === section.title;
+
+    if (isSingleFieldWithMatchingKey) {
+      return this.renderCompactSection(section);
+    }
+
     // Build sub-category label if present
     const subCategoryHtml = section.subCategoryLabel
       ? `<div class="sub-category-label">${this.escapeHtml(section.subCategoryLabel)}</div>`
@@ -966,6 +1217,32 @@ export class F5XCDescribeProvider {
           ${subCategoryHtml}
           ${subGroupsHtml}
           ${ungroupedFieldsHtml}
+        </div>
+      </section>
+    `;
+  }
+
+  /**
+   * Render a compact section for single-field sections where field key matches title
+   * This eliminates redundant headers and renders as a simple inline row
+   */
+  private renderCompactSection(section: SectionDefinition): string {
+    const field = section.fields[0];
+    // Safety check (should never happen as this is only called for single-field sections)
+    if (!field) {
+      return '';
+    }
+
+    const statusClass = field.status ? ` status-${field.status}` : '';
+    const statusIcon = this.getStatusIcon(field.status);
+    const keyLower = field.key?.toLowerCase() || '';
+    const valueLower = field.value?.toLowerCase() || '';
+
+    return `
+      <section class="section section-compact" id="section-${section.id}">
+        <div class="field-row compact-row" data-key="${this.escapeHtml(keyLower)}" data-value="${this.escapeHtml(valueLower)}">
+          <span class="field-key">${this.escapeHtml(field.key)}:</span>
+          <span class="field-value${statusClass}">${statusIcon}${this.escapeHtml(field.value)}</span>
         </div>
       </section>
     `;
@@ -1229,6 +1506,22 @@ export class F5XCDescribeProvider {
 
     .section.hidden {
       display: none;
+    }
+
+    /* Compact section - single-field sections without redundant header */
+    .section-compact {
+      margin-bottom: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--vscode-panel-border);
+    }
+
+    .section-compact .compact-row {
+      padding: 4px 0;
+    }
+
+    .section-compact .field-key {
+      color: var(--vscode-symbolIcon-classForeground);
+      font-weight: 600;
     }
 
     .section-header {
