@@ -336,8 +336,7 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     category: ResourceCategory.DNS,
     supportsCustomOps: true,
     icon: 'globe',
-    // DNS Zone is a system-level resource managed in system namespace
-    namespaceScope: 'system',
+    // Note: namespaceScope='system' comes from generated base via namespace-scope-overrides.json
   },
   dns_load_balancer: {
     apiPath: 'dns_load_balancers',

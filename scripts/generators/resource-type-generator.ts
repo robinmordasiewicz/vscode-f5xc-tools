@@ -4,11 +4,66 @@
  * Generates the base resource types from OpenAPI specifications.
  * These generated types serve as the foundation that can be extended
  * with manual overrides for UI-specific properties like icons and categories.
+ *
+ * Namespace scope overrides from namespace-scope-overrides.json are applied
+ * during generation to ensure scope corrections are part of the generated output.
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import { ParsedSpecInfo, parseAllSpecs, NamespaceScope } from './spec-parser';
+
+/**
+ * Structure of the namespace scope overrides file
+ */
+interface NamespaceScopeOverrides {
+  overrides: {
+    system: { resources: string[] };
+    shared: { resources: string[] };
+    any: { resources: string[] };
+  };
+}
+
+/**
+ * Load namespace scope overrides from JSON file
+ */
+function loadScopeOverrides(overridesPath: string): NamespaceScopeOverrides | null {
+  if (!fs.existsSync(overridesPath)) {
+    return null;
+  }
+  try {
+    const content = fs.readFileSync(overridesPath, 'utf-8');
+    return JSON.parse(content) as NamespaceScopeOverrides;
+  } catch (error) {
+    console.warn(`Warning: Could not load scope overrides from ${overridesPath}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Apply namespace scope overrides to parsed specs
+ */
+function applyScopeOverrides(specs: ParsedSpecInfo[], overrides: NamespaceScopeOverrides): number {
+  let count = 0;
+  const systemResources = new Set(overrides.overrides.system.resources);
+  const sharedResources = new Set(overrides.overrides.shared.resources);
+  const anyResources = new Set(overrides.overrides.any.resources);
+
+  for (const spec of specs) {
+    if (systemResources.has(spec.resourceKey)) {
+      spec.namespaceScope = 'system';
+      count++;
+    } else if (sharedResources.has(spec.resourceKey)) {
+      spec.namespaceScope = 'shared';
+      count++;
+    } else if (anyResources.has(spec.resourceKey)) {
+      spec.namespaceScope = 'any';
+      count++;
+    }
+  }
+
+  return count;
+}
 
 // Re-export types for use by other modules
 export { ParsedSpecInfo, NamespaceScope } from './spec-parser';
@@ -182,13 +237,29 @@ export function getAllGeneratedResourceKeys(): string[] {
 
 /**
  * Generate resource types from spec files and write to output file
+ * @param specDir - Directory containing OpenAPI spec files
+ * @param outputPath - Path for generated TypeScript file
+ * @param overridesPath - Optional path to namespace scope overrides JSON file
  */
-export function generateResourceTypesFile(specDir: string, outputPath: string): ParsedSpecInfo[] {
+export function generateResourceTypesFile(
+  specDir: string,
+  outputPath: string,
+  overridesPath?: string,
+): ParsedSpecInfo[] {
   const specs = parseAllSpecs(specDir);
 
   if (specs.length === 0) {
     console.error('No specs parsed successfully');
     return [];
+  }
+
+  // Apply namespace scope overrides if provided
+  if (overridesPath) {
+    const overrides = loadScopeOverrides(overridesPath);
+    if (overrides) {
+      const overrideCount = applyScopeOverrides(specs, overrides);
+      console.log(`Applied ${overrideCount} namespace scope overrides`);
+    }
   }
 
   const content = generateResourceTypesContent(specs);
