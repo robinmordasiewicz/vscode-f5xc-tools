@@ -322,25 +322,38 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
   // DNS
   // =====================================================
   dns_zone: {
-    apiPath: 'dns_zones', // Override incorrectly parsed path
+    apiPath: 'dns_zones',
+    displayName: 'DNS Zones',
     category: ResourceCategory.DNS,
     supportsCustomOps: true,
     icon: 'globe',
+    // DNS API uses /api/config/dns/namespaces/{namespace}/dns_zones path
+    customListPath: '/api/config/dns/namespaces/{namespace}/dns_zones',
   },
   dns_load_balancer: {
+    apiPath: 'dns_load_balancers',
+    displayName: 'DNS Load Balancers',
     category: ResourceCategory.DNS,
     supportsCustomOps: false,
     icon: 'split-horizontal',
+    // DNS API uses /api/config/dns/namespaces/{namespace}/... path
+    customListPath: '/api/config/dns/namespaces/{namespace}/dns_load_balancers',
   },
   dns_lb_pool: {
+    apiPath: 'dns_lb_pools',
+    displayName: 'DNS LB Pools',
     category: ResourceCategory.DNS,
     supportsCustomOps: false,
     icon: 'layers',
+    customListPath: '/api/config/dns/namespaces/{namespace}/dns_lb_pools',
   },
   dns_lb_health_check: {
+    apiPath: 'dns_lb_health_checks',
+    displayName: 'DNS LB Health Checks',
     category: ResourceCategory.DNS,
     supportsCustomOps: false,
     icon: 'pulse',
+    customListPath: '/api/config/dns/namespaces/{namespace}/dns_lb_health_checks',
   },
 
   // =====================================================
