@@ -21,8 +21,15 @@ import {
 
 /**
  * Namespace scope - which namespaces can access this resource type
+ * - 'any': Available in all namespaces (parameterized paths or tenant-level)
+ * - 'system': Only available in system namespace (literal /namespaces/system/ paths)
+ * - 'shared': Only available in shared namespace (literal /namespaces/shared/ paths)
+ *
+ * Note: The 'custom' scope was removed because resources with {namespace} placeholder
+ * in their API paths can exist in ANY namespace (system, shared, or custom).
+ * The placeholder is just a variable, not a restriction.
  */
-export type NamespaceScope = 'any' | 'system' | 'shared' | 'custom';
+export type NamespaceScope = 'any' | 'system' | 'shared';
 
 /**
  * API base path type - different F5 XC APIs use different base paths
@@ -440,6 +447,7 @@ function mergeResourceType(
   override: ResourceTypeOverride,
 ): ResourceTypeInfo {
   // Start with defaults
+  // For namespaceScope: use override first, then generated, then default to 'any'
   const result: ResourceTypeInfo = {
     apiPath: override.apiPath || generated?.apiPath || key + 's',
     displayName: override.displayName || generated?.displayName || key,
@@ -450,7 +458,8 @@ function mergeResourceType(
     icon: override.icon,
     supportsLogs: override.supportsLogs,
     supportsMetrics: override.supportsMetrics,
-    namespaceScope: override.namespaceScope,
+    namespaceScope:
+      override.namespaceScope ?? (generated?.namespaceScope as NamespaceScope) ?? 'any',
     apiBase: override.apiBase || (generated?.apiBase as ApiBase) || 'config',
     customListPath: override.customListPath,
     listMethod: override.listMethod,
@@ -553,7 +562,12 @@ export function isBuiltInNamespace(namespace: string): boolean {
 }
 
 /**
- * Check if a resource type is available for a given namespace
+ * Check if a resource type is available for a given namespace.
+ *
+ * The filtering logic is based on the namespace scope derived from OpenAPI specs:
+ * - 'system': Only available in system namespace (e.g., Sites, IAM resources)
+ * - 'shared': Only available in shared namespace (rare)
+ * - 'any': Available in all namespaces (most resources)
  */
 export function isResourceTypeAvailableForNamespace(
   resourceType: ResourceTypeInfo,
@@ -566,10 +580,10 @@ export function isResourceTypeAvailableForNamespace(
       return namespace === 'system';
     case 'shared':
       return namespace === 'shared';
-    case 'custom':
-      return !generatedIsBuiltInNamespace(namespace);
     case 'any':
     default:
+      // Resources with 'any' scope are available in ALL namespaces
+      // This includes resources with parameterized {namespace} paths
       return true;
   }
 }

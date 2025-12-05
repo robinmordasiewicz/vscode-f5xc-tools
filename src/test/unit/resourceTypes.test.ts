@@ -11,6 +11,9 @@ import {
   getResourceTypeByApiPath,
   getResourceTypeKeys,
   getCategoryIcon,
+  isResourceTypeAvailableForNamespace,
+  getResourceTypesForNamespace,
+  getCategorizedResourceTypesForNamespace,
 } from '../../api/resourceTypes';
 
 describe('Resource Types Registry', () => {
@@ -268,6 +271,193 @@ describe('Resource Types Registry', () => {
     it('should have description for http_loadbalancer', () => {
       expect(RESOURCE_TYPES.http_loadbalancer!.description).toBeDefined();
       expect(RESOURCE_TYPES.http_loadbalancer!.description!.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Namespace scope filtering', () => {
+    describe('isResourceTypeAvailableForNamespace', () => {
+      // System scope tests - resources with literal /namespaces/system/ paths
+      it('should return true for system-scoped resource in system namespace', () => {
+        const systemResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'system',
+        };
+        expect(isResourceTypeAvailableForNamespace(systemResource, 'system')).toBe(true);
+      });
+
+      it('should return false for system-scoped resource in custom namespace', () => {
+        const systemResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'system',
+        };
+        expect(isResourceTypeAvailableForNamespace(systemResource, 'my-namespace')).toBe(false);
+      });
+
+      it('should return false for system-scoped resource in shared namespace', () => {
+        const systemResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'system',
+        };
+        expect(isResourceTypeAvailableForNamespace(systemResource, 'shared')).toBe(false);
+      });
+
+      // Any scope tests - resources with {namespace} placeholder or tenant-level
+      it('should return true for any-scoped resource in system namespace', () => {
+        const anyResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'any',
+        };
+        expect(isResourceTypeAvailableForNamespace(anyResource, 'system')).toBe(true);
+      });
+
+      it('should return true for any-scoped resource in shared namespace', () => {
+        const anyResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'any',
+        };
+        expect(isResourceTypeAvailableForNamespace(anyResource, 'shared')).toBe(true);
+      });
+
+      it('should return true for any-scoped resource in custom namespace', () => {
+        const anyResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'any',
+        };
+        expect(isResourceTypeAvailableForNamespace(anyResource, 'my-custom-ns')).toBe(true);
+      });
+
+      it('should return true for any-scoped resource in default namespace', () => {
+        const anyResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'any',
+        };
+        expect(isResourceTypeAvailableForNamespace(anyResource, 'default')).toBe(true);
+      });
+
+      it('should default to any scope when namespaceScope is undefined', () => {
+        const undefinedScopeResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: undefined,
+        };
+        expect(isResourceTypeAvailableForNamespace(undefinedScopeResource, 'system')).toBe(true);
+        expect(isResourceTypeAvailableForNamespace(undefinedScopeResource, 'shared')).toBe(true);
+        expect(isResourceTypeAvailableForNamespace(undefinedScopeResource, 'my-ns')).toBe(true);
+      });
+
+      // Shared scope tests - resources with literal /namespaces/shared/ paths (rare)
+      it('should return true for shared-scoped resource in shared namespace', () => {
+        const sharedResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'shared',
+        };
+        expect(isResourceTypeAvailableForNamespace(sharedResource, 'shared')).toBe(true);
+      });
+
+      it('should return false for shared-scoped resource in system namespace', () => {
+        const sharedResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'shared',
+        };
+        expect(isResourceTypeAvailableForNamespace(sharedResource, 'system')).toBe(false);
+      });
+
+      it('should return false for shared-scoped resource in custom namespace', () => {
+        const sharedResource: ResourceTypeInfo = {
+          ...RESOURCE_TYPES.http_loadbalancer!,
+          namespaceScope: 'shared',
+        };
+        expect(isResourceTypeAvailableForNamespace(sharedResource, 'my-ns')).toBe(false);
+      });
+    });
+
+    describe('getResourceTypesForNamespace', () => {
+      it('should filter out system-only resources for custom namespaces', () => {
+        const filtered = getResourceTypesForNamespace('my-custom-namespace');
+        // System-scoped resources should not be in the result
+        for (const [_key, info] of Object.entries(filtered)) {
+          if (info.namespaceScope === 'system') {
+            fail('System-scoped resource found in custom namespace filter result');
+          }
+        }
+      });
+
+      it('should include system-only resources for system namespace', () => {
+        const filtered = getResourceTypesForNamespace('system');
+        // Find a known system-scoped resource (aws_vpc_site is manually set to system)
+        const awsVpcSite = filtered['aws_vpc_site'];
+        expect(awsVpcSite).toBeDefined();
+      });
+
+      it('should include any-scoped resources in all namespaces', () => {
+        // any-scoped resources should be available in system, shared, and custom namespaces
+        const systemFiltered = getResourceTypesForNamespace('system');
+        const sharedFiltered = getResourceTypesForNamespace('shared');
+        const customFiltered = getResourceTypesForNamespace('my-custom-namespace');
+
+        // HTTP Load Balancer has any scope and should be in all
+        expect(systemFiltered['http_loadbalancer']).toBeDefined();
+        expect(sharedFiltered['http_loadbalancer']).toBeDefined();
+        expect(customFiltered['http_loadbalancer']).toBeDefined();
+      });
+
+      it('should filter out system-only resources for shared namespace', () => {
+        const filtered = getResourceTypesForNamespace('shared');
+        // System-scoped resources should not be in the result
+        for (const [_key, info] of Object.entries(filtered)) {
+          if (info.namespaceScope === 'system') {
+            fail('System-scoped resource found in shared namespace filter result');
+          }
+        }
+      });
+    });
+
+    describe('getCategorizedResourceTypesForNamespace', () => {
+      it('should return categorized resources filtered by namespace', () => {
+        const categorized = getCategorizedResourceTypesForNamespace('my-namespace');
+        expect(categorized).toBeInstanceOf(Map);
+        expect(categorized.size).toBeGreaterThan(0);
+      });
+
+      it('should not include system-only resources in custom namespace categories', () => {
+        const categorized = getCategorizedResourceTypesForNamespace('my-app-namespace');
+        for (const [_category, resources] of categorized) {
+          for (const [_key, info] of resources) {
+            if (info.namespaceScope === 'system') {
+              fail('System-scoped resource found in custom namespace categorized result');
+            }
+          }
+        }
+      });
+
+      it('should include system-only resources in system namespace categories', () => {
+        const categorized = getCategorizedResourceTypesForNamespace('system');
+        // aws_vpc_site has manual override to be system-scoped
+        let foundSystemResource = false;
+        for (const [_category, resources] of categorized) {
+          for (const [key, _info] of resources) {
+            if (key === 'aws_vpc_site') {
+              foundSystemResource = true;
+              break;
+            }
+          }
+        }
+        expect(foundSystemResource).toBe(true);
+      });
+
+      it('should include any-scoped resources in shared namespace', () => {
+        const categorized = getCategorizedResourceTypesForNamespace('shared');
+        // Security category should contain app_firewall in shared namespace
+        let foundAppFirewall = false;
+        for (const [_category, resources] of categorized) {
+          for (const [key, _info] of resources) {
+            if (key === 'app_firewall') {
+              foundAppFirewall = true;
+              break;
+            }
+          }
+        }
+        expect(foundAppFirewall).toBe(true);
+      });
     });
   });
 });

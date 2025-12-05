@@ -9,6 +9,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
+ * Namespace scope type - which namespaces can contain this resource
+ * - 'any': Available in all namespaces (parameterized paths or tenant-level)
+ * - 'system': Only available in system namespace (literal /namespaces/system/ paths)
+ * - 'shared': Only available in shared namespace (literal /namespaces/shared/ paths)
+ */
+export type NamespaceScope = 'any' | 'system' | 'shared';
+
+/**
  * Parsed information from an OpenAPI spec file
  */
 export interface ParsedSpecInfo {
@@ -30,6 +38,8 @@ export interface ParsedSpecInfo {
   schemaId: string;
   /** Whether resource is namespace-scoped */
   namespaceScoped: boolean;
+  /** Namespace scope - derived from API path patterns */
+  namespaceScope: NamespaceScope;
   /** Documentation URL if available */
   documentationUrl?: string;
 }
@@ -112,6 +122,41 @@ export function deriveApiPathSuffix(resourceKey: string): string {
 }
 
 /**
+ * Derive namespace scope from API path patterns.
+ *
+ * Key insight: The {namespace} placeholder is a variable that can be substituted
+ * with ANY namespace name (system, shared, or custom). It does NOT mean
+ * "custom namespaces only".
+ *
+ * - Literal /namespaces/system/ = system-only resources (e.g., Sites, IAM)
+ * - Literal /namespaces/shared/ = shared-only resources (rare, ~3 paths)
+ * - Parameterized {namespace} or {metadata.namespace} = ALL namespaces
+ * - No namespace pattern = tenant-level, available in any namespace
+ */
+export function deriveNamespaceScope(fullPath: string | null): NamespaceScope {
+  if (!fullPath) {
+    return 'any';
+  }
+
+  // Check for literal /namespaces/system/ - system-only resources
+  // These resources can ONLY exist in the system namespace
+  if (fullPath.includes('/namespaces/system/')) {
+    return 'system';
+  }
+
+  // Check for literal /namespaces/shared/ - shared-only resources
+  // These resources can ONLY exist in the shared namespace (rare)
+  if (fullPath.includes('/namespaces/shared/')) {
+    return 'shared';
+  }
+
+  // Parameterized namespace placeholders ({namespace}, {metadata.namespace}, {ns})
+  // work with ANY namespace - system, shared, or custom
+  // Tenant-level resources (no namespace in path) are also available everywhere
+  return 'any';
+}
+
+/**
  * Extract the primary API path and base from OpenAPI paths object.
  * Looks for standard CRUD paths like /api/config/namespaces/{ns}/resources
  */
@@ -120,9 +165,16 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
   apiBase: 'config' | 'web';
   apiPathSuffix: string | null;
   namespaceScoped: boolean;
+  namespaceScope: NamespaceScope;
 } {
   if (!paths) {
-    return { fullPath: null, apiBase: 'config', apiPathSuffix: null, namespaceScoped: false };
+    return {
+      fullPath: null,
+      apiBase: 'config',
+      apiPathSuffix: null,
+      namespaceScoped: false,
+      namespaceScope: 'any',
+    };
   }
 
   const pathKeys = Object.keys(paths);
@@ -146,6 +198,7 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
         apiBase: 'config',
         apiPathSuffix: match[1],
         namespaceScoped: true,
+        namespaceScope: deriveNamespaceScope(pathKey),
       };
     }
 
@@ -157,6 +210,7 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
         apiBase: 'web',
         apiPathSuffix: match[1],
         namespaceScoped: true,
+        namespaceScope: deriveNamespaceScope(pathKey),
       };
     }
   }
@@ -170,6 +224,7 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
         apiBase: 'config',
         apiPathSuffix: match[1],
         namespaceScoped: false,
+        namespaceScope: 'any',
       };
     }
 
@@ -180,6 +235,7 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
         apiBase: 'web',
         apiPathSuffix: match[1],
         namespaceScoped: false,
+        namespaceScope: 'any',
       };
     }
   }
@@ -196,12 +252,19 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
           apiBase: pathKey.includes('/api/web/') ? 'web' : 'config',
           apiPathSuffix: lastPart,
           namespaceScoped: pathKey.includes('/namespaces/'),
+          namespaceScope: deriveNamespaceScope(pathKey),
         };
       }
     }
   }
 
-  return { fullPath: null, apiBase: 'config', apiPathSuffix: null, namespaceScoped: false };
+  return {
+    fullPath: null,
+    apiBase: 'config',
+    apiPathSuffix: null,
+    namespaceScoped: false,
+    namespaceScope: 'any',
+  };
 }
 
 /**
@@ -324,6 +387,7 @@ export function parseSpecFile(filePath: string): ParsedSpecInfo | null {
     schemaFile: filename,
     schemaId,
     namespaceScoped: apiInfo.namespaceScoped,
+    namespaceScope: apiInfo.namespaceScope,
     documentationUrl,
   };
 }
