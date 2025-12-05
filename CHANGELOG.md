@@ -1,5 +1,35 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+## [0.1.22](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.21...v0.1.22) (2025-12-05)
+
+
+### Bug Fixes
+
+* add changelog title for markdownlint compliance ([922efae](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/922efaee15dc69000955a6f7356b56ee3541769b))
+* add generate step to ci workflow before linting ([cebc0d2](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/cebc0d2c81f53dcf6eaaad2ccf4dcdae375d3544))
+* adjust jest coverage thresholds and exclude generated files ([fa842ce](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/fa842ce1b94d57baa26e10b9d4c9fe47fdc9b84a))
+* correct namespace scope filtering for resource types ([#21](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/21)) ([29e55a6](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/29e55a6227f5ce2a4821e7fea45128775821e613))
+* disable husky hooks during semantic-release ([4329b84](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/4329b8462763c8fb091cb4a32b5cf0f256abf98f))
+* exclude changelog from markdownlint ([10a1468](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/10a14681d2cb90142d16299315ff996537f28dd4))
+* handle edit command from describe webview ([#18](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/18)) ([6583814](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/65838146dfee24e3d98d8da05e2da3f732734f1e))
+* prefer gh_token for branch protection bypass ([4790e47](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/4790e47e6528ed42197a99103e561d15057d916c))
+* separate scripts tsconfig from main tsconfig ([1bf357e](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/1bf357eab5e31789e1c67cbde99aa437afcd1546))
+* support extended api paths with service segments for dns resources ([#22](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/22)) ([ad977b6](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/ad977b64a6a90173c53bbd0b6da14b848966608b))
+* use node.js 22 for semantic-release job ([55dda87](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/55dda87e2f9b78d78887c8a337ef0842a49205f3))
+
+
+### Features
+
+* add describe resource command with webview panel ([#16](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/16)) ([febd004](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/febd00432bfc83464bb95e01e008637a8706e630))
+* add origin pool describe view and namespace filtering ([#20](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/20)) ([4bf2df7](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/4bf2df788fb236283af36a9fe1664fa6ed94a9f2))
+* auto-generate resource types from openapi specs ([#17](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/17)) ([93f2fdb](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/93f2fdbb7985d27b08ce71ff47847547a82d7725))
+* make code generation idempotent and deterministic ([13e848a](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/13e848a42db692dbf9b70eb5b45b7888501740b7))
+* make describe resource the default single-click action ([#19](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/19)) ([f3e931d](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/f3e931d8061545ede9685c058d981ed80679862f))
+
+# Changelog
+
 All notable changes to the F5 Distributed Cloud Tools extension will be
 documented in this file.
 
