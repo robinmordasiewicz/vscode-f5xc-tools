@@ -259,12 +259,12 @@
           "group": "inline"
         },
         {
-          "command": "f5xc.get",
+          "command": "f5xc.describe",
           "when": "view == f5xc.explorer && viewItem =~ /resource:/",
           "group": "1_resource@1"
         },
         {
-          "command": "f5xc.describe",
+          "command": "f5xc.get",
           "when": "view == f5xc.explorer && viewItem =~ /resource:/",
           "group": "1_resource@2"
         },
