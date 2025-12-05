@@ -8,8 +8,31 @@ import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
 import { getLogger } from '../utils/logger';
 import { RESOURCE_TYPES, getResourceTypeByApiPath } from '../api/resourceTypes';
 import { filterResource, getFilterOptionsForViewMode, ViewMode } from '../utils/resourceFilter';
+import { ResourceNodeData } from '../tree/treeTypes';
 
 const logger = getLogger();
+
+/**
+ * Data passed from webview when clicking "Edit Configuration"
+ */
+interface WebviewResourceData {
+  profileName: string;
+  namespace: string;
+  resourceType: string; // apiPath from describe view
+  resourceName: string;
+}
+
+/**
+ * Type guard to check if argument is a ResourceNode (has getData method)
+ */
+function isResourceNode(arg: unknown): arg is ResourceNode {
+  return (
+    typeof arg === 'object' &&
+    arg !== null &&
+    'getData' in arg &&
+    typeof (arg as ResourceNode).getData === 'function'
+  );
+}
 
 /**
  * Get the current view mode from settings
@@ -81,36 +104,71 @@ export function registerCrudCommands(
   );
 
   // EDIT - Open resource for editing using f5xc:// virtual file system
+  // Supports both ResourceNode (from tree view) and WebviewResourceData (from describe webview)
   context.subscriptions.push(
-    vscode.commands.registerCommand('f5xc.edit', async (node: ResourceNode) => {
-      await withErrorHandling(async () => {
-        const data = node.getData();
-        const profile = profileManager.getProfile(data.profileName);
+    vscode.commands.registerCommand(
+      'f5xc.edit',
+      async (arg: ResourceNode | WebviewResourceData) => {
+        await withErrorHandling(async () => {
+          let data: ResourceNodeData;
 
-        if (!profile) {
-          showWarning(`Profile "${data.profileName}" not found`);
-          return;
-        }
+          if (isResourceNode(arg)) {
+            // Called from tree view with ResourceNode
+            data = arg.getData();
+          } else {
+            // Called from webview with plain object
+            const resourceType = getResourceTypeByApiPath(arg.resourceType);
+            if (!resourceType) {
+              showWarning(`Unknown resource type: ${arg.resourceType}`);
+              return;
+            }
 
-        // Create f5xc:// URI for the resource
-        const uri = F5XCFileSystemProvider.createUri(
-          data.profileName,
-          data.namespace,
-          data.resourceTypeKey,
-          data.name,
-        );
+            // Find the resourceTypeKey from RESOURCE_TYPES
+            const resourceTypeKey = Object.entries(RESOURCE_TYPES).find(
+              ([, info]) => info.apiPath === arg.resourceType,
+            )?.[0];
 
-        // Clear any cached content to ensure fresh data
-        fsProvider.clearCache(uri);
+            if (!resourceTypeKey) {
+              showWarning(`Could not find resource type key for: ${arg.resourceType}`);
+              return;
+            }
 
-        // Open the document using the f5xc:// file system
-        const doc = await vscode.workspace.openTextDocument(uri);
-        await vscode.window.showTextDocument(doc, { preview: false });
+            data = {
+              name: arg.resourceName,
+              namespace: arg.namespace,
+              resourceType: resourceType,
+              resourceTypeKey: resourceTypeKey,
+              profileName: arg.profileName,
+            };
+          }
 
-        logger.info(`Editing resource: ${data.name}`);
-        showInfo(`Editing ${data.name}. Press Cmd+S to save changes to F5 XC.`);
-      }, 'Edit resource');
-    }),
+          const profile = profileManager.getProfile(data.profileName);
+
+          if (!profile) {
+            showWarning(`Profile "${data.profileName}" not found`);
+            return;
+          }
+
+          // Create f5xc:// URI for the resource
+          const uri = F5XCFileSystemProvider.createUri(
+            data.profileName,
+            data.namespace,
+            data.resourceTypeKey,
+            data.name,
+          );
+
+          // Clear any cached content to ensure fresh data
+          fsProvider.clearCache(uri);
+
+          // Open the document using the f5xc:// file system
+          const doc = await vscode.workspace.openTextDocument(uri);
+          await vscode.window.showTextDocument(doc, { preview: false });
+
+          logger.info(`Editing resource: ${data.name}`);
+          showInfo(`Editing ${data.name}. Press Cmd+S to save changes to F5 XC.`);
+        }, 'Edit resource');
+      },
+    ),
   );
 
   // CREATE - Create new resource from template
