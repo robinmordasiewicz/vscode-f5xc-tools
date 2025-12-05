@@ -452,6 +452,7 @@ export function parseSpecFile(filePath: string): ParsedSpecInfo | null {
 
 /**
  * Parse all OpenAPI spec files in a directory.
+ * Files are sorted alphabetically for deterministic processing order.
  */
 export function parseAllSpecs(specDir: string): ParsedSpecInfo[] {
   if (!fs.existsSync(specDir)) {
@@ -459,7 +460,11 @@ export function parseAllSpecs(specDir: string): ParsedSpecInfo[] {
     return [];
   }
 
-  const specFiles = fs.readdirSync(specDir).filter((f) => f.endsWith('.json'));
+  // Sort spec files alphabetically for deterministic processing order
+  const specFiles = fs
+    .readdirSync(specDir)
+    .filter((f) => f.endsWith('.json'))
+    .sort();
   console.log(`Found ${specFiles.length} spec files`);
 
   const results: ParsedSpecInfo[] = [];
