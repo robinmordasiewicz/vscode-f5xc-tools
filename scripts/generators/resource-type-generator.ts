@@ -8,10 +8,10 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { ParsedSpecInfo, parseAllSpecs } from './spec-parser';
+import { ParsedSpecInfo, parseAllSpecs, NamespaceScope } from './spec-parser';
 
-// Re-export ParsedSpecInfo for use by other modules
-export { ParsedSpecInfo } from './spec-parser';
+// Re-export types for use by other modules
+export { ParsedSpecInfo, NamespaceScope } from './spec-parser';
 
 /**
  * Generated resource type interface matching what can be extracted from specs
@@ -33,6 +33,8 @@ export interface GeneratedResourceTypeInfo {
   schemaId: string;
   /** Whether resource is namespace-scoped */
   namespaceScoped: boolean;
+  /** Namespace scope - derived from API path patterns */
+  namespaceScope: NamespaceScope;
   /** Documentation URL */
   documentationUrl?: string;
 }
@@ -50,6 +52,7 @@ function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
     schemaFile: info.schemaFile,
     schemaId: info.schemaId,
     namespaceScoped: info.namespaceScoped,
+    namespaceScope: info.namespaceScope,
     documentationUrl: info.documentationUrl,
   };
 }
@@ -89,6 +92,14 @@ export function generateResourceTypesContent(specs: ParsedSpecInfo[]): string {
  */
 
 /**
+ * Namespace scope type - which namespaces can contain this resource
+ * - 'any': Available in all namespaces (parameterized paths or tenant-level)
+ * - 'system': Only available in system namespace (literal /namespaces/system/ paths)
+ * - 'shared': Only available in shared namespace (literal /namespaces/shared/ paths)
+ */
+export type NamespaceScope = 'any' | 'system' | 'shared';
+
+/**
  * Information about a generated resource type.
  * Contains data that can be extracted directly from OpenAPI specs.
  */
@@ -109,6 +120,8 @@ export interface GeneratedResourceTypeInfo {
   schemaId: string;
   /** Whether resource is namespace-scoped */
   namespaceScoped: boolean;
+  /** Namespace scope - derived from API path patterns */
+  namespaceScope: NamespaceScope;
   /** Documentation URL */
   documentationUrl?: string;
 }
