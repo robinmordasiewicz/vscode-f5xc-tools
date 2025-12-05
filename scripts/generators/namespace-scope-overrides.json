@@ -1,0 +1,46 @@
+{
+  "$schema": "./namespace-scope-overrides.schema.json",
+  "description": "Manual namespace scope overrides for resources where the OpenAPI-derived scope doesn't match actual F5 XC behavior",
+  "generatedNote": "These overrides are applied on top of the OpenAPI-derived scopes",
+  "overrides": {
+    "system": {
+      "description": "Resources that should ONLY appear in the system namespace, regardless of their API path patterns",
+      "reason": "These resources are tenant-level system objects that can only be managed in the system namespace",
+      "resources": [
+        "aws_vpc_site",
+        "aws_tgw_site",
+        "azure_vnet_site",
+        "gcp_vpc_site",
+        "voltstack_site",
+        "securemesh_site",
+        "securemesh_site_v2",
+        "site",
+        "virtual_site",
+        "site_mesh_group",
+        "fleet",
+        "token",
+        "user",
+        "role",
+        "user_role",
+        "api_credential",
+        "service_credential",
+        "namespace_role",
+        "known_label",
+        "known_label_key",
+        "tenant",
+        "tenant_management",
+        "dns_zone"
+      ]
+    },
+    "shared": {
+      "description": "Resources that should ONLY appear in the shared namespace",
+      "reason": "These resources are specifically designed to be shared across namespaces",
+      "resources": []
+    },
+    "any": {
+      "description": "Resources explicitly available in all user namespaces (shared, default, custom) but NOT system",
+      "reason": "Override for resources incorrectly marked as system-only by API path analysis",
+      "resources": []
+    }
+  }
+}

@@ -10,9 +10,13 @@ import * as path from 'path';
 
 /**
  * Namespace scope type - which namespaces can contain this resource
- * - 'any': Available in all namespaces (parameterized paths or tenant-level)
+ * - 'any': Available in user namespaces (shared, default, custom) but NOT system
  * - 'system': Only available in system namespace (literal /namespaces/system/ paths)
  * - 'shared': Only available in shared namespace (literal /namespaces/shared/ paths)
+ *
+ * Note: Resources with parameterized {namespace} paths get 'any' scope because they
+ * can be created in user namespaces. The system namespace is reserved for system-level
+ * resources like Sites and IAM objects which have literal /namespaces/system/ paths.
  */
 export type NamespaceScope = 'any' | 'system' | 'shared';
 
@@ -30,6 +34,8 @@ export interface ParsedSpecInfo {
   description: string;
   /** API base: 'config' or 'web' */
   apiBase: 'config' | 'web';
+  /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
+  serviceSegment?: string;
   /** Full API path pattern */
   fullApiPath: string;
   /** Schema file name */
@@ -159,10 +165,12 @@ export function deriveNamespaceScope(fullPath: string | null): NamespaceScope {
 /**
  * Extract the primary API path and base from OpenAPI paths object.
  * Looks for standard CRUD paths like /api/config/namespaces/{ns}/resources
+ * Also handles extended paths like /api/config/dns/namespaces/{ns}/dns_zones
  */
 export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
   fullPath: string | null;
   apiBase: 'config' | 'web';
+  serviceSegment?: string;
   apiPathSuffix: string | null;
   namespaceScoped: boolean;
   namespaceScope: NamespaceScope;
@@ -179,8 +187,14 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
 
   const pathKeys = Object.keys(paths);
 
-  // Look for standard CRUD paths first (most common pattern)
-  // Pattern: /api/config/namespaces/{ns}/resource_types
+  // Extended paths with service segment (e.g., /api/config/dns/namespaces/{ns}/dns_zones)
+  // Pattern: /api/config/{service}/namespaces/{ns}/resource_types
+  const configExtendedPattern =
+    /^\/api\/config\/([a-z_]+)\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
+  const webExtendedPattern =
+    /^\/api\/web\/([a-z_]+)\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
+
+  // Standard paths (e.g., /api/config/namespaces/{ns}/resource_types)
   const configNamespacePattern =
     /^\/api\/config\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
   const webNamespacePattern = /^\/api\/web\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
@@ -189,6 +203,36 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
   const configTenantPattern = /^\/api\/config\/([a-z_]+)(?:\/\{[^}]+\})?$/;
   const webTenantPattern = /^\/api\/web\/([a-z_]+)(?:\/\{[^}]+\})?$/;
 
+  // First priority: Look for extended paths with service segments (like /api/config/dns/...)
+  for (const pathKey of pathKeys) {
+    // Check extended config paths (e.g., /api/config/dns/namespaces/{ns}/dns_zones)
+    let match = pathKey.match(configExtendedPattern);
+    if (match && match[1] && match[2]) {
+      return {
+        fullPath: pathKey,
+        apiBase: 'config',
+        serviceSegment: match[1],
+        apiPathSuffix: match[2],
+        namespaceScoped: true,
+        namespaceScope: deriveNamespaceScope(pathKey),
+      };
+    }
+
+    // Check extended web paths (e.g., /api/web/custom/namespaces/{ns}/...)
+    match = pathKey.match(webExtendedPattern);
+    if (match && match[1] && match[2]) {
+      return {
+        fullPath: pathKey,
+        apiBase: 'web',
+        serviceSegment: match[1],
+        apiPathSuffix: match[2],
+        namespaceScoped: true,
+        namespaceScope: deriveNamespaceScope(pathKey),
+      };
+    }
+  }
+
+  // Second priority: Standard namespace-scoped paths
   for (const pathKey of pathKeys) {
     // Check namespace-scoped config paths
     let match = pathKey.match(configNamespacePattern);
@@ -215,7 +259,7 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
     }
   }
 
-  // Check tenant-level paths (no namespace)
+  // Third priority: Check tenant-level paths (no namespace)
   for (const pathKey of pathKeys) {
     let match = pathKey.match(configTenantPattern);
     if (match && match[1]) {
@@ -247,9 +291,12 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
       const lastPart = parts[parts.length - 1];
       // Skip if it's a path parameter or undefined
       if (lastPart && !lastPart.startsWith('{')) {
+        // Check for extended paths in fallback
+        const extendedMatch = pathKey.match(/^\/api\/(config|web)\/([a-z_]+)\/namespaces\//);
         return {
           fullPath: pathKey,
           apiBase: pathKey.includes('/api/web/') ? 'web' : 'config',
+          serviceSegment: extendedMatch?.[2],
           apiPathSuffix: lastPart,
           namespaceScoped: pathKey.includes('/namespaces/'),
           namespaceScope: deriveNamespaceScope(pathKey),
@@ -377,13 +424,24 @@ export function parseSpecFile(filePath: string): ParsedSpecInfo | null {
     ? transformToGeneralDocUrl(operationUrl, schemaId)
     : undefined;
 
+  // Build the fullApiPath with service segment if present
+  let fullApiPath: string;
+  if (apiInfo.fullPath) {
+    fullApiPath = apiInfo.fullPath;
+  } else if (apiInfo.serviceSegment) {
+    fullApiPath = `/api/${apiInfo.apiBase}/${apiInfo.serviceSegment}/namespaces/{ns}/${apiPath}`;
+  } else {
+    fullApiPath = `/api/${apiInfo.apiBase}/namespaces/{ns}/${apiPath}`;
+  }
+
   return {
     resourceKey,
     apiPath,
     displayName,
     description: spec.info?.description || '',
     apiBase: apiInfo.apiBase,
-    fullApiPath: apiInfo.fullPath || `/api/${apiInfo.apiBase}/namespaces/{ns}/${apiPath}`,
+    serviceSegment: apiInfo.serviceSegment,
+    fullApiPath,
     schemaFile: filename,
     schemaId,
     namespaceScoped: apiInfo.namespaceScoped,

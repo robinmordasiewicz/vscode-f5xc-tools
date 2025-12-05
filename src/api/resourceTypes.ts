@@ -21,13 +21,13 @@ import {
 
 /**
  * Namespace scope - which namespaces can access this resource type
- * - 'any': Available in all namespaces (parameterized paths or tenant-level)
+ * - 'any': Available in user namespaces (shared, default, custom) but NOT system
  * - 'system': Only available in system namespace (literal /namespaces/system/ paths)
  * - 'shared': Only available in shared namespace (literal /namespaces/shared/ paths)
  *
- * Note: The 'custom' scope was removed because resources with {namespace} placeholder
- * in their API paths can exist in ANY namespace (system, shared, or custom).
- * The placeholder is just a variable, not a restriction.
+ * Note: Resources with parameterized {namespace} paths get 'any' scope, meaning they
+ * can be created in user namespaces (shared, default, custom). The system namespace
+ * is reserved for system-level resources like Sites and IAM objects.
  */
 export type NamespaceScope = 'any' | 'system' | 'shared';
 
@@ -83,6 +83,8 @@ export interface ResourceTypeInfo {
   namespaceScope?: NamespaceScope;
   /** API base path - 'config' for /api/config or 'web' for /api/web (default: 'config') */
   apiBase?: ApiBase;
+  /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
+  serviceSegment?: string;
   /** Custom list endpoint path (overrides standard path construction) */
   customListPath?: string;
   /** HTTP method for list operation - some APIs use POST instead of GET (default: 'GET') */
@@ -334,8 +336,7 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     category: ResourceCategory.DNS,
     supportsCustomOps: true,
     icon: 'globe',
-    // DNS API uses /api/config/dns/namespaces/{namespace}/dns_zones path
-    customListPath: '/api/config/dns/namespaces/{namespace}/dns_zones',
+    // Note: namespaceScope='system' comes from generated base via namespace-scope-overrides.json
   },
   dns_load_balancer: {
     apiPath: 'dns_load_balancers',
@@ -461,6 +462,8 @@ function mergeResourceType(
     namespaceScope:
       override.namespaceScope ?? (generated?.namespaceScope as NamespaceScope) ?? 'any',
     apiBase: override.apiBase || (generated?.apiBase as ApiBase) || 'config',
+    // Include service segment for extended API paths (e.g., /api/config/dns/...)
+    serviceSegment: (generated as { serviceSegment?: string } | undefined)?.serviceSegment,
     customListPath: override.customListPath,
     listMethod: override.listMethod,
     tenantLevel: override.tenantLevel,
@@ -565,9 +568,9 @@ export function isBuiltInNamespace(namespace: string): boolean {
  * Check if a resource type is available for a given namespace.
  *
  * The filtering logic is based on the namespace scope derived from OpenAPI specs:
- * - 'system': Only available in system namespace (e.g., Sites, IAM resources)
+ * - 'system': Only available in system namespace (e.g., Sites, IAM, DNS resources)
  * - 'shared': Only available in shared namespace (rare)
- * - 'any': Available in all namespaces (most resources)
+ * - 'any': Available in user namespaces (shared, default, custom) but NOT system
  */
 export function isResourceTypeAvailableForNamespace(
   resourceType: ResourceTypeInfo,
@@ -577,14 +580,17 @@ export function isResourceTypeAvailableForNamespace(
 
   switch (scope) {
     case 'system':
+      // System-scoped resources only appear in system namespace
       return namespace === 'system';
     case 'shared':
+      // Shared-scoped resources only appear in shared namespace
       return namespace === 'shared';
     case 'any':
     default:
-      // Resources with 'any' scope are available in ALL namespaces
-      // This includes resources with parameterized {namespace} paths
-      return true;
+      // Resources with 'any' scope (parameterized {namespace} paths) are available
+      // in user namespaces (shared, default, custom) but NOT in system namespace.
+      // System namespace is reserved for system-level resources with explicit overrides.
+      return namespace !== 'system';
   }
 }
 

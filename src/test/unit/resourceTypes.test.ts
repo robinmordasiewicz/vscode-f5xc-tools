@@ -302,12 +302,14 @@ describe('Resource Types Registry', () => {
       });
 
       // Any scope tests - resources with {namespace} placeholder or tenant-level
-      it('should return true for any-scoped resource in system namespace', () => {
+      // These should be available in user namespaces (shared, default, custom) but NOT system
+      it('should return false for any-scoped resource in system namespace', () => {
         const anyResource: ResourceTypeInfo = {
           ...RESOURCE_TYPES.http_loadbalancer!,
           namespaceScope: 'any',
         };
-        expect(isResourceTypeAvailableForNamespace(anyResource, 'system')).toBe(true);
+        // System namespace is reserved for system-level resources only
+        expect(isResourceTypeAvailableForNamespace(anyResource, 'system')).toBe(false);
       });
 
       it('should return true for any-scoped resource in shared namespace', () => {
@@ -339,7 +341,8 @@ describe('Resource Types Registry', () => {
           ...RESOURCE_TYPES.http_loadbalancer!,
           namespaceScope: undefined,
         };
-        expect(isResourceTypeAvailableForNamespace(undefinedScopeResource, 'system')).toBe(true);
+        // Defaults to 'any' scope - available in user namespaces but NOT system
+        expect(isResourceTypeAvailableForNamespace(undefinedScopeResource, 'system')).toBe(false);
         expect(isResourceTypeAvailableForNamespace(undefinedScopeResource, 'shared')).toBe(true);
         expect(isResourceTypeAvailableForNamespace(undefinedScopeResource, 'my-ns')).toBe(true);
       });
@@ -388,14 +391,14 @@ describe('Resource Types Registry', () => {
         expect(awsVpcSite).toBeDefined();
       });
 
-      it('should include any-scoped resources in all namespaces', () => {
-        // any-scoped resources should be available in system, shared, and custom namespaces
+      it('should include any-scoped resources in user namespaces but not system', () => {
+        // any-scoped resources should be available in user namespaces (shared, custom) but NOT system
         const systemFiltered = getResourceTypesForNamespace('system');
         const sharedFiltered = getResourceTypesForNamespace('shared');
         const customFiltered = getResourceTypesForNamespace('my-custom-namespace');
 
-        // HTTP Load Balancer has any scope and should be in all
-        expect(systemFiltered['http_loadbalancer']).toBeDefined();
+        // HTTP Load Balancer has any scope and should be in shared and custom, but NOT system
+        expect(systemFiltered['http_loadbalancer']).toBeUndefined();
         expect(sharedFiltered['http_loadbalancer']).toBeDefined();
         expect(customFiltered['http_loadbalancer']).toBeDefined();
       });
