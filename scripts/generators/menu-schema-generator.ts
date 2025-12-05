@@ -82,7 +82,6 @@ interface NamespaceMenuSchema {
  * Complete menu schema output
  */
 interface MenuSchemaOutput {
-  generatedAt: string;
   totalSpecs: number;
   totalResources: number;
   scopeSummary: {
@@ -490,9 +489,8 @@ function generateMenuSchema(specsDir: string, outputPath: string, overridesPath:
   console.log(`  shared: ${scopeCounts.shared} resources`);
   console.log(`  any (user namespaces): ${scopeCounts.any} resources\n`);
 
-  // Build namespace schemas
+  // Build namespace schemas (no timestamp for deterministic output)
   const output: MenuSchemaOutput = {
-    generatedAt: new Date().toISOString(),
     totalSpecs: specFiles.length,
     totalResources: resources.length,
     scopeSummary: scopeCounts,

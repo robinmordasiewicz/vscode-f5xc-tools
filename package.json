@@ -375,6 +375,7 @@
     "generate:types": "npx ts-node scripts/generate-resource-types.ts",
     "generate:menu-schema": "npx ts-node scripts/generators/menu-schema-generator.ts",
     "generate": "npm run generate:types && npm run generate:docs && npm run generate:menu-schema",
+    "validate:generation": "npx ts-node scripts/validate-generation.ts",
     "compile": "npm run generate && webpack",
     "watch": "npm run generate && webpack --watch",
     "package": "npm run generate && webpack --mode production --devtool hidden-source-map",
