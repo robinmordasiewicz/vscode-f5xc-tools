@@ -9,114 +9,10 @@ permissions:
   contents: write
 
 jobs:
-  # Build and test before releasing
-  build:
-    name: Build and Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run linting
-        run: npm run lint
-
-      - name: Run type checking
-        run: npm run typecheck
-
-      - name: Run unit tests
-        run: npm run test:unit
-
-      - name: Build production bundle
-        run: npm run package
-
-      - name: Install vsce
-        run: npm install -g @vscode/vsce
-
-      - name: Package extension
-        run: vsce package --no-dependencies
-
-      - name: Upload VSIX artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: vsix-package
-          path: "*.vsix"
-          retention-days: 30
-
-  # Create GitHub Release with VSIX artifact
-  release:
-    name: Create GitHub Release
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Download VSIX artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: vsix-package
-
-      - name: List artifacts
-        run: ls -la *.vsix
-
-      - name: Generate changelog
-        id: changelog
-        run: |
-          # Get previous tag or use initial commit
-          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
-          echo "Previous ref: $PREVIOUS_TAG"
-
-          # Generate changelog from commits
-          CHANGELOG=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges | head -50)
-
-          # Handle multi-line output
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "*.vsix"
-          body: |
-            ## What's Changed
-
-            ${{ steps.changelog.outputs.changelog }}
-
-            ## Installation
-
-            ### From VSIX file
-            1. Download the `.vsix` file from this release
-            2. In VS Code, open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-            3. Run "Extensions: Install from VSIX..."
-            4. Select the downloaded file
-
-            ### From Open VSX Registry
-            Search for "F5 Distributed Cloud Tools" in VS Code extensions
-          token: ${{ secrets.GITHUB_TOKEN }}
-          draft: false
-          prerelease: ${{ contains(github.ref_name, '-') }}
-
   # Publish to Open VSX Registry
   publish-openvsx:
     name: Publish to Open VSX
     runs-on: ubuntu-latest
-    needs: [build, release]
     if: ${{ !contains(github.ref_name, '-') }}
 
     steps:
@@ -132,10 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Download VSIX artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: vsix-package
+      - name: Build production bundle
+        run: npm run package
+
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+
+      - name: Package extension
+        run: vsce package --no-dependencies
 
       - name: Find VSIX file
         id: vsix
@@ -152,7 +52,6 @@ jobs:
   publish-marketplace:
     name: Publish to VS Marketplace
     runs-on: ubuntu-latest
-    needs: [build, release]
     if: ${{ !contains(github.ref_name, '-') }}
 
     steps:
@@ -168,10 +67,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Download VSIX artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: vsix-package
+      - name: Build production bundle
+        run: npm run package
+
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+
+      - name: Package extension
+        run: vsce package --no-dependencies
 
       - name: Find VSIX file
         id: vsix
