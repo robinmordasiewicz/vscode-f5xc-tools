@@ -329,8 +329,8 @@ export class ResourceNode implements F5XCTreeItem {
     item.iconPath = new vscode.ThemeIcon('file');
     item.tooltip = `${this.data.resourceType.displayName}: ${this.data.name}\nNamespace: ${this.data.namespace}\nCategory: ${this.data.resourceType.category}`;
     item.command = {
-      command: 'f5xc.get',
-      title: 'View Resource',
+      command: 'f5xc.describe',
+      title: 'Describe Resource',
       arguments: [this],
     };
     return item;
