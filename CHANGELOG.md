@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.23](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.22...v0.1.23) (2025-12-05)
+
 ## [0.1.22](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.21...v0.1.22) (2025-12-05)
 
 
