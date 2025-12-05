@@ -298,11 +298,19 @@ export function registerCrudCommands(
 
         const client = await profileManager.getClient(activeProfile.name);
         const apiBase = resourceType.apiBase || 'config';
+        const serviceSegment = resourceType.serviceSegment;
 
         // Try to get existing resource to determine create vs update
         let exists = false;
         try {
-          await client.get(namespace, resourceType.apiPath, name, undefined, apiBase);
+          await client.get(
+            namespace,
+            resourceType.apiPath,
+            name,
+            undefined,
+            apiBase,
+            serviceSegment,
+          );
           exists = true;
         } catch {
           exists = false;
@@ -331,9 +339,22 @@ export function registerCrudCommands(
             // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
             const resourceData = resource as any;
             if (exists) {
-              await client.replace(namespace, resourceType.apiPath, name, resourceData, apiBase);
+              await client.replace(
+                namespace,
+                resourceType.apiPath,
+                name,
+                resourceData,
+                apiBase,
+                serviceSegment,
+              );
             } else {
-              await client.create(namespace, resourceType.apiPath, resourceData, apiBase);
+              await client.create(
+                namespace,
+                resourceType.apiPath,
+                resourceData,
+                apiBase,
+                serviceSegment,
+              );
             }
           },
         );
@@ -369,6 +390,7 @@ export function registerCrudCommands(
 
         const client = await profileManager.getClient(data.profileName);
         const apiBase = data.resourceType.apiBase || 'config';
+        const serviceSegment = data.resourceType.serviceSegment;
 
         await vscode.window.withProgress(
           {
@@ -383,6 +405,7 @@ export function registerCrudCommands(
               data.name,
               false,
               apiBase,
+              serviceSegment,
             );
           },
         );
@@ -406,12 +429,14 @@ export function registerCrudCommands(
           const data = node.getData();
           const client = await profileManager.getClient(data.profileName);
           const apiBase = data.resourceType.apiBase || 'config';
+          const serviceSegment = data.resourceType.serviceSegment;
           const resource = await client.get(
             data.namespace,
             data.resourceType.apiPath,
             data.name,
             undefined,
             apiBase,
+            serviceSegment,
           );
           remoteContent = JSON.stringify(resource, null, 2);
           name = data.name;
@@ -471,12 +496,14 @@ export function registerCrudCommands(
 
           const client = await profileManager.getClient(activeProfile.name);
           const apiBase = resourceType.apiBase || 'config';
+          const serviceSegmentFromType = resourceType.serviceSegment;
           const remoteResource = await client.get(
             namespace,
             resourceType.apiPath,
             name,
             undefined,
             apiBase,
+            serviceSegmentFromType,
           );
           remoteContent = JSON.stringify(remoteResource, null, 2);
         }

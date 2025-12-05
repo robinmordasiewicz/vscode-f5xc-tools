@@ -25,6 +25,8 @@ export interface GeneratedResourceTypeInfo {
   description: string;
   /** API base: 'config' or 'web' */
   apiBase: 'config' | 'web';
+  /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
+  serviceSegment?: string;
   /** Full API path pattern */
   fullApiPath: string;
   /** Schema file name */
@@ -43,7 +45,7 @@ export interface GeneratedResourceTypeInfo {
  * Convert parsed spec info to generated resource type info
  */
 function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
-  return {
+  const result: GeneratedResourceTypeInfo = {
     apiPath: info.apiPath,
     displayName: info.displayName,
     description: info.description,
@@ -55,6 +57,13 @@ function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
     namespaceScope: info.namespaceScope,
     documentationUrl: info.documentationUrl,
   };
+
+  // Only include serviceSegment if it's defined
+  if (info.serviceSegment) {
+    result.serviceSegment = info.serviceSegment;
+  }
+
+  return result;
 }
 
 /**
@@ -93,7 +102,7 @@ export function generateResourceTypesContent(specs: ParsedSpecInfo[]): string {
 
 /**
  * Namespace scope type - which namespaces can contain this resource
- * - 'any': Available in all namespaces (parameterized paths or tenant-level)
+ * - 'any': Available in user namespaces (shared, default, custom) but NOT system
  * - 'system': Only available in system namespace (literal /namespaces/system/ paths)
  * - 'shared': Only available in shared namespace (literal /namespaces/shared/ paths)
  */
@@ -112,6 +121,8 @@ export interface GeneratedResourceTypeInfo {
   description: string;
   /** API base: 'config' or 'web' */
   apiBase: 'config' | 'web';
+  /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
+  serviceSegment?: string;
   /** Full API path pattern */
   fullApiPath: string;
   /** Schema file name */

@@ -10,6 +10,8 @@ import { ApiBase, ResourceTypeInfo, API_ENDPOINTS } from './resourceTypes';
 export interface ListOptions {
   /** API base path - 'config' or 'web' */
   apiBase?: ApiBase;
+  /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
+  serviceSegment?: string;
   /** Custom list endpoint path (overrides standard path construction) */
   customListPath?: string;
   /** HTTP method for list operation - some APIs use POST instead of GET */
@@ -24,17 +26,21 @@ export interface ListOptions {
 
 /**
  * Build the API path for a resource operation
+ * Supports extended API paths with service segments (e.g., /api/config/dns/namespaces/...)
  */
 function buildApiPath(
   namespace: string,
   resourceType: string,
   name?: string,
   apiBase: ApiBase = 'config',
+  serviceSegment?: string,
 ): string {
   const basePath = apiBase === 'web' ? API_ENDPOINTS.WEB_BASE : API_ENDPOINTS.CONFIG_BASE;
+  // Insert service segment if present (e.g., /api/config/dns/namespaces/...)
+  const baseWithService = serviceSegment ? `${basePath}/${serviceSegment}` : basePath;
   const path = name
-    ? `${basePath}/namespaces/${namespace}/${resourceType}/${name}`
-    : `${basePath}/namespaces/${namespace}/${resourceType}`;
+    ? `${baseWithService}/namespaces/${namespace}/${resourceType}/${name}`
+    : `${baseWithService}/namespaces/${namespace}/${resourceType}`;
   return path;
 }
 
@@ -112,12 +118,15 @@ export class F5XCClient {
     resourceType: string,
     body: T,
     apiBase: ApiBase = 'config',
+    serviceSegment?: string,
   ): Promise<T> {
-    this.logger.debug(`Creating ${resourceType} in namespace ${namespace} (apiBase: ${apiBase})`);
+    this.logger.debug(
+      `Creating ${resourceType} in namespace ${namespace} (apiBase: ${apiBase}, serviceSegment: ${serviceSegment || 'none'})`,
+    );
 
     return this.request<T>({
       method: 'POST',
-      path: buildApiPath(namespace, resourceType, undefined, apiBase),
+      path: buildApiPath(namespace, resourceType, undefined, apiBase, serviceSegment),
       body,
     });
   }
@@ -131,9 +140,10 @@ export class F5XCClient {
     name: string,
     responseFormat?: string,
     apiBase: ApiBase = 'config',
+    serviceSegment?: string,
   ): Promise<T> {
     this.logger.debug(
-      `Getting ${resourceType}/${name} from namespace ${namespace} (apiBase: ${apiBase})`,
+      `Getting ${resourceType}/${name} from namespace ${namespace} (apiBase: ${apiBase}, serviceSegment: ${serviceSegment || 'none'})`,
     );
 
     const queryParams: Record<string, string> = {};
@@ -143,7 +153,7 @@ export class F5XCClient {
 
     return this.request<T>({
       method: 'GET',
-      path: buildApiPath(namespace, resourceType, name, apiBase),
+      path: buildApiPath(namespace, resourceType, name, apiBase, serviceSegment),
       queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
     });
   }
@@ -170,6 +180,7 @@ export class F5XCClient {
   ): Promise<T[]> {
     const {
       apiBase = 'config',
+      serviceSegment,
       customListPath,
       listMethod = 'GET',
       tenantLevel = false,
@@ -178,7 +189,7 @@ export class F5XCClient {
     } = options;
 
     this.logger.debug(
-      `Listing ${resourceType} in namespace ${namespace} (apiBase: ${apiBase}, tenantLevel: ${tenantLevel}, method: ${listMethod})`,
+      `Listing ${resourceType} in namespace ${namespace} (apiBase: ${apiBase}, serviceSegment: ${serviceSegment || 'none'}, tenantLevel: ${tenantLevel}, method: ${listMethod})`,
     );
 
     // Build the path
@@ -191,8 +202,8 @@ export class F5XCClient {
       const basePath = apiBase === 'web' ? API_ENDPOINTS.WEB_BASE : API_ENDPOINTS.CONFIG_BASE;
       path = `${basePath}/${resourceType}`;
     } else {
-      // Standard path
-      path = buildApiPath(namespace, resourceType, undefined, apiBase);
+      // Standard path (with optional service segment for extended APIs like /api/config/dns/...)
+      path = buildApiPath(namespace, resourceType, undefined, apiBase, serviceSegment);
     }
 
     const queryParams: Record<string, string> = {};
@@ -218,6 +229,7 @@ export class F5XCClient {
   static buildListOptions(resourceType: ResourceTypeInfo, labelFilter?: string): ListOptions {
     return {
       apiBase: resourceType.apiBase,
+      serviceSegment: resourceType.serviceSegment,
       customListPath: resourceType.customListPath,
       listMethod: resourceType.listMethod,
       tenantLevel: resourceType.tenantLevel,
@@ -235,14 +247,15 @@ export class F5XCClient {
     name: string,
     body: T,
     apiBase: ApiBase = 'config',
+    serviceSegment?: string,
   ): Promise<T> {
     this.logger.debug(
-      `Replacing ${resourceType}/${name} in namespace ${namespace} (apiBase: ${apiBase})`,
+      `Replacing ${resourceType}/${name} in namespace ${namespace} (apiBase: ${apiBase}, serviceSegment: ${serviceSegment || 'none'})`,
     );
 
     return this.request<T>({
       method: 'PUT',
-      path: buildApiPath(namespace, resourceType, name, apiBase),
+      path: buildApiPath(namespace, resourceType, name, apiBase, serviceSegment),
       body,
     });
   }
@@ -256,9 +269,10 @@ export class F5XCClient {
     name: string,
     failIfReferred = false,
     apiBase: ApiBase = 'config',
+    serviceSegment?: string,
   ): Promise<void> {
     this.logger.debug(
-      `Deleting ${resourceType}/${name} from namespace ${namespace} (apiBase: ${apiBase})`,
+      `Deleting ${resourceType}/${name} from namespace ${namespace} (apiBase: ${apiBase}, serviceSegment: ${serviceSegment || 'none'})`,
     );
 
     const queryParams: Record<string, string> = {};
@@ -268,7 +282,7 @@ export class F5XCClient {
 
     await this.request<void>({
       method: 'DELETE',
-      path: buildApiPath(namespace, resourceType, name, apiBase),
+      path: buildApiPath(namespace, resourceType, name, apiBase, serviceSegment),
       queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
     });
   }
