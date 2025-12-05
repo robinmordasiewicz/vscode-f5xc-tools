@@ -2,7 +2,7 @@ import * as https from 'https';
 import { AuthProvider } from './auth';
 import { F5XCApiError } from '../utils/errors';
 import { getLogger } from '../utils/logger';
-import { ApiBase, ResourceTypeInfo } from './resourceTypes';
+import { ApiBase, ResourceTypeInfo, API_ENDPOINTS } from './resourceTypes';
 
 /**
  * Options for list operations
@@ -31,7 +31,7 @@ function buildApiPath(
   name?: string,
   apiBase: ApiBase = 'config',
 ): string {
-  const basePath = apiBase === 'web' ? '/api/web' : '/api/config';
+  const basePath = apiBase === 'web' ? API_ENDPOINTS.WEB_BASE : API_ENDPOINTS.CONFIG_BASE;
   const path = name
     ? `${basePath}/namespaces/${namespace}/${resourceType}/${name}`
     : `${basePath}/namespaces/${namespace}/${resourceType}`;
@@ -188,7 +188,7 @@ export class F5XCClient {
       path = customListPath.replace('{namespace}', namespace);
     } else if (tenantLevel) {
       // Tenant-level resource - no namespace in path
-      const basePath = apiBase === 'web' ? '/api/web' : '/api/config';
+      const basePath = apiBase === 'web' ? API_ENDPOINTS.WEB_BASE : API_ENDPOINTS.CONFIG_BASE;
       path = `${basePath}/${resourceType}`;
     } else {
       // Standard path
@@ -282,7 +282,7 @@ export class F5XCClient {
     const response = await this.request<ListResponse<{ name: string; metadata: ResourceMetadata }>>(
       {
         method: 'GET',
-        path: '/api/web/namespaces',
+        path: API_ENDPOINTS.NAMESPACES,
       },
     );
 

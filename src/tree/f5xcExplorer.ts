@@ -7,6 +7,8 @@ import {
   getCategoryIcon,
   ResourceTypeInfo,
   isResourceTypeAvailableForNamespace,
+  BUILT_IN_NAMESPACES,
+  isBuiltInNamespace,
 } from '../api/resourceTypes';
 import { getLogger } from '../utils/logger';
 import {
@@ -63,15 +65,13 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
       const client = await this.clientFactory(activeProfile);
       const namespaces = await client.listNamespaces();
 
-      // Built-in namespaces that should appear at the top
-      const builtInNames = ['system', 'shared', 'default'];
-
-      // Separate built-in and custom namespaces
-      const builtInNamespaces = namespaces.filter((ns) => builtInNames.includes(ns.name));
-      const customNamespaces = namespaces.filter((ns) => !builtInNames.includes(ns.name));
+      // Separate built-in and custom namespaces using generated constants
+      const builtInNs = namespaces.filter((ns) => isBuiltInNamespace(ns.name));
+      const customNamespaces = namespaces.filter((ns) => !isBuiltInNamespace(ns.name));
 
       // Sort built-in namespaces in the specified order
-      builtInNamespaces.sort((a, b) => builtInNames.indexOf(a.name) - builtInNames.indexOf(b.name));
+      const builtInOrder: string[] = [...BUILT_IN_NAMESPACES];
+      builtInNs.sort((a, b) => builtInOrder.indexOf(a.name) - builtInOrder.indexOf(b.name));
 
       // Sort custom namespaces alphabetically
       customNamespaces.sort((a, b) => a.name.localeCompare(b.name));
@@ -79,11 +79,11 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
       const groups: F5XCTreeItem[] = [];
 
       // Add built-in namespaces group if any exist
-      if (builtInNamespaces.length > 0) {
+      if (builtInNs.length > 0) {
         groups.push(
           new NamespaceGroupNode(
             'Built-in Namespaces',
-            builtInNamespaces.map((ns) => ns.name),
+            builtInNs.map((ns) => ns.name),
             activeProfile.name,
             this.clientFactory,
             this.profileManager,
