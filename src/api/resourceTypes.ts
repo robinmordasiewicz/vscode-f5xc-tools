@@ -87,12 +87,20 @@ export interface ResourceTypeInfo {
   serviceSegment?: string;
   /** Custom list endpoint path (overrides standard path construction) */
   customListPath?: string;
+  /** Custom get endpoint path (overrides standard path construction, use {namespace} and {name} placeholders) */
+  customGetPath?: string;
   /** HTTP method for list operation - some APIs use POST instead of GET (default: 'GET') */
   listMethod?: 'GET' | 'POST';
   /** Whether this is a tenant-level resource (no namespace in path) */
   tenantLevel?: boolean;
   /** Response field containing list items (default: 'items') */
   listResponseField?: string;
+  /** Skip namespace filtering for non-standard APIs (e.g., SCIM) that don't include namespace in response */
+  skipNamespaceFilter?: boolean;
+  /** Use cached list data for describe instead of making a GET call (for APIs without GET endpoint) */
+  useListDataForDescribe?: boolean;
+  /** Resource requires SCIM Bearer token authentication (not standard API token) */
+  requiresScimAuth?: boolean;
 }
 
 /**
@@ -120,12 +128,20 @@ interface ResourceTypeOverride {
   apiBase?: ApiBase;
   /** Custom list endpoint path */
   customListPath?: string;
+  /** Custom get endpoint path */
+  customGetPath?: string;
   /** HTTP method for list operation */
   listMethod?: 'GET' | 'POST';
   /** Whether this is a tenant-level resource */
   tenantLevel?: boolean;
   /** Response field containing list items */
   listResponseField?: string;
+  /** Skip namespace filtering for non-standard APIs */
+  skipNamespaceFilter?: boolean;
+  /** Use cached list data for describe instead of making a GET call */
+  useListDataForDescribe?: boolean;
+  /** Resource requires SCIM Bearer token authentication */
+  requiresScimAuth?: boolean;
 }
 
 /**
@@ -375,9 +391,10 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     icon: 'person',
     namespaceScope: 'system',
     apiBase: 'web',
-    customListPath: '/api/scim/v2/Users',
+    customListPath: '/api/web/custom/namespaces/{namespace}/user_roles',
     listMethod: 'GET',
-    listResponseField: 'Resources',
+    skipNamespaceFilter: true,
+    useListDataForDescribe: true,
   },
   role: {
     category: ResourceCategory.IAM,
@@ -465,9 +482,13 @@ function mergeResourceType(
     // Include service segment for extended API paths (e.g., /api/config/dns/...)
     serviceSegment: (generated as { serviceSegment?: string } | undefined)?.serviceSegment,
     customListPath: override.customListPath,
+    customGetPath: override.customGetPath,
     listMethod: override.listMethod,
     tenantLevel: override.tenantLevel,
     listResponseField: override.listResponseField,
+    skipNamespaceFilter: override.skipNamespaceFilter,
+    useListDataForDescribe: override.useListDataForDescribe,
+    requiresScimAuth: override.requiresScimAuth,
   };
 
   return result;
