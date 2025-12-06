@@ -352,6 +352,9 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     category: ResourceCategory.DNS,
     supportsCustomOps: true,
     icon: 'globe',
+    // DNS API uses /api/config/dns/namespaces/{namespace}/... path
+    customListPath: '/api/config/dns/namespaces/{namespace}/dns_zones',
+    customGetPath: '/api/config/dns/namespaces/{namespace}/dns_zones/{name}',
     // Note: namespaceScope='system' comes from generated base via namespace-scope-overrides.json
   },
   dns_load_balancer: {
@@ -362,6 +365,7 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     icon: 'split-horizontal',
     // DNS API uses /api/config/dns/namespaces/{namespace}/... path
     customListPath: '/api/config/dns/namespaces/{namespace}/dns_load_balancers',
+    customGetPath: '/api/config/dns/namespaces/{namespace}/dns_load_balancers/{name}',
   },
   dns_lb_pool: {
     apiPath: 'dns_lb_pools',
@@ -370,6 +374,7 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     supportsCustomOps: false,
     icon: 'layers',
     customListPath: '/api/config/dns/namespaces/{namespace}/dns_lb_pools',
+    customGetPath: '/api/config/dns/namespaces/{namespace}/dns_lb_pools/{name}',
   },
   dns_lb_health_check: {
     apiPath: 'dns_lb_health_checks',
@@ -378,6 +383,7 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     supportsCustomOps: false,
     icon: 'pulse',
     customListPath: '/api/config/dns/namespaces/{namespace}/dns_lb_health_checks',
+    customGetPath: '/api/config/dns/namespaces/{namespace}/dns_lb_health_checks/{name}',
   },
 
   // =====================================================
