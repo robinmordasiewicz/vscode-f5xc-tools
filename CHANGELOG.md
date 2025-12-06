@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.27](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.26...v0.1.27) (2025-12-06)
+
+
+### Bug Fixes
+
+* add custom get paths for dns resources ([03a41fc](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/03a41fc34cc4f82e9eef4765c52fa9e8f19f56cf))
+
 ## [0.1.26](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.25...v0.1.26) (2025-12-06)
 
 
