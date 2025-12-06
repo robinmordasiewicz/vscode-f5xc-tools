@@ -11,6 +11,8 @@ module.exports = {
     '!src/test/**',
     '!src/extension.ts',
     '!src/generated/**',
+    '!src/providers/f5xcDiagramProvider.ts',
+    '!src/commands/diagram.ts',
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
