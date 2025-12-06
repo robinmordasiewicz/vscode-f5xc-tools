@@ -60,4 +60,6 @@ export interface ResourceNodeData {
   resourceTypeKey: string;
   profileName: string;
   metadata?: Record<string, unknown>;
+  /** Full resource data from list response (for resources without GET endpoint) */
+  fullResourceData?: Record<string, unknown>;
 }

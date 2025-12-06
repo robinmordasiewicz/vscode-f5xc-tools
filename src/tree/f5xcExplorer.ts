@@ -287,6 +287,8 @@ class ResourceTypeNode implements F5XCTreeItem {
             const name =
               (metadata?.name as string) ||
               (resourceAny.name as string) ||
+              (resourceAny.userName as string) || // SCIM format
+              (resourceAny.displayName as string) || // SCIM format fallback
               (getSpec?.name as string) ||
               (objectMetadata?.name as string) ||
               (getSpecMetadata?.name as string) ||
@@ -317,12 +319,19 @@ class ResourceTypeNode implements F5XCTreeItem {
               name,
               resourceNamespace,
               metadata: metadata || objectMetadata || {},
+              fullResourceData: resourceAny, // Store full data for resources without GET endpoint
             };
           })
           // Filter out resources from different namespaces (e.g., shared namespace resources
           // showing up in other namespace listings)
           // If namespace couldn't be determined (null), exclude the resource to be safe
-          .filter((r) => r.resourceNamespace === this.data.namespace)
+          // Skip filtering for resources that use non-standard APIs without namespace metadata (e.g., SCIM)
+          .filter((r) => {
+            if (this.data.resourceType.skipNamespaceFilter) {
+              return true;
+            }
+            return r.resourceNamespace === this.data.namespace;
+          })
           .map((r) => {
             return new ResourceNode({
               name: r.name,
@@ -331,6 +340,9 @@ class ResourceTypeNode implements F5XCTreeItem {
               resourceTypeKey: this.data.resourceTypeKey,
               profileName: this.data.profileName,
               metadata: r.metadata,
+              fullResourceData: this.data.resourceType.useListDataForDescribe
+                ? r.fullResourceData
+                : undefined,
             });
           })
       );

@@ -158,22 +158,35 @@ export class F5XCDescribeProvider {
 
   /**
    * Show the describe panel for a resource
+   * @param cachedData Optional cached data from list response (for resources without GET endpoint)
    */
   async showDescribe(
     profileName: string,
     namespace: string,
     resourceType: string,
     resourceName: string,
+    cachedData?: Record<string, unknown>,
   ): Promise<void> {
     try {
       logger.debug(`Describing resource: ${resourceName} (${resourceType})`);
 
-      const client = await this.profileManager.getClient(profileName);
       const resourceTypeInfo = this.findResourceTypeInfo(resourceType);
-      const apiBase = resourceTypeInfo?.apiBase || 'config';
       const displayName = resourceTypeInfo?.displayName || resourceType;
 
-      const resource = await client.get(namespace, resourceType, resourceName, undefined, apiBase);
+      let resource: Record<string, unknown>;
+
+      // Use cached data if available (for resources that don't have a GET endpoint)
+      if (resourceTypeInfo?.useListDataForDescribe && cachedData) {
+        logger.debug(`Using cached list data for ${resourceName} (no GET endpoint available)`);
+        resource = cachedData;
+      } else {
+        const client = await this.profileManager.getClient(profileName);
+        const apiBase = resourceTypeInfo?.apiBase || 'config';
+        resource = (await client.getWithOptions(namespace, resourceType, resourceName, {
+          apiBase,
+          customGetPath: resourceTypeInfo?.customGetPath,
+        })) as unknown as Record<string, unknown>;
+      }
 
       if (this.panel) {
         this.panel.reveal(vscode.ViewColumn.Beside);
@@ -217,7 +230,7 @@ export class F5XCDescribeProvider {
 
       this.panel.title = resourceName;
       this.panel.webview.html = this.getWebviewContent(
-        resource as unknown as Record<string, unknown>,
+        resource,
         resourceName,
         displayName,
         namespace,

@@ -106,7 +106,10 @@ export class F5XCViewProvider implements vscode.TextDocumentContentProvider {
       const resourceTypeInfo = this.findResourceTypeInfo(resourceType);
       const apiBase = resourceTypeInfo?.apiBase || 'config';
 
-      const resource = await client.get(namespace, resourceType, resourceName, undefined, apiBase);
+      const resource = await client.getWithOptions(namespace, resourceType, resourceName, {
+        apiBase,
+        customGetPath: resourceTypeInfo?.customGetPath,
+      });
 
       // Apply view mode filtering
       const viewMode = getViewMode();

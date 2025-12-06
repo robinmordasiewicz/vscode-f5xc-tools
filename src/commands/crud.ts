@@ -96,6 +96,7 @@ export function registerCrudCommands(
           data.namespace,
           data.resourceType.apiPath,
           data.name,
+          data.fullResourceData,
         );
 
         logger.info(`Describing resource: ${data.name}`);

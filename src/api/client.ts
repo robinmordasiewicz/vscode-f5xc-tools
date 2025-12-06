@@ -159,6 +159,47 @@ export class F5XCClient {
   }
 
   /**
+   * Get a single resource with advanced options for non-standard APIs
+   */
+  async getWithOptions<T extends Resource>(
+    namespace: string,
+    resourceType: string,
+    name: string,
+    options: {
+      apiBase?: ApiBase;
+      serviceSegment?: string;
+      customGetPath?: string;
+      responseFormat?: string;
+    } = {},
+  ): Promise<T> {
+    const { apiBase = 'config', serviceSegment, customGetPath, responseFormat } = options;
+
+    this.logger.debug(
+      `Getting ${resourceType}/${name} from namespace ${namespace} (apiBase: ${apiBase}, customGetPath: ${customGetPath || 'none'})`,
+    );
+
+    // Build the path
+    let path: string;
+    if (customGetPath) {
+      // Use custom path with namespace and name substitution
+      path = customGetPath.replace('{namespace}', namespace).replace('{name}', name);
+    } else {
+      path = buildApiPath(namespace, resourceType, name, apiBase, serviceSegment);
+    }
+
+    const queryParams: Record<string, string> = {};
+    if (responseFormat) {
+      queryParams['response_format'] = responseFormat;
+    }
+
+    return this.request<T>({
+      method: 'GET',
+      path,
+      queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
+    });
+  }
+
+  /**
    * List resources in a namespace
    */
   async list<T extends Resource>(
