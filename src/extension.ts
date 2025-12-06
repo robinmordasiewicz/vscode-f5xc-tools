@@ -8,6 +8,7 @@ import { F5XCDescribeProvider } from './providers/f5xcDescribeProvider';
 import { registerCrudCommands } from './commands/crud';
 import { registerProfileCommands } from './commands/profile';
 import { registerObservabilityCommands } from './commands/observability';
+import { registerDiagramCommands } from './commands/diagram';
 import { Logger } from './utils/logger';
 
 let logger: Logger;
@@ -86,6 +87,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Register observability commands
   registerObservabilityCommands(context, profileManager);
+
+  // Register diagram commands
+  registerDiagramCommands(context, profileManager);
 
   // Register views
   context.subscriptions.push(explorerView);

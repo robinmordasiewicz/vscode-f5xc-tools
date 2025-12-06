@@ -201,6 +201,12 @@
         "icon": "$(graph)"
       },
       {
+        "command": "f5xc.diagram",
+        "title": "Generate Diagram",
+        "category": "F5 XC",
+        "icon": "$(symbol-structure)"
+      },
+      {
         "command": "f5xc.createFromTemplate",
         "title": "New from Template",
         "category": "F5 XC",
@@ -302,6 +308,11 @@
           "command": "f5xc.viewMetrics",
           "when": "view == f5xc.explorer && viewItem =~ /resource:http_loadbalancer|resource:tcp_loadbalancer|resource:origin_pool/",
           "group": "4_observe@2"
+        },
+        {
+          "command": "f5xc.diagram",
+          "when": "view == f5xc.explorer && viewItem =~ /resource:http_loadbalancer/",
+          "group": "4_observe@3"
         },
         {
           "command": "f5xc.openInBrowser",
