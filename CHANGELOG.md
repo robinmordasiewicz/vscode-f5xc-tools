@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.24](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.23...v0.1.24) (2025-12-06)
+
+
+### Bug Fixes
+
+* use cached list data for users without get endpoint ([#24](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/24)) ([53d9c83](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/53d9c83e9a886076f3ac83a11ca2a3f4db8aec0c))
+
 ## [0.1.23](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.22...v0.1.23) (2025-12-05)
 
 ## [0.1.22](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.21...v0.1.22) (2025-12-05)
