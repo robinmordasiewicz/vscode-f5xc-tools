@@ -210,7 +210,7 @@ jobs:
       - name: Run semantic-release
         id: semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT || secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
           HUSKY: 0
         run: |
           # Run semantic-release and capture output
@@ -232,7 +232,7 @@ jobs:
       - name: Trigger Release workflow
         if: steps.semantic-release.outputs.new_release == 'true'
         env:
-          GH_TOKEN: ${{ secrets.RELEASE_PAT || secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
         run: |
           VERSION="${{ steps.semantic-release.outputs.new_version }}"
           echo "🚀 Triggering Release workflow for v${VERSION}"
