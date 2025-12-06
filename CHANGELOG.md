@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.28](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.27...v0.1.28) (2025-12-06)
+
+
+### Features
+
+* add diagram generation for http load balancers ([#26](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/26)) ([4b4dd0b](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/4b4dd0b45a4fcbbfa09ee820bb0562dafd47d592))
+
 ## [0.1.27](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.26...v0.1.27) (2025-12-06)
 
 
