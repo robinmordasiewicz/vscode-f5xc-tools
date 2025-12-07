@@ -96,6 +96,11 @@
           "id": "f5xc.profiles",
           "name": "Profiles",
           "contextualTitle": "F5 XC Profiles"
+        },
+        {
+          "id": "f5xc.cloudStatus",
+          "name": "Cloud Status",
+          "contextualTitle": "F5 Cloud Status"
         }
       ]
     },
@@ -223,6 +228,24 @@
         "title": "Toggle View Mode (Console/Full)",
         "category": "F5 XC",
         "icon": "$(symbol-structure)"
+      },
+      {
+        "command": "f5xc.cloudStatus.refresh",
+        "title": "Refresh Cloud Status",
+        "category": "F5 XC",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "f5xc.cloudStatus.openDashboard",
+        "title": "Open Cloud Status Dashboard",
+        "category": "F5 XC",
+        "icon": "$(dashboard)"
+      },
+      {
+        "command": "f5xc.cloudStatus.openExternal",
+        "title": "Open Status Page in Browser",
+        "category": "F5 XC",
+        "icon": "$(link-external)"
       }
     ],
     "menus": {
@@ -236,6 +259,21 @@
           "command": "f5xc.addProfile",
           "when": "view == f5xc.profiles",
           "group": "navigation"
+        },
+        {
+          "command": "f5xc.cloudStatus.refresh",
+          "when": "view == f5xc.cloudStatus",
+          "group": "navigation@1"
+        },
+        {
+          "command": "f5xc.cloudStatus.openDashboard",
+          "when": "view == f5xc.cloudStatus",
+          "group": "navigation@2"
+        },
+        {
+          "command": "f5xc.cloudStatus.openExternal",
+          "when": "view == f5xc.cloudStatus",
+          "group": "navigation@3"
         }
       ],
       "view/item/context": [
