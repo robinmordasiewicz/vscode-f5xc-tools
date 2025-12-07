@@ -246,6 +246,12 @@
         "title": "Open Status Page in Browser",
         "category": "F5 XC",
         "icon": "$(link-external)"
+      },
+      {
+        "command": "f5xc.cloudStatus.viewMaintenance",
+        "title": "View Maintenance Details",
+        "category": "F5 XC",
+        "icon": "$(info)"
       }
     ],
     "menus": {

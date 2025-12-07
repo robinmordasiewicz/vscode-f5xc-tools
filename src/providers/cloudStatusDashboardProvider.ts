@@ -888,6 +888,373 @@ export class CloudStatusDashboardProvider {
   }
 
   /**
+   * Show maintenance details in a WebView panel
+   */
+  showMaintenanceDetails(maintenance: ScheduledMaintenance): void {
+    const panel = vscode.window.createWebviewPanel(
+      'maintenanceDetails',
+      `Maintenance: ${maintenance.name}`,
+      vscode.ViewColumn.One,
+      {
+        enableScripts: true,
+        retainContextWhenHidden: false,
+        localResourceRoots: [],
+      },
+    );
+
+    panel.webview.html = this.getMaintenanceDetailsContent(maintenance);
+
+    panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
+      switch (message.command) {
+        case 'openExternal':
+          await vscode.env.openExternal(vscode.Uri.parse(maintenance.shortlink));
+          break;
+      }
+    });
+  }
+
+  /**
+   * Generate HTML content for maintenance details
+   */
+  private getMaintenanceDetailsContent(maintenance: ScheduledMaintenance): string {
+    const nonce = this.getNonce();
+    const scheduledFor = new Date(maintenance.scheduled_for).toLocaleString();
+    const scheduledUntil = new Date(maintenance.scheduled_until).toLocaleString();
+    const createdAt = new Date(maintenance.created_at).toLocaleString();
+    const updatedAt = new Date(maintenance.updated_at).toLocaleString();
+    const affectedComponents = maintenance.components.map((c) => c.name);
+
+    // Build updates timeline
+    const updatesHtml = maintenance.incident_updates
+      .map((update) => {
+        const updateTime = new Date(update.created_at).toLocaleString();
+        return `
+          <div class="update">
+            <div class="update-header">
+              <span class="update-status status-${update.status}">${this.escapeHtml(update.status)}</span>
+              <span class="update-time">${updateTime}</span>
+            </div>
+            <div class="update-body">${this.escapeHtml(update.body)}</div>
+          </div>
+        `;
+      })
+      .join('\n');
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <title>Maintenance Details</title>
+  <style>${this.getMaintenanceStyles()}</style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="logo">F5</span>
+      <span class="title">Scheduled Maintenance</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-secondary" id="openExternal">
+        <span class="external-icon"></span>
+        Open in Browser
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="maintenance-header">
+      <div class="maintenance-icon"></div>
+      <h1 class="maintenance-title">${this.escapeHtml(maintenance.name)}</h1>
+      <span class="status-badge status-${maintenance.status}">${getIncidentStatusText(maintenance.status)}</span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Schedule</h3>
+        <div class="info-item">
+          <span class="label">Start:</span>
+          <span class="value">${scheduledFor}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">End:</span>
+          <span class="value">${scheduledUntil}</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Details</h3>
+        <div class="info-item">
+          <span class="label">Impact:</span>
+          <span class="value impact-${maintenance.impact}">${maintenance.impact}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Created:</span>
+          <span class="value">${createdAt}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Updated:</span>
+          <span class="value">${updatedAt}</span>
+        </div>
+      </div>
+    </div>
+
+    ${
+      affectedComponents.length > 0
+        ? `
+    <div class="section">
+      <h2>Affected Components</h2>
+      <div class="components-list">
+        ${affectedComponents.map((c) => `<span class="component-badge">${this.escapeHtml(c)}</span>`).join('\n')}
+      </div>
+    </div>
+    `
+        : ''
+    }
+
+    ${
+      maintenance.incident_updates.length > 0
+        ? `
+    <div class="section">
+      <h2>Updates Timeline</h2>
+      <div class="updates-list">
+        ${updatesHtml}
+      </div>
+    </div>
+    `
+        : ''
+    }
+  </div>
+  <script nonce="${nonce}">
+    (function() {
+      const vscode = acquireVsCodeApi();
+      document.getElementById('openExternal')?.addEventListener('click', () => {
+        vscode.postMessage({ command: 'openExternal' });
+      });
+    })();
+  </script>
+</body>
+</html>`;
+  }
+
+  /**
+   * Get CSS styles for maintenance details view
+   */
+  private getMaintenanceStyles(): string {
+    return `
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--vscode-font-family);
+      font-size: var(--vscode-font-size);
+      color: var(--vscode-foreground);
+      background: var(--vscode-editor-background);
+      line-height: 1.5;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: var(--vscode-titleBar-activeBackground);
+      border-bottom: 1px solid var(--vscode-titleBar-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo {
+      background: #e4002b;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--vscode-foreground);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: inherit;
+    }
+    .btn-secondary {
+      background: var(--vscode-button-secondaryBackground);
+      color: var(--vscode-button-secondaryForeground);
+    }
+    .btn-secondary:hover {
+      background: var(--vscode-button-secondaryHoverBackground);
+    }
+    .external-icon::before {
+      content: "↗";
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .maintenance-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .maintenance-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--vscode-charts-blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .maintenance-icon::before {
+      content: "🔧";
+      font-size: 24px;
+    }
+    .maintenance-title {
+      font-size: 24px;
+      font-weight: 600;
+      flex: 1;
+      min-width: 200px;
+    }
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+    .status-scheduled {
+      background: var(--vscode-charts-blue);
+      color: white;
+    }
+    .status-in_progress {
+      background: var(--vscode-charts-yellow);
+      color: black;
+    }
+    .status-verifying {
+      background: var(--vscode-charts-orange);
+      color: white;
+    }
+    .status-completed {
+      background: var(--vscode-charts-green);
+      color: white;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .info-card {
+      background: var(--vscode-editor-inactiveSelectionBackground);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .info-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--vscode-foreground);
+    }
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--vscode-widget-border);
+    }
+    .info-item:last-child {
+      border-bottom: none;
+    }
+    .label {
+      color: var(--vscode-descriptionForeground);
+    }
+    .value {
+      font-weight: 500;
+    }
+    .impact-none { color: var(--vscode-charts-green); }
+    .impact-minor { color: var(--vscode-charts-yellow); }
+    .impact-major { color: var(--vscode-charts-orange); }
+    .impact-critical { color: var(--vscode-charts-red); }
+    .impact-maintenance { color: var(--vscode-charts-blue); }
+    .section {
+      margin-bottom: 24px;
+    }
+    .section h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--vscode-widget-border);
+    }
+    .components-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .component-badge {
+      background: var(--vscode-badge-background);
+      color: var(--vscode-badge-foreground);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    .updates-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .update {
+      background: var(--vscode-editor-inactiveSelectionBackground);
+      border-radius: 8px;
+      padding: 16px;
+      border-left: 3px solid var(--vscode-charts-blue);
+    }
+    .update-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .update-status {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: capitalize;
+      background: var(--vscode-badge-background);
+      color: var(--vscode-badge-foreground);
+    }
+    .update-time {
+      color: var(--vscode-descriptionForeground);
+      font-size: 12px;
+    }
+    .update-body {
+      color: var(--vscode-foreground);
+      white-space: pre-wrap;
+    }
+    `;
+  }
+
+  /**
    * Dispose of the panel
    */
   dispose(): void {

@@ -325,9 +325,9 @@ class MaintenanceNode implements CloudStatusTreeItem {
 
     item.tooltip = new vscode.MarkdownString(tooltipContent);
     item.command = {
-      command: 'vscode.open',
-      title: 'Open Maintenance',
-      arguments: [vscode.Uri.parse(this.maintenance.shortlink)],
+      command: 'f5xc.cloudStatus.viewMaintenance',
+      title: 'View Maintenance Details',
+      arguments: [this.maintenance],
     };
     return item;
   }

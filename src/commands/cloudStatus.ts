@@ -35,4 +35,13 @@ export function registerCloudStatusCommands(
       await vscode.env.openExternal(vscode.Uri.parse('https://www.f5cloudstatus.com'));
     }),
   );
+
+  // View maintenance details in WebView
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.cloudStatus.viewMaintenance', (maintenance: unknown) => {
+      dashboardProvider.showMaintenanceDetails(
+        maintenance as Parameters<typeof dashboardProvider.showMaintenanceDetails>[0],
+      );
+    }),
+  );
 }
