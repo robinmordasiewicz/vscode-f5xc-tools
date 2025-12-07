@@ -2,13 +2,16 @@ import * as vscode from 'vscode';
 import { ProfileManager } from './config/profiles';
 import { F5XCExplorerProvider } from './tree/f5xcExplorer';
 import { ProfilesProvider } from './tree/profilesProvider';
+import { CloudStatusProvider } from './tree/cloudStatusProvider';
 import { F5XCFileSystemProvider } from './providers/f5xcFileSystemProvider';
 import { F5XCViewProvider } from './providers/f5xcViewProvider';
 import { F5XCDescribeProvider } from './providers/f5xcDescribeProvider';
+import { CloudStatusDashboardProvider } from './providers/cloudStatusDashboardProvider';
 import { registerCrudCommands } from './commands/crud';
 import { registerProfileCommands } from './commands/profile';
 import { registerObservabilityCommands } from './commands/observability';
 import { registerDiagramCommands } from './commands/diagram';
+import { registerCloudStatusCommands } from './commands/cloudStatus';
 import { Logger } from './utils/logger';
 
 let logger: Logger;
@@ -28,6 +31,8 @@ export function activate(context: vscode.ExtensionContext): void {
   // Initialize tree view providers
   const explorerProvider = new F5XCExplorerProvider(profileManager, clientFactory);
   const profilesProvider = new ProfilesProvider(profileManager);
+  const cloudStatusProvider = new CloudStatusProvider();
+  const cloudStatusDashboardProvider = new CloudStatusDashboardProvider();
 
   // Initialize F5 XC file system provider for editing resources
   const fsProvider = new F5XCFileSystemProvider(profileManager, () => {
@@ -64,6 +69,12 @@ export function activate(context: vscode.ExtensionContext): void {
     canSelectMany: false,
   });
 
+  const cloudStatusView = vscode.window.createTreeView('f5xc.cloudStatus', {
+    treeDataProvider: cloudStatusProvider,
+    showCollapseAll: true,
+    canSelectMany: false,
+  });
+
   // Register refresh command
   context.subscriptions.push(
     vscode.commands.registerCommand('f5xc.refresh', () => {
@@ -91,9 +102,13 @@ export function activate(context: vscode.ExtensionContext): void {
   // Register diagram commands
   registerDiagramCommands(context, profileManager);
 
+  // Register cloud status commands
+  registerCloudStatusCommands(context, cloudStatusProvider, cloudStatusDashboardProvider);
+
   // Register views
   context.subscriptions.push(explorerView);
   context.subscriptions.push(profilesView);
+  context.subscriptions.push(cloudStatusView);
 
   // Listen for profile changes
   profileManager.onDidChangeProfiles(() => {
