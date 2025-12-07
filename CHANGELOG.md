@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.29](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.28...v0.1.29) (2025-12-07)
+
+
+### Features
+
+* add cloud status monitoring feature ([#27](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/27)) ([e111255](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/e111255ae3cca248a23652c4daa57af7fa671f49))
+
 ## [0.1.28](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.27...v0.1.28) (2025-12-06)
 
 
