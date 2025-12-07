@@ -96,6 +96,56 @@ export interface Resource<TSpec = unknown> {
 }
 
 /**
+ * Site type enumeration from F5 XC API
+ */
+export type SiteType = 'INVALID' | 'REGIONAL_EDGE' | 'CUSTOMER_EDGE' | 'NGINX_ONE';
+
+/**
+ * Site state enumeration
+ */
+export type SiteState =
+  | 'ONLINE'
+  | 'OFFLINE'
+  | 'STANDBY'
+  | 'REGISTRATION_APPROVAL_REQUIRED'
+  | 'REGISTRATION_REJECTED'
+  | 'DECOMMISSIONING'
+  | 'WAITING_FOR_REGISTRATION'
+  | 'UPGRADING'
+  | 'PROVISIONING';
+
+/**
+ * Geographic coordinates
+ */
+export interface Coordinates {
+  latitude?: number;
+  longitude?: number;
+}
+
+/**
+ * Site specification from F5 XC Sites API
+ */
+export interface SiteSpec {
+  site_type?: SiteType;
+  address?: string;
+  region?: string;
+  coordinates?: Coordinates;
+  connected_re?: { name: string };
+  connected_re_for_info?: { name: string };
+  volterra_software_version?: string;
+  operating_system_version?: string;
+  inside_vip?: string;
+  outside_vip?: string;
+}
+
+/**
+ * Site resource from F5 XC Sites API
+ */
+export interface Site extends Resource<SiteSpec> {
+  get_spec?: SiteSpec;
+}
+
+/**
  * F5 Distributed Cloud API Client
  */
 export class F5XCClient {
@@ -354,6 +404,47 @@ export class F5XCClient {
       body: options.body,
       queryParams: options.queryParams,
       timeout: options.timeout,
+    });
+  }
+
+  /**
+   * Get all sites from the system namespace
+   */
+  async getSites(): Promise<Site[]> {
+    this.logger.debug('Fetching sites from system namespace');
+    return this.list<Site>('system', 'sites');
+  }
+
+  /**
+   * Get all Regional Edge sites
+   */
+  async getRegionalEdges(): Promise<Site[]> {
+    const sites = await this.getSites();
+    return sites.filter((site) => {
+      const spec = site.get_spec || site.spec;
+      return spec?.site_type === 'REGIONAL_EDGE';
+    });
+  }
+
+  /**
+   * Find a Regional Edge site by site code
+   * Site codes appear in the site name (e.g., "ves-io-dc12-res" contains "dc12")
+   * Note: F5-managed Regional Edge sites are visible in LIST but not accessible via GET
+   */
+  async findRegionalEdgeBySiteCode(siteCode: string): Promise<Site | undefined> {
+    const allSites = await this.getSites();
+
+    // Helper to get site name from root level or metadata
+    const getSiteName = (site: Site): string | undefined => {
+      const siteObj = site as unknown as Record<string, unknown>;
+      return (siteObj['name'] as string) || site.metadata?.name;
+    };
+
+    // Find sites with the matching code in their name
+    const lowerCode = siteCode.toLowerCase();
+    return allSites.find((site) => {
+      const name = getSiteName(site);
+      return name?.toLowerCase().includes(lowerCode);
     });
   }
 

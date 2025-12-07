@@ -113,6 +113,11 @@ export interface ComponentsResponse {
   components: Component[];
 }
 
+export interface ComponentResponse {
+  page: PageInfo;
+  component: Component;
+}
+
 export interface IncidentsResponse {
   page: PageInfo;
   incidents: Incident[];
@@ -212,6 +217,23 @@ export class CloudStatusClient {
   }
 
   /**
+   * Get a single component by ID
+   */
+  async getComponent(componentId: string): Promise<ComponentResponse> {
+    return this.fetch<ComponentResponse>(`/components/${componentId}.json`);
+  }
+
+  /**
+   * Get incidents affecting a specific component
+   */
+  async getIncidentsForComponent(componentId: string): Promise<Incident[]> {
+    const response = await this.getIncidents();
+    return response.incidents.filter((incident) =>
+      incident.components.some((c) => c.id === componentId),
+    );
+  }
+
+  /**
    * Get all active incidents
    */
   async getIncidents(): Promise<IncidentsResponse> {
@@ -308,4 +330,30 @@ export function getIncidentStatusText(
     default:
       return 'Unknown';
   }
+}
+
+/**
+ * Extract site code from PoP name
+ * Example: "Ashburn (dc12), VA, United States" → "dc12"
+ * Example: "Frankfurt (b-fr4), Germany" → "b-fr4"
+ */
+export function extractSiteCode(popName: string): string | null {
+  const match = popName.match(/\(([a-z0-9-]+)\)/i);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return null;
+}
+
+/**
+ * Check if a component is a PoP (Point of Presence)
+ * PoPs have descriptions containing "Edge PoP"
+ */
+export function isPoP(component: Component): boolean {
+  const result = component.description?.includes('Edge PoP') ?? false;
+  // Debug logging - can be removed after verification
+  console.log(
+    `[isPoP] name="${component.name}", description="${component.description}", result=${result}`,
+  );
+  return result;
 }

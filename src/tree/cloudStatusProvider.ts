@@ -12,6 +12,7 @@ import {
   ScheduledMaintenance,
   getStatusDisplayText,
   getIncidentStatusText,
+  isPoP,
 } from '../api/cloudStatus';
 import { CloudStatusTreeItem, CloudStatusContext } from './cloudStatusTypes';
 
@@ -201,10 +202,30 @@ class ComponentNode implements CloudStatusTreeItem {
     const item = new vscode.TreeItem(this.component.name, vscode.TreeItemCollapsibleState.None);
     item.contextValue = CloudStatusContext.COMPONENT;
     item.iconPath = getStatusIcon(this.component.status);
+
+    // Check if this is a PoP
+    const isPoPResult = isPoP(this.component);
+
     item.description = getStatusDisplayText(this.component.status);
+
     item.tooltip = new vscode.MarkdownString(
       `**${this.component.name}**\n\nStatus: ${getStatusDisplayText(this.component.status)}${this.component.description ? `\n\n${this.component.description}` : ''}`,
     );
+
+    // Use PoP-specific command for Regional Edge PoPs
+    if (isPoPResult) {
+      item.command = {
+        command: 'f5xc.cloudStatus.viewPoP',
+        title: 'View PoP Details',
+        arguments: [this.component],
+      };
+    } else {
+      item.command = {
+        command: 'f5xc.cloudStatus.viewComponent',
+        title: 'View Component Details',
+        arguments: [this.component],
+      };
+    }
     return item;
   }
 
@@ -262,9 +283,9 @@ class IncidentNode implements CloudStatusTreeItem {
 
     item.tooltip = new vscode.MarkdownString(tooltipContent);
     item.command = {
-      command: 'vscode.open',
-      title: 'Open Incident',
-      arguments: [vscode.Uri.parse(this.incident.shortlink)],
+      command: 'f5xc.cloudStatus.viewIncident',
+      title: 'View Incident Details',
+      arguments: [this.incident],
     };
     return item;
   }
