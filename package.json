@@ -252,6 +252,24 @@
         "title": "View Maintenance Details",
         "category": "F5 XC",
         "icon": "$(info)"
+      },
+      {
+        "command": "f5xc.cloudStatus.viewIncident",
+        "title": "View Incident Details",
+        "category": "F5 XC",
+        "icon": "$(warning)"
+      },
+      {
+        "command": "f5xc.cloudStatus.viewComponent",
+        "title": "View Service Details",
+        "category": "F5 XC",
+        "icon": "$(server)"
+      },
+      {
+        "command": "f5xc.cloudStatus.viewPoP",
+        "title": "View PoP Details",
+        "category": "F5 XC",
+        "icon": "$(globe)"
       }
     ],
     "menus": {

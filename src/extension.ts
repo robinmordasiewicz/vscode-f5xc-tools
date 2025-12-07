@@ -32,7 +32,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const explorerProvider = new F5XCExplorerProvider(profileManager, clientFactory);
   const profilesProvider = new ProfilesProvider(profileManager);
   const cloudStatusProvider = new CloudStatusProvider();
-  const cloudStatusDashboardProvider = new CloudStatusDashboardProvider();
+  const cloudStatusDashboardProvider = new CloudStatusDashboardProvider(profileManager);
 
   // Initialize F5 XC file system provider for editing resources
   const fsProvider = new F5XCFileSystemProvider(profileManager, () => {

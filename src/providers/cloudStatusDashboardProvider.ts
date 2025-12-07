@@ -13,7 +13,13 @@ import {
   SummaryResponse,
   getStatusDisplayText,
   getIncidentStatusText,
+  extractSiteCode,
 } from '../api/cloudStatus';
+import { Site } from '../api/client';
+import { ProfileManager } from '../config/profiles';
+import { getLogger } from '../utils/logger';
+import { getPopCoordinates, formatCoordinates, Coordinates } from '../api/popCoordinates';
+import { geocodeLocation } from '../api/geocoder';
 
 /**
  * WebView provider for Cloud Status Dashboard
@@ -21,9 +27,11 @@ import {
 export class CloudStatusDashboardProvider {
   private panel: vscode.WebviewPanel | undefined;
   private readonly client: CloudStatusClient;
+  private readonly profileManager: ProfileManager;
 
-  constructor() {
+  constructor(profileManager: ProfileManager) {
     this.client = new CloudStatusClient();
+    this.profileManager = profileManager;
   }
 
   /**
@@ -1252,6 +1260,920 @@ export class CloudStatusDashboardProvider {
       white-space: pre-wrap;
     }
     `;
+  }
+
+  /**
+   * Show incident details in a WebView panel
+   */
+  showIncidentDetails(incident: Incident): void {
+    const panel = vscode.window.createWebviewPanel(
+      'incidentDetails',
+      `Incident: ${incident.name}`,
+      vscode.ViewColumn.One,
+      {
+        enableScripts: true,
+        retainContextWhenHidden: false,
+        localResourceRoots: [],
+      },
+    );
+
+    panel.webview.html = this.getIncidentDetailsContent(incident);
+
+    panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
+      switch (message.command) {
+        case 'openExternal':
+          await vscode.env.openExternal(vscode.Uri.parse(incident.shortlink));
+          break;
+      }
+    });
+  }
+
+  /**
+   * Generate HTML content for incident details
+   */
+  private getIncidentDetailsContent(incident: Incident): string {
+    const nonce = this.getNonce();
+    const startedAt = new Date(incident.started_at).toLocaleString();
+    const resolvedAt = incident.resolved_at
+      ? new Date(incident.resolved_at).toLocaleString()
+      : 'Ongoing';
+    const createdAt = new Date(incident.created_at).toLocaleString();
+    const updatedAt = new Date(incident.updated_at).toLocaleString();
+    const affectedComponents = incident.components.map((c) => c.name);
+
+    // Build updates timeline
+    const updatesHtml = incident.incident_updates
+      .map((update) => {
+        const updateTime = new Date(update.created_at).toLocaleString();
+        return `
+          <div class="update">
+            <div class="update-header">
+              <span class="update-status status-${update.status}">${this.escapeHtml(update.status)}</span>
+              <span class="update-time">${updateTime}</span>
+            </div>
+            <div class="update-body">${this.escapeHtml(update.body)}</div>
+          </div>
+        `;
+      })
+      .join('\n');
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <title>Incident Details</title>
+  <style>${this.getMaintenanceStyles()}
+    .incident-icon::before {
+      content: "⚠️";
+      font-size: 24px;
+    }
+    .status-investigating {
+      background: var(--vscode-charts-orange);
+      color: white;
+    }
+    .status-identified {
+      background: var(--vscode-charts-yellow);
+      color: black;
+    }
+    .status-monitoring {
+      background: var(--vscode-charts-blue);
+      color: white;
+    }
+    .status-resolved {
+      background: var(--vscode-charts-green);
+      color: white;
+    }
+    .status-postmortem {
+      background: var(--vscode-descriptionForeground);
+      color: var(--vscode-editor-background);
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="logo">F5</span>
+      <span class="title">Active Incident</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-secondary" id="openExternal">
+        <span class="external-icon"></span>
+        Open in Browser
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="maintenance-header">
+      <div class="incident-icon"></div>
+      <h1 class="maintenance-title">${this.escapeHtml(incident.name)}</h1>
+      <span class="status-badge status-${incident.status}">${getIncidentStatusText(incident.status)}</span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Timeline</h3>
+        <div class="info-item">
+          <span class="label">Started:</span>
+          <span class="value">${startedAt}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Resolved:</span>
+          <span class="value">${resolvedAt}</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Details</h3>
+        <div class="info-item">
+          <span class="label">Impact:</span>
+          <span class="value impact-${incident.impact}">${incident.impact}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Created:</span>
+          <span class="value">${createdAt}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Updated:</span>
+          <span class="value">${updatedAt}</span>
+        </div>
+      </div>
+    </div>
+
+    ${
+      affectedComponents.length > 0
+        ? `
+    <div class="section">
+      <h2>Affected Components</h2>
+      <div class="components-list">
+        ${affectedComponents.map((c) => `<span class="component-badge">${this.escapeHtml(c)}</span>`).join('\n')}
+      </div>
+    </div>
+    `
+        : ''
+    }
+
+    ${
+      incident.incident_updates.length > 0
+        ? `
+    <div class="section">
+      <h2>Incident Updates</h2>
+      <div class="updates-list">
+        ${updatesHtml}
+      </div>
+    </div>
+    `
+        : ''
+    }
+  </div>
+  <script nonce="${nonce}">
+    (function() {
+      const vscode = acquireVsCodeApi();
+      document.getElementById('openExternal')?.addEventListener('click', () => {
+        vscode.postMessage({ command: 'openExternal' });
+      });
+    })();
+  </script>
+</body>
+</html>`;
+  }
+
+  /**
+   * Show component details in a WebView panel
+   */
+  async showComponentDetails(component: Component): Promise<void> {
+    const panel = vscode.window.createWebviewPanel(
+      'componentDetails',
+      `Service: ${component.name}`,
+      vscode.ViewColumn.One,
+      {
+        enableScripts: true,
+        retainContextWhenHidden: false,
+        localResourceRoots: [],
+      },
+    );
+
+    // Fetch related incidents for this component
+    const relatedIncidents = await this.client.getIncidentsForComponent(component.id);
+
+    panel.webview.html = this.getComponentDetailsContent(component, relatedIncidents);
+
+    panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
+      switch (message.command) {
+        case 'openExternal':
+          await vscode.env.openExternal(vscode.Uri.parse('https://www.f5cloudstatus.com'));
+          break;
+      }
+    });
+  }
+
+  /**
+   * Generate HTML content for component details
+   */
+  private getComponentDetailsContent(component: Component, incidents: Incident[]): string {
+    const nonce = this.getNonce();
+    const createdAt = new Date(component.created_at).toLocaleString();
+    const updatedAt = new Date(component.updated_at).toLocaleString();
+    const startDate = component.start_date
+      ? new Date(component.start_date).toLocaleDateString()
+      : 'N/A';
+
+    // Separate active and resolved incidents
+    const activeIncidents = incidents.filter((i) => i.status !== 'resolved');
+    const resolvedIncidents = incidents.filter((i) => i.status === 'resolved').slice(0, 10);
+
+    // Build active incidents HTML
+    const activeIncidentsHtml =
+      activeIncidents.length > 0
+        ? activeIncidents
+            .map((incident) => {
+              const startedAt = new Date(incident.started_at).toLocaleString();
+              const latestUpdate = incident.incident_updates[0];
+              return `
+              <div class="incident-card active">
+                <div class="incident-header">
+                  <span class="incident-name">${this.escapeHtml(incident.name)}</span>
+                  <span class="status-badge status-${incident.status}">${getIncidentStatusText(incident.status)}</span>
+                </div>
+                <div class="incident-meta">
+                  <span class="impact impact-${incident.impact}">Impact: ${incident.impact}</span>
+                  <span class="incident-time">Started: ${startedAt}</span>
+                </div>
+                ${latestUpdate ? `<div class="incident-update"><strong>Latest:</strong> ${this.escapeHtml(latestUpdate.body)}</div>` : ''}
+              </div>
+            `;
+            })
+            .join('\n')
+        : '<div class="no-incidents">No active incidents affecting this service</div>';
+
+    // Build resolved incidents HTML
+    const resolvedIncidentsHtml =
+      resolvedIncidents.length > 0
+        ? resolvedIncidents
+            .map((incident) => {
+              const startedAt = new Date(incident.started_at).toLocaleString();
+              const resolvedAt = incident.resolved_at
+                ? new Date(incident.resolved_at).toLocaleString()
+                : 'N/A';
+              return `
+              <div class="incident-card resolved">
+                <div class="incident-header">
+                  <span class="incident-name">${this.escapeHtml(incident.name)}</span>
+                  <span class="status-badge status-resolved">Resolved</span>
+                </div>
+                <div class="incident-meta">
+                  <span class="impact impact-${incident.impact}">Impact: ${incident.impact}</span>
+                  <span class="incident-time">Started: ${startedAt} | Resolved: ${resolvedAt}</span>
+                </div>
+              </div>
+            `;
+            })
+            .join('\n')
+        : '<div class="no-incidents">No recent resolved incidents</div>';
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <title>Service Details</title>
+  <style>${this.getMaintenanceStyles()}
+    .component-icon::before {
+      content: "🔧";
+      font-size: 24px;
+    }
+    .status-operational {
+      background: var(--vscode-charts-green);
+      color: white;
+    }
+    .status-degraded_performance {
+      background: var(--vscode-charts-yellow);
+      color: black;
+    }
+    .status-partial_outage {
+      background: var(--vscode-charts-orange);
+      color: white;
+    }
+    .status-major_outage {
+      background: var(--vscode-charts-red);
+      color: white;
+    }
+    .status-under_maintenance {
+      background: var(--vscode-charts-blue);
+      color: white;
+    }
+    .incident-card {
+      background: var(--vscode-editor-inactiveSelectionBackground);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-left: 3px solid var(--vscode-charts-blue);
+    }
+    .incident-card.active {
+      border-left-color: var(--vscode-charts-orange);
+    }
+    .incident-card.resolved {
+      border-left-color: var(--vscode-charts-green);
+      opacity: 0.8;
+    }
+    .incident-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 12px;
+    }
+    .incident-name {
+      font-weight: 500;
+      flex: 1;
+    }
+    .incident-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--vscode-descriptionForeground);
+      margin-bottom: 8px;
+    }
+    .incident-update {
+      font-size: 13px;
+      color: var(--vscode-foreground);
+      background: var(--vscode-editor-background);
+      padding: 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+    .no-incidents {
+      color: var(--vscode-descriptionForeground);
+      font-style: italic;
+      padding: 12px;
+    }
+    .status-investigating {
+      background: var(--vscode-charts-orange);
+      color: white;
+    }
+    .status-identified {
+      background: var(--vscode-charts-yellow);
+      color: black;
+    }
+    .status-monitoring {
+      background: var(--vscode-charts-blue);
+      color: white;
+    }
+    .status-resolved {
+      background: var(--vscode-charts-green);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="logo">F5</span>
+      <span class="title">Service Status</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-secondary" id="openExternal">
+        <span class="external-icon"></span>
+        Open Status Page
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="maintenance-header">
+      <div class="component-icon"></div>
+      <h1 class="maintenance-title">${this.escapeHtml(component.name)}</h1>
+      <span class="status-badge status-${component.status}">${getStatusDisplayText(component.status)}</span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Status Information</h3>
+        <div class="info-item">
+          <span class="label">Current Status:</span>
+          <span class="value">${getStatusDisplayText(component.status)}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Last Updated:</span>
+          <span class="value">${updatedAt}</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Service Details</h3>
+        <div class="info-item">
+          <span class="label">Service Start:</span>
+          <span class="value">${startDate}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Created:</span>
+          <span class="value">${createdAt}</span>
+        </div>
+        ${
+          component.description
+            ? `
+        <div class="info-item">
+          <span class="label">Description:</span>
+          <span class="value">${this.escapeHtml(component.description)}</span>
+        </div>
+        `
+            : ''
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Active Incidents (${activeIncidents.length})</h2>
+      <div class="incidents-list">
+        ${activeIncidentsHtml}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Recent Incident History</h2>
+      <div class="incidents-list">
+        ${resolvedIncidentsHtml}
+      </div>
+    </div>
+  </div>
+  <script nonce="${nonce}">
+    (function() {
+      const vscode = acquireVsCodeApi();
+      document.getElementById('openExternal')?.addEventListener('click', () => {
+        vscode.postMessage({ command: 'openExternal' });
+      });
+    })();
+  </script>
+</body>
+</html>`;
+  }
+
+  /**
+   * Show PoP (Regional Edge) details in a WebView panel
+   */
+  async showPoPDetails(component: Component): Promise<void> {
+    const panel = vscode.window.createWebviewPanel(
+      'popDetails',
+      `PoP: ${component.name}`,
+      vscode.ViewColumn.One,
+      {
+        enableScripts: true,
+        retainContextWhenHidden: false,
+        localResourceRoots: [],
+      },
+    );
+
+    // Extract site code from PoP name (e.g., "Ashburn (dc12)" -> "dc12")
+    const siteCode = extractSiteCode(component.name);
+
+    // Get coordinates using static map or geocoding fallback
+    const coordinates = await getPopCoordinates(siteCode, component.name, geocodeLocation);
+
+    // Try to fetch Regional Edge data from XC API if authenticated
+    // Note: F5-managed Regional Edge sites are visible in LIST but coordinates are not accessible
+    let xcSite: Site | null = null;
+    const activeProfile = this.profileManager.getActiveProfile();
+
+    if (activeProfile && siteCode) {
+      try {
+        const xcClient = await this.profileManager.getClient(activeProfile.name);
+        if (xcClient) {
+          xcSite = (await xcClient.findRegionalEdgeBySiteCode(siteCode)) || null;
+        }
+      } catch (error) {
+        // Log error and fall back to Cloud Status data only
+        const logger = getLogger();
+        logger.error(
+          `[showPoPDetails] Error fetching XC data`,
+          error instanceof Error ? error : undefined,
+        );
+        xcSite = null;
+      }
+    }
+
+    // Fetch related incidents for this PoP
+    const relatedIncidents = await this.client.getIncidentsForComponent(component.id);
+
+    panel.webview.html = this.getPoPDetailsContent(
+      component,
+      siteCode,
+      xcSite,
+      relatedIncidents,
+      coordinates,
+    );
+
+    panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
+      switch (message.command) {
+        case 'openExternal':
+          await vscode.env.openExternal(vscode.Uri.parse('https://www.f5cloudstatus.com'));
+          break;
+      }
+    });
+  }
+
+  /**
+   * Generate HTML content for PoP details
+   */
+  private getPoPDetailsContent(
+    component: Component,
+    siteCode: string | null,
+    xcSite: Site | null,
+    incidents: Incident[],
+    coordinates: Coordinates | null,
+  ): string {
+    const nonce = this.getNonce();
+    const updatedAt = new Date(component.updated_at).toLocaleString();
+
+    // Parse location from component name (e.g., "Ashburn (dc12), VA, United States")
+    const nameParts = component.name.split(',').map((p) => p.trim());
+    const cityWithCode = nameParts[0] || component.name;
+    const city = cityWithCode.replace(/\s*\([^)]+\)/, '').trim();
+    const stateOrRegion = nameParts[1] || '';
+    const country = nameParts[2] || nameParts[1] || '';
+
+    // Separate active and resolved incidents
+    const activeIncidents = incidents.filter((i) => i.status !== 'resolved');
+    const resolvedIncidents = incidents.filter((i) => i.status === 'resolved').slice(0, 5);
+
+    // Build active incidents HTML
+    const activeIncidentsHtml =
+      activeIncidents.length > 0
+        ? activeIncidents
+            .map((incident) => {
+              const startedAt = new Date(incident.started_at).toLocaleString();
+              const latestUpdate = incident.incident_updates[0];
+              return `
+              <div class="incident-card active">
+                <div class="incident-header">
+                  <span class="incident-name">${this.escapeHtml(incident.name)}</span>
+                  <span class="status-badge status-${incident.status}">${getIncidentStatusText(incident.status)}</span>
+                </div>
+                <div class="incident-meta">
+                  <span class="impact impact-${incident.impact}">Impact: ${incident.impact}</span>
+                  <span class="incident-time">Started: ${startedAt}</span>
+                </div>
+                ${latestUpdate ? `<div class="incident-update"><strong>Latest:</strong> ${this.escapeHtml(latestUpdate.body)}</div>` : ''}
+              </div>
+            `;
+            })
+            .join('\n')
+        : '<div class="no-incidents">No active incidents affecting this PoP</div>';
+
+    // Build resolved incidents HTML
+    const resolvedIncidentsHtml =
+      resolvedIncidents.length > 0
+        ? resolvedIncidents
+            .map((incident) => {
+              const startedAt = new Date(incident.started_at).toLocaleString();
+              const resolvedAt = incident.resolved_at
+                ? new Date(incident.resolved_at).toLocaleString()
+                : 'N/A';
+              return `
+              <div class="incident-card resolved">
+                <div class="incident-header">
+                  <span class="incident-name">${this.escapeHtml(incident.name)}</span>
+                  <span class="status-badge status-resolved">Resolved</span>
+                </div>
+                <div class="incident-meta">
+                  <span class="impact impact-${incident.impact}">Impact: ${incident.impact}</span>
+                  <span class="incident-time">Started: ${startedAt} | Resolved: ${resolvedAt}</span>
+                </div>
+              </div>
+            `;
+            })
+            .join('\n')
+        : '<div class="no-incidents">No recent resolved incidents</div>';
+
+    // Build XC Regional Edge section
+    // Note: F5-managed Regional Edge sites only expose labels data, not full spec with coordinates
+    let xcDetailsHtml = '';
+    if (xcSite) {
+      const siteObj = xcSite as unknown as Record<string, unknown>;
+      const labels = (siteObj['labels'] as Record<string, string>) || {};
+
+      // Extract data from root-level fields and labels
+      const siteName = (siteObj['name'] as string) || xcSite.metadata?.name || 'Unknown';
+      const region = labels['ves.io/region'] || '';
+      const country = labels['ves.io/country'] || '';
+      const siteType = labels['ves.io/siteType'] || '';
+      const tenant = (siteObj['tenant'] as string) || '';
+
+      // Format label values for display (remove "ves-io-" prefix if present)
+      const formatLabel = (value: string): string => {
+        return value.replace(/^ves-io-/, '').replace(/-/g, ' ');
+      };
+
+      xcDetailsHtml = `
+      <div class="info-card xc-details">
+        <h3>Regional Edge Details <span class="xc-badge">F5 XC</span></h3>
+        <div class="info-item">
+          <span class="label">Site Name:</span>
+          <span class="value">${this.escapeHtml(siteName)}</span>
+        </div>
+        ${
+          region
+            ? `
+        <div class="info-item">
+          <span class="label">Region:</span>
+          <span class="value">${this.escapeHtml(formatLabel(region))}</span>
+        </div>
+        `
+            : ''
+        }
+        ${
+          country
+            ? `
+        <div class="info-item">
+          <span class="label">Country:</span>
+          <span class="value">${this.escapeHtml(formatLabel(country))}</span>
+        </div>
+        `
+            : ''
+        }
+        ${
+          siteType
+            ? `
+        <div class="info-item">
+          <span class="label">Site Type:</span>
+          <span class="value">${this.escapeHtml(siteType === 'ves-io-re' ? 'Regional Edge' : formatLabel(siteType))}</span>
+        </div>
+        `
+            : ''
+        }
+        ${
+          tenant
+            ? `
+        <div class="info-item">
+          <span class="label">Tenant:</span>
+          <span class="value">${this.escapeHtml(tenant)}</span>
+        </div>
+        `
+            : ''
+        }
+      </div>
+      `;
+    } else {
+      xcDetailsHtml = `
+      <div class="info-card auth-notice">
+        <div class="auth-icon">ℹ️</div>
+        <div class="auth-message">
+          <strong>Extended Details Available</strong>
+          <p>Sign in to an F5 XC profile to view additional Regional Edge details including region classification and tenant information.</p>
+        </div>
+      </div>
+      `;
+    }
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <title>PoP Details</title>
+  <style>${this.getMaintenanceStyles()}
+    .pop-icon::before {
+      content: "🌐";
+      font-size: 24px;
+    }
+    .status-operational {
+      background: var(--vscode-charts-green);
+      color: white;
+    }
+    .status-degraded_performance {
+      background: var(--vscode-charts-yellow);
+      color: black;
+    }
+    .status-partial_outage {
+      background: var(--vscode-charts-orange);
+      color: white;
+    }
+    .status-major_outage {
+      background: var(--vscode-charts-red);
+      color: white;
+    }
+    .status-under_maintenance {
+      background: var(--vscode-charts-blue);
+      color: white;
+    }
+    .incident-card {
+      background: var(--vscode-editor-inactiveSelectionBackground);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-left: 3px solid var(--vscode-charts-blue);
+    }
+    .incident-card.active {
+      border-left-color: var(--vscode-charts-orange);
+    }
+    .incident-card.resolved {
+      border-left-color: var(--vscode-charts-green);
+      opacity: 0.8;
+    }
+    .incident-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 12px;
+    }
+    .incident-name {
+      font-weight: 500;
+      flex: 1;
+    }
+    .incident-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--vscode-descriptionForeground);
+      margin-bottom: 8px;
+    }
+    .incident-update {
+      font-size: 13px;
+      color: var(--vscode-foreground);
+      background: var(--vscode-editor-background);
+      padding: 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+    .no-incidents {
+      color: var(--vscode-descriptionForeground);
+      font-style: italic;
+      padding: 12px;
+    }
+    .status-investigating {
+      background: var(--vscode-charts-orange);
+      color: white;
+    }
+    .status-identified {
+      background: var(--vscode-charts-yellow);
+      color: black;
+    }
+    .status-monitoring {
+      background: var(--vscode-charts-blue);
+      color: white;
+    }
+    .status-resolved {
+      background: var(--vscode-charts-green);
+      color: white;
+    }
+    .xc-badge {
+      background: var(--vscode-charts-purple);
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      font-weight: normal;
+      vertical-align: middle;
+    }
+    .xc-details {
+      border-left: 3px solid var(--vscode-charts-purple);
+    }
+    .auth-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: var(--vscode-editorInfo-background);
+      border-left: 3px solid var(--vscode-editorInfo-foreground);
+      padding: 16px;
+    }
+    .auth-icon {
+      font-size: 24px;
+    }
+    .auth-message p {
+      margin: 8px 0 0 0;
+      color: var(--vscode-descriptionForeground);
+      font-size: 13px;
+    }
+    .site-code {
+      font-family: var(--vscode-editor-font-family);
+      background: var(--vscode-textCodeBlock-background);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .coordinates {
+      font-family: var(--vscode-editor-font-family);
+      background: var(--vscode-textCodeBlock-background);
+      padding: 2px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="logo">F5</span>
+      <span class="title">Regional Edge Status</span>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-secondary" id="openExternal">
+        <span class="external-icon"></span>
+        Open Status Page
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="maintenance-header">
+      <div class="pop-icon"></div>
+      <h1 class="maintenance-title">${this.escapeHtml(component.name)}</h1>
+      <span class="status-badge status-${component.status}">${getStatusDisplayText(component.status)}</span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Cloud Status</h3>
+        <div class="info-item">
+          <span class="label">Current Status:</span>
+          <span class="value">${getStatusDisplayText(component.status)}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Last Updated:</span>
+          <span class="value">${updatedAt}</span>
+        </div>
+        ${
+          siteCode
+            ? `
+        <div class="info-item">
+          <span class="label">Site Code:</span>
+          <span class="value"><span class="site-code">${this.escapeHtml(siteCode)}</span></span>
+        </div>
+        `
+            : ''
+        }
+      </div>
+
+      <div class="info-card">
+        <h3>Location</h3>
+        <div class="info-item">
+          <span class="label">City:</span>
+          <span class="value">${this.escapeHtml(city)}</span>
+        </div>
+        ${
+          stateOrRegion && stateOrRegion !== country
+            ? `
+        <div class="info-item">
+          <span class="label">State/Region:</span>
+          <span class="value">${this.escapeHtml(stateOrRegion)}</span>
+        </div>
+        `
+            : ''
+        }
+        ${
+          country
+            ? `
+        <div class="info-item">
+          <span class="label">Country:</span>
+          <span class="value">${this.escapeHtml(country)}</span>
+        </div>
+        `
+            : ''
+        }
+        <div class="info-item">
+          <span class="label">Coordinates:</span>
+          <span class="value coordinates">${formatCoordinates(coordinates)}</span>
+        </div>
+        ${
+          component.description
+            ? `
+        <div class="info-item">
+          <span class="label">Description:</span>
+          <span class="value">${this.escapeHtml(component.description)}</span>
+        </div>
+        `
+            : ''
+        }
+      </div>
+    </div>
+
+    ${xcDetailsHtml}
+
+    <div class="section">
+      <h2>Active Incidents (${activeIncidents.length})</h2>
+      <div class="incidents-list">
+        ${activeIncidentsHtml}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Recent Incident History</h2>
+      <div class="incidents-list">
+        ${resolvedIncidentsHtml}
+      </div>
+    </div>
+  </div>
+  <script nonce="${nonce}">
+    (function() {
+      const vscode = acquireVsCodeApi();
+      document.getElementById('openExternal')?.addEventListener('click', () => {
+        vscode.postMessage({ command: 'openExternal' });
+      });
+    })();
+  </script>
+</body>
+</html>`;
   }
 
   /**
