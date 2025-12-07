@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.30](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.29...v0.1.30) (2025-12-07)
+
+
+### Features
+
+* display maintenance details in internal webview ([d30ef0b](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/d30ef0b14f4cd10ebba8b0c3a635b61cae01c835))
+
 ## [0.1.29](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.28...v0.1.29) (2025-12-07)
 
 
