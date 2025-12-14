@@ -7,6 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { normalizeDescription } from './description-normalizer';
 
 /**
  * Namespace scope type - which namespaces can contain this resource
@@ -438,7 +439,7 @@ export function parseSpecFile(filePath: string): ParsedSpecInfo | null {
     resourceKey,
     apiPath,
     displayName,
-    description: spec.info?.description || '',
+    description: normalizeDescription(spec.info?.description || ''),
     apiBase: apiInfo.apiBase,
     serviceSegment: apiInfo.serviceSegment,
     fullApiPath,
