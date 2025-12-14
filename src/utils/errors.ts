@@ -17,8 +17,16 @@ export class F5XCApiError extends Error {
     this.resourcePath = resourcePath;
   }
 
+  get isUnauthorized(): boolean {
+    return this.statusCode === 401;
+  }
+
+  get isForbidden(): boolean {
+    return this.statusCode === 403;
+  }
+
   get isAuthError(): boolean {
-    return this.statusCode === 401 || this.statusCode === 403;
+    return this.isUnauthorized || this.isForbidden;
   }
 
   get isNotFound(): boolean {
@@ -38,8 +46,11 @@ export class F5XCApiError extends Error {
   }
 
   get userFriendlyMessage(): string {
-    if (this.isAuthError) {
-      return 'Authentication failed. Please check your credentials.';
+    if (this.isUnauthorized) {
+      return 'Authentication failed. Please check your credentials or re-authenticate.';
+    }
+    if (this.isForbidden) {
+      return 'Permission denied. You do not have access to perform this operation.';
     }
     if (this.isNotFound) {
       return 'Resource not found.';
@@ -106,7 +117,8 @@ export async function withErrorHandling<T>(
     logger.error(`${context} failed`, error as Error);
 
     if (error instanceof F5XCApiError) {
-      if (error.isAuthError) {
+      if (error.isUnauthorized) {
+        // 401 - Authentication failed, offer to configure profile
         const action = await vscode.window.showErrorMessage(
           error.userFriendlyMessage,
           'Configure Profile',
@@ -114,6 +126,9 @@ export async function withErrorHandling<T>(
         if (action === 'Configure Profile') {
           await vscode.commands.executeCommand('f5xc.editProfile');
         }
+      } else if (error.isForbidden) {
+        // 403 - Permission denied, just show error (credentials are valid but lacking permission)
+        void vscode.window.showErrorMessage(`${context}: ${error.userFriendlyMessage}`);
       } else if (error.isRateLimited) {
         void vscode.window.showWarningMessage(error.userFriendlyMessage);
       } else {

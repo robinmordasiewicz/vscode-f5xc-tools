@@ -9,6 +9,14 @@ describe('TreeItemContext', () => {
     expect(TreeItemContext.NAMESPACE).toBe('namespace');
   });
 
+  it('should have NAMESPACE_BUILTIN context', () => {
+    expect(TreeItemContext.NAMESPACE_BUILTIN).toBe('namespace:builtin');
+  });
+
+  it('should have NAMESPACE_CUSTOM context', () => {
+    expect(TreeItemContext.NAMESPACE_CUSTOM).toBe('namespace:custom');
+  });
+
   it('should have CATEGORY context', () => {
     expect(TreeItemContext.CATEGORY).toBe('category');
   });
@@ -26,9 +34,11 @@ describe('TreeItemContext', () => {
     const keys = Object.keys(TreeItemContext);
     expect(keys).toContain('NAMESPACE_GROUP');
     expect(keys).toContain('NAMESPACE');
+    expect(keys).toContain('NAMESPACE_BUILTIN');
+    expect(keys).toContain('NAMESPACE_CUSTOM');
     expect(keys).toContain('CATEGORY');
     expect(keys).toContain('RESOURCE_TYPE');
     expect(keys).toContain('RESOURCE');
-    expect(keys).toHaveLength(5);
+    expect(keys).toHaveLength(7);
   });
 });

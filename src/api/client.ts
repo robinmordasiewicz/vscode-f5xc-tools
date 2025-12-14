@@ -449,6 +449,78 @@ export class F5XCClient {
   }
 
   /**
+   * Check if the current user has permission to perform API operations.
+   * Uses the evaluate-api-access endpoint for RBAC pre-checking.
+   *
+   * @param namespace - The namespace context for the operations
+   * @param items - List of API operations to check (method + path)
+   * @returns Promise resolving to true if ALL operations are permitted
+   */
+  async checkApiAccess(
+    namespace: string,
+    items: Array<{ method: string; path: string }>,
+  ): Promise<boolean> {
+    this.logger.debug(
+      `Checking API access for ${items.length} operations in namespace ${namespace}`,
+    );
+
+    const request = {
+      namespace,
+      item_lists: [
+        {
+          list_id: 'permission_check',
+          items: items.map((item) => ({
+            method: item.method,
+            path: item.path,
+          })),
+        },
+      ],
+    };
+
+    try {
+      const response = await this.request<{
+        item_lists?: Array<{
+          list_id: string;
+          result: boolean;
+          items?: Array<{ method: string; path: string; result: boolean }>;
+        }>;
+      }>({
+        method: 'POST',
+        path: '/api/web/namespaces/system/evaluate-api-access',
+        body: request,
+      });
+
+      // Check if all operations are permitted
+      const itemList = response.item_lists?.[0];
+      const result = itemList?.result ?? false;
+      this.logger.debug(`API access check result: ${result}`, {
+        namespace,
+        items: itemList?.items,
+      });
+      return result;
+    } catch (error) {
+      this.logger.warn('API access check failed, assuming no permission', error as Error);
+      return false;
+    }
+  }
+
+  /**
+   * Delete a namespace and all resources within it (cascade delete).
+   * This permanently removes the namespace and ALL configuration objects under it.
+   *
+   * @param namespaceName - Name of the namespace to delete
+   */
+  async cascadeDeleteNamespace(namespaceName: string): Promise<void> {
+    this.logger.debug(`Cascade deleting namespace: ${namespaceName}`);
+
+    await this.request<void>({
+      method: 'POST',
+      path: `/api/web/namespaces/${namespaceName}/cascade_delete`,
+      body: {},
+    });
+  }
+
+  /**
    * Make an authenticated HTTP request
    */
   private async request<T>(options: RequestOptions): Promise<T> {

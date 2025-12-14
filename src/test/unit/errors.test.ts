@@ -127,18 +127,52 @@ describe('F5XCApiError', () => {
     });
   });
 
+  describe('isUnauthorized', () => {
+    it('should return true for 401', () => {
+      const error = new F5XCApiError(401, 'Unauthorized');
+      expect(error.isUnauthorized).toBe(true);
+    });
+
+    it('should return false for 403', () => {
+      const error = new F5XCApiError(403, 'Forbidden');
+      expect(error.isUnauthorized).toBe(false);
+    });
+
+    it('should return false for other status codes', () => {
+      const error = new F5XCApiError(404, 'Not found');
+      expect(error.isUnauthorized).toBe(false);
+    });
+  });
+
+  describe('isForbidden', () => {
+    it('should return true for 403', () => {
+      const error = new F5XCApiError(403, 'Forbidden');
+      expect(error.isForbidden).toBe(true);
+    });
+
+    it('should return false for 401', () => {
+      const error = new F5XCApiError(401, 'Unauthorized');
+      expect(error.isForbidden).toBe(false);
+    });
+
+    it('should return false for other status codes', () => {
+      const error = new F5XCApiError(404, 'Not found');
+      expect(error.isForbidden).toBe(false);
+    });
+  });
+
   describe('userFriendlyMessage', () => {
-    it('should return auth message for 401', () => {
+    it('should return auth failed message for 401', () => {
       const error = new F5XCApiError(401, 'Unauthorized');
       expect(error.userFriendlyMessage).toBe(
-        'Authentication failed. Please check your credentials.',
+        'Authentication failed. Please check your credentials or re-authenticate.',
       );
     });
 
-    it('should return auth message for 403', () => {
+    it('should return permission denied message for 403', () => {
       const error = new F5XCApiError(403, 'Forbidden');
       expect(error.userFriendlyMessage).toBe(
-        'Authentication failed. Please check your credentials.',
+        'Permission denied. You do not have access to perform this operation.',
       );
     });
 

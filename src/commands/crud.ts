@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import { F5XCExplorerProvider, ResourceNode } from '../tree/f5xcExplorer';
+import { F5XCExplorerProvider, ResourceNode, NamespaceNode } from '../tree/f5xcExplorer';
 import { ProfileManager } from '../config/profiles';
 import { F5XCFileSystemProvider } from '../providers/f5xcFileSystemProvider';
 import { F5XCViewProvider } from '../providers/f5xcViewProvider';
 import { F5XCDescribeProvider } from '../providers/f5xcDescribeProvider';
 import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
 import { getLogger } from '../utils/logger';
-import { RESOURCE_TYPES, getResourceTypeByApiPath } from '../api/resourceTypes';
+import { RESOURCE_TYPES, getResourceTypeByApiPath, isBuiltInNamespace } from '../api/resourceTypes';
 import { filterResource, getFilterOptionsForViewMode, ViewMode } from '../utils/resourceFilter';
 import { ResourceNodeData } from '../tree/treeTypes';
 
@@ -366,13 +366,43 @@ export function registerCrudCommands(
     }),
   );
 
-  // DELETE - Delete resource
+  // DELETE - Delete resource with RBAC pre-check
   context.subscriptions.push(
     vscode.commands.registerCommand('f5xc.delete', async (node: ResourceNode) => {
       await withErrorHandling(async () => {
         const data = node.getData();
+        const client = await profileManager.getClient(data.profileName);
+        const apiBase = data.resourceType.apiBase || 'config';
+        const serviceSegment = data.resourceType.serviceSegment;
 
-        // Confirm deletion
+        // Build the DELETE API path for RBAC check
+        // Format: /api/{apiBase}/namespaces/{namespace}/{serviceSegment?}/{apiPath}/{name}
+        let deletePath = `/api/${apiBase}/namespaces/${data.namespace}`;
+        if (serviceSegment) {
+          deletePath += `/${serviceSegment}`;
+        }
+        deletePath += `/${data.resourceType.apiPath}/${data.name}`;
+
+        // Check RBAC permissions before showing confirmation
+        const hasPermission = await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: 'Checking permissions...',
+            cancellable: false,
+          },
+          async () => {
+            return client.checkApiAccess(data.namespace, [{ method: 'DELETE', path: deletePath }]);
+          },
+        );
+
+        if (!hasPermission) {
+          showWarning(
+            `Permission denied: You do not have access to delete ${data.resourceType.displayName} "${data.name}".`,
+          );
+          return;
+        }
+
+        // Confirm deletion (only shown if RBAC check passed)
         const confirmDelete = vscode.workspace
           .getConfiguration('f5xc')
           .get<boolean>('confirmDelete', true);
@@ -388,10 +418,6 @@ export function registerCrudCommands(
             return;
           }
         }
-
-        const client = await profileManager.getClient(data.profileName);
-        const apiBase = data.resourceType.apiBase || 'config';
-        const serviceSegment = data.resourceType.serviceSegment;
 
         await vscode.window.withProgress(
           {
@@ -414,6 +440,73 @@ export function registerCrudCommands(
         showInfo(`Deleted ${data.resourceType.displayName}: ${data.name}`);
         explorer.refresh();
       }, 'Delete resource');
+    }),
+  );
+
+  // DELETE NAMESPACE - Delete namespace and all resources (cascade delete)
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.deleteNamespace', async (node: NamespaceNode) => {
+      await withErrorHandling(async () => {
+        const data = node.getData();
+
+        // Defense in depth: verify this is not a built-in namespace
+        if (isBuiltInNamespace(data.name)) {
+          showWarning(`Cannot delete built-in namespace "${data.name}".`);
+          return;
+        }
+
+        const client = await profileManager.getClient(data.profileName);
+
+        // Build the DELETE API path for RBAC check
+        const deletePath = `/api/web/namespaces/${data.name}/cascade_delete`;
+
+        // Check RBAC permissions before showing confirmation
+        // Use the target namespace for permission evaluation
+        const hasPermission = await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: 'Checking permissions...',
+            cancellable: false,
+          },
+          async () => {
+            return client.checkApiAccess(data.name, [{ method: 'POST', path: deletePath }]);
+          },
+        );
+
+        if (!hasPermission) {
+          showWarning(
+            `Permission denied: You do not have access to delete namespace "${data.name}".`,
+          );
+          return;
+        }
+
+        // Confirm deletion with strong warning
+        const confirm = await vscode.window.showWarningMessage(
+          `Are you sure you want to delete namespace "${data.name}"?\n\n` +
+            `⚠️ WARNING: This will permanently delete ALL resources within this namespace. ` +
+            `This action cannot be undone.`,
+          { modal: true },
+          'Delete Namespace',
+        );
+
+        if (confirm !== 'Delete Namespace') {
+          return;
+        }
+
+        await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: `Deleting namespace ${data.name} and all resources...`,
+            cancellable: false,
+          },
+          async () => {
+            await client.cascadeDeleteNamespace(data.name);
+          },
+        );
+
+        showInfo(`Deleted namespace: ${data.name}`);
+        explorer.refresh();
+      }, 'Delete namespace');
     }),
   );
 
