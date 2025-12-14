@@ -10,7 +10,7 @@
     "url": "https://github.com/robinmordasiewicz/vscode-f5xc-tools"
   },
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.107.0"
   },
   "categories": [
     "Other"
