@@ -86,7 +86,7 @@ The extension supports 40+ F5 XC resource types organized by category:
 - **Load Balancing**: HTTP/TCP/UDP Load Balancers, Origin Pools, Health Checks
 - **Security**: App Firewalls, Service Policies, Rate Limiters, WAF Exclusions
 - **Networking**: Virtual Networks, Network Connectors, Network Policies
-- **Sites**: AWS VPC, Azure VNET, GCP VPC, Voltstack, SecureMesh
+- **Sites**: AWS VPC, Azure VNET, GCP VPC, App Stack, SecureMesh
 - **DNS**: DNS Zones, DNS Load Balancers, DNS LB Pools
 - **IAM**: Namespaces, Users, Roles, API Credentials
 - **Observability**: Alert Policies, Alert Receivers, Log Receivers

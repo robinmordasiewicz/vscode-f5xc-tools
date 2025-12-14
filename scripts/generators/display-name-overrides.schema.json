@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Display Name Overrides Schema",
+  "description": "Schema for display name overrides configuration",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of this configuration file"
+    },
+    "generatedNote": {
+      "type": "string",
+      "description": "Note about when these overrides are applied"
+    },
+    "overrides": {
+      "type": "object",
+      "description": "Map of resource keys to their display name overrides",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "The display name to use instead of the auto-generated one"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Explanation for why this override exists"
+          }
+        },
+        "required": ["displayName"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["overrides"],
+  "additionalProperties": true
+}

@@ -20,6 +20,11 @@ const RESOURCE_TYPES_OUTPUT = path.join(GENERATED_DIR, 'resourceTypesBase.ts');
 const CONSTANTS_OUTPUT = path.join(GENERATED_DIR, 'constants.ts');
 const INDEX_OUTPUT = path.join(GENERATED_DIR, 'index.ts');
 const SCOPE_OVERRIDES_PATH = path.join(__dirname, 'generators', 'namespace-scope-overrides.json');
+const DISPLAY_NAME_OVERRIDES_PATH = path.join(
+  __dirname,
+  'generators',
+  'display-name-overrides.json',
+);
 
 /**
  * Generate the barrel export file for the generated module
@@ -97,9 +102,14 @@ function main(): void {
     process.exit(1);
   }
 
-  // Generate resource types from specs (with namespace scope overrides)
+  // Generate resource types from specs (with namespace scope and display name overrides)
   console.log('Phase 1: Generating resource types from OpenAPI specs...');
-  const specs = generateResourceTypesFile(SPEC_DIR, RESOURCE_TYPES_OUTPUT, SCOPE_OVERRIDES_PATH);
+  const specs = generateResourceTypesFile(
+    SPEC_DIR,
+    RESOURCE_TYPES_OUTPUT,
+    SCOPE_OVERRIDES_PATH,
+    DISPLAY_NAME_OVERRIDES_PATH,
+  );
 
   if (specs.length === 0) {
     console.error('Error: No resource types were generated');
