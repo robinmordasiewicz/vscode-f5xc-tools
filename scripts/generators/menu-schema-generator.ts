@@ -15,6 +15,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { normalizeDescription } from './description-normalizer';
 
 /**
  * Manual override configuration structure
@@ -300,7 +301,7 @@ function parseSpec(filePath: string): ResourceAnalysis | null {
     return {
       resourceKey,
       displayName,
-      description: descriptionRaw.substring(0, 200),
+      description: normalizeDescription(descriptionRaw.substring(0, 200)),
       apiBase,
       schemaFile: filename,
       paths,
