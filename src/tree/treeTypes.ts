@@ -18,6 +18,8 @@ export interface F5XCTreeItem {
 export const TreeItemContext = {
   NAMESPACE_GROUP: 'namespaceGroup',
   NAMESPACE: 'namespace',
+  NAMESPACE_BUILTIN: 'namespace:builtin',
+  NAMESPACE_CUSTOM: 'namespace:custom',
   CATEGORY: 'category',
   RESOURCE_TYPE: 'resourceType',
   RESOURCE: 'resource',
@@ -29,6 +31,7 @@ export const TreeItemContext = {
 export interface NamespaceNodeData {
   name: string;
   profileName: string;
+  isBuiltIn?: boolean;
 }
 
 /**

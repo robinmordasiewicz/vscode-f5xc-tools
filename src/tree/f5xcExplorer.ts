@@ -88,6 +88,7 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
             this.clientFactory,
             this.profileManager,
             'symbol-namespace',
+            true, // isBuiltIn
           ),
         );
       }
@@ -102,6 +103,7 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
             this.clientFactory,
             this.profileManager,
             'folder-library',
+            false, // isBuiltIn
           ),
         );
       }
@@ -125,6 +127,7 @@ class NamespaceGroupNode implements F5XCTreeItem {
     private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
     private readonly profileManager: ProfileManager,
     private readonly icon: string,
+    private readonly isBuiltIn: boolean,
   ) {}
 
   getTreeItem(): vscode.TreeItem {
@@ -140,7 +143,7 @@ class NamespaceGroupNode implements F5XCTreeItem {
       this.namespaceNames.map(
         (name) =>
           new NamespaceNode(
-            { name, profileName: this.profileName },
+            { name, profileName: this.profileName, isBuiltIn: this.isBuiltIn },
             this.clientFactory,
             this.profileManager,
           ),
@@ -152,7 +155,7 @@ class NamespaceGroupNode implements F5XCTreeItem {
 /**
  * Namespace node in the tree
  */
-class NamespaceNode implements F5XCTreeItem {
+export class NamespaceNode implements F5XCTreeItem {
   constructor(
     private readonly data: NamespaceNodeData,
     private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
@@ -161,7 +164,10 @@ class NamespaceNode implements F5XCTreeItem {
 
   getTreeItem(): vscode.TreeItem {
     const item = new vscode.TreeItem(this.data.name, vscode.TreeItemCollapsibleState.Collapsed);
-    item.contextValue = TreeItemContext.NAMESPACE;
+    // Use differentiated context value for built-in vs custom namespaces
+    item.contextValue = this.data.isBuiltIn
+      ? TreeItemContext.NAMESPACE_BUILTIN
+      : TreeItemContext.NAMESPACE_CUSTOM;
     item.iconPath = new vscode.ThemeIcon('folder');
     item.tooltip = `Namespace: ${this.data.name}`;
     return item;
@@ -187,6 +193,13 @@ class NamespaceNode implements F5XCTreeItem {
     }
 
     return Promise.resolve(nodes);
+  }
+
+  /**
+   * Get namespace node data for command handlers
+   */
+  getData(): NamespaceNodeData {
+    return this.data;
   }
 }
 
