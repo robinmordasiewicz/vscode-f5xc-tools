@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.31](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.30...v0.1.31) (2025-12-14)
+
+
+### Bug Fixes
+
+* resolve npm deprecation warnings and update dependencies ([#33](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/33)) ([eef970c](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/eef970c0bb904e4e8d7e5e40220283397b5c896b))
+* update engines.vscode to match @types/vscode version ([#34](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/34)) ([8e86016](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/8e86016627d36c42440e307df86d69301cfeeb8a))
+* upgrade node.js from 20 to 22 in all workflows ([#32](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/32)) ([dd87572](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/dd8757231ddd6e30c1fbdab8ae938662dacf495c))
+
+
+### Features
+
+* add delete namespace with rbac permission checking ([#35](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/35)) ([c6e8b84](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/c6e8b842a32e078e5bb43b86b4b3a8452dc6b4bb))
+* add description normalization during code generation ([#31](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/31)) ([53d9149](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/53d9149f0e1deb78d776cb78c6894c5e10082342))
+* add pop details webview with geographic coordinates ([#28](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/28)) ([c225c4c](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/c225c4c81a13df7c063ca9e8781dcb11bd70da07))
+* rebrand voltstack to app stack ([#30](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/30)) ([ccb477e](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/ccb477e7ac8578b0fd85de0deb12e8e9a3793bc9))
+
 ## [0.1.30](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.29...v0.1.30) (2025-12-07)
 
 
