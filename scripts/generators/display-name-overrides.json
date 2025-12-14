@@ -1,0 +1,11 @@
+{
+  "$schema": "./display-name-overrides.schema.json",
+  "description": "Manual display name overrides for resources where the auto-generated name needs adjustment for branding or clarity",
+  "generatedNote": "These overrides are applied on top of the auto-generated display names from OpenAPI specs",
+  "overrides": {
+    "voltstack_site": {
+      "displayName": "App Stack Sites",
+      "reason": "Rebranding: 'Voltstack' is now 'App Stack' in F5 Distributed Cloud"
+    }
+  }
+}

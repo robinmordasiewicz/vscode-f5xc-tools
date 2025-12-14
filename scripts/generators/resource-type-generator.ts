@@ -25,6 +25,18 @@ interface NamespaceScopeOverrides {
 }
 
 /**
+ * Structure of the display name overrides file
+ */
+interface DisplayNameOverride {
+  displayName: string;
+  reason?: string;
+}
+
+interface DisplayNameOverrides {
+  overrides: Record<string, DisplayNameOverride>;
+}
+
+/**
  * Load namespace scope overrides from JSON file
  */
 function loadScopeOverrides(overridesPath: string): NamespaceScopeOverrides | null {
@@ -36,6 +48,22 @@ function loadScopeOverrides(overridesPath: string): NamespaceScopeOverrides | nu
     return JSON.parse(content) as NamespaceScopeOverrides;
   } catch (error) {
     console.warn(`Warning: Could not load scope overrides from ${overridesPath}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Load display name overrides from JSON file
+ */
+function loadDisplayNameOverrides(overridesPath: string): DisplayNameOverrides | null {
+  if (!fs.existsSync(overridesPath)) {
+    return null;
+  }
+  try {
+    const content = fs.readFileSync(overridesPath, 'utf-8');
+    return JSON.parse(content) as DisplayNameOverrides;
+  } catch (error) {
+    console.warn(`Warning: Could not load display name overrides from ${overridesPath}:`, error);
     return null;
   }
 }
@@ -58,6 +86,26 @@ function applyScopeOverrides(specs: ParsedSpecInfo[], overrides: NamespaceScopeO
       count++;
     } else if (anyResources.has(spec.resourceKey)) {
       spec.namespaceScope = 'any';
+      count++;
+    }
+  }
+
+  return count;
+}
+
+/**
+ * Apply display name overrides to parsed specs
+ */
+function applyDisplayNameOverrides(
+  specs: ParsedSpecInfo[],
+  overrides: DisplayNameOverrides,
+): number {
+  let count = 0;
+
+  for (const spec of specs) {
+    const override = overrides.overrides[spec.resourceKey];
+    if (override) {
+      spec.displayName = override.displayName;
       count++;
     }
   }
@@ -239,12 +287,14 @@ export function getAllGeneratedResourceKeys(): string[] {
  * Generate resource types from spec files and write to output file
  * @param specDir - Directory containing OpenAPI spec files
  * @param outputPath - Path for generated TypeScript file
- * @param overridesPath - Optional path to namespace scope overrides JSON file
+ * @param scopeOverridesPath - Optional path to namespace scope overrides JSON file
+ * @param displayNameOverridesPath - Optional path to display name overrides JSON file
  */
 export function generateResourceTypesFile(
   specDir: string,
   outputPath: string,
-  overridesPath?: string,
+  scopeOverridesPath?: string,
+  displayNameOverridesPath?: string,
 ): ParsedSpecInfo[] {
   const specs = parseAllSpecs(specDir);
 
@@ -254,11 +304,20 @@ export function generateResourceTypesFile(
   }
 
   // Apply namespace scope overrides if provided
-  if (overridesPath) {
-    const overrides = loadScopeOverrides(overridesPath);
+  if (scopeOverridesPath) {
+    const overrides = loadScopeOverrides(scopeOverridesPath);
     if (overrides) {
       const overrideCount = applyScopeOverrides(specs, overrides);
       console.log(`Applied ${overrideCount} namespace scope overrides`);
+    }
+  }
+
+  // Apply display name overrides if provided
+  if (displayNameOverridesPath) {
+    const overrides = loadDisplayNameOverrides(displayNameOverridesPath);
+    if (overrides) {
+      const overrideCount = applyDisplayNameOverrides(specs, overrides);
+      console.log(`Applied ${overrideCount} display name overrides`);
     }
   }
 
