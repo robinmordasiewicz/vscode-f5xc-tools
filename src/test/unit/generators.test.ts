@@ -219,7 +219,6 @@ describe('Generation Determinism', () => {
 
 describe('Generated Files Contract', () => {
   it('should export GENERATED_RESOURCE_TYPES', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const generated = require('../../generated/resourceTypesBase');
 
     expect(generated.GENERATED_RESOURCE_TYPES).toBeDefined();
@@ -227,7 +226,6 @@ describe('Generated Files Contract', () => {
   });
 
   it('should export DOCUMENTATION_URLS', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const generated = require('../../generated/documentationUrls');
 
     expect(generated.DOCUMENTATION_URLS).toBeDefined();
@@ -235,7 +233,6 @@ describe('Generated Files Contract', () => {
   });
 
   it('should export constants', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const generated = require('../../generated/constants');
 
     expect(generated.BUILT_IN_NAMESPACES).toBeDefined();
@@ -244,7 +241,6 @@ describe('Generated Files Contract', () => {
   });
 
   it('should have required fields in resource types', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const generated = require('../../generated/resourceTypesBase');
 
     const httpLb = generated.GENERATED_RESOURCE_TYPES['http_loadbalancer'];
@@ -257,7 +253,6 @@ describe('Generated Files Contract', () => {
   });
 
   it('should have no duplicate resource keys', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const generated = require('../../generated/resourceTypesBase');
     const keys = Object.keys(generated.GENERATED_RESOURCE_TYPES);
     const uniqueKeys = new Set(keys);
@@ -265,7 +260,6 @@ describe('Generated Files Contract', () => {
   });
 
   it('should have valid namespace scopes', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const generated = require('../../generated/resourceTypesBase');
     const validScopes = ['any', 'system', 'shared'];
 
