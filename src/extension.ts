@@ -12,12 +12,12 @@ import { registerProfileCommands } from './commands/profile';
 import { registerObservabilityCommands } from './commands/observability';
 import { registerDiagramCommands } from './commands/diagram';
 import { registerCloudStatusCommands } from './commands/cloudStatus';
-import { Logger } from './utils/logger';
+import { getLogger, Logger } from './utils/logger';
 
 let logger: Logger;
 
 export function activate(context: vscode.ExtensionContext): void {
-  logger = new Logger('F5 XC');
+  logger = getLogger();
   logger.info('F5 Distributed Cloud extension is activating...');
 
   // Initialize profile manager with secure storage
