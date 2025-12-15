@@ -1201,8 +1201,8 @@ export class F5XCDescribeProvider {
       metadataFields.push({ key: 'Description', value: String(metadata.description) });
     }
     // Creator information from system metadata
-    if (systemMetadata?.creator) {
-      metadataFields.push({ key: 'Creator', value: String(systemMetadata.creator) });
+    if (systemMetadata?.creator_id) {
+      metadataFields.push({ key: 'Creator', value: String(systemMetadata.creator_id) });
     }
     // Creation timestamp
     const createTime = this.formatTimestamp(
