@@ -1200,11 +1200,34 @@ export class F5XCDescribeProvider {
     if (metadata?.description) {
       metadataFields.push({ key: 'Description', value: String(metadata.description) });
     }
+    // Creator information from system metadata
+    if (systemMetadata?.creator) {
+      metadataFields.push({ key: 'Creator', value: String(systemMetadata.creator) });
+    }
+    // Creation timestamp
+    const createTime = this.formatTimestamp(
+      systemMetadata?.creation_timestamp as string | undefined,
+    );
+    if (createTime) {
+      metadataFields.push({ key: 'Created', value: createTime });
+    }
     const modTime = this.formatTimestamp(
       systemMetadata?.modification_timestamp as string | undefined,
     );
     if (modTime) {
       metadataFields.push({ key: 'Last Modified', value: modTime });
+    }
+    // Unique identifier
+    if (systemMetadata?.uid) {
+      metadataFields.push({ key: 'UID', value: String(systemMetadata.uid) });
+    }
+    // Labels (key-value pairs for organization)
+    if (metadata?.labels && Object.keys(metadata.labels as object).length > 0) {
+      const labels = metadata.labels as Record<string, string>;
+      const labelStr = Object.entries(labels)
+        .map(([k, v]) => `${k}=${v}`)
+        .join(', ');
+      metadataFields.push({ key: 'Labels', value: labelStr });
     }
     sections.push({ id: 'metadata', title: 'Metadata', fields: metadataFields });
 
