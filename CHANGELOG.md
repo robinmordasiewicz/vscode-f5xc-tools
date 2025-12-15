@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.35](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.34...v0.1.35) (2025-12-15)
+
+
+### Features
+
+* enhance describe provider functionality ([#42](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/42)) ([ab0f788](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/ab0f788a1f3985bd93906f0fec7ca55553ecd8f3))
+
 ## [0.1.34](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.33...v0.1.34) (2025-12-15)
 
 
