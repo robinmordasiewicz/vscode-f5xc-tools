@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.34](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.33...v0.1.34) (2025-12-15)
+
+
+### Features
+
+* enhance namespace describe with creator, timestamps, uid, and labels ([#41](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/41)) ([8086ea8](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/8086ea8a8fe6f44c75f908cc565d344fa8529ac1))
+
 ## [0.1.33](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.32...v0.1.33) (2025-12-15)
 
 
