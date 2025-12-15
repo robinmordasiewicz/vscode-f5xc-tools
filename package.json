@@ -178,6 +178,12 @@
         "icon": "$(trash)"
       },
       {
+        "command": "f5xc.describeNamespace",
+        "title": "Describe Namespace",
+        "category": "F5 XC",
+        "icon": "$(info)"
+      },
+      {
         "command": "f5xc.apply",
         "title": "Apply",
         "category": "F5 XC",
@@ -356,6 +362,11 @@
           "command": "f5xc.deleteNamespace",
           "when": "view == f5xc.explorer && viewItem == namespace:custom",
           "group": "1_namespace@1"
+        },
+        {
+          "command": "f5xc.describeNamespace",
+          "when": "view == f5xc.explorer && viewItem =~ /namespace:/",
+          "group": "1_namespace@2"
         },
         {
           "command": "f5xc.diff",

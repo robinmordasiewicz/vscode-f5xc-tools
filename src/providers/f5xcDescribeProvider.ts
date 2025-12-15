@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { ProfileManager } from '../config/profiles';
 import { RESOURCE_TYPES, ResourceTypeInfo } from '../api/resourceTypes';
+import { API_ENDPOINTS } from '../generated/constants';
 import { getLogger } from '../utils/logger';
 import { getDocumentationUrl as getGeneratedDocUrl } from '../generated/documentationUrls';
 
@@ -241,6 +242,57 @@ export class F5XCDescribeProvider {
       const message = error instanceof Error ? error.message : String(error);
       logger.error(`Failed to describe resource: ${message}`);
       void vscode.window.showErrorMessage(`Failed to describe resource: ${message}`);
+    }
+  }
+
+  /**
+   * Show the describe panel for a namespace object.
+   * Uses the same describe webview as other resources, but fetches data from
+   * the tenant-level namespaces API: /api/web/namespaces/{name}.
+   */
+  async showNamespaceDescribe(profileName: string, namespaceName: string): Promise<void> {
+    try {
+      logger.debug(`Describing namespace: ${namespaceName}`);
+
+      const client = await this.profileManager.getClient(profileName);
+      const resource = await client.customRequest<Record<string, unknown>>(
+        `${API_ENDPOINTS.NAMESPACES}/${encodeURIComponent(namespaceName)}`,
+      );
+
+      const displayName = 'Namespace';
+
+      if (this.panel) {
+        this.panel.reveal(vscode.ViewColumn.Beside);
+      } else {
+        this.panel = vscode.window.createWebviewPanel(
+          'f5xcDescribe',
+          namespaceName,
+          vscode.ViewColumn.Beside,
+          {
+            enableScripts: true,
+            retainContextWhenHidden: true,
+            localResourceRoots: [],
+          },
+        );
+
+        this.panel.onDidDispose(() => {
+          this.panel = undefined;
+        });
+      }
+
+      this.panel.title = namespaceName;
+      this.panel.webview.html = this.getWebviewContent(
+        resource,
+        namespaceName,
+        displayName,
+        '',
+        'namespaces',
+        profileName,
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      logger.error(`Failed to describe namespace: ${message}`);
+      void vscode.window.showErrorMessage(`Failed to describe namespace: ${message}`);
     }
   }
 
@@ -1752,7 +1804,8 @@ export class F5XCDescribeProvider {
       });
 
       // Search Filtering
-      searchInput.addEventListener('input', (e) => {
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().trim();
         const fieldRows = document.querySelectorAll('.field-row');
 
@@ -1772,20 +1825,23 @@ export class F5XCDescribeProvider {
           }
         });
 
-        sections.forEach(section => {
-          const visibleRows = section.querySelectorAll('.field-row:not(.hidden)');
-          if (visibleRows.length === 0) {
-            section.classList.add('hidden');
-          } else {
-            section.classList.remove('hidden');
-          }
+          sections.forEach(section => {
+            const visibleRows = section.querySelectorAll('.field-row:not(.hidden)');
+            if (visibleRows.length === 0) {
+              section.classList.add('hidden');
+            } else {
+              section.classList.remove('hidden');
+            }
+          });
         });
-      });
+      }
 
       // Edit Button
-      editButton.addEventListener('click', () => {
-        vscode.postMessage({ command: 'editResource' });
-      });
+      if (editButton) {
+        editButton.addEventListener('click', () => {
+          vscode.postMessage({ command: 'editResource' });
+        });
+      }
 
       // Intersection Observer for active section tracking
       const observerOptions = {

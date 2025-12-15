@@ -510,6 +510,19 @@ export function registerCrudCommands(
     }),
   );
 
+  // DESCRIBE NAMESPACE - Show namespace details in describe view
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.describeNamespace', async (node: NamespaceNode) => {
+      await withErrorHandling(async () => {
+        const data = node.getData();
+
+        await describeProvider.showNamespaceDescribe(data.profileName, data.name);
+
+        logger.info(`Describing namespace: ${data.name}`);
+      }, 'Describe namespace');
+    }),
+  );
+
   // DIFF - Compare local with remote
   context.subscriptions.push(
     vscode.commands.registerCommand('f5xc.diff', async (node?: ResourceNode) => {
