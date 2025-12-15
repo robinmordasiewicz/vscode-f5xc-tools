@@ -110,6 +110,16 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(profilesView);
   context.subscriptions.push(cloudStatusView);
 
+  // Ensure the Resources view is the default focused view on initial activation
+  vscode.commands.executeCommand('f5xc.explorer.focus').then(
+    () => {
+      logger.debug('Focused Resources view (f5xc.explorer) as default');
+    },
+    (error) => {
+      logger.warn('Failed to focus Resources view (f5xc.explorer)', error as Error);
+    },
+  );
+
   // Listen for profile changes
   profileManager.onDidChangeProfiles(() => {
     profilesProvider.refresh();

@@ -88,14 +88,14 @@
     "views": {
       "f5xc-explorer": [
         {
-          "id": "f5xc.explorer",
-          "name": "Resources",
-          "contextualTitle": "F5 XC Resources"
-        },
-        {
           "id": "f5xc.profiles",
           "name": "Profiles",
           "contextualTitle": "F5 XC Profiles"
+        },
+        {
+          "id": "f5xc.explorer",
+          "name": "Resources",
+          "contextualTitle": "F5 XC Resources"
         },
         {
           "id": "f5xc.cloudStatus",
