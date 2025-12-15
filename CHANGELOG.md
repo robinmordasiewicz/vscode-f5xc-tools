@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.32](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.31...v0.1.32) (2025-12-15)
+
+
+### Features
+
+* reordering ([7d20f71](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/7d20f71db5f450201a75fe3f37878a1156eb506d))
+
 ## [0.1.31](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.30...v0.1.31) (2025-12-14)
 
 
