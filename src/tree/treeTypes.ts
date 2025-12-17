@@ -23,6 +23,10 @@ export const TreeItemContext = {
   CATEGORY: 'category',
   RESOURCE_TYPE: 'resourceType',
   RESOURCE: 'resource',
+  // Subscription section contexts
+  SUBSCRIPTION_GROUP: 'subscriptionGroup',
+  SUBSCRIPTION_PLAN: 'subscriptionPlan',
+  SUBSCRIPTION_QUOTAS: 'subscriptionQuotas',
 } as const;
 
 /**

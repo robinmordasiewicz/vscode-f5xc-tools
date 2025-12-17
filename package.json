@@ -93,6 +93,12 @@
           "contextualTitle": "F5 XC Profiles"
         },
         {
+          "id": "f5xc.subscription",
+          "name": "Subscription",
+          "contextualTitle": "F5 XC Subscription",
+          "when": "f5xc.hasActiveProfile"
+        },
+        {
           "id": "f5xc.explorer",
           "name": "Resources",
           "contextualTitle": "F5 XC Resources"
@@ -282,6 +288,24 @@
         "title": "View PoP Details",
         "category": "F5 XC",
         "icon": "$(globe)"
+      },
+      {
+        "command": "f5xc.showPlan",
+        "title": "Show Subscription Plan",
+        "category": "F5 XC",
+        "icon": "$(file-text)"
+      },
+      {
+        "command": "f5xc.showQuotas",
+        "title": "Show Quota Usage",
+        "category": "F5 XC",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "f5xc.activateAddon",
+        "title": "Activate Addon Service",
+        "category": "F5 XC",
+        "icon": "$(rocket)"
       }
     ],
     "menus": {
@@ -402,6 +426,16 @@
           "command": "f5xc.openInBrowser",
           "when": "view == f5xc.explorer && viewItem =~ /resource:/",
           "group": "5_external@1"
+        },
+        {
+          "command": "f5xc.showPlan",
+          "when": "view == f5xc.subscription && viewItem == subscriptionPlan",
+          "group": "inline"
+        },
+        {
+          "command": "f5xc.showQuotas",
+          "when": "view == f5xc.subscription && viewItem == subscriptionQuotas",
+          "group": "inline"
         }
       ],
       "editor/title": [

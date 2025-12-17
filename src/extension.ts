@@ -3,10 +3,12 @@ import { ProfileManager } from './config/profiles';
 import { F5XCExplorerProvider } from './tree/f5xcExplorer';
 import { ProfilesProvider } from './tree/profilesProvider';
 import { CloudStatusProvider } from './tree/cloudStatusProvider';
+import { SubscriptionProvider } from './tree/subscriptionProvider';
 import { F5XCFileSystemProvider } from './providers/f5xcFileSystemProvider';
 import { F5XCViewProvider } from './providers/f5xcViewProvider';
 import { F5XCDescribeProvider } from './providers/f5xcDescribeProvider';
 import { CloudStatusDashboardProvider } from './providers/cloudStatusDashboardProvider';
+import { SubscriptionDashboardProvider } from './providers/subscriptionDashboardProvider';
 import { registerCrudCommands } from './commands/crud';
 import { registerProfileCommands } from './commands/profile';
 import { registerObservabilityCommands } from './commands/observability';
@@ -32,7 +34,15 @@ export function activate(context: vscode.ExtensionContext): void {
   const explorerProvider = new F5XCExplorerProvider(profileManager, clientFactory);
   const profilesProvider = new ProfilesProvider(profileManager);
   const cloudStatusProvider = new CloudStatusProvider();
+  const subscriptionProvider = new SubscriptionProvider(profileManager);
   const cloudStatusDashboardProvider = new CloudStatusDashboardProvider(profileManager);
+
+  // Set context for active profile to control view visibility
+  const updateHasActiveProfile = () => {
+    const hasActive = profileManager.getActiveProfile() !== null;
+    void vscode.commands.executeCommand('setContext', 'f5xc.hasActiveProfile', hasActive);
+  };
+  updateHasActiveProfile();
 
   // Initialize F5 XC file system provider for editing resources
   const fsProvider = new F5XCFileSystemProvider(profileManager, () => {
@@ -56,6 +66,55 @@ export function activate(context: vscode.ExtensionContext): void {
   // Initialize the describe provider for formatted resource descriptions
   const describeProvider = new F5XCDescribeProvider(profileManager);
 
+  // Initialize the subscription dashboard provider for Plan and Quotas views
+  const subscriptionDashboardProvider = new SubscriptionDashboardProvider(profileManager);
+
+  // Register subscription commands (f5xc.showPlan, f5xc.showQuotas)
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.showPlan', (profileName?: string) => {
+      const profile = profileName || profileManager.getActiveProfile()?.name;
+      if (profile) {
+        void subscriptionDashboardProvider.showPlan(profile);
+      } else {
+        void vscode.window.showWarningMessage('No active profile selected');
+      }
+    }),
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.showQuotas', (profileName?: string) => {
+      const profile = profileName || profileManager.getActiveProfile()?.name;
+      if (profile) {
+        void subscriptionDashboardProvider.showQuotas(profile);
+      } else {
+        void vscode.window.showWarningMessage('No active profile selected');
+      }
+    }),
+  );
+
+  // Register addon activation command (for programmatic access)
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'f5xc.activateAddon',
+      async (addonName: string, profileName?: string) => {
+        const profile = profileName || profileManager.getActiveProfile()?.name;
+        if (!profile) {
+          void vscode.window.showWarningMessage('No active profile selected');
+          return;
+        }
+        if (!addonName) {
+          void vscode.window.showWarningMessage('Addon name is required');
+          return;
+        }
+        // Show the plan dashboard which handles activation
+        await subscriptionDashboardProvider.showPlan(profile);
+        void vscode.window.showInformationMessage(
+          `To activate "${addonName}", click the Activate button in the Plan dashboard.`,
+        );
+      },
+    ),
+  );
+
   // Register tree views
   const explorerView = vscode.window.createTreeView('f5xc.explorer', {
     treeDataProvider: explorerProvider,
@@ -72,6 +131,12 @@ export function activate(context: vscode.ExtensionContext): void {
   const cloudStatusView = vscode.window.createTreeView('f5xc.cloudStatus', {
     treeDataProvider: cloudStatusProvider,
     showCollapseAll: true,
+    canSelectMany: false,
+  });
+
+  const subscriptionView = vscode.window.createTreeView('f5xc.subscription', {
+    treeDataProvider: subscriptionProvider,
+    showCollapseAll: false,
     canSelectMany: false,
   });
 
@@ -109,6 +174,7 @@ export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(explorerView);
   context.subscriptions.push(profilesView);
   context.subscriptions.push(cloudStatusView);
+  context.subscriptions.push(subscriptionView);
 
   // Ensure the Resources view is the default focused view on initial activation
   vscode.commands.executeCommand('f5xc.explorer.focus').then(
@@ -124,6 +190,8 @@ export function activate(context: vscode.ExtensionContext): void {
   profileManager.onDidChangeProfiles(() => {
     profilesProvider.refresh();
     explorerProvider.refresh();
+    subscriptionProvider.refresh();
+    updateHasActiveProfile();
   });
 
   logger.info('F5 Distributed Cloud extension activated successfully');
