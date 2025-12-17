@@ -236,19 +236,21 @@ export class F5XCDescribeProvider {
       let quotaInfo: QuotaItem | undefined;
       try {
         const client = await this.profileManager.getClient(profileName);
-        logger.info(`Fetching quota for resourceType: ${resourceType}`);
-        // Map resource type to quota key - try the resourceType key first
-        quotaInfo = await getQuotaForResourceType(client, resourceType, 'system');
+        logger.info(`Fetching quota for resourceType: ${resourceType}, namespace: ${namespace}`);
+        // Map resource type to quota key - use the resource's actual namespace
+        quotaInfo = await getQuotaForResourceType(client, resourceType, namespace);
         if (quotaInfo) {
           logger.info(
             `Found quota info: ${quotaInfo.displayName} - ${quotaInfo.usage}/${quotaInfo.limit}`,
           );
         } else {
-          logger.info(`No quota info found for ${resourceType}`);
+          logger.info(`No quota info found for ${resourceType} in namespace ${namespace}`);
         }
       } catch (quotaError) {
         const errorMessage = quotaError instanceof Error ? quotaError.message : String(quotaError);
-        logger.warn(`Failed to fetch quota info for ${resourceType}: ${errorMessage}`);
+        logger.warn(
+          `Failed to fetch quota info for ${resourceType} in ${namespace}: ${errorMessage}`,
+        );
       }
 
       this.panel.webview.html = this.getWebviewContent(
@@ -382,7 +384,7 @@ export class F5XCDescribeProvider {
     <main class="content">
       <!-- Form View (default) -->
       <div class="tab-content active" id="form-view">
-        ${quotaInfo ? this.renderQuotaWidget(quotaInfo, resourceType) : ''}
+        ${quotaInfo ? this.renderQuotaWidget(quotaInfo, resourceType) : this.renderQuotaUnavailable(resourceType)}
         ${sections.map((s) => this.renderSection(s)).join('\n')}
       </div>
 
@@ -1383,6 +1385,31 @@ export class F5XCDescribeProvider {
   }
 
   /**
+   * Render a subtle fallback when quota info is unavailable
+   */
+  private renderQuotaUnavailable(resourceType: string): string {
+    return `
+      <div class="quota-widget quota-unavailable">
+        <div class="quota-header">
+          <span class="quota-title">Resource Quota</span>
+          <span class="quota-status" style="color: var(--vscode-descriptionForeground)">Unavailable</span>
+        </div>
+        <div class="quota-content">
+          <div class="quota-info">
+            <span class="quota-label">Resource Type:</span>
+            <span class="quota-value">${this.escapeHtml(resourceType)}</span>
+          </div>
+          <div class="quota-info">
+            <span class="quota-value" style="color: var(--vscode-descriptionForeground); font-style: italic;">
+              Quota information is not available for this resource type.
+            </span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
    * Render a compact section for single-field sections where field key matches title
    * This eliminates redundant headers and renders as a simple inline row
    */
@@ -1891,6 +1918,16 @@ export class F5XCDescribeProvider {
       min-width: 40px;
       text-align: right;
       color: var(--vscode-editor-foreground);
+    }
+
+    /* Quota unavailable state */
+    .quota-unavailable {
+      opacity: 0.7;
+      border-color: var(--vscode-panel-border, rgba(255, 255, 255, 0.1));
+    }
+
+    .quota-unavailable .quota-header {
+      background: var(--vscode-sideBar-background, rgba(255, 255, 255, 0.03));
     }
 
     /* JSON View */

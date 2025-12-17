@@ -326,9 +326,35 @@ export async function getQuotaUsage(
 }
 
 /**
+ * Static mapping from RESOURCE_TYPES apiPath keys to known quota key patterns
+ * This provides reliable matching for common F5 XC resource types
+ */
+const QUOTA_KEY_MAPPINGS: Record<string, string[]> = {
+  http_loadbalancers: ['http load balancer', 'http_load_balancer', 'httploadbalancer'],
+  tcp_loadbalancers: ['tcp load balancer', 'tcp_load_balancer', 'tcploadbalancer'],
+  origin_pools: ['origin pool', 'origin_pool', 'originpool'],
+  app_firewalls: ['app firewall', 'application firewall', 'app_firewall', 'waf'],
+  healthchecks: ['health check', 'healthcheck', 'health_check'],
+  api_definitions: ['api definition', 'api_definition', 'apidefinition'],
+  service_policies: ['service policy', 'service_policy', 'servicepolicy'],
+  rate_limiter_policys: ['rate limiter', 'rate_limiter', 'ratelimiter'],
+  ip_prefix_sets: ['ip prefix set', 'ip_prefix_set', 'ipprefixset'],
+  routes: ['route', 'routes'],
+  virtual_hosts: ['virtual host', 'virtual_host', 'virtualhost'],
+  certificates: ['certificate', 'certificates'],
+  dns_zones: ['dns zone', 'dns_zone', 'dnszone'],
+  virtual_networks: ['virtual network', 'virtual_network', 'virtualnetwork'],
+  network_connectors: ['network connector', 'network_connector', 'networkconnector'],
+  network_firewalls: ['network firewall', 'network_firewall', 'networkfirewall'],
+  sites: ['site', 'sites'],
+  virtual_sites: ['virtual site', 'virtual_site', 'virtualsite'],
+  namespaces: ['namespace', 'namespaces'],
+};
+
+/**
  * Get quota usage for a specific resource type
  * Returns the quota item matching the resource type, or undefined if not found
- * Uses fuzzy matching to handle different naming conventions between
+ * Uses static mapping first, then fuzzy matching to handle different naming conventions between
  * RESOURCE_TYPES keys (e.g., 'http_loadbalancers') and API quota keys (e.g., 'HTTP Load Balancer')
  */
 export async function getQuotaForResourceType(
@@ -338,6 +364,35 @@ export async function getQuotaForResourceType(
 ): Promise<QuotaItem | undefined> {
   const quotaUsage = await getQuotaUsage(client, namespace);
 
+  // Combine all quota items for search
+  const allItems = [...quotaUsage.objects, ...quotaUsage.resources];
+
+  logger.info(`Looking for quota match for key: ${resourceTypeKey}`);
+  logger.info(
+    `Available quota items (${allItems.length}): ${allItems.map((i) => `${i.key}(${i.displayName})`).join(', ')}`,
+  );
+
+  // First, try static mapping for known resource types
+  const mappedKeys = QUOTA_KEY_MAPPINGS[resourceTypeKey.toLowerCase()];
+  if (mappedKeys) {
+    logger.info(`Using static mapping for ${resourceTypeKey}: [${mappedKeys.join(', ')}]`);
+    const staticMatch = allItems.find((item) => {
+      const itemKeyLower = item.key.toLowerCase();
+      const itemDisplayLower = item.displayName.toLowerCase();
+      return (
+        mappedKeys.some((k) => itemKeyLower.includes(k)) ||
+        mappedKeys.some((k) => itemDisplayLower.includes(k))
+      );
+    });
+    if (staticMatch) {
+      logger.info(
+        `Found quota via static mapping: ${staticMatch.key} (${staticMatch.displayName})`,
+      );
+      return staticMatch;
+    }
+  }
+
+  // Fall back to fuzzy matching
   // Create multiple normalized versions for matching
   const keyLower = resourceTypeKey.toLowerCase();
   const keyNoUnderscores = keyLower.replace(/_/g, ''); // httploadbalancers
@@ -345,15 +400,8 @@ export async function getQuotaForResourceType(
   const keySingular = keyWithSpaces.replace(/s$/, ''); // http loadbalancer
   const keyNoSpacesSingular = keyNoUnderscores.replace(/s$/, ''); // httploadbalancer
 
-  // Combine all quota items for search
-  const allItems = [...quotaUsage.objects, ...quotaUsage.resources];
-
-  logger.info(`Looking for quota match for key: ${resourceTypeKey}`);
   logger.info(
-    `Normalized variants: [${keyNoUnderscores}, ${keyWithSpaces}, ${keySingular}, ${keyNoSpacesSingular}]`,
-  );
-  logger.info(
-    `Available quota items (${allItems.length}): ${allItems.map((i) => i.key).join(', ')}`,
+    `Fuzzy matching with variants: [${keyNoUnderscores}, ${keyWithSpaces}, ${keySingular}, ${keyNoSpacesSingular}]`,
   );
 
   // Search with fuzzy matching
@@ -380,7 +428,7 @@ export async function getQuotaForResourceType(
       itemDisplayNoSpaces.includes(keyNoSpacesSingular);
 
     if (matches) {
-      logger.info(`Found quota match: ${item.key} → ${resourceTypeKey}`);
+      logger.info(`Found quota via fuzzy match: ${item.key} (${item.displayName})`);
     }
     return matches;
   });
