@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.36](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.35...v0.1.36) (2025-12-17)
+
+
+### Features
+
+* add subscription dashboard and addon activation ([#43](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/43)) ([#44](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/44)) ([925f997](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/925f997f83b0343d3383839265cf7651d7f41237))
+
 ## [0.1.35](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.34...v0.1.35) (2025-12-15)
 
 
