@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.38](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.37...v0.1.38) (2025-12-17)
+
+
+### Bug Fixes
+
+* quota widget showing unavailable - add system namespace fallback ([ef8c489](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/ef8c48974d61061930238ef3ce0f82a3f483d66e)), closes [#47](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/47)
+
 ## [0.1.37](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.36...v0.1.37) (2025-12-17)
 
 
