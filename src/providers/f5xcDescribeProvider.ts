@@ -4,6 +4,7 @@ import { RESOURCE_TYPES, ResourceTypeInfo } from '../api/resourceTypes';
 import { API_ENDPOINTS } from '../generated/constants';
 import { getLogger } from '../utils/logger';
 import { getDocumentationUrl as getGeneratedDocUrl } from '../generated/documentationUrls';
+import { getQuotaForResourceType, QuotaItem } from '../api/subscription';
 
 const logger = getLogger();
 
@@ -230,6 +231,26 @@ export class F5XCDescribeProvider {
       }
 
       this.panel.title = resourceName;
+
+      // Fetch quota info for this resource type (best effort - don't fail if quota unavailable)
+      let quotaInfo: QuotaItem | undefined;
+      try {
+        const client = await this.profileManager.getClient(profileName);
+        logger.info(`Fetching quota for resourceType: ${resourceType}`);
+        // Map resource type to quota key - try the resourceType key first
+        quotaInfo = await getQuotaForResourceType(client, resourceType, 'system');
+        if (quotaInfo) {
+          logger.info(
+            `Found quota info: ${quotaInfo.displayName} - ${quotaInfo.usage}/${quotaInfo.limit}`,
+          );
+        } else {
+          logger.info(`No quota info found for ${resourceType}`);
+        }
+      } catch (quotaError) {
+        const errorMessage = quotaError instanceof Error ? quotaError.message : String(quotaError);
+        logger.warn(`Failed to fetch quota info for ${resourceType}: ${errorMessage}`);
+      }
+
       this.panel.webview.html = this.getWebviewContent(
         resource,
         resourceName,
@@ -237,6 +258,7 @@ export class F5XCDescribeProvider {
         namespace,
         resourceType,
         profileName,
+        quotaInfo,
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -306,6 +328,7 @@ export class F5XCDescribeProvider {
     namespace: string,
     apiPath: string,
     profileName: string,
+    quotaInfo?: QuotaItem,
   ): string {
     const nonce = this.getNonce();
     const metadata = resource.metadata as Record<string, unknown> | undefined;
@@ -359,6 +382,7 @@ export class F5XCDescribeProvider {
     <main class="content">
       <!-- Form View (default) -->
       <div class="tab-content active" id="form-view">
+        ${quotaInfo ? this.renderQuotaWidget(quotaInfo, resourceType) : ''}
         ${sections.map((s) => this.renderSection(s)).join('\n')}
       </div>
 
@@ -1311,6 +1335,54 @@ export class F5XCDescribeProvider {
   }
 
   /**
+   * Render quota widget showing resource usage vs limit
+   */
+  private renderQuotaWidget(quotaInfo: QuotaItem, _resourceType: string): string {
+    const percentUsed = quotaInfo.percentUsed;
+    const available = quotaInfo.limit - quotaInfo.usage;
+
+    // Determine color based on usage percentage
+    let progressColor = 'var(--vscode-testing-iconPassed, #73c991)'; // Green
+    let statusText = 'Good';
+    if (percentUsed >= 80) {
+      progressColor = 'var(--vscode-testing-iconFailed, #f14c4c)'; // Red
+      statusText = 'Critical';
+    } else if (percentUsed >= 60) {
+      progressColor = 'var(--vscode-testing-iconQueued, #cca700)'; // Yellow
+      statusText = 'Warning';
+    }
+
+    return `
+      <div class="quota-widget">
+        <div class="quota-header">
+          <span class="quota-title">Resource Quota</span>
+          <span class="quota-status" style="color: ${progressColor}">${statusText}</span>
+        </div>
+        <div class="quota-content">
+          <div class="quota-info">
+            <span class="quota-label">Resource Type:</span>
+            <span class="quota-value">${this.escapeHtml(quotaInfo.displayName)}</span>
+          </div>
+          <div class="quota-info">
+            <span class="quota-label">Used:</span>
+            <span class="quota-value">${quotaInfo.usage} of ${quotaInfo.limit}</span>
+          </div>
+          <div class="quota-info">
+            <span class="quota-label">Available:</span>
+            <span class="quota-value">${available}</span>
+          </div>
+          <div class="quota-progress-container">
+            <div class="quota-progress-bar">
+              <div class="quota-progress-fill" style="width: ${Math.min(percentUsed, 100)}%; background: ${progressColor}"></div>
+            </div>
+            <span class="quota-percent">${percentUsed}%</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
    * Render a compact section for single-field sections where field key matches title
    * This eliminates redundant headers and renders as a simple inline row
    */
@@ -1737,6 +1809,88 @@ export class F5XCDescribeProvider {
 
     .status-warning {
       color: var(--vscode-testing-iconQueued, #cca700);
+    }
+
+    /* Quota Widget */
+    .quota-widget {
+      background: var(--vscode-editor-background);
+      border: 1px solid var(--vscode-panel-border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+    }
+
+    .quota-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--vscode-panel-border);
+    }
+
+    .quota-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--vscode-symbolIcon-classForeground);
+    }
+
+    .quota-status {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .quota-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quota-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .quota-label {
+      color: var(--vscode-descriptionForeground);
+      min-width: 100px;
+    }
+
+    .quota-value {
+      color: var(--vscode-editor-foreground);
+      font-weight: 500;
+    }
+
+    .quota-progress-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .quota-progress-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--vscode-progressBar-background, rgba(255, 255, 255, 0.1));
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .quota-progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .quota-percent {
+      font-size: 12px;
+      font-weight: 600;
+      min-width: 40px;
+      text-align: right;
+      color: var(--vscode-editor-foreground);
     }
 
     /* JSON View */
