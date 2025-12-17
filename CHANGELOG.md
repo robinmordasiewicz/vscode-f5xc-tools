@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.39](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.38...v0.1.39) (2025-12-17)
+
+
+### Bug Fixes
+
+* correct quota key mappings to match f5 xc api responses ([be47323](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/be4732369409218ca3364204f11ba00b17d47906)), closes [#49](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/49)
+
 ## [0.1.38](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.37...v0.1.38) (2025-12-17)
 
 
