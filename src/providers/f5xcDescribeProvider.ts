@@ -233,24 +233,32 @@ export class F5XCDescribeProvider {
       this.panel.title = resourceName;
 
       // Fetch quota info for this resource type (best effort - don't fail if quota unavailable)
+      // Quotas are typically tenant-wide, so try resource's namespace first, then fall back to 'system'
       let quotaInfo: QuotaItem | undefined;
       try {
         const client = await this.profileManager.getClient(profileName);
         logger.info(`Fetching quota for resourceType: ${resourceType}, namespace: ${namespace}`);
-        // Map resource type to quota key - use the resource's actual namespace
+
+        // First try the resource's namespace
         quotaInfo = await getQuotaForResourceType(client, resourceType, namespace);
+
+        // If not found and namespace isn't 'system', fall back to 'system' namespace
+        // (quotas are often tenant-wide and stored in system namespace)
+        if (!quotaInfo && namespace !== 'system') {
+          logger.info(`No quota in ${namespace}, trying system namespace...`);
+          quotaInfo = await getQuotaForResourceType(client, resourceType, 'system');
+        }
+
         if (quotaInfo) {
           logger.info(
             `Found quota info: ${quotaInfo.displayName} - ${quotaInfo.usage}/${quotaInfo.limit}`,
           );
         } else {
-          logger.info(`No quota info found for ${resourceType} in namespace ${namespace}`);
+          logger.info(`No quota info found for ${resourceType}`);
         }
       } catch (quotaError) {
         const errorMessage = quotaError instanceof Error ? quotaError.message : String(quotaError);
-        logger.warn(
-          `Failed to fetch quota info for ${resourceType} in ${namespace}: ${errorMessage}`,
-        );
+        logger.warn(`Failed to fetch quota info for ${resourceType}: ${errorMessage}`);
       }
 
       this.panel.webview.html = this.getWebviewContent(
