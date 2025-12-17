@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.37](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.36...v0.1.37) (2025-12-17)
+
+
+### Bug Fixes
+
+* quota widget not displaying in resource describe view ([d83ee1e](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/d83ee1eb4220b054ac0cce44032dcfdfb0f8cc7c)), closes [#45](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/45)
+
 ## [0.1.36](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.35...v0.1.36) (2025-12-17)
 
 
