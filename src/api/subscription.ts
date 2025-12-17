@@ -330,18 +330,21 @@ export async function getQuotaUsage(
  * This provides reliable matching for common F5 XC resource types
  */
 const QUOTA_KEY_MAPPINGS: Record<string, string[]> = {
-  http_loadbalancers: ['http load balancer', 'http_load_balancer', 'httploadbalancer'],
-  tcp_loadbalancers: ['tcp load balancer', 'tcp_load_balancer', 'tcploadbalancer'],
+  // HTTP Load Balancers are called "Virtual Host" in the quota API
+  http_loadbalancers: ['virtual host', 'virtual_host', 'virtualhost'],
+  // TCP/Network load balancers use network_loadbalancer in quota API
+  tcp_loadbalancers: ['network_loadbalancer', 'network loadbalancer', 'networkloadbalancer'],
   origin_pools: ['origin pool', 'origin_pool', 'originpool'],
-  app_firewalls: ['app firewall', 'application firewall', 'app_firewall', 'waf'],
-  healthchecks: ['health check', 'healthcheck', 'health_check'],
+  // App firewalls are "Application Firewall" in quota API
+  app_firewalls: ['application firewall', 'app firewall', 'app_firewall'],
+  healthchecks: ['healthcheck', 'health check', 'health_check'],
   api_definitions: ['api definition', 'api_definition', 'apidefinition'],
   service_policies: ['service policy', 'service_policy', 'servicepolicy'],
   rate_limiter_policys: ['rate limiter', 'rate_limiter', 'ratelimiter'],
   ip_prefix_sets: ['ip prefix set', 'ip_prefix_set', 'ipprefixset'],
   routes: ['route', 'routes'],
   virtual_hosts: ['virtual host', 'virtual_host', 'virtualhost'],
-  certificates: ['certificate', 'certificates'],
+  certificates: ['tls certificate', 'certificate', 'certificates'],
   dns_zones: ['dns zone', 'dns_zone', 'dnszone'],
   virtual_networks: ['virtual network', 'virtual_network', 'virtualnetwork'],
   network_connectors: ['network connector', 'network_connector', 'networkconnector'],
@@ -349,6 +352,8 @@ const QUOTA_KEY_MAPPINGS: Record<string, string[]> = {
   sites: ['site', 'sites'],
   virtual_sites: ['virtual site', 'virtual_site', 'virtualsite'],
   namespaces: ['namespace', 'namespaces'],
+  // CDN load balancers
+  cdn_loadbalancers: ['cdn_loadbalancer', 'cdn loadbalancer', 'cdnloadbalancer'],
 };
 
 /**
