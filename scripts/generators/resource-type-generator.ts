@@ -126,8 +126,8 @@ export interface GeneratedResourceTypeInfo {
   displayName: string;
   /** Description from spec */
   description: string;
-  /** API base: 'config' or 'web' */
-  apiBase: 'config' | 'web';
+  /** API base (e.g., 'config', 'web', 'infraprotect', 'shape', etc.) */
+  apiBase: string;
   /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
   serviceSegment?: string;
   /** Full API path pattern */
@@ -189,12 +189,10 @@ export function generateResourceTypesContent(specs: ParsedSpecInfo[]): string {
   }
 
   // Pretty print with proper TypeScript formatting
-  const resourceTypesJson = JSON.stringify(resourceTypes, null, 2)
-    .replace(/"([^"]+)":/g, '$1:') // Remove quotes from keys
-    .replace(/: "config"/g, ": 'config'") // Use single quotes for string literals
-    .replace(/: "web"/g, ": 'web'");
+  // Keep double quotes for values since they're properly escaped by JSON.stringify
+  const resourceTypesJson = JSON.stringify(resourceTypes, null, 2).replace(/"([^"]+)":/g, '$1:'); // Remove quotes from keys only
 
-  const apiPathToKeyJson = JSON.stringify(apiPathToKey, null, 2).replace(/"([^"]+)":/g, "'$1':"); // Use single quotes for keys
+  const apiPathToKeyJson = JSON.stringify(apiPathToKey, null, 2).replace(/"([^"]+)":/g, "'$1':"); // Use single quotes for keys in reverse lookup
 
   return `/**
  * Auto-generated resource types from F5 XC OpenAPI specifications.
@@ -222,8 +220,8 @@ export interface GeneratedResourceTypeInfo {
   displayName: string;
   /** Description from spec */
   description: string;
-  /** API base: 'config' or 'web' */
-  apiBase: 'config' | 'web';
+  /** API base (e.g., 'config', 'web', 'infraprotect', 'shape', etc.) */
+  apiBase: string;
   /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
   serviceSegment?: string;
   /** Full API path pattern */

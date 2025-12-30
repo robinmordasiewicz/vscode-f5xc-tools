@@ -33,8 +33,8 @@ export interface ParsedSpecInfo {
   displayName: string;
   /** Description from spec */
   description: string;
-  /** API base: 'config' or 'web' */
-  apiBase: 'config' | 'web';
+  /** API base (e.g., 'config', 'web', 'infraprotect', 'shape', etc.) */
+  apiBase: string;
   /** Service segment for extended API paths (e.g., 'dns' for /api/config/dns/namespaces/...) */
   serviceSegment?: string;
   /** Full API path pattern */
@@ -165,12 +165,13 @@ export function deriveNamespaceScope(fullPath: string | null): NamespaceScope {
 
 /**
  * Extract the primary API path and base from OpenAPI paths object.
- * Looks for standard CRUD paths like /api/config/namespaces/{ns}/resources
- * Also handles extended paths like /api/config/dns/namespaces/{ns}/dns_zones
+ * Supports all F5 XC API bases including: config, web, gen-ai, ai_data, data,
+ * bigipconnector, discovery, gia, infraprotect, nginx, observability, operate,
+ * shape, terraform, scim, secret_management, and others.
  */
 export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
   fullPath: string | null;
-  apiBase: 'config' | 'web';
+  apiBase: string;
   serviceSegment?: string;
   apiPathSuffix: string | null;
   namespaceScoped: boolean;
@@ -188,45 +189,31 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
 
   const pathKeys = Object.keys(paths);
 
-  // Extended paths with service segment (e.g., /api/config/dns/namespaces/{ns}/dns_zones)
-  // Pattern: /api/config/{service}/namespaces/{ns}/resource_types
-  const configExtendedPattern =
-    /^\/api\/config\/([a-z_]+)\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
-  const webExtendedPattern =
-    /^\/api\/web\/([a-z_]+)\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
+  // Universal pattern for extended paths with service segment
+  // Matches: /api/{base}/{service}/namespaces/{ns}/resource_types
+  // Example: /api/config/dns/namespaces/{ns}/dns_zones
+  const extendedPattern =
+    /^\/api\/([a-z_-]+)\/([a-z_]+)\/namespaces\/(?:\{[^}]+\}|[a-z]+)\/([a-z_]+)(?:\/\{[^}]+\})?$/;
 
-  // Standard paths (e.g., /api/config/namespaces/{ns}/resource_types)
-  const configNamespacePattern =
-    /^\/api\/config\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
-  const webNamespacePattern = /^\/api\/web\/namespaces\/\{[^}]+\}\/([a-z_]+)(?:\/\{[^}]+\})?$/;
+  // Universal pattern for standard namespace-scoped paths
+  // Matches: /api/{base}/namespaces/{ns}/resource_types
+  // Example: /api/infraprotect/namespaces/{ns}/infraprotect_asns
+  const namespacePattern =
+    /^\/api\/([a-z_-]+)\/namespaces\/(?:\{[^}]+\}|[a-z]+)\/([a-z_]+)(?:\/\{[^}]+\})?$/;
 
-  // Pattern for tenant-level resources: /api/config/resource_types
-  const configTenantPattern = /^\/api\/config\/([a-z_]+)(?:\/\{[^}]+\})?$/;
-  const webTenantPattern = /^\/api\/web\/([a-z_]+)(?:\/\{[^}]+\})?$/;
+  // Universal pattern for tenant-level resources (no namespace)
+  // Matches: /api/{base}/resource_types
+  const tenantPattern = /^\/api\/([a-z_-]+)\/([a-z_]+)(?:\/\{[^}]+\})?$/;
 
-  // First priority: Look for extended paths with service segments (like /api/config/dns/...)
+  // First priority: Look for extended paths with service segments
   for (const pathKey of pathKeys) {
-    // Check extended config paths (e.g., /api/config/dns/namespaces/{ns}/dns_zones)
-    let match = pathKey.match(configExtendedPattern);
-    if (match && match[1] && match[2]) {
+    const match = pathKey.match(extendedPattern);
+    if (match && match[1] && match[2] && match[3]) {
       return {
         fullPath: pathKey,
-        apiBase: 'config',
-        serviceSegment: match[1],
-        apiPathSuffix: match[2],
-        namespaceScoped: true,
-        namespaceScope: deriveNamespaceScope(pathKey),
-      };
-    }
-
-    // Check extended web paths (e.g., /api/web/custom/namespaces/{ns}/...)
-    match = pathKey.match(webExtendedPattern);
-    if (match && match[1] && match[2]) {
-      return {
-        fullPath: pathKey,
-        apiBase: 'web',
-        serviceSegment: match[1],
-        apiPathSuffix: match[2],
+        apiBase: match[1],
+        serviceSegment: match[2],
+        apiPathSuffix: match[3],
         namespaceScoped: true,
         namespaceScope: deriveNamespaceScope(pathKey),
       };
@@ -235,25 +222,12 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
 
   // Second priority: Standard namespace-scoped paths
   for (const pathKey of pathKeys) {
-    // Check namespace-scoped config paths
-    let match = pathKey.match(configNamespacePattern);
-    if (match && match[1]) {
+    const match = pathKey.match(namespacePattern);
+    if (match && match[1] && match[2]) {
       return {
         fullPath: pathKey,
-        apiBase: 'config',
-        apiPathSuffix: match[1],
-        namespaceScoped: true,
-        namespaceScope: deriveNamespaceScope(pathKey),
-      };
-    }
-
-    // Check namespace-scoped web paths
-    match = pathKey.match(webNamespacePattern);
-    if (match && match[1]) {
-      return {
-        fullPath: pathKey,
-        apiBase: 'web',
-        apiPathSuffix: match[1],
+        apiBase: match[1],
+        apiPathSuffix: match[2],
         namespaceScoped: true,
         namespaceScope: deriveNamespaceScope(pathKey),
       };
@@ -262,23 +236,16 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
 
   // Third priority: Check tenant-level paths (no namespace)
   for (const pathKey of pathKeys) {
-    let match = pathKey.match(configTenantPattern);
-    if (match && match[1]) {
+    const match = pathKey.match(tenantPattern);
+    if (match && match[1] && match[2]) {
+      // Skip if it matches a namespace pattern (would have matched above)
+      if (pathKey.includes('/namespaces/')) {
+        continue;
+      }
       return {
         fullPath: pathKey,
-        apiBase: 'config',
-        apiPathSuffix: match[1],
-        namespaceScoped: false,
-        namespaceScope: 'any',
-      };
-    }
-
-    match = pathKey.match(webTenantPattern);
-    if (match && match[1]) {
-      return {
-        fullPath: pathKey,
-        apiBase: 'web',
-        apiPathSuffix: match[1],
+        apiBase: match[1],
+        apiPathSuffix: match[2],
         namespaceScoped: false,
         namespaceScope: 'any',
       };
@@ -292,11 +259,14 @@ export function extractApiInfo(paths: Record<string, PathItem> | undefined): {
       const lastPart = parts[parts.length - 1];
       // Skip if it's a path parameter or undefined
       if (lastPart && !lastPart.startsWith('{')) {
+        // Extract API base from path (second segment after /api/)
+        const apiBaseMatch = pathKey.match(/^\/api\/([a-z_-]+)\//);
+        const apiBase = apiBaseMatch?.[1] || 'config';
         // Check for extended paths in fallback
-        const extendedMatch = pathKey.match(/^\/api\/(config|web)\/([a-z_]+)\/namespaces\//);
+        const extendedMatch = pathKey.match(/^\/api\/([a-z_-]+)\/([a-z_]+)\/namespaces\//);
         return {
           fullPath: pathKey,
-          apiBase: pathKey.includes('/api/web/') ? 'web' : 'config',
+          apiBase,
           serviceSegment: extendedMatch?.[2],
           apiPathSuffix: lastPart,
           namespaceScoped: pathKey.includes('/namespaces/'),

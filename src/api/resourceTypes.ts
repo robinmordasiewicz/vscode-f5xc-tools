@@ -32,9 +32,42 @@ import {
 export type NamespaceScope = 'any' | 'system' | 'shared';
 
 /**
- * API base path type - different F5 XC APIs use different base paths
+ * API base path type - different F5 XC APIs use different base paths.
+ * Supports all F5 XC API bases including: config, web, gen-ai, ai_data, data,
+ * bigipconnector, discovery, gia, infraprotect, nginx, observability, operate,
+ * shape, terraform, scim, secret_management, and others.
  */
-export type ApiBase = 'config' | 'web';
+export type ApiBase = string;
+
+/**
+ * Known API bases for F5 XC APIs.
+ * This list is informational and not exhaustive - new API bases may be added.
+ */
+export const KNOWN_API_BASES = [
+  'config',
+  'web',
+  'ai_data',
+  'bigipconnector',
+  'data',
+  'data-intelligence',
+  'discovery',
+  'gen-ai',
+  'gia',
+  'infraprotect',
+  'maurice',
+  'mobile',
+  'nginx',
+  'object_store',
+  'observability',
+  'operate',
+  'register',
+  'report',
+  'scim',
+  'secret_management',
+  'shape',
+  'terraform',
+  'tpm',
+] as const;
 
 /**
  * Resource categories for organizing the tree view
@@ -55,6 +88,15 @@ export enum ResourceCategory {
   ServiceMesh = 'Service Mesh',
   MultiCloud = 'Multi-Cloud',
   Configuration = 'Configuration',
+  // New categories for extended API support
+  BigIPConnector = 'BIG-IP Connector',
+  InfraProtection = 'Infrastructure Protection',
+  NGINXOne = 'NGINX One',
+  ClientSideDefense = 'Client-Side Defense',
+  Kubernetes = 'Kubernetes',
+  Discovery = 'Discovery',
+  AI = 'AI & Automation',
+  Routing = 'Routing',
 }
 
 /**
@@ -459,6 +501,211 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     supportsCustomOps: false,
     icon: 'pulse',
   },
+
+  // =====================================================
+  // Cloud Connect (P1)
+  // =====================================================
+  cloud_credentials: {
+    category: ResourceCategory.CloudConnect,
+    supportsCustomOps: false,
+    icon: 'key',
+    namespaceScope: 'system',
+  },
+  cloud_link: {
+    category: ResourceCategory.CloudConnect,
+    supportsCustomOps: false,
+    icon: 'link',
+  },
+  cloud_connect: {
+    category: ResourceCategory.CloudConnect,
+    supportsCustomOps: false,
+    icon: 'cloud',
+  },
+  cloud_elastic_ip: {
+    category: ResourceCategory.CloudConnect,
+    supportsCustomOps: false,
+    icon: 'globe',
+  },
+
+  // =====================================================
+  // Kubernetes / Edge Stack (P1)
+  // =====================================================
+  cluster: {
+    category: ResourceCategory.Kubernetes,
+    supportsCustomOps: false,
+    icon: 'symbol-namespace',
+  },
+  fleet: {
+    category: ResourceCategory.Kubernetes,
+    supportsCustomOps: false,
+    icon: 'layers',
+  },
+  virtual_site: {
+    category: ResourceCategory.Kubernetes,
+    supportsCustomOps: false,
+    icon: 'organization',
+  },
+  site_mesh_group: {
+    category: ResourceCategory.ServiceMesh,
+    supportsCustomOps: false,
+    icon: 'git-merge',
+  },
+
+  // =====================================================
+  // API Security (P1)
+  // =====================================================
+  api_sec_api_crawler: {
+    displayName: 'API Crawler',
+    category: ResourceCategory.APIProtection,
+    supportsCustomOps: false,
+    icon: 'search',
+  },
+  api_sec_api_discovery: {
+    displayName: 'API Discovery',
+    category: ResourceCategory.APIProtection,
+    supportsCustomOps: false,
+    icon: 'telescope',
+  },
+  api_sec_api_testing: {
+    displayName: 'API Testing',
+    category: ResourceCategory.APIProtection,
+    supportsCustomOps: false,
+    icon: 'beaker',
+  },
+
+  // =====================================================
+  // Discovery (P1)
+  // =====================================================
+  discovered_service: {
+    category: ResourceCategory.Discovery,
+    supportsCustomOps: false,
+    icon: 'symbol-method',
+  },
+  discovery: {
+    category: ResourceCategory.Discovery,
+    supportsCustomOps: false,
+    icon: 'search',
+  },
+
+  // =====================================================
+  // Routing (P1)
+  // =====================================================
+  bgp: {
+    displayName: 'BGP Configuration',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'arrow-swap',
+  },
+  bgp_asn_set: {
+    displayName: 'BGP ASN Sets',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'list-ordered',
+  },
+  bgp_routing_policy: {
+    displayName: 'BGP Routing Policies',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'list-filter',
+  },
+
+  // =====================================================
+  // BIG-IP Connector (P1)
+  // =====================================================
+  bigip_irule: {
+    displayName: 'BIG-IP iRules',
+    category: ResourceCategory.BigIPConnector,
+    supportsCustomOps: false,
+    icon: 'file-code',
+  },
+  bigip_virtual_server: {
+    displayName: 'BIG-IP Virtual Servers',
+    category: ResourceCategory.BigIPConnector,
+    supportsCustomOps: false,
+    icon: 'server',
+  },
+  bigip_apm: {
+    displayName: 'BIG-IP APM',
+    category: ResourceCategory.BigIPConnector,
+    supportsCustomOps: false,
+    icon: 'verified',
+  },
+
+  // =====================================================
+  // Infrastructure Protection (P1)
+  // =====================================================
+  infraprotect: {
+    displayName: 'Infrastructure Protection',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'shield',
+  },
+  infraprotect_asn: {
+    displayName: 'ASN Protection',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'list-ordered',
+  },
+  infraprotect_firewall_rule: {
+    displayName: 'Firewall Rules',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'flame',
+  },
+  infraprotect_tunnel: {
+    displayName: 'Protection Tunnels',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'arrow-right',
+  },
+
+  // =====================================================
+  // NGINX One (P1)
+  // =====================================================
+  nginx_one_nginx_instance: {
+    displayName: 'NGINX Instances',
+    category: ResourceCategory.NGINXOne,
+    supportsCustomOps: false,
+    icon: 'server',
+  },
+  nginx_one_nginx_server: {
+    displayName: 'NGINX Servers',
+    category: ResourceCategory.NGINXOne,
+    supportsCustomOps: false,
+    icon: 'server-process',
+  },
+
+  // =====================================================
+  // Client-Side Defense (P1)
+  // =====================================================
+  shape_client_side_defense: {
+    displayName: 'Client-Side Defense',
+    category: ResourceCategory.ClientSideDefense,
+    supportsCustomOps: false,
+    icon: 'browser',
+  },
+  shape_client_side_defense_protected_domain: {
+    displayName: 'Protected Domains',
+    category: ResourceCategory.ClientSideDefense,
+    supportsCustomOps: false,
+    icon: 'globe',
+  },
+
+  // =====================================================
+  // AI & Automation (P1)
+  // =====================================================
+  ai_assistant: {
+    displayName: 'AI Assistant',
+    category: ResourceCategory.AI,
+    supportsCustomOps: false,
+    icon: 'sparkle',
+  },
+  gia: {
+    displayName: 'Global Infrastructure Analytics',
+    category: ResourceCategory.AI,
+    supportsCustomOps: false,
+    icon: 'graph',
+  },
 };
 
 /**
@@ -578,6 +825,15 @@ export function getCategoryIcon(category: ResourceCategory): string {
     [ResourceCategory.ServiceMesh]: 'git-merge',
     [ResourceCategory.MultiCloud]: 'cloud',
     [ResourceCategory.Configuration]: 'settings-gear',
+    // New category icons
+    [ResourceCategory.BigIPConnector]: 'plug',
+    [ResourceCategory.InfraProtection]: 'shield',
+    [ResourceCategory.NGINXOne]: 'server',
+    [ResourceCategory.ClientSideDefense]: 'browser',
+    [ResourceCategory.Kubernetes]: 'symbol-namespace',
+    [ResourceCategory.Discovery]: 'search',
+    [ResourceCategory.AI]: 'sparkle',
+    [ResourceCategory.Routing]: 'arrow-swap',
   };
 
   return icons[category] || 'folder';

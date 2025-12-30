@@ -35,7 +35,8 @@ function buildApiPath(
   apiBase: ApiBase = 'config',
   serviceSegment?: string,
 ): string {
-  const basePath = apiBase === 'web' ? API_ENDPOINTS.WEB_BASE : API_ENDPOINTS.CONFIG_BASE;
+  // Dynamic API base path construction - supports all 23 F5 XC API bases
+  const basePath = `/api/${apiBase}`;
   // Insert service segment if present (e.g., /api/config/dns/namespaces/...)
   const baseWithService = serviceSegment ? `${basePath}/${serviceSegment}` : basePath;
   const path = name
@@ -289,8 +290,8 @@ export class F5XCClient {
       // Use custom path with namespace substitution
       path = customListPath.replace('{namespace}', namespace);
     } else if (tenantLevel) {
-      // Tenant-level resource - no namespace in path
-      const basePath = apiBase === 'web' ? API_ENDPOINTS.WEB_BASE : API_ENDPOINTS.CONFIG_BASE;
+      // Tenant-level resource - no namespace in path (dynamic API base)
+      const basePath = `/api/${apiBase}`;
       path = `${basePath}/${resourceType}`;
     } else {
       // Standard path (with optional service segment for extended APIs like /api/config/dns/...)
