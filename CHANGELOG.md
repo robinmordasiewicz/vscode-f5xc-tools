@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.40](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.39...v0.1.40) (2025-12-30)
+
+
+### Features
+
+* support all 25 f5 xc api bases and add p1 resources ([c303114](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/c30311486564c0102b4f7f9fc3f58b4ce6adc41d)), closes [51-#59](https://github.com/51-/issues/59)
+
 ## [0.1.39](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.38...v0.1.39) (2025-12-17)
 
 
