@@ -648,6 +648,19 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     supportsCustomOps: false,
     icon: 'verified',
   },
+  // P2: Additional BIG-IP Connector resources (#51)
+  bigcne_data_group: {
+    displayName: 'BIG-CNE Data Groups',
+    category: ResourceCategory.BigIPConnector,
+    supportsCustomOps: false,
+    icon: 'database',
+  },
+  bigcne_irule: {
+    displayName: 'BIG-CNE iRules',
+    category: ResourceCategory.BigIPConnector,
+    supportsCustomOps: false,
+    icon: 'file-code',
+  },
 
   // =====================================================
   // Infrastructure Protection (P1)
@@ -676,6 +689,43 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     supportsCustomOps: false,
     icon: 'arrow-right',
   },
+  // P2: Additional Infrastructure Protection resources (#52)
+  infraprotect_asn_prefix: {
+    displayName: 'ASN Prefix Protection',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'list-ordered',
+  },
+  infraprotect_deny_list_rule: {
+    displayName: 'Deny List Rules',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'circle-slash',
+  },
+  infraprotect_firewall_rule_group: {
+    displayName: 'Firewall Rule Groups',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'folder',
+  },
+  infraprotect_firewall_ruleset: {
+    displayName: 'Firewall Rulesets',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'checklist',
+  },
+  infraprotect_information: {
+    displayName: 'Protection Information',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'info',
+  },
+  infraprotect_internet_prefix_advertisement: {
+    displayName: 'Internet Prefix Advertisements',
+    category: ResourceCategory.InfraProtection,
+    supportsCustomOps: false,
+    icon: 'broadcast',
+  },
 
   // =====================================================
   // NGINX One (P1)
@@ -691,6 +741,26 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     category: ResourceCategory.NGINXOne,
     supportsCustomOps: false,
     icon: 'server-process',
+  },
+  // P2: Additional NGINX One resources (#53)
+  nginx_one_nginx_csg: {
+    displayName: 'NGINX Cloud Service Gateway',
+    category: ResourceCategory.NGINXOne,
+    supportsCustomOps: false,
+    icon: 'cloud',
+  },
+  nginx_one_nginx_service_discovery: {
+    displayName: 'NGINX Service Discovery',
+    category: ResourceCategory.NGINXOne,
+    supportsCustomOps: false,
+    icon: 'search',
+  },
+  nginx_one_subscription: {
+    displayName: 'NGINX One Subscriptions',
+    category: ResourceCategory.NGINXOne,
+    supportsCustomOps: false,
+    icon: 'credit-card',
+    apiPath: 'nginx_one_subscribe', // Unique path to avoid conflict with other 'subscribe' paths
   },
 
   // =====================================================
@@ -708,6 +778,26 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     supportsCustomOps: false,
     icon: 'globe',
   },
+  // P2: Additional Client-Side Defense resources (#54)
+  shape_client_side_defense_allowed_domain: {
+    displayName: 'Allowed Domains',
+    category: ResourceCategory.ClientSideDefense,
+    supportsCustomOps: false,
+    icon: 'check',
+  },
+  shape_client_side_defense_mitigated_domain: {
+    displayName: 'Mitigated Domains',
+    category: ResourceCategory.ClientSideDefense,
+    supportsCustomOps: false,
+    icon: 'shield',
+  },
+  shape_client_side_defense_subscription: {
+    displayName: 'CSD Subscriptions',
+    category: ResourceCategory.ClientSideDefense,
+    supportsCustomOps: false,
+    icon: 'credit-card',
+    apiPath: 'csd_subscribe', // Unique path to avoid conflict with other 'subscribe' paths
+  },
 
   // =====================================================
   // AI & Automation (P1)
@@ -723,6 +813,159 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     category: ResourceCategory.AI,
     supportsCustomOps: false,
     icon: 'graph',
+  },
+
+  // =====================================================
+  // Shape Bot Defense Extended (P2) (#55)
+  // =====================================================
+  shape_bot_defense_bot_allowlist_policy: {
+    displayName: 'Bot Allowlist Policies',
+    category: ResourceCategory.BotDefense,
+    supportsCustomOps: false,
+    icon: 'check',
+  },
+  shape_bot_defense_bot_endpoint_policy: {
+    displayName: 'Bot Endpoint Policies',
+    category: ResourceCategory.BotDefense,
+    supportsCustomOps: false,
+    icon: 'link',
+  },
+  shape_bot_defense_bot_network_policy: {
+    displayName: 'Bot Network Policies',
+    category: ResourceCategory.BotDefense,
+    supportsCustomOps: false,
+    icon: 'type-hierarchy',
+  },
+  shape_bot_defense_instance: {
+    displayName: 'Bot Defense Instances',
+    category: ResourceCategory.BotDefense,
+    supportsCustomOps: false,
+    icon: 'server',
+  },
+  shape_bot_defense_protected_application: {
+    displayName: 'Shape Protected Applications',
+    category: ResourceCategory.BotDefense,
+    supportsCustomOps: false,
+    icon: 'verified',
+  },
+  shape_bot_defense_reporting: {
+    displayName: 'Bot Defense Reporting',
+    category: ResourceCategory.BotDefense,
+    supportsCustomOps: false,
+    icon: 'graph',
+  },
+  shape_bot_defense_threat_intelligence_bot_detection_rule: {
+    displayName: 'Threat Intelligence Rules',
+    category: ResourceCategory.BotDefense,
+    supportsCustomOps: false,
+    icon: 'lightbulb',
+  },
+
+  // =====================================================
+  // Routing Extended (P2) (#56)
+  // =====================================================
+  route: {
+    displayName: 'Static Routes',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'arrow-right',
+  },
+  nat_policy: {
+    displayName: 'NAT Policies',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'arrow-swap',
+  },
+  policy_based_routing: {
+    displayName: 'Policy-Based Routing',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'list-filter',
+  },
+  policer: {
+    displayName: 'Traffic Policers',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'dashboard',
+  },
+  forwarding_class: {
+    displayName: 'Forwarding Classes',
+    category: ResourceCategory.Routing,
+    supportsCustomOps: false,
+    icon: 'layers',
+  },
+
+  // =====================================================
+  // Secret Management (P3) (#57)
+  // =====================================================
+  secret_management: {
+    displayName: 'Secret Management',
+    category: ResourceCategory.Configuration,
+    supportsCustomOps: false,
+    icon: 'lock',
+  },
+  secret_management_access: {
+    displayName: 'Secret Access Policies',
+    category: ResourceCategory.Configuration,
+    supportsCustomOps: false,
+    icon: 'key',
+  },
+  secret_policy: {
+    displayName: 'Secret Policies',
+    category: ResourceCategory.Configuration,
+    supportsCustomOps: false,
+    icon: 'law',
+  },
+  secret_policy_rule: {
+    displayName: 'Secret Policy Rules',
+    category: ResourceCategory.Configuration,
+    supportsCustomOps: false,
+    icon: 'checklist',
+  },
+
+  // =====================================================
+  // Data & Analytics (P3) (#58)
+  // =====================================================
+  data_privacy_geo_config: {
+    displayName: 'Data Privacy Geo Config',
+    category: ResourceCategory.DataProtection,
+    supportsCustomOps: false,
+    icon: 'globe',
+  },
+  data_privacy_lma_region: {
+    displayName: 'LMA Region Config',
+    category: ResourceCategory.DataProtection,
+    supportsCustomOps: false,
+    icon: 'map',
+  },
+  data_type: {
+    displayName: 'Data Types',
+    category: ResourceCategory.DataProtection,
+    supportsCustomOps: false,
+    icon: 'symbol-class',
+  },
+  flow: {
+    displayName: 'Flow Data',
+    category: ResourceCategory.Observability,
+    supportsCustomOps: false,
+    icon: 'pulse',
+    apiPath: 'flow_subscribe', // Unique path to avoid conflict with other 'subscribe' paths
+  },
+  flow_anomaly: {
+    displayName: 'Flow Anomaly Detection',
+    category: ResourceCategory.Observability,
+    supportsCustomOps: false,
+    icon: 'warning',
+  },
+
+  // =====================================================
+  // Terraform Integration (P3) (#59)
+  // =====================================================
+  terraform_parameters: {
+    displayName: 'Terraform Parameters',
+    category: ResourceCategory.Configuration,
+    supportsCustomOps: false,
+    icon: 'code',
   },
 };
 
