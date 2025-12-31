@@ -4,31 +4,50 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.44](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.43...v0.1.44) (2025-12-31)
 
-
 ### Features
 
-* **resources:** add p2/p3 resource overrides for issues [#51](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/51)-[#59](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/59) ([#60](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/60)) ([71c3dd6](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/71c3dd62910925d1f8f91f2aa217d0675859710e)), closes [#52](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/52) [#53](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/53) [#54](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/54) [#55](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/55) [#56](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/56) [#57](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/57) [#58](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/58)
+- **resources:** add p2/p3 resource overrides for issues
+  [#51](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/51)-[#59](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/59)
+  ([#60](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/60))
+  ([71c3dd6](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/71c3dd62910925d1f8f91f2aa217d0675859710e)),
+  closes [#52](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/52)
+  [#53](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/53)
+  [#54](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/54)
+  [#55](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/55)
+  [#56](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/56)
+  [#57](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/57)
+  [#58](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/58)
 
 ## [0.1.43](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.42...v0.1.43) (2025-12-31)
 
-
 ### Features
 
-* add upstream sync workflow with repository_dispatch trigger ([ed4b794](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/ed4b794c089fbfff1489f36545ee5b74a6884350))
+- add upstream sync workflow with repository_dispatch trigger
+  ([ed4b794](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/ed4b794c089fbfff1489f36545ee5b74a6884350))
 
 ## [0.1.42](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.41...v0.1.42) (2025-12-31)
 
-
 ### Features
 
-* p0 api metadata enhancements for improved ux and safety ([#67](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/67)) ([221d6f8](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/221d6f8821f89e6dcf6ba4e457f68d13b8d97dbe)), closes [hi#priority](https://github.com/hi/issues/priority) [#62](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/62) [#63](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/63) [#64](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/64) [#65](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/65) [#66](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/66)
+- p0 api metadata enhancements for improved ux and safety
+  ([#67](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/67))
+  ([221d6f8](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/221d6f8821f89e6dcf6ba4e457f68d13b8d97dbe)),
+  closes [hi#priority](https://github.com/hi/issues/priority)
+  [#62](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/62)
+  [#63](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/63)
+  [#64](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/64)
+  [#65](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/65)
+  [#66](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/66)
 
 ## [0.1.41](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.40...v0.1.41) (2025-12-31)
 
-
 ### Features
 
-* use ui_category directly from upstream (single source of truth) ([f1c3f28](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/f1c3f2860a3df6bc30c6f1f53fec1801816ddaef)), closes [robinmordasiewicz/f5xc-api-enriched#246](https://github.com/robinmordasiewicz/f5xc-api-enriched/issues/246) [#252](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/252)
+- use ui_category directly from upstream (single source of truth)
+  ([f1c3f28](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/f1c3f2860a3df6bc30c6f1f53fec1801816ddaef)),
+  closes
+  [robinmordasiewicz/f5xc-api-enriched#246](https://github.com/robinmordasiewicz/f5xc-api-enriched/issues/246)
+  [#252](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/252)
 
 ## [0.1.40](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.39...v0.1.40) (2025-12-30)
 
