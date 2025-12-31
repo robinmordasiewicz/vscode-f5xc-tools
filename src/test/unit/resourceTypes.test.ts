@@ -265,7 +265,8 @@ describe('Resource Types Registry', () => {
 
     it('should have schemaFile for http_loadbalancer', () => {
       expect(RESOURCE_TYPES.http_loadbalancer!.schemaFile).toBeDefined();
-      expect(RESOURCE_TYPES.http_loadbalancer!.schemaFile).toContain('http_loadbalancer');
+      // schemaFile now uses domain-based files (e.g., "virtual.json") instead of resource-specific files
+      expect(RESOURCE_TYPES.http_loadbalancer!.schemaFile).toMatch(/\.json$/);
     });
 
     it('should have description for http_loadbalancer', () => {

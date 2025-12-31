@@ -11,14 +11,22 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateResourceTypesFile, ParsedSpecInfo } from './generators/resource-type-generator';
+import {
+  generateResourceTypesFromDomainFiles,
+  ParsedSpecInfo,
+} from './generators/resource-type-generator';
 import { writeConstantsFile } from './generators/constants-generator';
+import { generateDomainCategoriesFile } from './generators/domain-category-generator';
 
-const SPEC_DIR = path.join(__dirname, '..', 'docs', 'specifications', 'api');
+// Use domain-based specs (new upstream format with x-ves-cli-domain)
+const DOMAIN_DIR = path.join(__dirname, '..', 'docs', 'specifications', 'api', 'domains');
+const SPECS_DIR = path.join(__dirname, '..', 'docs', 'specifications', 'api');
 const GENERATED_DIR = path.join(__dirname, '..', 'src', 'generated');
 const RESOURCE_TYPES_OUTPUT = path.join(GENERATED_DIR, 'resourceTypesBase.ts');
 const CONSTANTS_OUTPUT = path.join(GENERATED_DIR, 'constants.ts');
+const DOMAIN_CATEGORIES_OUTPUT = path.join(GENERATED_DIR, 'domainCategories.ts');
 const INDEX_OUTPUT = path.join(GENERATED_DIR, 'index.ts');
+const INDEX_JSON_PATH = path.join(SPECS_DIR, 'index.json');
 const SCOPE_OVERRIDES_PATH = path.join(__dirname, 'generators', 'namespace-scope-overrides.json');
 const DISPLAY_NAME_OVERRIDES_PATH = path.join(
   __dirname,
@@ -39,6 +47,7 @@ function generateIndexFile(): void {
 export * from './constants';
 export * from './resourceTypesBase';
 export * from './documentationUrls';
+export * from './domainCategories';
 `;
 
   fs.writeFileSync(INDEX_OUTPUT, content, 'utf-8');
@@ -67,7 +76,8 @@ function printSummary(specs: ParsedSpecInfo[]): void {
   for (const key of keyTypes) {
     const spec = specs.find((s) => s.resourceKey === key);
     if (spec) {
-      console.log(`  ${key}: ${spec.apiPath} (${spec.apiBase})`);
+      const domain = spec.domain ? ` [${spec.domain}]` : '';
+      console.log(`  ${key}: ${spec.apiPath} (${spec.apiBase})${domain}`);
     } else {
       console.log(`  ${key}: NOT FOUND`);
     }
@@ -82,6 +92,21 @@ function printSummary(specs: ParsedSpecInfo[]): void {
   const nsScoped = specs.filter((s) => s.namespaceScoped).length;
   const tenantLevel = specs.filter((s) => !s.namespaceScoped).length;
   console.log(`By scope: namespace-scoped=${nsScoped}, tenant-level=${tenantLevel}`);
+
+  // Count by domain
+  const domainCounts = new Map<string, number>();
+  for (const spec of specs) {
+    const domain = spec.domain || 'unknown';
+    domainCounts.set(domain, (domainCounts.get(domain) || 0) + 1);
+  }
+  console.log(`\nBy domain (${domainCounts.size} domains):`);
+  const sortedDomains = [...domainCounts.entries()].sort((a, b) => b[1] - a[1]);
+  for (const [domain, count] of sortedDomains.slice(0, 10)) {
+    console.log(`  ${domain}: ${count}`);
+  }
+  if (sortedDomains.length > 10) {
+    console.log(`  ... and ${sortedDomains.length - 10} more domains`);
+  }
 }
 
 /**
@@ -95,17 +120,17 @@ function main(): void {
     fs.mkdirSync(GENERATED_DIR, { recursive: true });
   }
 
-  // Check if spec directory exists
-  if (!fs.existsSync(SPEC_DIR)) {
-    console.error(`Error: Spec directory not found: ${SPEC_DIR}`);
-    console.error('Please ensure OpenAPI spec files are in docs/specifications/api/');
+  // Check if domain directory exists
+  if (!fs.existsSync(DOMAIN_DIR)) {
+    console.error(`Error: Domain directory not found: ${DOMAIN_DIR}`);
+    console.error('Please ensure OpenAPI spec files are in docs/specifications/domains/');
     process.exit(1);
   }
 
-  // Generate resource types from specs (with namespace scope and display name overrides)
-  console.log('Phase 1: Generating resource types from OpenAPI specs...');
-  const specs = generateResourceTypesFile(
-    SPEC_DIR,
+  // Generate resource types from domain files (with namespace scope and display name overrides)
+  console.log('Phase 1: Generating resource types from domain files...');
+  const specs = generateResourceTypesFromDomainFiles(
+    DOMAIN_DIR,
     RESOURCE_TYPES_OUTPUT,
     SCOPE_OVERRIDES_PATH,
     DISPLAY_NAME_OVERRIDES_PATH,
@@ -120,8 +145,16 @@ function main(): void {
   console.log('\nPhase 2: Generating constants file...');
   writeConstantsFile(CONSTANTS_OUTPUT);
 
+  // Generate domain categories from index.json (uses ui_category directly from upstream)
+  console.log('\nPhase 3: Generating domain categories from index.json...');
+  if (fs.existsSync(INDEX_JSON_PATH)) {
+    generateDomainCategoriesFile(INDEX_JSON_PATH, DOMAIN_CATEGORIES_OUTPUT);
+  } else {
+    console.warn(`Warning: index.json not found at ${INDEX_JSON_PATH}, skipping domain categories`);
+  }
+
   // Generate index file
-  console.log('\nPhase 3: Generating index file...');
+  console.log('\nPhase 4: Generating index file...');
   generateIndexFile();
 
   // Print summary
@@ -132,6 +165,7 @@ function main(): void {
   console.log(`Files generated:`);
   console.log(`  - resourceTypesBase.ts (${specs.length} resource types)`);
   console.log(`  - constants.ts`);
+  console.log(`  - domainCategories.ts`);
   console.log(`  - index.ts`);
 }
 
