@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.44](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.43...v0.1.44) (2025-12-31)
+
+
+### Features
+
+* **resources:** add p2/p3 resource overrides for issues [#51](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/51)-[#59](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/59) ([#60](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/60)) ([71c3dd6](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/71c3dd62910925d1f8f91f2aa217d0675859710e)), closes [#52](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/52) [#53](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/53) [#54](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/54) [#55](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/55) [#56](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/56) [#57](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/57) [#58](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/58)
+
 ## [0.1.43](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.42...v0.1.43) (2025-12-31)
 
 
