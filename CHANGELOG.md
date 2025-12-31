@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.43](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.42...v0.1.43) (2025-12-31)
+
+
+### Features
+
+* add upstream sync workflow with repository_dispatch trigger ([ed4b794](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/ed4b794c089fbfff1489f36545ee5b74a6884350))
+
 ## [0.1.42](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.41...v0.1.42) (2025-12-31)
 
 
