@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { getLogger } from './logger';
+import { getSmartErrorMessage } from '../api/resourceTypes';
 
 /**
  * Custom error class for F5 XC API errors
@@ -103,11 +104,25 @@ export class AuthenticationError extends Error {
 }
 
 /**
+ * Options for error handling with resource context
+ */
+export interface ErrorHandlingOptions {
+  /** The resource type key (e.g., 'http_loadbalancer') for smart error messages */
+  resourceTypeKey?: string;
+  /** The operation being performed (for smart error messages) */
+  operation?: 'list' | 'get' | 'create' | 'update' | 'delete';
+}
+
+/**
  * Wrapper for error handling with user notification
+ * @param operation - The async operation to execute
+ * @param context - Human-readable context for error messages
+ * @param options - Optional error handling options for smart error messages
  */
 export async function withErrorHandling<T>(
   operation: () => Promise<T>,
   context: string,
+  options?: ErrorHandlingOptions,
 ): Promise<T | undefined> {
   const logger = getLogger();
 
@@ -117,22 +132,38 @@ export async function withErrorHandling<T>(
     logger.error(`${context} failed`, error as Error);
 
     if (error instanceof F5XCApiError) {
+      // Try to get a smart error message if we have resource context
+      let smartMessage: string | undefined;
+      if (options?.resourceTypeKey && options?.operation) {
+        smartMessage = getSmartErrorMessage(
+          options.resourceTypeKey,
+          options.operation,
+          error.statusCode,
+        );
+      }
+
       if (error.isUnauthorized) {
         // 401 - Authentication failed, offer to configure profile
-        const action = await vscode.window.showErrorMessage(
-          error.userFriendlyMessage,
-          'Configure Profile',
-        );
+        const message = smartMessage || error.userFriendlyMessage;
+        const action = await vscode.window.showErrorMessage(message, 'Configure Profile');
         if (action === 'Configure Profile') {
           await vscode.commands.executeCommand('f5xc.editProfile');
         }
       } else if (error.isForbidden) {
-        // 403 - Permission denied, just show error (credentials are valid but lacking permission)
-        void vscode.window.showErrorMessage(`${context}: ${error.userFriendlyMessage}`);
+        // 403 - Permission denied, show smart message if available
+        const message = smartMessage || error.userFriendlyMessage;
+        void vscode.window.showErrorMessage(`${context}: ${message}`);
       } else if (error.isRateLimited) {
-        void vscode.window.showWarningMessage(error.userFriendlyMessage);
+        const message = smartMessage || error.userFriendlyMessage;
+        void vscode.window.showWarningMessage(message);
+      } else if (error.isConflict) {
+        // 409 - Conflict, use smart message for better guidance
+        const message = smartMessage || error.userFriendlyMessage;
+        void vscode.window.showErrorMessage(`${context}: ${message}`);
       } else {
-        void vscode.window.showErrorMessage(`${context}: ${error.userFriendlyMessage}`);
+        // For other errors, prefer smart message if available
+        const message = smartMessage || error.userFriendlyMessage;
+        void vscode.window.showErrorMessage(`${context}: ${message}`);
       }
     } else if (error instanceof ConfigurationError) {
       const action = await vscode.window.showErrorMessage(error.message, 'Open Settings');

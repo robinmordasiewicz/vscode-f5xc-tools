@@ -22,6 +22,76 @@ import { normalizeDescription } from './description-normalizer';
 export type NamespaceScope = 'any' | 'system' | 'shared';
 
 /**
+ * Danger level for operations - indicates risk level and affects UI behavior
+ */
+export type DangerLevel = 'low' | 'medium' | 'high';
+
+/**
+ * Common error information from x-ves-operation-metadata
+ */
+export interface CommonError {
+  code: number;
+  message: string;
+  solution: string;
+}
+
+/**
+ * Performance impact information from x-ves-operation-metadata
+ */
+export interface PerformanceImpact {
+  latency: string;
+  resourceUsage: string;
+}
+
+/**
+ * Side effects information from x-ves-operation-metadata
+ */
+export interface SideEffects {
+  creates?: string[];
+  updates?: string[];
+  deletes?: string[];
+  invalidates?: string[];
+}
+
+/**
+ * Operation metadata extracted from x-ves-operation-metadata extension.
+ * Provides rich context about API operations for UX enhancements.
+ */
+export interface OperationMetadata {
+  /** Human-readable purpose of the operation */
+  purpose?: string;
+  /** Risk level of the operation */
+  dangerLevel?: DangerLevel;
+  /** Whether user confirmation should be required */
+  confirmationRequired?: boolean;
+  /** Required fields for the operation */
+  requiredFields?: string[];
+  /** Optional fields for the operation */
+  optionalFields?: string[];
+  /** Prerequisites that must be met before operation */
+  prerequisites?: string[];
+  /** Expected outcomes after successful operation */
+  postconditions?: string[];
+  /** Side effects the operation may cause */
+  sideEffects?: SideEffects;
+  /** Common errors and their solutions */
+  commonErrors?: CommonError[];
+  /** Performance impact information */
+  performanceImpact?: PerformanceImpact;
+}
+
+/**
+ * Collection of operation metadata for all CRUD operations on a resource
+ */
+export interface ResourceOperationMetadata {
+  list?: OperationMetadata;
+  get?: OperationMetadata;
+  create?: OperationMetadata;
+  update?: OperationMetadata;
+  delete?: OperationMetadata;
+}
+
+/**
  * Parsed information from an OpenAPI spec file
  */
 export interface ParsedSpecInfo {
@@ -51,6 +121,8 @@ export interface ParsedSpecInfo {
   documentationUrl?: string;
   /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
   domain?: string;
+  /** Operation metadata extracted from x-ves-operation-metadata extensions */
+  operationMetadata?: ResourceOperationMetadata;
 }
 
 /**
@@ -76,10 +148,44 @@ interface PathItem {
   delete?: Operation;
 }
 
+/**
+ * Raw operation metadata from OpenAPI spec x-ves-operation-metadata extension
+ */
+interface RawOperationMetadata {
+  purpose?: string;
+  danger_level?: string;
+  confirmation_required?: boolean;
+  required_fields?: string[];
+  optional_fields?: string[];
+  conditions?: {
+    prerequisites?: string[];
+    postconditions?: string[];
+  };
+  side_effects?: {
+    creates?: string[];
+    updates?: string[];
+    deletes?: string[];
+    invalidates?: string[];
+  };
+  common_errors?: Array<{
+    code: number;
+    message: string;
+    solution: string;
+  }>;
+  performance_impact?: {
+    latency?: string;
+    resource_usage?: string;
+  };
+}
+
 interface Operation {
+  operationId?: string;
+  description?: string;
   externalDocs?: {
     url?: string;
   };
+  'x-ves-operation-metadata'?: RawOperationMetadata;
+  'x-ves-danger-level'?: string;
 }
 
 /**
@@ -488,10 +594,7 @@ export function deriveResourceKeyFromApiPath(apiPath: string): string {
  * Derive schema ID from API path and operation ID.
  * Example: operationId "ves.io.schema.app_firewall.API.Create" -> "ves.io.schema.app_firewall"
  */
-function deriveSchemaIdFromPath(
-  apiPath: string,
-  pathItem: PathItem,
-): string {
+function deriveSchemaIdFromPath(apiPath: string, pathItem: PathItem): string {
   // Try to get operationId from any method
   for (const method of ['post', 'get', 'put', 'delete'] as const) {
     const operation = pathItem[method] as { operationId?: string } | undefined;
@@ -507,6 +610,106 @@ function deriveSchemaIdFromPath(
   // Fallback: construct from apiPath
   const resourceKey = deriveResourceKeyFromApiPath(apiPath);
   return `ves.io.schema.${resourceKey}`;
+}
+
+/**
+ * Convert raw operation metadata from spec to normalized OperationMetadata
+ */
+function convertRawMetadata(raw: RawOperationMetadata | undefined): OperationMetadata | undefined {
+  if (!raw) {
+    return undefined;
+  }
+
+  const result: OperationMetadata = {};
+
+  if (raw.purpose) {
+    result.purpose = raw.purpose;
+  }
+
+  if (raw.danger_level) {
+    const level = raw.danger_level.toLowerCase();
+    if (level === 'low' || level === 'medium' || level === 'high') {
+      result.dangerLevel = level;
+    }
+  }
+
+  if (raw.confirmation_required !== undefined) {
+    result.confirmationRequired = raw.confirmation_required;
+  }
+
+  if (raw.required_fields && raw.required_fields.length > 0) {
+    result.requiredFields = raw.required_fields;
+  }
+
+  if (raw.optional_fields && raw.optional_fields.length > 0) {
+    result.optionalFields = raw.optional_fields;
+  }
+
+  if (raw.conditions?.prerequisites && raw.conditions.prerequisites.length > 0) {
+    result.prerequisites = raw.conditions.prerequisites;
+  }
+
+  if (raw.conditions?.postconditions && raw.conditions.postconditions.length > 0) {
+    result.postconditions = raw.conditions.postconditions;
+  }
+
+  if (raw.side_effects) {
+    const sideEffects: SideEffects = {};
+    if (raw.side_effects.creates?.length) {
+      sideEffects.creates = raw.side_effects.creates;
+    }
+    if (raw.side_effects.updates?.length) {
+      sideEffects.updates = raw.side_effects.updates;
+    }
+    if (raw.side_effects.deletes?.length) {
+      sideEffects.deletes = raw.side_effects.deletes;
+    }
+    if (raw.side_effects.invalidates?.length) {
+      sideEffects.invalidates = raw.side_effects.invalidates;
+    }
+    if (Object.keys(sideEffects).length > 0) {
+      result.sideEffects = sideEffects;
+    }
+  }
+
+  if (raw.common_errors && raw.common_errors.length > 0) {
+    result.commonErrors = raw.common_errors.map((e) => ({
+      code: e.code,
+      message: e.message,
+      solution: e.solution,
+    }));
+  }
+
+  if (raw.performance_impact) {
+    const impact: PerformanceImpact = {
+      latency: raw.performance_impact.latency || 'unknown',
+      resourceUsage: raw.performance_impact.resource_usage || 'unknown',
+    };
+    result.performanceImpact = impact;
+  }
+
+  return Object.keys(result).length > 0 ? result : undefined;
+}
+
+/**
+ * Extract operation metadata from a path item (including x-ves-danger-level fallback)
+ */
+function extractOperationMetadata(operation: Operation | undefined): OperationMetadata | undefined {
+  if (!operation) {
+    return undefined;
+  }
+
+  const metadata = convertRawMetadata(operation['x-ves-operation-metadata']);
+
+  // Fallback to x-ves-danger-level if not in operation metadata
+  if (metadata && !metadata.dangerLevel && operation['x-ves-danger-level']) {
+    const level = operation['x-ves-danger-level'].toLowerCase();
+    if (level === 'low' || level === 'medium' || level === 'high') {
+      metadata.dangerLevel = level;
+    }
+  }
+
+  return metadata;
 }
 
 /**
@@ -596,7 +799,42 @@ export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
     // Derive schema ID
     const schemaId = deriveSchemaIdFromPath(apiPath, pathItem);
 
-    results.push({
+    // Extract operation metadata from list endpoint (GET=list, POST=create)
+    // and item endpoint (GET=get, PUT=update, DELETE=delete)
+    const operationMetadata: ResourceOperationMetadata = {};
+
+    // List endpoint operations
+    const listOp = extractOperationMetadata(pathItem.get);
+    if (listOp) {
+      operationMetadata.list = listOp;
+    }
+
+    const createOp = extractOperationMetadata(pathItem.post);
+    if (createOp) {
+      operationMetadata.create = createOp;
+    }
+
+    // Look for item endpoint (pathKey + /{name})
+    const itemPathKey = `${pathKey}/{name}`;
+    const itemPathItem = paths[itemPathKey];
+    if (itemPathItem) {
+      const getOp = extractOperationMetadata(itemPathItem.get);
+      if (getOp) {
+        operationMetadata.get = getOp;
+      }
+
+      const updateOp = extractOperationMetadata(itemPathItem.put);
+      if (updateOp) {
+        operationMetadata.update = updateOp;
+      }
+
+      const deleteOp = extractOperationMetadata(itemPathItem.delete);
+      if (deleteOp) {
+        operationMetadata.delete = deleteOp;
+      }
+    }
+
+    const result: ParsedSpecInfo = {
       resourceKey,
       apiPath,
       displayName,
@@ -609,7 +847,14 @@ export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
       namespaceScoped: true,
       namespaceScope,
       domain,
-    });
+    };
+
+    // Only include operationMetadata if we have at least one operation
+    if (Object.keys(operationMetadata).length > 0) {
+      result.operationMetadata = operationMetadata;
+    }
+
+    results.push(result);
   }
 
   return results;

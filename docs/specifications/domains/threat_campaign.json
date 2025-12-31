@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -194,18 +187,12 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_security-threatcampaignapi-getthreatcampaignbyid"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_security.ThreatCampaignAPI.GetThreatCampaignById",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.id"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.id"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific threat-campaign",
-          "required_fields": [
-            "path.id"
-          ],
+          "required_fields": ["path.id"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
@@ -319,21 +306,13 @@
         "x-ves-proto-enum": "ves.io.schema.app_firewall.AppFirewallViolationType",
         "x-ves-minimum-configuration": {
           "description": "Web Application Firewall (WAF) policy for protecting HTTP applications",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "spec.detection_settings"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "spec.detection_settings"],
           "mutually_exclusive_groups": [],
           "example_yaml": "apiVersion: v1\nkind: app_firewall\nmetadata:\n  name: default-waf\n  namespace: default\nspec:\n  detection_settings:\n    signature_detection: true\n  signature_set:\n    signature_set_name: default_waf_signature_set\n  bot_defense:\n    disabled: false\n  data_guard:\n    disabled: false\n  blocking:\n    disabled: false\n",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"default-waf\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"detection_settings\": {\"signature_detection\": true},\n    \"signature_set\": {\"signature_set_name\": \"default_waf_signature_set\"},\n    \"bot_defense\": {\"disabled\": false},\n    \"data_guard\": {\"disabled\": false},\n    \"blocking\": {\"disabled\": false}\n  }\n}\n",
           "example_curl": "curl -X POST \"$F5XC_API_URL/api/config/namespaces/default/app_firewalls\" \\\n  -H \"Authorization: APIToken $F5XC_API_TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d @waf-policy.json\n"
         },
-        "x-ves-cli-aliases": [
-          "firewall",
-          "waf-policy",
-          "attack-protection"
-        ],
+        "x-ves-cli-aliases": ["firewall", "waf-policy", "attack-protection"],
         "x-ves-cli-domain": "waf"
       },
       "app_firewallAttackType": {
@@ -374,21 +353,13 @@
         "x-ves-proto-enum": "ves.io.schema.app_firewall.AttackType",
         "x-ves-minimum-configuration": {
           "description": "Web Application Firewall (WAF) policy for protecting HTTP applications",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "spec.detection_settings"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "spec.detection_settings"],
           "mutually_exclusive_groups": [],
           "example_yaml": "apiVersion: v1\nkind: app_firewall\nmetadata:\n  name: default-waf\n  namespace: default\nspec:\n  detection_settings:\n    signature_detection: true\n  signature_set:\n    signature_set_name: default_waf_signature_set\n  bot_defense:\n    disabled: false\n  data_guard:\n    disabled: false\n  blocking:\n    disabled: false\n",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"default-waf\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"detection_settings\": {\"signature_detection\": true},\n    \"signature_set\": {\"signature_set_name\": \"default_waf_signature_set\"},\n    \"bot_defense\": {\"disabled\": false},\n    \"data_guard\": {\"disabled\": false},\n    \"blocking\": {\"disabled\": false}\n  }\n}\n",
           "example_curl": "curl -X POST \"$F5XC_API_URL/api/config/namespaces/default/app_firewalls\" \\\n  -H \"Authorization: APIToken $F5XC_API_TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d @waf-policy.json\n"
         },
-        "x-ves-cli-aliases": [
-          "firewall",
-          "waf-policy",
-          "attack-protection"
-        ],
+        "x-ves-cli-aliases": ["firewall", "waf-policy", "attack-protection"],
         "x-ves-cli-domain": "waf"
       },
       "app_securityApiEndpoint": {
@@ -438,10 +409,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityApiEndpoint",
-          "required_fields": [
-            "collapsed_url",
-            "method"
-          ],
+          "required_fields": ["collapsed_url", "method"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityApiEndpoint\nmetadata:\n  name: example\n  namespace: default\nspec:\n  collapsed_url: value\n  method: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"collapsed_url\": \"value\",\n    \"method\": \"value\"\n  }\n}",
@@ -527,12 +495,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedAPIEndpointProtectionRuleReq",
-          "required_fields": [
-            "method",
-            "name",
-            "namespace",
-            "path"
-          ],
+          "required_fields": ["method", "name", "namespace", "path"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedAPIEndpointProtectionRuleReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  method: value\n  name: value\n  namespace: value\n  path: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"method\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"path\": \"value\"\n  }\n}",
@@ -556,10 +519,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedAPIEndpointProtectionRuleRsp",
-          "required_fields": [
-            "found_existing_rule",
-            "rule"
-          ],
+          "required_fields": ["found_existing_rule", "rule"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedAPIEndpointProtectionRuleRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  found_existing_rule: value\n  rule: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"found_existing_rule\": \"value\",\n    \"rule\": \"value\"\n  }\n}",
@@ -763,11 +723,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedBlockClientRuleRsp",
-          "required_fields": [
-            "found_existing_rule",
-            "name",
-            "rule"
-          ],
+          "required_fields": ["found_existing_rule", "name", "rule"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedBlockClientRuleRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  found_existing_rule: value\n  name: value\n  rule: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"found_existing_rule\": \"value\",\n    \"name\": \"value\",\n    \"rule\": \"value\"\n  }\n}",
@@ -1012,13 +968,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedOasValidationRuleReq",
-          "required_fields": [
-            "api_groups",
-            "method",
-            "name",
-            "namespace",
-            "path"
-          ],
+          "required_fields": ["api_groups", "method", "name", "namespace", "path"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedOasValidationRuleReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_groups: value\n  method: value\n  name: value\n  namespace: value\n  path: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_groups\": \"value\",\n    \"method\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"path\": \"value\"\n  }\n}",
@@ -1136,12 +1086,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedRateLimitRuleReq",
-          "required_fields": [
-            "method",
-            "name",
-            "namespace",
-            "path"
-          ],
+          "required_fields": ["method", "name", "namespace", "path"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedRateLimitRuleReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  method: value\n  name: value\n  namespace: value\n  path: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"method\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"path\": \"value\"\n  }\n}",
@@ -1165,10 +1110,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedRateLimitRuleRsp",
-          "required_fields": [
-            "found_existing_rule",
-            "rule"
-          ],
+          "required_fields": ["found_existing_rule", "rule"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedRateLimitRuleRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  found_existing_rule: value\n  rule: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"found_existing_rule\": \"value\",\n    \"rule\": \"value\"\n  }\n}",
@@ -1254,12 +1196,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedSensitiveDataRuleReq",
-          "required_fields": [
-            "method",
-            "name",
-            "namespace",
-            "path"
-          ],
+          "required_fields": ["method", "name", "namespace", "path"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedSensitiveDataRuleReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  method: value\n  name: value\n  namespace: value\n  path: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"method\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"path\": \"value\"\n  }\n}",
@@ -1283,10 +1220,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedSensitiveDataRuleRsp",
-          "required_fields": [
-            "found_existing_rule",
-            "rule"
-          ],
+          "required_fields": ["found_existing_rule", "rule"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedSensitiveDataRuleRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  found_existing_rule: value\n  rule: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"found_existing_rule\": \"value\",\n    \"rule\": \"value\"\n  }\n}",
@@ -1564,11 +1498,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityGetSuggestedTrustClientRuleRsp",
-          "required_fields": [
-            "found_existing_rule",
-            "name",
-            "rule"
-          ],
+          "required_fields": ["found_existing_rule", "name", "rule"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityGetSuggestedTrustClientRuleRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  found_existing_rule: value\n  name: value\n  rule: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"found_existing_rule\": \"value\",\n    \"name\": \"value\",\n    \"rule\": \"value\"\n  }\n}",
@@ -1899,12 +1829,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityLoadbalancerData",
-          "required_fields": [
-            "name",
-            "namespace",
-            "request_data",
-            "security_events_data"
-          ],
+          "required_fields": ["name", "namespace", "request_data", "security_events_data"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityLoadbalancerData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  request_data: value\n  security_events_data: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"request_data\": \"value\",\n    \"security_events_data\": \"value\"\n  }\n}",
@@ -1969,11 +1894,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityRequestData",
-          "required_fields": [
-            "count",
-            "max_time",
-            "min_time"
-          ],
+          "required_fields": ["count", "max_time", "min_time"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityRequestData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  max_time: value\n  min_time: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"max_time\": \"value\",\n    \"min_time\": \"value\"\n  }\n}",
@@ -2025,11 +1946,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySearchFilter",
-          "required_fields": [
-            "label",
-            "op",
-            "value"
-          ],
+          "required_fields": ["label", "op", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySearchFilter\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label: value\n  op: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label\": \"value\",\n    \"op\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -2041,10 +1958,7 @@
         "type": "string",
         "description": "List of Virtual Hosts will be returned matching the following labels.",
         "title": "Search Label for VH list API.",
-        "enum": [
-          "REQUEST_ID",
-          "SOURCE_IP"
-        ],
+        "enum": ["REQUEST_ID", "SOURCE_IP"],
         "default": "REQUEST_ID",
         "x-displayname": "Search Label for VH List API.",
         "x-ves-proto-enum": "ves.io.schema.app_security.SearchLabel",
@@ -2062,10 +1976,7 @@
         "type": "string",
         "description": "Search Label Operator\nfoo\", \"bar\"]\"",
         "title": "Search Label Operator.",
-        "enum": [
-          "IN",
-          "NOT_IN"
-        ],
+        "enum": ["IN", "NOT_IN"],
         "default": "IN",
         "x-displayname": "Search Label Operator.",
         "x-ves-proto-enum": "ves.io.schema.app_security.SearchLabelOperator",
@@ -2131,10 +2042,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySearchLoadBalancersRequest",
-          "required_fields": [
-            "label_filter",
-            "namespace"
-          ],
+          "required_fields": ["label_filter", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySearchLoadBalancersRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label_filter: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label_filter\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -2168,9 +2076,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySearchLoadBalancersResponse",
-          "required_fields": [
-            "loadbalancers"
-          ],
+          "required_fields": ["loadbalancers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySearchLoadBalancersResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  loadbalancers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"loadbalancers\": \"value\"\n  }\n}",
@@ -2306,13 +2212,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityEventsAggregationRequest",
-          "required_fields": [
-            "aggs",
-            "end_time",
-            "namespace",
-            "query",
-            "start_time"
-          ],
+          "required_fields": ["aggs", "end_time", "namespace", "query", "start_time"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityEventsAggregationRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  end_time: value\n  namespace: value\n  query: value\n  start_time: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"end_time\": \"value\",\n    \"namespace\": \"value\",\n    \"query\": \"value\",\n    \"start_time\": \"value\"\n  }\n}",
@@ -2358,10 +2258,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityEventsAggregationResponse",
-          "required_fields": [
-            "aggs",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityEventsAggregationResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -2555,10 +2452,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityEventsCountResponse",
-          "required_fields": [
-            "data",
-            "step"
-          ],
+          "required_fields": ["data", "step"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityEventsCountResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value\n  step: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\",\n    \"step\": \"value\"\n  }\n}",
@@ -2623,11 +2517,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityEventsData",
-          "required_fields": [
-            "count",
-            "max_time",
-            "min_time"
-          ],
+          "required_fields": ["count", "max_time", "min_time"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityEventsData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  max_time: value\n  min_time: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"max_time\": \"value\",\n    \"min_time\": \"value\"\n  }\n}",
@@ -2869,12 +2759,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityEventsResponse",
-          "required_fields": [
-            "aggs",
-            "events",
-            "scroll_id",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "events", "scroll_id", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityEventsResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  events: value\n  scroll_id: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"events\": \"value\",\n    \"scroll_id\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -2926,10 +2811,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityEventsScrollRequest",
-          "required_fields": [
-            "namespace",
-            "scroll_id"
-          ],
+          "required_fields": ["namespace", "scroll_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityEventsScrollRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value\n  scroll_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\",\n    \"scroll_id\": \"value\"\n  }\n}",
@@ -3036,13 +2918,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityIncidentsAggregationRequest",
-          "required_fields": [
-            "aggs",
-            "end_time",
-            "namespace",
-            "query",
-            "start_time"
-          ],
+          "required_fields": ["aggs", "end_time", "namespace", "query", "start_time"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityIncidentsAggregationRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  end_time: value\n  namespace: value\n  query: value\n  start_time: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"end_time\": \"value\",\n    \"namespace\": \"value\",\n    \"query\": \"value\",\n    \"start_time\": \"value\"\n  }\n}",
@@ -3088,10 +2964,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityIncidentsAggregationResponse",
-          "required_fields": [
-            "aggs",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityIncidentsAggregationResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -3333,12 +3206,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityIncidentsResponse",
-          "required_fields": [
-            "aggs",
-            "incidents",
-            "scroll_id",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "incidents", "scroll_id", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityIncidentsResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  incidents: value\n  scroll_id: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"incidents\": \"value\",\n    \"scroll_id\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -3390,10 +3258,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySecurityIncidentsScrollRequest",
-          "required_fields": [
-            "namespace",
-            "scroll_id"
-          ],
+          "required_fields": ["namespace", "scroll_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySecurityIncidentsScrollRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value\n  scroll_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\",\n    \"scroll_id\": \"value\"\n  }\n}",
@@ -3500,13 +3365,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySuspiciousUserLogsAggregationRequest",
-          "required_fields": [
-            "aggs",
-            "end_time",
-            "namespace",
-            "query",
-            "start_time"
-          ],
+          "required_fields": ["aggs", "end_time", "namespace", "query", "start_time"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySuspiciousUserLogsAggregationRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  end_time: value\n  namespace: value\n  query: value\n  start_time: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"end_time\": \"value\",\n    \"namespace\": \"value\",\n    \"query\": \"value\",\n    \"start_time\": \"value\"\n  }\n}",
@@ -3552,10 +3411,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySuspiciousUserLogsAggregationResponse",
-          "required_fields": [
-            "aggs",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySuspiciousUserLogsAggregationResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -3797,12 +3653,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySuspiciousUserLogsResponse",
-          "required_fields": [
-            "aggs",
-            "logs",
-            "scroll_id",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "logs", "scroll_id", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySuspiciousUserLogsResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  logs: value\n  scroll_id: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"logs\": \"value\",\n    \"scroll_id\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -3854,10 +3705,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitySuspiciousUserLogsScrollRequest",
-          "required_fields": [
-            "namespace",
-            "scroll_id"
-          ],
+          "required_fields": ["namespace", "scroll_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitySuspiciousUserLogsScrollRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value\n  scroll_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\",\n    \"scroll_id\": \"value\"\n  }\n}",
@@ -4151,9 +3999,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsCardinalityAggregation",
-          "required_fields": [
-            "field"
-          ],
+          "required_fields": ["field"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsCardinalityAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\"\n  }\n}",
@@ -4194,10 +4040,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsDateAggregation",
-          "required_fields": [
-            "step",
-            "sub_aggs"
-          ],
+          "required_fields": ["step", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsDateAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  step: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"step\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -4219,10 +4062,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsDateSubAggregation",
-          "required_fields": [
-            "field_aggregation",
-            "multi_field_aggregation"
-          ],
+          "required_fields": ["field_aggregation", "multi_field_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsDateSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field_aggregation: value\n  multi_field_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field_aggregation\": \"value\",\n    \"multi_field_aggregation\": \"value\"\n  }\n}",
@@ -4270,12 +4110,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsFieldAggregation",
-          "required_fields": [
-            "field",
-            "metrics_aggregation",
-            "sub_aggs",
-            "topk"
-          ],
+          "required_fields": ["field", "metrics_aggregation", "sub_aggs", "topk"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsFieldAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  metrics_aggregation: value\n  sub_aggs: value\n  topk: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"metrics_aggregation\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"topk\": \"value\"\n  }\n}",
@@ -4294,9 +4129,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsFieldSubAggregation",
-          "required_fields": [
-            "cardinality_aggregation"
-          ],
+          "required_fields": ["cardinality_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsFieldSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cardinality_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cardinality_aggregation\": \"value\"\n  }\n}",
@@ -4336,9 +4169,7 @@
         "type": "string",
         "description": "X-displayName: \"Metric Field\"\nMetrics can be computed based on these fields.\n\n- EVENTS: x-displayName: \"Events\"",
         "title": "Metric Field.",
-        "enum": [
-          "EVENTS"
-        ],
+        "enum": ["EVENTS"],
         "default": "EVENTS",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsMetricField",
@@ -4361,9 +4192,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsMetricsAggregation",
-          "required_fields": [
-            "percentile"
-          ],
+          "required_fields": ["percentile"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsMetricsAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  percentile: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"percentile\": \"value\"\n  }\n}",
@@ -4411,12 +4240,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsMultiFieldAggregation",
-          "required_fields": [
-            "field",
-            "metrics_aggregation",
-            "sub_aggs",
-            "topk"
-          ],
+          "required_fields": ["field", "metrics_aggregation", "sub_aggs", "topk"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsMultiFieldAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  metrics_aggregation: value\n  sub_aggs: value\n  topk: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"metrics_aggregation\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"topk\": \"value\"\n  }\n}",
@@ -4435,9 +4259,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsMultiFieldSubAggregation",
-          "required_fields": [
-            "cardinality_aggregation"
-          ],
+          "required_fields": ["cardinality_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsMultiFieldSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cardinality_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cardinality_aggregation\": \"value\"\n  }\n}",
@@ -4449,9 +4271,7 @@
         "type": "string",
         "description": "X-displayName: \"Multi-Key Field\"\nSecurity events can be aggregated based on these multiple key fields\n\n- SRC_IP_TLS_FINGERPRINT: x-displayName: \"Source IP, JA3 TLS Fingerprint\"\nAggregated by (keyfield.src_IP, keyfield.tls_FINGERPRINT)",
         "title": "Multi-Key Field.",
-        "enum": [
-          "SRC_IP_TLS_FINGERPRINT"
-        ],
+        "enum": ["SRC_IP_TLS_FINGERPRINT"],
         "default": "SRC_IP_TLS_FINGERPRINT",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsMultiKeyField",
@@ -4487,10 +4307,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securityincidentsPercentileAggregation",
-          "required_fields": [
-            "field",
-            "percent"
-          ],
+          "required_fields": ["field", "percent"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securityincidentsPercentileAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  percent: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"percent\": \"value\"\n  }\n}",
@@ -4554,9 +4371,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitysuspicious_user_logCardinalityAggregation",
-          "required_fields": [
-            "field"
-          ],
+          "required_fields": ["field"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitysuspicious_user_logCardinalityAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\"\n  }\n}",
@@ -4586,9 +4401,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitysuspicious_user_logDateAggregation",
-          "required_fields": [
-            "step"
-          ],
+          "required_fields": ["step"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitysuspicious_user_logDateAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  step: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"step\": \"value\"\n  }\n}",
@@ -4636,12 +4449,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitysuspicious_user_logFieldAggregation",
-          "required_fields": [
-            "field",
-            "metrics_aggregation",
-            "sub_aggs",
-            "topk"
-          ],
+          "required_fields": ["field", "metrics_aggregation", "sub_aggs", "topk"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitysuspicious_user_logFieldAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  metrics_aggregation: value\n  sub_aggs: value\n  topk: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"metrics_aggregation\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"topk\": \"value\"\n  }\n}",
@@ -4660,9 +4468,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitysuspicious_user_logFieldSubAggregation",
-          "required_fields": [
-            "cardinality_aggregation"
-          ],
+          "required_fields": ["cardinality_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitysuspicious_user_logFieldSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cardinality_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cardinality_aggregation\": \"value\"\n  }\n}",
@@ -4706,9 +4512,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitysuspicious_user_logMetricsAggregation",
-          "required_fields": [
-            "percentile"
-          ],
+          "required_fields": ["percentile"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitysuspicious_user_logMetricsAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  percentile: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"percentile\": \"value\"\n  }\n}",
@@ -4740,10 +4544,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_securitysuspicious_user_logPercentileAggregation",
-          "required_fields": [
-            "field",
-            "percent"
-          ],
+          "required_fields": ["field", "percent"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_securitysuspicious_user_logPercentileAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  percent: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"percent\": \"value\"\n  }\n}",
@@ -4995,10 +4796,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafAPIProtectionRuleAction",
-          "required_fields": [
-            "allow",
-            "deny"
-          ],
+          "required_fields": ["allow", "deny"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafAPIProtectionRuleAction\nmetadata:\n  name: example\n  namespace: default\nspec:\n  allow: value\n  deny: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"allow\": \"value\",\n    \"deny\": \"value\"\n  }\n}",
@@ -5075,10 +4873,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafApiEndpointDetails",
-          "required_fields": [
-            "methods",
-            "path"
-          ],
+          "required_fields": ["methods", "path"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafApiEndpointDetails\nmetadata:\n  name: example\n  namespace: default\nspec:\n  methods: value\n  path: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"methods\": \"value\",\n    \"path\": \"value\"\n  }\n}",
@@ -5253,9 +5048,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafCustomFallThroughMode",
-          "required_fields": [
-            "open_api_validation_rules"
-          ],
+          "required_fields": ["open_api_validation_rules"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafCustomFallThroughMode\nmetadata:\n  name: example\n  namespace: default\nspec:\n  open_api_validation_rules: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"open_api_validation_rules\": \"value\"\n  }\n}",
@@ -5390,9 +5183,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafHttpHeaderMatcherList",
-          "required_fields": [
-            "headers"
-          ],
+          "required_fields": ["headers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafHttpHeaderMatcherList\nmetadata:\n  name: example\n  namespace: default\nspec:\n  headers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"headers\": \"value\"\n  }\n}",
@@ -5449,12 +5240,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafInlineRateLimiter",
-          "required_fields": [
-            "ref_user_id",
-            "threshold",
-            "unit",
-            "use_http_lb_user_id"
-          ],
+          "required_fields": ["ref_user_id", "threshold", "unit", "use_http_lb_user_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafInlineRateLimiter\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ref_user_id: value\n  threshold: value\n  unit: value\n  use_http_lb_user_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ref_user_id\": \"value\",\n    \"threshold\": \"value\",\n    \"unit\": \"value\",\n    \"use_http_lb_user_id\": \"value\"\n  }\n}",
@@ -5480,10 +5266,7 @@
         "x-required": true,
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafOpenApiFallThroughMode",
-          "required_fields": [
-            "fall_through_mode_allow",
-            "fall_through_mode_custom"
-          ],
+          "required_fields": ["fall_through_mode_allow", "fall_through_mode_custom"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafOpenApiFallThroughMode\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fall_through_mode_allow: value\n  fall_through_mode_custom: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fall_through_mode_allow\": \"value\",\n    \"fall_through_mode_custom\": \"value\"\n  }\n}",
@@ -5511,11 +5294,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafOpenApiValidationAllSpecEndpointsSettings",
-          "required_fields": [
-            "fall_through_mode",
-            "settings",
-            "validation_mode"
-          ],
+          "required_fields": ["fall_through_mode", "settings", "validation_mode"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafOpenApiValidationAllSpecEndpointsSettings\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fall_through_mode: value\n  settings: value\n  validation_mode: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fall_through_mode\": \"value\",\n    \"settings\": \"value\",\n    \"validation_mode\": \"value\"\n  }\n}",
@@ -6044,9 +5823,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafValidationPropertySetting",
-          "required_fields": [
-            "queryParameters"
-          ],
+          "required_fields": ["queryParameters"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafValidationPropertySetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  queryParameters: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"queryParameters\": \"value\"\n  }\n}",
@@ -6068,10 +5845,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafValidationSettingForHeaders",
-          "required_fields": [
-            "allow_additional_headers",
-            "disallow_additional_headers"
-          ],
+          "required_fields": ["allow_additional_headers", "disallow_additional_headers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafValidationSettingForHeaders\nmetadata:\n  name: example\n  namespace: default\nspec:\n  allow_additional_headers: value\n  disallow_additional_headers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"allow_additional_headers\": \"value\",\n    \"disallow_additional_headers\": \"value\"\n  }\n}",
@@ -6096,10 +5870,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for common_wafValidationSettingForQueryParameters",
-          "required_fields": [
-            "allow_additional_parameters",
-            "disallow_additional_parameters"
-          ],
+          "required_fields": ["allow_additional_parameters", "disallow_additional_parameters"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for common_wafValidationSettingForQueryParameters\nmetadata:\n  name: example\n  namespace: default\nspec:\n  allow_additional_parameters: value\n  disallow_additional_parameters: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"allow_additional_parameters\": \"value\",\n    \"disallow_additional_parameters\": \"value\"\n  }\n}",
@@ -6175,17 +5946,11 @@
           ],
           "mutually_exclusive_groups": [
             {
-              "fields": [
-                "spec.dns_name",
-                "spec.advertise"
-              ],
+              "fields": ["spec.dns_name", "spec.advertise"],
               "reason": "Choose either DNS-based or advertised traffic routing"
             },
             {
-              "fields": [
-                "spec.certificate_chain",
-                "spec.tls_config.vault_secret"
-              ],
+              "fields": ["spec.certificate_chain", "spec.tls_config.vault_secret"],
               "reason": "Certificate source: inline or vault"
             }
           ],
@@ -6193,11 +5958,7 @@
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example-app\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"domains\": [\"example.com\"],\n    \"https\": [{\"port\": 443}],\n    \"http\": [{\"port\": 80, \"redirect_https\": true}],\n    \"routes\": [{\"prefix\": \"/\", \"origin_pool\": {\"pool_name\": \"pool\"}}],\n    \"origin_pools\": [{\"name\": \"pool\", \"origins\": [{\"hostname\": \"backend.example.com\"}]}]\n  }\n}\n",
           "example_curl": "curl -X POST \"$F5XC_API_URL/api/config/namespaces/default/http_loadbalancers\" \\\n  -H \"Authorization: APIToken $F5XC_API_TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d @http-lb.json\n"
         },
-        "x-ves-cli-aliases": [
-          "http-lb",
-          "virtual-service",
-          "api-endpoint"
-        ],
+        "x-ves-cli-aliases": ["http-lb", "virtual-service", "api-endpoint"],
         "x-ves-cli-domain": "virtual"
       },
       "http_loadbalancerSensitiveDataTypes": {
@@ -6233,17 +5994,11 @@
           ],
           "mutually_exclusive_groups": [
             {
-              "fields": [
-                "spec.dns_name",
-                "spec.advertise"
-              ],
+              "fields": ["spec.dns_name", "spec.advertise"],
               "reason": "Choose either DNS-based or advertised traffic routing"
             },
             {
-              "fields": [
-                "spec.certificate_chain",
-                "spec.tls_config.vault_secret"
-              ],
+              "fields": ["spec.certificate_chain", "spec.tls_config.vault_secret"],
               "reason": "Certificate source: inline or vault"
             }
           ],
@@ -6251,11 +6006,7 @@
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example-app\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"domains\": [\"example.com\"],\n    \"https\": [{\"port\": 443}],\n    \"http\": [{\"port\": 80, \"redirect_https\": true}],\n    \"routes\": [{\"prefix\": \"/\", \"origin_pool\": {\"pool_name\": \"pool\"}}],\n    \"origin_pools\": [{\"name\": \"pool\", \"origins\": [{\"hostname\": \"backend.example.com\"}]}]\n  }\n}\n",
           "example_curl": "curl -X POST \"$F5XC_API_URL/api/config/namespaces/default/http_loadbalancers\" \\\n  -H \"Authorization: APIToken $F5XC_API_TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d @http-lb.json\n"
         },
-        "x-ves-cli-aliases": [
-          "http-lb",
-          "virtual-service",
-          "api-endpoint"
-        ],
+        "x-ves-cli-aliases": ["http-lb", "virtual-service", "api-endpoint"],
         "x-ves-cli-domain": "virtual"
       },
       "ioschemaHeaderMatcherType": {
@@ -6382,13 +6133,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for ioschemaHeaderMatcherType",
-          "required_fields": [
-            "exact",
-            "invert_match",
-            "name",
-            "presence",
-            "regex"
-          ],
+          "required_fields": ["exact", "invert_match", "name", "presence", "regex"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for ioschemaHeaderMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact: value\n  invert_match: value\n  name: value\n  presence: value\n  regex: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact\": \"value\",\n    \"invert_match\": \"value\",\n    \"name\": \"value\",\n    \"presence\": \"value\",\n    \"regex\": \"value\"\n  }\n}",
@@ -6502,13 +6247,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for ioschemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for ioschemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -6540,9 +6279,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logAvgAggregationData",
-          "required_fields": [
-            "value"
-          ],
+          "required_fields": ["value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logAvgAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"value\": \"value\"\n  }\n}",
@@ -6575,10 +6312,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logCardinalityAggregationData",
-          "required_fields": [
-            "count",
-            "trend_value"
-          ],
+          "required_fields": ["count", "trend_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logCardinalityAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  trend_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"trend_value\": \"value\"\n  }\n}",
@@ -6636,12 +6370,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateAggregationBucket",
-          "required_fields": [
-            "count",
-            "sub_aggs",
-            "time",
-            "trend_value"
-          ],
+          "required_fields": ["count", "sub_aggs", "time", "trend_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  sub_aggs: value\n  time: value\n  trend_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"time\": \"value\",\n    \"trend_value\": \"value\"\n  }\n}",
@@ -6685,10 +6414,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateAggregationData",
-          "required_fields": [
-            "buckets",
-            "step"
-          ],
+          "required_fields": ["buckets", "step"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value\n  step: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\",\n    \"step\": \"value\"\n  }\n}",
@@ -6710,10 +6436,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateSubAggregationData",
-          "required_fields": [
-            "field_aggregation",
-            "multi_field_aggregation"
-          ],
+          "required_fields": ["field_aggregation", "multi_field_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateSubAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field_aggregation: value\n  multi_field_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field_aggregation\": \"value\",\n    \"multi_field_aggregation\": \"value\"\n  }\n}",
@@ -6777,13 +6500,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "key",
-            "order_by",
-            "sub_aggs",
-            "trend_value"
-          ],
+          "required_fields": ["count", "key", "order_by", "sub_aggs", "trend_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value\n  order_by: value\n  sub_aggs: value\n  trend_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\",\n    \"order_by\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"trend_value\": \"value\"\n  }\n}",
@@ -6813,9 +6530,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -6865,11 +6580,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldSubAggregationBucket",
-          "required_fields": [
-            "count",
-            "key",
-            "order_by"
-          ],
+          "required_fields": ["count", "key", "order_by"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldSubAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value\n  order_by: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\",\n    \"order_by\": \"value\"\n  }\n}",
@@ -6972,10 +6683,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldSubFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "key"
-          ],
+          "required_fields": ["count", "key"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldSubFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\"\n  }\n}",
@@ -7005,9 +6713,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldSubFieldAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldSubFieldAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -7048,10 +6754,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFilterAggregationData",
-          "required_fields": [
-            "count",
-            "sub_aggs"
-          ],
+          "required_fields": ["count", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFilterAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -7081,9 +6784,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFilterSubAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFilterSubAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -7141,11 +6842,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFilterSubFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "key",
-            "sub_aggs"
-          ],
+          "required_fields": ["count", "key", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFilterSubFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -7234,9 +6931,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMaxAggregationData",
-          "required_fields": [
-            "value"
-          ],
+          "required_fields": ["value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMaxAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"value\": \"value\"\n  }\n}",
@@ -7255,9 +6950,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMetricsAggregationData",
-          "required_fields": [
-            "percentile"
-          ],
+          "required_fields": ["percentile"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMetricsAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  percentile: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"percentile\": \"value\"\n  }\n}",
@@ -7289,9 +6982,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMinAggregationData",
-          "required_fields": [
-            "value"
-          ],
+          "required_fields": ["value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMinAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"value\": \"value\"\n  }\n}",
@@ -7347,12 +7038,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMultiFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "keys",
-            "order_by",
-            "sub_aggs"
-          ],
+          "required_fields": ["count", "keys", "order_by", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMultiFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  keys: value\n  order_by: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"keys\": \"value\",\n    \"order_by\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -7382,9 +7068,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMultiFieldAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMultiFieldAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -7451,9 +7135,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMultiFilterAggregationData",
-          "required_fields": [
-            "count"
-          ],
+          "required_fields": ["count"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMultiFilterAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\"\n  }\n}",
@@ -7472,9 +7154,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logOrderByData",
-          "required_fields": [
-            "metrics_aggregation"
-          ],
+          "required_fields": ["metrics_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logOrderByData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  metrics_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"metrics_aggregation\": \"value\"\n  }\n}",
@@ -7522,10 +7202,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logPercentileAggregationData",
-          "required_fields": [
-            "key",
-            "value"
-          ],
+          "required_fields": ["key", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logPercentileAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -7569,10 +7246,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logTopHitsAggregationData",
-          "required_fields": [
-            "count",
-            "documents"
-          ],
+          "required_fields": ["count", "documents"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logTopHitsAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  documents: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"documents\": \"value\"\n  }\n}",
@@ -7608,10 +7282,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsSecurityEventsCounter",
-          "required_fields": [
-            "id",
-            "metric"
-          ],
+          "required_fields": ["id", "metric"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsSecurityEventsCounter\nmetadata:\n  name: example\n  namespace: default\nspec:\n  id: value\n  metric: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"id\": \"value\",\n    \"metric\": \"value\"\n  }\n}",
@@ -7707,13 +7378,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsSecurityEventsId",
-          "required_fields": [
-            "namespace",
-            "sec_event_type",
-            "src_instance",
-            "src_site",
-            "vh_name"
-          ],
+          "required_fields": ["namespace", "sec_event_type", "src_instance", "src_site", "vh_name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsSecurityEventsId\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value\n  sec_event_type: value\n  src_instance: value\n  src_site: value\n  vh_name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\",\n    \"sec_event_type\": \"value\",\n    \"src_instance\": \"value\",\n    \"src_site\": \"value\",\n    \"vh_name\": \"value\"\n  }\n}",
@@ -7724,13 +7389,7 @@
       "metricsSecurityMetricLabel": {
         "type": "string",
         "description": "Labels in the security events metrics.\n\nSecurity events metric can be sliced and diced based\non one or more labels listed below.",
-        "enum": [
-          "NAMESPACE",
-          "VH_NAME",
-          "SEC_EVENT_TYPE",
-          "SRC_SITE",
-          "SRC_INSTANCE"
-        ],
+        "enum": ["NAMESPACE", "VH_NAME", "SEC_EVENT_TYPE", "SRC_SITE", "SRC_INSTANCE"],
         "default": "NAMESPACE",
         "x-displayname": "Security Events Metric Labels.",
         "x-ves-proto-enum": "ves.io.schema.app_security.metrics.SecurityMetricLabel",
@@ -7777,11 +7436,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsSecurityMetricLabelFilter",
-          "required_fields": [
-            "label",
-            "op",
-            "value"
-          ],
+          "required_fields": ["label", "op", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsSecurityMetricLabelFilter\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label: value\n  op: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label\": \"value\",\n    \"op\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -7793,10 +7448,7 @@
         "type": "string",
         "description": "The operator to use when querying Security Events metrics with labels.",
         "title": "Security Events Metric Label Operator.",
-        "enum": [
-          "EQ",
-          "NEQ"
-        ],
+        "enum": ["EQ", "NEQ"],
         "default": "EQ",
         "x-displayname": "Security Events Metric Label Operator.",
         "x-ves-proto-enum": "ves.io.schema.app_security.metrics.SecurityMetricLabelOp",
@@ -7852,10 +7504,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsSecurityMetricValue",
-          "required_fields": [
-            "timestamp",
-            "value"
-          ],
+          "required_fields": ["timestamp", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsSecurityMetricValue\nmetadata:\n  name: example\n  namespace: default\nspec:\n  timestamp: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"timestamp\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -7901,11 +7550,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyAppFirewallAttackTypeContext",
-          "required_fields": [
-            "context",
-            "context_name",
-            "exclude_attack_type"
-          ],
+          "required_fields": ["context", "context_name", "exclude_attack_type"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyAppFirewallAttackTypeContext\nmetadata:\n  name: example\n  namespace: default\nspec:\n  context: value\n  context_name: value\n  exclude_attack_type: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"context\": \"value\",\n    \"context_name\": \"value\",\n    \"exclude_attack_type\": \"value\"\n  }\n}",
@@ -8106,11 +7751,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyAppFirewallSignatureContext",
-          "required_fields": [
-            "context",
-            "context_name",
-            "signature_id"
-          ],
+          "required_fields": ["context", "context_name", "signature_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyAppFirewallSignatureContext\nmetadata:\n  name: example\n  namespace: default\nspec:\n  context: value\n  context_name: value\n  signature_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"context\": \"value\",\n    \"context_name\": \"value\",\n    \"signature_id\": \"value\"\n  }\n}",
@@ -8156,11 +7797,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyAppFirewallViolationContext",
-          "required_fields": [
-            "context",
-            "context_name",
-            "exclude_violation"
-          ],
+          "required_fields": ["context", "context_name", "exclude_violation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyAppFirewallViolationContext\nmetadata:\n  name: example\n  namespace: default\nspec:\n  context: value\n  context_name: value\n  exclude_violation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"context\": \"value\",\n    \"context_name\": \"value\",\n    \"exclude_violation\": \"value\"\n  }\n}",
@@ -8214,9 +7851,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyAsnMatchList",
-          "required_fields": [
-            "as_numbers"
-          ],
+          "required_fields": ["as_numbers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyAsnMatchList\nmetadata:\n  name: example\n  namespace: default\nspec:\n  as_numbers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"as_numbers\": \"value\"\n  }\n}",
@@ -8261,9 +7896,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyAsnMatcherType",
-          "required_fields": [
-            "asn_sets"
-          ],
+          "required_fields": ["asn_sets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyAsnMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  asn_sets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"asn_sets\": \"value\"\n  }\n}",
@@ -8304,9 +7937,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyBotNameContext",
-          "required_fields": [
-            "bot_name"
-          ],
+          "required_fields": ["bot_name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyBotNameContext\nmetadata:\n  name: example\n  namespace: default\nspec:\n  bot_name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"bot_name\": \"value\"\n  }\n}",
@@ -8802,10 +8433,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyHttpMethodMatcherType",
-          "required_fields": [
-            "invert_matcher",
-            "methods"
-          ],
+          "required_fields": ["invert_matcher", "methods"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyHttpMethodMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  invert_matcher: value\n  methods: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"invert_matcher\": \"value\",\n    \"methods\": \"value\"\n  }\n}",
@@ -8894,10 +8522,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyIpMatcherType",
-          "required_fields": [
-            "invert_matcher",
-            "prefix_sets"
-          ],
+          "required_fields": ["invert_matcher", "prefix_sets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyIpMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  invert_matcher: value\n  prefix_sets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"invert_matcher\": \"value\",\n    \"prefix_sets\": \"value\"\n  }\n}",
@@ -8944,9 +8569,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyJA4TlsFingerprintMatcherType",
-          "required_fields": [
-            "exact_values"
-          ],
+          "required_fields": ["exact_values"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyJA4TlsFingerprintMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact_values: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact_values\": \"value\"\n  }\n}",
@@ -9172,11 +8795,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyMatcherType",
-          "required_fields": [
-            "exact_values",
-            "regex_values",
-            "transformers"
-          ],
+          "required_fields": ["exact_values", "regex_values", "transformers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact_values: value\n  regex_values: value\n  transformers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact_values\": \"value\",\n    \"regex_values\": \"value\",\n    \"transformers\": \"value\"\n  }\n}",
@@ -9240,10 +8859,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyPrefixMatchList",
-          "required_fields": [
-            "invert_match",
-            "ip_prefixes"
-          ],
+          "required_fields": ["invert_match", "ip_prefixes"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyPrefixMatchList\nmetadata:\n  name: example\n  namespace: default\nspec:\n  invert_match: value\n  ip_prefixes: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"invert_match\": \"value\",\n    \"ip_prefixes\": \"value\"\n  }\n}",
@@ -9353,12 +8969,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyRequestMatcher",
-          "required_fields": [
-            "cookie_matchers",
-            "headers",
-            "jwt_claims",
-            "query_params"
-          ],
+          "required_fields": ["cookie_matchers", "headers", "jwt_claims", "query_params"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyRequestMatcher\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cookie_matchers: value\n  headers: value\n  jwt_claims: value\n  query_params: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cookie_matchers\": \"value\",\n    \"headers\": \"value\",\n    \"jwt_claims\": \"value\",\n    \"query_params\": \"value\"\n  }\n}",
@@ -9664,11 +9275,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyTlsFingerprintMatcherType",
-          "required_fields": [
-            "classes",
-            "exact_values",
-            "excluded_values"
-          ],
+          "required_fields": ["classes", "exact_values", "excluded_values"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyTlsFingerprintMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  classes: value\n  exact_values: value\n  excluded_values: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"classes\": \"value\",\n    \"exact_values\": \"value\",\n    \"excluded_values\": \"value\"\n  }\n}",
@@ -9708,11 +9315,7 @@
         "type": "string",
         "description": "Unit for the period per which the rate limit is applied.\n\n- SECOND: Second\n\nRate limit period unit is seconds\n- MINUTE: Minute\n\nRate limit period unit is minutes\n- HOUR: Hour\n\nRate limit period unit is hours\n- DAY: Day\n\nRate limit period unit is days.",
         "title": "RateLimitPeriodUnit.",
-        "enum": [
-          "SECOND",
-          "MINUTE",
-          "HOUR"
-        ],
+        "enum": ["SECOND", "MINUTE", "HOUR"],
         "default": "SECOND",
         "x-displayname": "Rate Limit Period Unit.",
         "x-ves-proto-enum": "ves.io.schema.rate_limiter.RateLimitPeriodUnit",
@@ -9821,9 +9424,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaLabelSelectorType",
-          "required_fields": [
-            "expressions"
-          ],
+          "required_fields": ["expressions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaLabelSelectorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  expressions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"expressions\": \"value\"\n  }\n}",
@@ -9898,10 +9499,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaMessageMetaType",
-          "required_fields": [
-            "description",
-            "name"
-          ],
+          "required_fields": ["description", "name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaMessageMetaType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"name\": \"value\"\n  }\n}",
@@ -9940,10 +9538,7 @@
         "type": "string",
         "description": "Sort algorithm\n\nSort in descending order\nSort in ascending order.",
         "title": "SortOrder",
-        "enum": [
-          "DESCENDING",
-          "ASCENDING"
-        ],
+        "enum": ["DESCENDING", "ASCENDING"],
         "default": "DESCENDING",
         "x-displayname": "Sort Order.",
         "x-ves-proto-enum": "ves.io.schema.SortOrder",
@@ -9961,11 +9556,7 @@
         "type": "string",
         "description": "X-displayName: \"Trend Sentiment\"\ntrend sentiment\n\n- TREND_SENTIMENT_NONE: x-displayName: \"None\"\n- TREND_SENTIMENT_POSITIVE: x-displayName: \"Positive\"\nIndicates trend sentiment is positive\n- TREND_SENTIMENT_NEGATIVE: x-displayName: \"Negative\"\nIndicates trend sentiment is negative.",
         "title": "Trend Sentiment.",
-        "enum": [
-          "TREND_SENTIMENT_NONE",
-          "TREND_SENTIMENT_POSITIVE",
-          "TREND_SENTIMENT_NEGATIVE"
-        ],
+        "enum": ["TREND_SENTIMENT_NONE", "TREND_SENTIMENT_POSITIVE", "TREND_SENTIMENT_NEGATIVE"],
         "default": "TREND_SENTIMENT_NONE",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaTrendSentiment",
@@ -10036,12 +9627,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaTrendValue",
-          "required_fields": [
-            "description",
-            "previous_value",
-            "sentiment",
-            "value"
-          ],
+          "required_fields": ["description", "previous_value", "sentiment", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaTrendValue\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  previous_value: value\n  sentiment: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"previous_value\": \"value\",\n    \"sentiment\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -10110,9 +9696,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityCardinalityAggregation",
-          "required_fields": [
-            "field"
-          ],
+          "required_fields": ["field"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityCardinalityAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\"\n  }\n}",
@@ -10153,10 +9737,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityDateAggregation",
-          "required_fields": [
-            "step",
-            "sub_aggs"
-          ],
+          "required_fields": ["step", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityDateAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  step: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"step\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -10178,10 +9759,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityDateSubAggregation",
-          "required_fields": [
-            "field_aggregation",
-            "multi_field_aggregation"
-          ],
+          "required_fields": ["field_aggregation", "multi_field_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityDateSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field_aggregation: value\n  multi_field_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field_aggregation\": \"value\",\n    \"multi_field_aggregation\": \"value\"\n  }\n}",
@@ -10229,12 +9807,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityFieldAggregation",
-          "required_fields": [
-            "field",
-            "metrics_aggregation",
-            "sub_aggs",
-            "topk"
-          ],
+          "required_fields": ["field", "metrics_aggregation", "sub_aggs", "topk"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityFieldAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  metrics_aggregation: value\n  sub_aggs: value\n  topk: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"metrics_aggregation\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"topk\": \"value\"\n  }\n}",
@@ -10253,9 +9826,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityFieldSubAggregation",
-          "required_fields": [
-            "cardinality_aggregation"
-          ],
+          "required_fields": ["cardinality_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityFieldSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cardinality_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cardinality_aggregation\": \"value\"\n  }\n}",
@@ -10345,9 +9916,7 @@
         "type": "string",
         "description": "X-displayName: \"Metric Field\"\nMetrics can be computed based on these fields.\n\n- SUSPICION_SCORE: x-displayName: \"Suspicion Score\"",
         "title": "Metric Field.",
-        "enum": [
-          "SUSPICION_SCORE"
-        ],
+        "enum": ["SUSPICION_SCORE"],
         "default": "SUSPICION_SCORE",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityMetricField",
@@ -10370,9 +9939,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityMetricsAggregation",
-          "required_fields": [
-            "percentile"
-          ],
+          "required_fields": ["percentile"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityMetricsAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  percentile: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"percentile\": \"value\"\n  }\n}",
@@ -10420,12 +9987,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityMultiFieldAggregation",
-          "required_fields": [
-            "field",
-            "metrics_aggregation",
-            "sub_aggs",
-            "topk"
-          ],
+          "required_fields": ["field", "metrics_aggregation", "sub_aggs", "topk"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityMultiFieldAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  metrics_aggregation: value\n  sub_aggs: value\n  topk: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"metrics_aggregation\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"topk\": \"value\"\n  }\n}",
@@ -10444,9 +10006,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityMultiFieldSubAggregation",
-          "required_fields": [
-            "cardinality_aggregation"
-          ],
+          "required_fields": ["cardinality_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityMultiFieldSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cardinality_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cardinality_aggregation\": \"value\"\n  }\n}",
@@ -10509,10 +10069,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_securityPercentileAggregation",
-          "required_fields": [
-            "field",
-            "percent"
-          ],
+          "required_fields": ["field", "percent"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_securityPercentileAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  percent: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"percent\": \"value\"\n  }\n}",
@@ -10640,9 +10197,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemapolicyIPThreatCategoryListType",
-          "required_fields": [
-            "ip_threat_categories"
-          ],
+          "required_fields": ["ip_threat_categories"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemapolicyIPThreatCategoryListType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ip_threat_categories: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ip_threat_categories\": \"value\"\n  }\n}",
@@ -10821,11 +10376,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaviewsObjectRefType",
-          "required_fields": [
-            "name",
-            "namespace",
-            "tenant"
-          ],
+          "required_fields": ["name", "namespace", "tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaviewsObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\"\n  }\n}",
@@ -10844,9 +10395,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for suspicious_user_logAvgAggregation",
-          "required_fields": [
-            "field"
-          ],
+          "required_fields": ["field"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for suspicious_user_logAvgAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\"\n  }\n}",
@@ -10865,9 +10414,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for suspicious_user_logMaxAggregation",
-          "required_fields": [
-            "field"
-          ],
+          "required_fields": ["field"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for suspicious_user_logMaxAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\"\n  }\n}",
@@ -10886,9 +10433,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for suspicious_user_logMinAggregation",
-          "required_fields": [
-            "field"
-          ],
+          "required_fields": ["field"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for suspicious_user_logMinAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\"\n  }\n}",

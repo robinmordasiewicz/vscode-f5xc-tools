@@ -6,9 +6,16 @@ import { F5XCViewProvider } from '../providers/f5xcViewProvider';
 import { F5XCDescribeProvider } from '../providers/f5xcDescribeProvider';
 import { withErrorHandling, showInfo, showWarning } from '../utils/errors';
 import { getLogger } from '../utils/logger';
-import { RESOURCE_TYPES, getResourceTypeByApiPath, isBuiltInNamespace } from '../api/resourceTypes';
+import {
+  RESOURCE_TYPES,
+  getResourceTypeByApiPath,
+  isBuiltInNamespace,
+  getDangerLevel,
+  getSideEffects,
+} from '../api/resourceTypes';
 import { filterResource, getFilterOptionsForViewMode, ViewMode } from '../utils/resourceFilter';
 import { ResourceNodeData } from '../tree/treeTypes';
+import { validateResourcePayload } from '../utils/validation';
 
 const logger = getLogger();
 
@@ -317,6 +324,31 @@ export function registerCrudCommands(
           exists = false;
         }
 
+        // Validate the resource payload before proceeding
+        const operation = exists ? 'update' : 'create';
+        const validationResult = validateResourcePayload(
+          resourceTypeKey,
+          operation,
+          resource as Record<string, unknown>,
+        );
+
+        // If validation fails, show warning with option to continue
+        if (!validationResult.valid) {
+          const warningMessage =
+            validationResult.warnings.join('\n\n') + '\n\nDo you want to continue anyway?';
+
+          const continueAnyway = await vscode.window.showWarningMessage(
+            warningMessage,
+            { modal: true },
+            'Continue',
+            'Cancel',
+          );
+
+          if (continueAnyway !== 'Continue') {
+            return;
+          }
+        }
+
         // Confirm action
         const action = exists ? 'Update' : 'Create';
         const confirm = await vscode.window.showInformationMessage(
@@ -402,19 +434,72 @@ export function registerCrudCommands(
           return;
         }
 
-        // Confirm deletion (only shown if RBAC check passed)
-        const confirmDelete = vscode.workspace
-          .getConfiguration('f5xc')
-          .get<boolean>('confirmDelete', true);
+        // Get danger level for the delete operation
+        const dangerLevel = getDangerLevel(data.resourceTypeKey, 'delete');
 
-        if (confirmDelete) {
+        // Determine whether to show confirmation based on settings
+        const config = vscode.workspace.getConfiguration('f5xc');
+        const confirmDelete = config.get<boolean>('confirmDelete', true);
+        const confirmationLevel = config.get<'always' | 'high-only' | 'never'>(
+          'deleteConfirmationLevel',
+          'always',
+        );
+
+        // Determine if we should show confirmation
+        let showConfirmation = confirmDelete; // Legacy setting takes precedence if false
+        if (showConfirmation) {
+          if (confirmationLevel === 'never') {
+            showConfirmation = false;
+          } else if (confirmationLevel === 'high-only') {
+            showConfirmation = dangerLevel === 'high';
+          }
+          // 'always' keeps showConfirmation = true
+        }
+
+        if (showConfirmation) {
+          const sideEffects = getSideEffects(data.resourceTypeKey, 'delete');
+
+          // Build confirmation message based on danger level
+          let confirmMessage = `Delete ${data.resourceType.displayName} "${data.name}" from namespace "${data.namespace}"?`;
+          let confirmButton = 'Delete';
+
+          if (dangerLevel === 'high') {
+            // Enhanced warning for high-danger operations
+            confirmMessage =
+              `⚠️ HIGH RISK DELETE\n\n` +
+              `Delete ${data.resourceType.displayName} "${data.name}" from namespace "${data.namespace}"?\n\n` +
+              `This operation has danger level: HIGH`;
+
+            // Add side effects if available
+            if (sideEffects) {
+              const effects: string[] = [];
+              if (sideEffects.deletes?.length) {
+                effects.push(`Deletes: ${sideEffects.deletes.join(', ')}`);
+              }
+              if (sideEffects.invalidates?.length) {
+                effects.push(`Invalidates: ${sideEffects.invalidates.join(', ')}`);
+              }
+              if (effects.length > 0) {
+                confirmMessage += `\n\nSide effects:\n• ${effects.join('\n• ')}`;
+              }
+            }
+
+            confirmMessage += '\n\nThis action cannot be undone.';
+            confirmButton = 'Delete (High Risk)';
+          } else if (dangerLevel === 'medium') {
+            // Standard confirmation for medium-danger operations
+            confirmMessage += '\n\nThis action cannot be undone.';
+          }
+          // For low danger, use the simple message
+
           const confirm = await vscode.window.showWarningMessage(
-            `Delete ${data.resourceType.displayName} "${data.name}" from namespace "${data.namespace}"?`,
+            confirmMessage,
             { modal: true },
-            'Delete',
+            confirmButton,
+            'Cancel',
           );
 
-          if (confirm !== 'Delete') {
+          if (confirm !== confirmButton) {
             return;
           }
         }

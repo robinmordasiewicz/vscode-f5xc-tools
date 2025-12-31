@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -250,9 +243,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-implicit_label-customapi-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.implicit_label.CustomAPI.Get",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all implicit-labels",
@@ -260,9 +251,7 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -445,42 +434,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-known_label-customapi-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.known_label.CustomAPI.Create",
-        "tags": [
-          "Configuration"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Configuration"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "create"
-          ]
+          "creates": ["create"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new create",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Create resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Create resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "create"
-            ]
+            "creates": ["create"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -659,42 +629,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-known_label-customapi-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.known_label.CustomAPI.Delete",
-        "tags": [
-          "Configuration"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Configuration"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "delete"
-          ]
+          "creates": ["delete"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new delete",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Delete resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Delete resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "delete"
-            ]
+            "creates": ["delete"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -902,24 +853,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-known_label-customapi-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.known_label.CustomAPI.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all known-labels",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1102,42 +1045,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-known_label_key-customapi-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.known_label_key.CustomAPI.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "create"
-          ]
+          "creates": ["create"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new create",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Create resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Create resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "create"
-            ]
+            "creates": ["create"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1316,42 +1240,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-known_label_key-customapi-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.known_label_key.CustomAPI.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "delete"
-          ]
+          "creates": ["delete"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new delete",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Delete resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Delete resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "delete"
-            ]
+            "creates": ["delete"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1522,11 +1427,7 @@
             "x-displayname": "Label Key Prefix.",
             "schema": {
               "type": "string",
-              "enum": [
-                "QUERY_ALL_LABEL_KEYS",
-                "QUERY_EXACT_LABEL_KEY",
-                "QUERY_PREFIX_LABEL_KEYS"
-              ],
+              "enum": ["QUERY_ALL_LABEL_KEYS", "QUERY_EXACT_LABEL_KEY", "QUERY_PREFIX_LABEL_KEYS"],
               "default": "QUERY_ALL_LABEL_KEYS"
             }
           },
@@ -1547,24 +1448,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-known_label_key-customapi-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.known_label_key.CustomAPI.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all known-label-keys",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1748,9 +1641,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-token-customapi-getcloudinitconfig"
         },
         "x-ves-proto-rpc": "ves.io.schema.token.CustomAPI.GetCloudInitConfig",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all get-cloud-init-configs",
@@ -1758,9 +1649,7 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1943,42 +1832,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-token-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.token.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "token"
-          ]
+          "creates": ["token"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new token",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Token resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Token resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "token"
-            ]
+            "creates": ["token"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2168,39 +2038,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-token-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.token.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "token"
-          ]
+          "modifies": ["token"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing token",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "token"
-            ]
+            "modifies": ["token"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2408,24 +2262,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-token-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.token.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all tokens",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2629,26 +2475,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-token-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.token.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific token",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2833,43 +2669,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-token-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.token.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "token",
-            "contained_resources"
-          ]
+          "deletes": ["token", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete token",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "token",
-              "contained_resources"
-            ]
+            "deletes": ["token", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -3059,9 +2879,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-token-customapi-tokenstate"
         },
         "x-ves-proto-rpc": "ves.io.schema.token.CustomAPI.TokenState",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -3070,33 +2888,19 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "state"
-          ]
+          "creates": ["state"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new state",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "State resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["State resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "state"
-            ]
+            "creates": ["state"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3178,9 +2982,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for implicit_labelGetResponse",
-          "required_fields": [
-            "label"
-          ],
+          "required_fields": ["label"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for implicit_labelGetResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label\": \"value\"\n  }\n}",
@@ -3252,11 +3054,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for implicit_labelLabelType",
-          "required_fields": [
-            "description",
-            "key",
-            "value"
-          ],
+          "required_fields": ["description", "key", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for implicit_labelLabelType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  key: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"key\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -3402,12 +3200,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_labelCreateRequest",
-          "required_fields": [
-            "description",
-            "key",
-            "namespace",
-            "value"
-          ],
+          "required_fields": ["description", "key", "namespace", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_labelCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  key: value\n  namespace: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"key\": \"value\",\n    \"namespace\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -3428,9 +3221,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_labelCreateResponse",
-          "required_fields": [
-            "label"
-          ],
+          "required_fields": ["label"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_labelCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label\": \"value\"\n  }\n}",
@@ -3509,11 +3300,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_labelDeleteRequest",
-          "required_fields": [
-            "key",
-            "namespace",
-            "value"
-          ],
+          "required_fields": ["key", "namespace", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_labelDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  namespace: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"namespace\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -3562,9 +3349,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_labelGetResponse",
-          "required_fields": [
-            "label"
-          ],
+          "required_fields": ["label"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_labelGetResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label\": \"value\"\n  }\n}",
@@ -3636,11 +3421,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_labelLabelType",
-          "required_fields": [
-            "description",
-            "key",
-            "value"
-          ],
+          "required_fields": ["description", "key", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_labelLabelType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  key: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"key\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -3733,11 +3514,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_label_keyCreateRequest",
-          "required_fields": [
-            "description",
-            "key",
-            "namespace"
-          ],
+          "required_fields": ["description", "key", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_label_keyCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  key: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"key\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -3758,9 +3535,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_label_keyCreateResponse",
-          "required_fields": [
-            "label_key"
-          ],
+          "required_fields": ["label_key"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_label_keyCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label_key: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label_key\": \"value\"\n  }\n}",
@@ -3814,10 +3589,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_label_keyDeleteRequest",
-          "required_fields": [
-            "key",
-            "namespace"
-          ],
+          "required_fields": ["key", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_label_keyDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -3866,9 +3638,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_label_keyGetResponse",
-          "required_fields": [
-            "label_key"
-          ],
+          "required_fields": ["label_key"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_label_keyGetResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label_key: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label_key\": \"value\"\n  }\n}",
@@ -3922,10 +3692,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_label_keyLabelKeyType",
-          "required_fields": [
-            "description",
-            "key"
-          ],
+          "required_fields": ["description", "key"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for known_label_keyLabelKeyType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  key: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"key\": \"value\"\n  }\n}",
@@ -3937,11 +3704,7 @@
         "type": "string",
         "description": "X-displayName: \"Query Type\"\nType of label key query\n\n- QUERY_ALL_LABEL_KEYS: x-displayName: \"All Labels\"\nGeneric GET of all available labels for a given tenant\n- QUERY_EXACT_LABEL_KEY: x-displayName: \"Exact Label Key\"\nGET exact match of label.key = label.value Or label.key(label.value)\n- QUERY_PREFIX_LABEL_KEYS: x-displayName: \"Label Key Prefix\"\nGET prefix match of label.key.",
         "title": "QueryType",
-        "enum": [
-          "QUERY_ALL_LABEL_KEYS",
-          "QUERY_EXACT_LABEL_KEY",
-          "QUERY_PREFIX_LABEL_KEYS"
-        ],
+        "enum": ["QUERY_ALL_LABEL_KEYS", "QUERY_EXACT_LABEL_KEY", "QUERY_PREFIX_LABEL_KEYS"],
         "default": "QUERY_ALL_LABEL_KEYS",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for known_label_keyQueryType",
@@ -3988,10 +3751,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protobufAny",
-          "required_fields": [
-            "type_url",
-            "value"
-          ],
+          "required_fields": ["type_url", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protobufAny\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type_url: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type_url\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -4191,11 +3951,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaErrorType",
-          "required_fields": [
-            "code",
-            "error_obj",
-            "message"
-          ],
+          "required_fields": ["code", "error_obj", "message"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaErrorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  error_obj: value\n  message: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"error_obj\": \"value\",\n    \"message\": \"value\"\n  }\n}",
@@ -4231,9 +3987,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializerType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -4269,10 +4023,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializersType",
-          "required_fields": [
-            "pending",
-            "result"
-          ],
+          "required_fields": ["pending", "result"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pending: value\n  result: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pending\": \"value\",\n    \"result\": \"value\"\n  }\n}",
@@ -4858,13 +4609,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -5166,10 +4911,7 @@
         "type": "string",
         "description": "StatusPublishType is all possible publish operations on a StatusObject\n\n- STATUS_DO_NOT_PUBLISH: Do Not Publish\n\nDo not propagate this status to user. This could be because status is only informational\n- STATUS_PUBLISH: Publish\n\nPropagate this status up to user as it might be actionable.",
         "title": "StatusPublishType.",
-        "enum": [
-          "STATUS_DO_NOT_PUBLISH",
-          "STATUS_PUBLISH"
-        ],
+        "enum": ["STATUS_DO_NOT_PUBLISH", "STATUS_PUBLISH"],
         "default": "STATUS_DO_NOT_PUBLISH",
         "x-displayname": "Status Publish Type.",
         "x-ves-proto-enum": "ves.io.schema.StatusPublishType",
@@ -5245,11 +4987,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaStatusType",
-          "required_fields": [
-            "code",
-            "reason",
-            "status"
-          ],
+          "required_fields": ["code", "reason", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  reason: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"reason\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -5887,12 +5625,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaViewRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaViewRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -5904,10 +5637,7 @@
         "type": "string",
         "description": "X-displayName: \"Token Type\"\nToken type has two values, 1. \"normal\", 2. \"JWT\". For Secure Mesh Site v2 UI, JWT is used, other workflow sticks to normal\nSingle token can be used to register multiple sites\n\n- NORMAL: x-displayName: \"Normal\"\ntoken is in UUID format\n- JWT: x-displayName: \"JWT\"\ntoken is in JWT format, encrypted by maurice's internal shared key.",
         "title": "Token Type.",
-        "enum": [
-          "NORMAL",
-          "JWT"
-        ],
+        "enum": ["NORMAL", "JWT"],
         "default": "NORMAL",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schematokenType",
@@ -5935,10 +5665,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -5962,11 +5689,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -6049,11 +5772,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -6088,9 +5807,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenGetCloudInitConfigResp",
-          "required_fields": [
-            "cloud_init_config"
-          ],
+          "required_fields": ["cloud_init_config"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenGetCloudInitConfigResp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cloud_init_config: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cloud_init_config\": \"value\"\n  }\n}",
@@ -6242,9 +5959,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenGetSpecType",
-          "required_fields": [
-            "state"
-          ],
+          "required_fields": ["state"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  state: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"state\": \"value\"\n  }\n}",
@@ -6265,9 +5980,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenGlobalSpecType",
-          "required_fields": [
-            "state"
-          ],
+          "required_fields": ["state"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenGlobalSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  state: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"state\": \"value\"\n  }\n}",
@@ -6315,10 +6028,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -6534,11 +6244,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenObject",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -6559,9 +6265,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenObjectChangeResp",
-          "required_fields": [
-            "obj"
-          ],
+          "required_fields": ["obj"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenObjectChangeResp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  obj: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"obj\": \"value\"\n  }\n}",
@@ -6585,10 +6289,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -6637,9 +6338,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenSpecType",
-          "required_fields": [
-            "gc_spec"
-          ],
+          "required_fields": ["gc_spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  gc_spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"gc_spec\": \"value\"\n  }\n}",
@@ -6651,11 +6350,7 @@
         "type": "string",
         "description": "Token state defines whether token can be used or node. VALID token is required, other states are invalid.\nSingle token can be used to register multiple sites\n\nToken state isn't set\nToken can be (RE)used\nToken can't be used anymore.",
         "title": "State",
-        "enum": [
-          "UNKNOWN",
-          "VALID",
-          "EXPIRED"
-        ],
+        "enum": ["UNKNOWN", "VALID", "EXPIRED"],
         "default": "UNKNOWN",
         "x-displayname": "Token State Values.",
         "x-ves-proto-enum": "ves.io.schema.token.State",
@@ -6718,11 +6413,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenStateReq",
-          "required_fields": [
-            "name",
-            "namespace",
-            "state"
-          ],
+          "required_fields": ["name", "namespace", "state"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenStateReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  state: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"state\": \"value\"\n  }\n}",
@@ -6773,11 +6464,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for tokenStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for tokenStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",

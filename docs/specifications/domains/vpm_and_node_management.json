@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -177,9 +170,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-maintenance_status-customapi-getupgradestatus"
         },
         "x-ves-proto-rpc": "ves.io.schema.maintenance_status.CustomAPI.GetUpgradeStatus",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all upgrade-status",
@@ -187,9 +178,7 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},

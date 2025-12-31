@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -200,42 +193,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-policer-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.policer.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "policer"
-          ]
+          "creates": ["policer"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new policer",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Policer resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Policer resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "policer"
-            ]
+            "creates": ["policer"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -425,39 +399,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-policer-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.policer.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "policer"
-          ]
+          "modifies": ["policer"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing policer",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "policer"
-            ]
+            "modifies": ["policer"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -665,24 +623,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-policer-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.policer.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all policers",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -884,26 +834,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-policer-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.policer.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific policer",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1088,43 +1028,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-policer-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.policer.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "policer",
-            "contained_resources"
-          ]
+          "deletes": ["policer", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete policer",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "policer",
-              "contained_resources"
-            ]
+            "deletes": ["policer", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -1303,42 +1227,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-protocol_policer-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.protocol_policer.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "protocol-policer"
-          ]
+          "creates": ["protocol-policer"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new protocol-policer",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Protocol-policer resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "protocol-policer"
-            ]
+            "creates": ["protocol-policer"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1528,39 +1436,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-protocol_policer-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.protocol_policer.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "protocol-policer"
-          ]
+          "modifies": ["protocol-policer"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing protocol-policer",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "protocol-policer"
-            ]
+            "modifies": ["protocol-policer"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1768,24 +1660,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-protocol_policer-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.protocol_policer.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all protocol-policers",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1987,26 +1871,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-protocol_policer-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.protocol_policer.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific protocol-policer",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2191,43 +2065,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-protocol_policer-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.protocol_policer.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "protocol-policer",
-            "contained_resources"
-          ]
+          "deletes": ["protocol-policer", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete protocol-policer",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "protocol-policer",
-              "contained_resources"
-            ]
+            "deletes": ["protocol-policer", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -2406,42 +2264,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-rate_limiter-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.rate_limiter.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "rate-limiter"
-          ]
+          "creates": ["rate-limiter"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new rate-limiter",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Rate-limiter resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "rate-limiter"
-            ]
+            "creates": ["rate-limiter"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2631,39 +2473,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-rate_limiter-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.rate_limiter.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "rate-limiter"
-          ]
+          "modifies": ["rate-limiter"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing rate-limiter",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "rate-limiter"
-            ]
+            "modifies": ["rate-limiter"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2871,24 +2697,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-rate_limiter-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.rate_limiter.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all rate-limiters",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3090,26 +2908,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-rate_limiter-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.rate_limiter.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific rate-limiter",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3294,43 +3102,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-rate_limiter-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.rate_limiter.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "rate-limiter",
-            "contained_resources"
-          ]
+          "deletes": ["rate-limiter", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete rate-limiter",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "rate-limiter",
-              "contained_resources"
-            ]
+            "deletes": ["rate-limiter", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -3403,10 +3195,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policerCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policerCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -3430,11 +3219,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policerCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policerCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -3586,11 +3371,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policerDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policerDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -3854,10 +3635,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policerListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policerListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -4057,10 +3835,7 @@
         "type": "string",
         "description": "- POLICER_MODE_NOT_SHARED: Not Shared\n\nA separate policer instance is created for each reference to the policer\n- POLICER_MODE_SHARED: Shared\n\nA common policer instance is used for for all references to the policer.",
         "title": "PolicerMode.",
-        "enum": [
-          "POLICER_MODE_NOT_SHARED",
-          "POLICER_MODE_SHARED"
-        ],
+        "enum": ["POLICER_MODE_NOT_SHARED", "POLICER_MODE_SHARED"],
         "default": "POLICER_MODE_NOT_SHARED",
         "x-displayname": "Policer Mode.",
         "x-ves-proto-enum": "ves.io.schema.policer.PolicerMode",
@@ -4078,9 +3853,7 @@
         "type": "string",
         "description": "Specifies the type of Policer\n\nBasic Single-Rate Two-Color Policer.",
         "title": "PolicerType.",
-        "enum": [
-          "POLICER_SINGLE_RATE_TWO_COLOR"
-        ],
+        "enum": ["POLICER_SINGLE_RATE_TWO_COLOR"],
         "default": "POLICER_SINGLE_RATE_TWO_COLOR",
         "x-displayname": "Policer Type.",
         "x-ves-proto-enum": "ves.io.schema.policer.PolicerType",
@@ -4110,10 +3883,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policerReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policerReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -4263,11 +4033,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policerStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policerStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -4310,10 +4076,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protobufAny",
-          "required_fields": [
-            "type_url",
-            "value"
-          ],
+          "required_fields": ["type_url", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protobufAny\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type_url: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type_url\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -4513,11 +4276,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaErrorType",
-          "required_fields": [
-            "code",
-            "error_obj",
-            "message"
-          ],
+          "required_fields": ["code", "error_obj", "message"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaErrorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  error_obj: value\n  message: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"error_obj\": \"value\",\n    \"message\": \"value\"\n  }\n}",
@@ -4553,9 +4312,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializerType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -4591,10 +4348,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializersType",
-          "required_fields": [
-            "pending",
-            "result"
-          ],
+          "required_fields": ["pending", "result"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pending: value\n  result: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pending\": \"value\",\n    \"result\": \"value\"\n  }\n}",
@@ -5008,13 +4762,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -5316,10 +5064,7 @@
         "type": "string",
         "description": "StatusPublishType is all possible publish operations on a StatusObject\n\n- STATUS_DO_NOT_PUBLISH: Do Not Publish\n\nDo not propagate this status to user. This could be because status is only informational\n- STATUS_PUBLISH: Publish\n\nPropagate this status up to user as it might be actionable.",
         "title": "StatusPublishType.",
-        "enum": [
-          "STATUS_DO_NOT_PUBLISH",
-          "STATUS_PUBLISH"
-        ],
+        "enum": ["STATUS_DO_NOT_PUBLISH", "STATUS_PUBLISH"],
         "default": "STATUS_DO_NOT_PUBLISH",
         "x-displayname": "Status Publish Type.",
         "x-ves-proto-enum": "ves.io.schema.StatusPublishType",
@@ -5395,11 +5140,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaStatusType",
-          "required_fields": [
-            "code",
-            "reason",
-            "status"
-          ],
+          "required_fields": ["code", "reason", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  reason: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"reason\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -5692,12 +5433,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaViewRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaViewRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -5721,10 +5457,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -5748,11 +5481,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -5796,9 +5525,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerCreateSpecType",
-          "required_fields": [
-            "protocol_policer"
-          ],
+          "required_fields": ["protocol_policer"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  protocol_policer: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"protocol_policer\": \"value\"\n  }\n}",
@@ -5865,11 +5592,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -6060,9 +5783,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerGetSpecType",
-          "required_fields": [
-            "protocol_policer"
-          ],
+          "required_fields": ["protocol_policer"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  protocol_policer: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"protocol_policer\": \"value\"\n  }\n}",
@@ -6074,11 +5795,7 @@
         "type": "string",
         "description": "ICMP echo request packet which is sent by originator of Ping packet\nICMP echo reply packet which is sent in responce to ICMP echo request packet\nAll ICMP packet types including TTL exceeded, destination\nunreachable and source quench etc.",
         "title": "ICMP Message types.",
-        "enum": [
-          "ECHO_REPLY",
-          "ECHO_REQUEST",
-          "ALL_ICMP_MSG"
-        ],
+        "enum": ["ECHO_REPLY", "ECHO_REQUEST", "ALL_ICMP_MSG"],
         "default": "ECHO_REPLY",
         "x-displayname": "ICMP Message Types.",
         "x-ves-proto-enum": "ves.io.schema.protocol_policer.IcmpMsgType",
@@ -6117,9 +5834,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerIcmpType",
-          "required_fields": [
-            "type"
-          ],
+          "required_fields": ["type"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerIcmpType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type\": \"value\"\n  }\n}",
@@ -6167,10 +5882,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -6410,10 +6122,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerProtocolPolicerType",
-          "required_fields": [
-            "policer",
-            "protocol"
-          ],
+          "required_fields": ["policer", "protocol"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerProtocolPolicerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  policer: value\n  protocol: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"policer\": \"value\",\n    \"protocol\": \"value\"\n  }\n}",
@@ -6444,12 +6153,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerProtocolType",
-          "required_fields": [
-            "dns",
-            "icmp",
-            "tcp",
-            "udp"
-          ],
+          "required_fields": ["dns", "icmp", "tcp", "udp"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerProtocolType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  dns: value\n  icmp: value\n  tcp: value\n  udp: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"dns\": \"value\",\n    \"icmp\": \"value\",\n    \"tcp\": \"value\",\n    \"udp\": \"value\"\n  }\n}",
@@ -6473,10 +6177,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -6533,9 +6234,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerReplaceSpecType",
-          "required_fields": [
-            "protocol_policer"
-          ],
+          "required_fields": ["protocol_policer"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  protocol_policer: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"protocol_policer\": \"value\"\n  }\n}",
@@ -6587,11 +6286,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -6603,16 +6298,7 @@
         "type": "string",
         "description": "TCP flags indicate a particular connection state\n\nFIN flag which indicates that there is no more data from the sender, used in the last packet sent from the sender\nSYN flag set in the first packet from sender and receiver while establishing three way handshake between two hosts\nRST flag that resets a connection when the host receives an unexpected packet\nPSH flag that tells the receiver to process packets as they are received, instead of buffering them\nACK flag that acknowledges successful receipt of a packet\nURG flag that notifies the receiver about urgent packets that need to processed before other packets\nKeepalive flag tracks the keepalive packets for TCP connection liveness\nMatch any TCP Flag - FIN / SYN / RST / PSH / ACK / URG / KEEPALIVE.",
         "title": "TCP Flags",
-        "enum": [
-          "FIN",
-          "SYN",
-          "RST",
-          "PSH",
-          "ACK",
-          "URG",
-          "ALL_TCP_FLAGS",
-          "KEEPALIVE"
-        ],
+        "enum": ["FIN", "SYN", "RST", "PSH", "ACK", "URG", "ALL_TCP_FLAGS", "KEEPALIVE"],
         "default": "FIN",
         "x-displayname": "TCP Flags",
         "x-ves-proto-enum": "ves.io.schema.protocol_policer.TcpFlags",
@@ -6651,9 +6337,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protocol_policerTcpType",
-          "required_fields": [
-            "flags"
-          ],
+          "required_fields": ["flags"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protocol_policerTcpType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  flags: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"flags\": \"value\"\n  }\n}",
@@ -6709,10 +6393,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -6736,11 +6417,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -6807,10 +6484,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterCreateSpecType",
-          "required_fields": [
-            "limits",
-            "user_identification"
-          ],
+          "required_fields": ["limits", "user_identification"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  limits: value\n  user_identification: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"limits\": \"value\",\n    \"user_identification\": \"value\"\n  }\n}",
@@ -6877,11 +6551,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -7079,10 +6749,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterGetSpecType",
-          "required_fields": [
-            "limits",
-            "user_identification"
-          ],
+          "required_fields": ["limits", "user_identification"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  limits: value\n  user_identification: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"limits\": \"value\",\n    \"user_identification\": \"value\"\n  }\n}",
@@ -7125,9 +6792,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterInputHours",
-          "required_fields": [
-            "duration"
-          ],
+          "required_fields": ["duration"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterInputHours\nmetadata:\n  name: example\n  namespace: default\nspec:\n  duration: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"duration\": \"value\"\n  }\n}",
@@ -7170,9 +6835,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterInputMinutes",
-          "required_fields": [
-            "duration"
-          ],
+          "required_fields": ["duration"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterInputMinutes\nmetadata:\n  name: example\n  namespace: default\nspec:\n  duration: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"duration\": \"value\"\n  }\n}",
@@ -7215,9 +6878,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterInputSeconds",
-          "required_fields": [
-            "duration"
-          ],
+          "required_fields": ["duration"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterInputSeconds\nmetadata:\n  name: example\n  namespace: default\nspec:\n  duration: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"duration\": \"value\"\n  }\n}",
@@ -7281,10 +6942,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -7500,11 +7158,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterRateLimitBlockAction",
-          "required_fields": [
-            "hours",
-            "minutes",
-            "seconds"
-          ],
+          "required_fields": ["hours", "minutes", "seconds"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterRateLimitBlockAction\nmetadata:\n  name: example\n  namespace: default\nspec:\n  hours: value\n  minutes: value\n  seconds: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"hours\": \"value\",\n    \"minutes\": \"value\",\n    \"seconds\": \"value\"\n  }\n}",
@@ -7516,11 +7170,7 @@
         "type": "string",
         "description": "Unit for the period per which the rate limit is applied.\n\n- SECOND: Second\n\nRate limit period unit is seconds\n- MINUTE: Minute\n\nRate limit period unit is minutes\n- HOUR: Hour\n\nRate limit period unit is hours\n- DAY: Day\n\nRate limit period unit is days.",
         "title": "RateLimitPeriodUnit.",
-        "enum": [
-          "SECOND",
-          "MINUTE",
-          "HOUR"
-        ],
+        "enum": ["SECOND", "MINUTE", "HOUR"],
         "default": "SECOND",
         "x-displayname": "Rate Limit Period Unit.",
         "x-ves-proto-enum": "ves.io.schema.rate_limiter.RateLimitPeriodUnit",
@@ -7673,10 +7323,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -7756,10 +7403,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterReplaceSpecType",
-          "required_fields": [
-            "limits",
-            "user_identification"
-          ],
+          "required_fields": ["limits", "user_identification"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  limits: value\n  user_identification: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"limits\": \"value\",\n    \"user_identification\": \"value\"\n  }\n}",
@@ -7810,11 +7454,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",

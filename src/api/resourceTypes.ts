@@ -12,13 +12,30 @@
 import {
   GENERATED_RESOURCE_TYPES,
   GeneratedResourceTypeInfo,
+  DangerLevel,
+  OperationMetadata,
+  ResourceOperationMetadata,
+  SideEffects,
+  CommonError,
 } from '../generated/resourceTypesBase';
+
+// Re-export operation metadata types for use by other modules
+export type { DangerLevel, OperationMetadata, ResourceOperationMetadata, SideEffects, CommonError };
+
+/**
+ * CRUD operation types for metadata lookup
+ */
+export type CrudOperation = 'list' | 'get' | 'create' | 'update' | 'delete';
 import {
   BUILT_IN_NAMESPACES,
   API_ENDPOINTS,
   isBuiltInNamespace as generatedIsBuiltInNamespace,
 } from '../generated/constants';
-import { getLocalCategoryForDomain } from '../generated/domainCategories';
+import {
+  getLocalCategoryForDomain,
+  isPreviewDomain,
+  getDomainTierRequirement,
+} from '../generated/domainCategories';
 
 /**
  * Namespace scope - which namespaces can access this resource type
@@ -942,3 +959,199 @@ export function getCategorizedResourceTypesForNamespace(
 
 // Re-export BUILT_IN_NAMESPACES for backwards compatibility
 export { BUILT_IN_NAMESPACES, API_ENDPOINTS };
+
+// =====================================================
+// Operation Metadata Helper Functions
+// =====================================================
+
+/**
+ * Get the operation metadata for a resource type and CRUD operation.
+ *
+ * @param resourceKey - The resource type key (e.g., 'http_loadbalancer')
+ * @param operation - The CRUD operation type
+ * @returns The operation metadata or undefined if not available
+ */
+export function getOperationMetadata(
+  resourceKey: string,
+  operation: CrudOperation,
+): OperationMetadata | undefined {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  return generated?.operationMetadata?.[operation];
+}
+
+/**
+ * Get the danger level for a specific operation on a resource type.
+ * Returns 'medium' as default if not specified (conservative default).
+ *
+ * @param resourceKey - The resource type key (e.g., 'http_loadbalancer')
+ * @param operation - The CRUD operation type (default: 'delete' as most common use case)
+ * @returns The danger level ('low', 'medium', or 'high')
+ */
+export function getDangerLevel(
+  resourceKey: string,
+  operation: CrudOperation = 'delete',
+): DangerLevel {
+  const metadata = getOperationMetadata(resourceKey, operation);
+  return metadata?.dangerLevel ?? 'medium';
+}
+
+/**
+ * Get the purpose description for an operation.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The CRUD operation type
+ * @returns The purpose string or undefined
+ */
+export function getOperationPurpose(
+  resourceKey: string,
+  operation: CrudOperation,
+): string | undefined {
+  const metadata = getOperationMetadata(resourceKey, operation);
+  return metadata?.purpose;
+}
+
+/**
+ * Get required fields for a create or update operation.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The CRUD operation ('create' or 'update')
+ * @returns Array of required field paths
+ */
+export function getRequiredFields(resourceKey: string, operation: 'create' | 'update'): string[] {
+  const metadata = getOperationMetadata(resourceKey, operation);
+  return metadata?.requiredFields ?? [];
+}
+
+/**
+ * Get side effects for an operation.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The CRUD operation type
+ * @returns Side effects object or undefined
+ */
+export function getSideEffects(
+  resourceKey: string,
+  operation: CrudOperation,
+): SideEffects | undefined {
+  const metadata = getOperationMetadata(resourceKey, operation);
+  return metadata?.sideEffects;
+}
+
+/**
+ * Get common errors and solutions for an operation.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The CRUD operation type
+ * @returns Array of common errors with solutions
+ */
+export function getCommonErrors(resourceKey: string, operation: CrudOperation): CommonError[] {
+  const metadata = getOperationMetadata(resourceKey, operation);
+  return metadata?.commonErrors ?? [];
+}
+
+/**
+ * Get a smart error message for a given status code.
+ * Looks up the common errors for the operation and returns a user-friendly solution.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The CRUD operation type
+ * @param statusCode - The HTTP status code
+ * @returns The solution message or undefined if no match found
+ */
+export function getSmartErrorMessage(
+  resourceKey: string,
+  operation: CrudOperation,
+  statusCode: number,
+): string | undefined {
+  const errors = getCommonErrors(resourceKey, operation);
+  const match = errors.find((e) => e.code === statusCode);
+  return match?.solution;
+}
+
+/**
+ * Check if an operation requires user confirmation.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The CRUD operation type
+ * @returns True if confirmation is required (or defaults to true for high danger)
+ */
+export function requiresConfirmation(resourceKey: string, operation: CrudOperation): boolean {
+  const metadata = getOperationMetadata(resourceKey, operation);
+  // If explicitly set, use that value
+  if (metadata?.confirmationRequired !== undefined) {
+    return metadata.confirmationRequired;
+  }
+  // Default: require confirmation for high danger operations
+  const dangerLevel = getDangerLevel(resourceKey, operation);
+  return dangerLevel === 'high';
+}
+
+/**
+ * Get prerequisites for an operation.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The CRUD operation type
+ * @returns Array of prerequisite descriptions
+ */
+export function getPrerequisites(resourceKey: string, operation: CrudOperation): string[] {
+  const metadata = getOperationMetadata(resourceKey, operation);
+  return metadata?.prerequisites ?? [];
+}
+
+/**
+ * Get all operation metadata for a resource type.
+ *
+ * @param resourceKey - The resource type key
+ * @returns The full ResourceOperationMetadata or undefined
+ */
+export function getAllOperationMetadata(
+  resourceKey: string,
+): ResourceOperationMetadata | undefined {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  return generated?.operationMetadata;
+}
+
+// =====================================================
+// Domain and Preview Status Helper Functions
+// =====================================================
+
+/**
+ * Get the domain for a resource type.
+ *
+ * @param resourceKey - The resource type key
+ * @returns The domain name or undefined
+ */
+export function getResourceDomain(resourceKey: string): string | undefined {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  return generated?.domain;
+}
+
+/**
+ * Check if a resource type is in preview/beta status.
+ * Uses the domain's is_preview flag from upstream metadata.
+ *
+ * @param resourceKey - The resource type key
+ * @returns True if the resource type's domain is in preview
+ */
+export function isResourceTypePreview(resourceKey: string): boolean {
+  const domain = getResourceDomain(resourceKey);
+  if (!domain) {
+    return false;
+  }
+  return isPreviewDomain(domain);
+}
+
+/**
+ * Get the tier requirement for a resource type.
+ * Uses the domain's requires_tier from upstream metadata.
+ *
+ * @param resourceKey - The resource type key
+ * @returns The tier requirement (e.g., "advanced", "enterprise") or undefined
+ */
+export function getResourceTypeTierRequirement(resourceKey: string): string | undefined {
+  const domain = getResourceDomain(resourceKey);
+  if (!domain) {
+    return undefined;
+  }
+  return getDomainTierRequirement(domain);
+}

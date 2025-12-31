@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -208,42 +201,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_setting-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_setting.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "app-setting"
-          ]
+          "creates": ["app-setting"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new app-setting",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "App-setting resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "app-setting"
-            ]
+            "creates": ["app-setting"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -433,39 +410,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_setting-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_setting.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "app-setting"
-          ]
+          "modifies": ["app-setting"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing app-setting",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "app-setting"
-            ]
+            "modifies": ["app-setting"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -673,24 +634,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_setting-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_setting.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all app-settings",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -894,26 +847,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_setting-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_setting.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific app-setting",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1098,43 +1041,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_setting-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_setting.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "app-setting",
-            "contained_resources"
-          ]
+          "deletes": ["app-setting", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete app-setting",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "app-setting",
-              "contained_resources"
-            ]
+            "deletes": ["app-setting", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -1355,26 +1282,16 @@
           }
         ],
         "x-ves-proto-rpc": "ves.io.schema.app_setting.CustomAPI.SuspiciousUserStatus",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific suspicious-user",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1555,42 +1472,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "app-type"
-          ]
+          "creates": ["app-type"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new app-type",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "App-type resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["App-type resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "app-type"
-            ]
+            "creates": ["app-type"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1780,39 +1678,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "app-type"
-          ]
+          "modifies": ["app-type"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing app-type",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "app-type"
-            ]
+            "modifies": ["app-type"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2020,24 +1902,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all app-types",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2231,9 +2105,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-getapiendpointlearntschema"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.GetAPIEndpointLearntSchema",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -2242,9 +2114,7 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "learnt-schema"
-          ]
+          "creates": ["learnt-schema"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new learnt-schema",
@@ -2257,18 +2127,14 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Learnt-schema resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "learnt-schema"
-            ]
+            "creates": ["learnt-schema"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2470,26 +2336,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-apiendpointpdf"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.APIEndpointPDF",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.app_type_name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.app_type_name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all pdfs",
-          "required_fields": [
-            "path.app_type_name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.app_type_name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2676,35 +2532,22 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": [
-                  "API_ENDPOINT_INFO_NONE",
-                  "API_ENDPOINT_INFO_PDF_SPARKLINES"
-                ]
+                "enum": ["API_ENDPOINT_INFO_NONE", "API_ENDPOINT_INFO_PDF_SPARKLINES"]
               }
             }
           }
         ],
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.APIEndpoints",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.app_type_name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.app_type_name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all api-endpoints",
-          "required_fields": [
-            "path.app_type_name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.app_type_name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2886,26 +2729,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-getswaggerspec"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.GetSwaggerSpec",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.app_type_name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.app_type_name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all swagger-specs",
-          "required_fields": [
-            "path.app_type_name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.app_type_name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3099,9 +2932,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-overridepop"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.OverridePop",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -3110,9 +2941,7 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "pop"
-          ]
+          "creates": ["pop"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new pop",
@@ -3125,18 +2954,11 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Pop resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Pop resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "pop"
-            ]
+            "creates": ["pop"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3326,9 +3148,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-overridepush"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.OverridePush",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -3337,9 +3157,7 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "push"
-          ]
+          "creates": ["push"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new push",
@@ -3352,18 +3170,11 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Push resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Push resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "push"
-            ]
+            "creates": ["push"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3543,26 +3354,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-overrides"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.Overrides",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.app_type_name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.app_type_name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all overrides",
-          "required_fields": [
-            "path.app_type_name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.app_type_name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3765,9 +3566,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-getserviceapiendpointpdf"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.GetServiceAPIEndpointPDF",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -3777,9 +3576,7 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "pdf"
-          ]
+          "creates": ["pdf"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new pdf",
@@ -3793,18 +3590,11 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Pdf resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Pdf resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "pdf"
-            ]
+            "creates": ["pdf"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4005,9 +3795,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-customapi-getserviceapiendpoints"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.CustomAPI.GetServiceAPIEndpoints",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -4017,9 +3805,7 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "api-endpoint"
-          ]
+          "creates": ["api-endpoint"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new api-endpoint",
@@ -4033,18 +3819,14 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Api-endpoint resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "api-endpoint"
-            ]
+            "creates": ["api-endpoint"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4244,26 +4026,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific app-type",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -4448,43 +4220,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-app_type-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.app_type.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "app-type",
-            "contained_resources"
-          ]
+          "deletes": ["app-type", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete app-type",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "app-type",
-              "contained_resources"
-            ]
+            "deletes": ["app-type", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -4663,42 +4419,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-endpoint-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.endpoint.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "endpoint"
-          ]
+          "creates": ["endpoint"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new endpoint",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Endpoint resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Endpoint resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "endpoint"
-            ]
+            "creates": ["endpoint"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4888,39 +4625,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-endpoint-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.endpoint.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "endpoint"
-          ]
+          "modifies": ["endpoint"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing endpoint",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "endpoint"
-            ]
+            "modifies": ["endpoint"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -5128,24 +4849,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-endpoint-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.endpoint.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all endpoints",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -5347,26 +5060,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-endpoint-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.endpoint.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific endpoint",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -5551,43 +5254,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-endpoint-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.endpoint.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "endpoint",
-            "contained_resources"
-          ]
+          "deletes": ["endpoint", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete endpoint",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "endpoint",
-              "contained_resources"
-            ]
+            "deletes": ["endpoint", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -5766,42 +5453,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nfv_service-customapi-forcedeletenfvservice"
         },
         "x-ves-proto-rpc": "ves.io.schema.nfv_service.CustomAPI.ForceDeleteNFVService",
-        "tags": [
-          "Service Mesh"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.name"
-        ],
+        "tags": ["Service Mesh"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.name"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "force-delete"
-          ]
+          "creates": ["force-delete"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new force-delete",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.name"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.name"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Force-delete resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "force-delete"
-            ]
+            "creates": ["force-delete"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -5980,42 +5651,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nfv_service-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.nfv_service.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "nfv-service"
-          ]
+          "creates": ["nfv-service"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new nfv-service",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Nfv-service resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "nfv-service"
-            ]
+            "creates": ["nfv-service"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -6205,39 +5860,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nfv_service-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.nfv_service.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "nfv-service"
-          ]
+          "modifies": ["nfv-service"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing nfv-service",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "nfv-service"
-            ]
+            "modifies": ["nfv-service"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -6445,24 +6084,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nfv_service-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.nfv_service.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all nfv-services",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -6643,42 +6274,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nfv_service-customdataapi-metrics"
         },
         "x-ves-proto-rpc": "ves.io.schema.nfv_service.CustomDataAPI.Metrics",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "metric"
-          ]
+          "creates": ["metric"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new metric",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Metric resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Metric resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "metric"
-            ]
+            "creates": ["metric"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -6878,26 +6490,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nfv_service-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.nfv_service.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific nfv-service",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -7082,43 +6684,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nfv_service-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.nfv_service.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "nfv-service",
-            "contained_resources"
-          ]
+          "deletes": ["nfv-service", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete nfv-service",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "nfv-service",
-              "contained_resources"
-            ]
+            "deletes": ["nfv-service", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -7297,42 +6883,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-site_mesh_group-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.site_mesh_group.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "site-mesh-group"
-          ]
+          "creates": ["site-mesh-group"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new site-mesh-group",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Site-mesh-group resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "site-mesh-group"
-            ]
+            "creates": ["site-mesh-group"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -7522,39 +7092,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-site_mesh_group-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.site_mesh_group.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "site-mesh-group"
-          ]
+          "modifies": ["site-mesh-group"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing site-mesh-group",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "site-mesh-group"
-            ]
+            "modifies": ["site-mesh-group"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -7762,24 +7316,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-site_mesh_group-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.site_mesh_group.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all site-mesh-groups",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -7981,26 +7527,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-site_mesh_group-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.site_mesh_group.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific site-mesh-group",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -8185,43 +7721,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-site_mesh_group-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.site_mesh_group.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "site-mesh-group",
-            "contained_resources"
-          ]
+          "deletes": ["site-mesh-group", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete site-mesh-group",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "site-mesh-group",
-              "contained_resources"
-            ]
+            "deletes": ["site-mesh-group", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -8387,25 +7907,15 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-virtual_appliance-softwareversionosimagecustomapi-getimage"
         },
         "x-ves-proto-rpc": "ves.io.schema.virtual_appliance.SoftwareVersionOsImageCustomApi.GetImage",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "software-os-version"
-          ]
+          "creates": ["software-os-version"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new software-os-version",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
@@ -8416,9 +7926,7 @@
             ]
           },
           "side_effects": {
-            "creates": [
-              "software-os-version"
-            ]
+            "creates": ["software-os-version"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -8597,42 +8105,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-virtual_network-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.virtual_network.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "virtual-network"
-          ]
+          "creates": ["virtual-network"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new virtual-network",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Virtual-network resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "virtual-network"
-            ]
+            "creates": ["virtual-network"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -8822,39 +8314,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-virtual_network-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.virtual_network.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "virtual-network"
-          ]
+          "modifies": ["virtual-network"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing virtual-network",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "virtual-network"
-            ]
+            "modifies": ["virtual-network"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -9033,42 +8509,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-virtual_network-customdataapi-sidcounters"
         },
         "x-ves-proto-rpc": "ves.io.schema.virtual_network.CustomDataAPI.SIDCounters",
-        "tags": [
-          "Networking"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Networking"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "sid-counter"
-          ]
+          "creates": ["sid-counter"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new sid-counter",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Sid-counter resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "sid-counter"
-            ]
+            "creates": ["sid-counter"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -9276,24 +8736,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-virtual_network-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.virtual_network.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all virtual-networks",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -9495,26 +8947,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-virtual_network-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.virtual_network.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific virtual-network",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -9699,43 +9141,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-virtual_network-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.virtual_network.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "virtual-network",
-            "contained_resources"
-          ]
+          "deletes": ["virtual-network", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete virtual-network",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "virtual-network",
-              "contained_resources"
-            ]
+            "deletes": ["virtual-network", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -9796,12 +9222,7 @@
         "type": "string",
         "description": "X-displayName: \"Anomaly Type\"\nDifferent types of anomaly detection supported\nThis is deprecated.\n\n- ANOMALY_NONE: x-displayName: \"Disable Anomaly\"\nDisable anomaly detection\n- ANOMALY_SITE: x-displayName: \"Anomaly Per Site\"\nAnomaly detection is enabled only per site\n- ANOMALY_SERVICE: x-displayName: \"Anomaly Per Service\"\nAnomaly detection is enabled only per service\n- ANOMALY_SERVICE_PER_SITE: x-displayName: \"Anomaly Per Service, Site\"\nAnamoly detection is enabled only per service per site.",
         "title": "Anomaly type.",
-        "enum": [
-          "ANOMALY_NONE",
-          "ANOMALY_SITE",
-          "ANOMALY_SERVICE",
-          "ANOMALY_SERVICE_PER_SITE"
-        ],
+        "enum": ["ANOMALY_NONE", "ANOMALY_SITE", "ANOMALY_SERVICE", "ANOMALY_SERVICE_PER_SITE"],
         "default": "ANOMALY_NONE",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingAnomalyType",
@@ -9930,10 +9351,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingBusinessLogicMarkupSetting",
-          "required_fields": [
-            "disable",
-            "enable"
-          ],
+          "required_fields": ["disable", "enable"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingBusinessLogicMarkupSetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  disable: value\n  enable: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"disable\": \"value\",\n    \"enable\": \"value\"\n  }\n}",
@@ -9957,10 +9375,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -9984,11 +9399,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -10055,11 +9466,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -10104,9 +9511,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingFailedLoginActivitySetting",
-          "required_fields": [
-            "login_failures_threshold"
-          ],
+          "required_fields": ["login_failures_threshold"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingFailedLoginActivitySetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  login_failures_threshold: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"login_failures_threshold\": \"value\"\n  }\n}",
@@ -10151,9 +9556,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingForbiddenActivitySetting",
-          "required_fields": [
-            "forbidden_requests_threshold"
-          ],
+          "required_fields": ["forbidden_requests_threshold"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingForbiddenActivitySetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  forbidden_requests_threshold: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"forbidden_requests_threshold\": \"value\"\n  }\n}",
@@ -10332,10 +9735,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -10658,13 +10058,7 @@
         "type": "string",
         "description": "Supported metrics that can be selected for timeseries analyses.",
         "title": "Metric",
-        "enum": [
-          "NO_METRICS",
-          "REQUEST_RATE",
-          "ERROR_RATE",
-          "LATENCY",
-          "THROUGHPUT"
-        ],
+        "enum": ["NO_METRICS", "REQUEST_RATE", "ERROR_RATE", "LATENCY", "THROUGHPUT"],
         "default": "NO_METRICS",
         "x-displayname": "Metric",
         "x-ves-proto-enum": "ves.io.schema.app_setting.Metric",
@@ -10713,10 +10107,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingMetricSelector",
-          "required_fields": [
-            "metric",
-            "metrics_source"
-          ],
+          "required_fields": ["metric", "metrics_source"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingMetricSelector\nmetadata:\n  name: example\n  namespace: default\nspec:\n  metric: value\n  metrics_source: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"metric\": \"value\",\n    \"metrics_source\": \"value\"\n  }\n}",
@@ -10728,12 +10119,7 @@
         "type": "string",
         "description": "Supported sources from which Metrics can be analyzed\n\nAll edges in the service mesh graph. Metrics are analyzed separately between all source and destination service combinations.",
         "title": "Metrics Source.",
-        "enum": [
-          "NONE",
-          "NODES",
-          "EDGES",
-          "VIRTUAL_HOSTS"
-        ],
+        "enum": ["NONE", "NODES", "EDGES", "VIRTUAL_HOSTS"],
         "default": "NONE",
         "x-displayname": "Metrics Source.",
         "x-ves-proto-enum": "ves.io.schema.app_setting.MetricsSource",
@@ -10766,11 +10152,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingNonexistentUrlAutomaticActivitySetting",
-          "required_fields": [
-            "high",
-            "low",
-            "medium"
-          ],
+          "required_fields": ["high", "low", "medium"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingNonexistentUrlAutomaticActivitySetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  high: value\n  low: value\n  medium: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"high\": \"value\",\n    \"low\": \"value\",\n    \"medium\": \"value\"\n  }\n}",
@@ -10817,9 +10199,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingNonexistentUrlCustomActivitySetting",
-          "required_fields": [
-            "nonexistent_requests_threshold"
-          ],
+          "required_fields": ["nonexistent_requests_threshold"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingNonexistentUrlCustomActivitySetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  nonexistent_requests_threshold: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"nonexistent_requests_threshold\": \"value\"\n  }\n}",
@@ -10843,10 +10223,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -10910,11 +10287,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -10978,11 +10351,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingSuspiciousUser",
-          "required_fields": [
-            "logs",
-            "suspicion_score",
-            "user_id"
-          ],
+          "required_fields": ["logs", "suspicion_score", "user_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingSuspiciousUser\nmetadata:\n  name: example\n  namespace: default\nspec:\n  logs: value\n  suspicion_score: value\n  user_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"logs\": \"value\",\n    \"suspicion_score\": \"value\",\n    \"user_id\": \"value\"\n  }\n}",
@@ -11015,9 +10384,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingSuspiciousUserStatusRsp",
-          "required_fields": [
-            "suspicious_users"
-          ],
+          "required_fields": ["suspicious_users"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingSuspiciousUserStatusRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  suspicious_users: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"suspicious_users\": \"value\"\n  }\n}",
@@ -11057,9 +10424,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_settingTimeseriesAnalysesSetting",
-          "required_fields": [
-            "metric_selectors"
-          ],
+          "required_fields": ["metric_selectors"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_settingTimeseriesAnalysesSetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  metric_selectors: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"metric_selectors\": \"value\"\n  }\n}",
@@ -11226,13 +10591,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for ioschemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for ioschemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -11275,10 +10634,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protobufAny",
-          "required_fields": [
-            "type_url",
-            "value"
-          ],
+          "required_fields": ["type_url", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protobufAny\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type_url: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type_url\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -11478,11 +10834,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaErrorType",
-          "required_fields": [
-            "code",
-            "error_obj",
-            "message"
-          ],
+          "required_fields": ["code", "error_obj", "message"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaErrorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  error_obj: value\n  message: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"error_obj\": \"value\",\n    \"message\": \"value\"\n  }\n}",
@@ -11518,9 +10870,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializerType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -11556,10 +10906,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializersType",
-          "required_fields": [
-            "pending",
-            "result"
-          ],
+          "required_fields": ["pending", "result"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pending: value\n  result: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pending\": \"value\",\n    \"result\": \"value\"\n  }\n}",
@@ -12161,10 +11508,7 @@
         "type": "string",
         "description": "StatusPublishType is all possible publish operations on a StatusObject\n\n- STATUS_DO_NOT_PUBLISH: Do Not Publish\n\nDo not propagate this status to user. This could be because status is only informational\n- STATUS_PUBLISH: Publish\n\nPropagate this status up to user as it might be actionable.",
         "title": "StatusPublishType.",
-        "enum": [
-          "STATUS_DO_NOT_PUBLISH",
-          "STATUS_PUBLISH"
-        ],
+        "enum": ["STATUS_DO_NOT_PUBLISH", "STATUS_PUBLISH"],
         "default": "STATUS_DO_NOT_PUBLISH",
         "x-displayname": "Status Publish Type.",
         "x-ves-proto-enum": "ves.io.schema.StatusPublishType",
@@ -12240,11 +11584,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaStatusType",
-          "required_fields": [
-            "code",
-            "reason",
-            "status"
-          ],
+          "required_fields": ["code", "reason", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  reason: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"reason\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -12537,12 +11877,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaViewRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaViewRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -12590,9 +11925,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_settingCreateSpecType",
-          "required_fields": [
-            "app_type_settings"
-          ],
+          "required_fields": ["app_type_settings"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_settingCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  app_type_settings: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"app_type_settings\": \"value\"\n  }\n}",
@@ -12640,9 +11973,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_settingGetSpecType",
-          "required_fields": [
-            "app_type_settings"
-          ],
+          "required_fields": ["app_type_settings"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_settingGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  app_type_settings: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"app_type_settings\": \"value\"\n  }\n}",
@@ -12690,9 +12021,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaapp_settingReplaceSpecType",
-          "required_fields": [
-            "app_type_settings"
-          ],
+          "required_fields": ["app_type_settings"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaapp_settingReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  app_type_settings: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"app_type_settings\": \"value\"\n  }\n}",
@@ -12745,11 +12074,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for apiHttpBody",
-          "required_fields": [
-            "content_type",
-            "data",
-            "extensions"
-          ],
+          "required_fields": ["content_type", "data", "extensions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for apiHttpBody\nmetadata:\n  name: example\n  namespace: default\nspec:\n  content_type: value\n  data: value\n  extensions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"content_type\": \"value\",\n    \"data\": \"value\",\n    \"extensions\": \"value\"\n  }\n}",
@@ -12824,10 +12149,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeAPIEPDynExample",
-          "required_fields": [
-            "component_examples",
-            "component_identifier"
-          ],
+          "required_fields": ["component_examples", "component_identifier"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeAPIEPDynExample\nmetadata:\n  name: example\n  namespace: default\nspec:\n  component_examples: value\n  component_identifier: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"component_examples\": \"value\",\n    \"component_identifier\": \"value\"\n  }\n}",
@@ -13467,10 +12789,7 @@
         "type": "string",
         "description": "API Endpoint's PII Level.\n\nNo PII data detected for the given API Endpoint.\nDetected PII data for a given API Endpoint.",
         "title": "APIEP PII Level.",
-        "enum": [
-          "APIEP_PII_NOT_DETECTED",
-          "APIEP_PII_DETECTED"
-        ],
+        "enum": ["APIEP_PII_NOT_DETECTED", "APIEP_PII_DETECTED"],
         "default": "APIEP_PII_NOT_DETECTED",
         "x-displayname": "API EP PII Level.",
         "x-ves-proto-enum": "ves.io.schema.app_type.APIEPPIILevel",
@@ -13547,10 +12866,7 @@
         "x-required": true,
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeAPIEndpoint",
-          "required_fields": [
-            "api_endpoint_path",
-            "methods"
-          ],
+          "required_fields": ["api_endpoint_path", "methods"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeAPIEndpoint\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_endpoint_path: value\n  methods: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_endpoint_path\": \"value\",\n    \"methods\": \"value\"\n  }\n}",
@@ -13752,9 +13068,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeAPIEndpointPDFRsp",
-          "required_fields": [
-            "pdf_info"
-          ],
+          "required_fields": ["pdf_info"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeAPIEndpointPDFRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pdf_info: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pdf_info\": \"value\"\n  }\n}",
@@ -13787,9 +13101,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeAPIEndpointsRsp",
-          "required_fields": [
-            "apiep_list"
-          ],
+          "required_fields": ["apiep_list"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeAPIEndpointsRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  apiep_list: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"apiep_list\": \"value\"\n  }\n}",
@@ -13801,12 +13113,7 @@
         "type": "string",
         "description": "List of possible types of API that can be discovered for an APIEP.\n\nThe API Type detected as unknown.\nThe API Type detected as GraphQL.\nThe API Type detected as REST.\nThe API Type detected as gRPC.",
         "title": "APIType",
-        "enum": [
-          "API_TYPE_UNKNOWN",
-          "API_TYPE_GRAPHQL",
-          "API_TYPE_REST",
-          "API_TYPE_GRPC"
-        ],
+        "enum": ["API_TYPE_UNKNOWN", "API_TYPE_GRAPHQL", "API_TYPE_REST", "API_TYPE_GRPC"],
         "default": "API_TYPE_UNKNOWN",
         "x-displayname": "API Type",
         "x-ves-proto-enum": "ves.io.schema.app_type.APIType",
@@ -13824,10 +13131,7 @@
         "type": "string",
         "description": "This is the various forms that can be requested to be sent in the ApiEndpointInfoRequest\n\nAPI ENDPOINT INFO NONE option is used to disable any additional info request per API endpoint response\nAPI ENDPOINT INFO PDF SPARKLINES option is used to enable pdf sparkline info along with the API endpoint response.",
         "title": "ApiEndpointInfoRequest.",
-        "enum": [
-          "API_ENDPOINT_INFO_NONE",
-          "API_ENDPOINT_INFO_PDF_SPARKLINES"
-        ],
+        "enum": ["API_ENDPOINT_INFO_NONE", "API_ENDPOINT_INFO_PDF_SPARKLINES"],
         "default": "API_ENDPOINT_INFO_NONE",
         "x-displayname": "API Endpoint Info Request.",
         "x-ves-proto-enum": "ves.io.schema.app_type.ApiEndpointInfoRequest",
@@ -13868,11 +13172,7 @@
         "type": "string",
         "description": "API Endpoint's Authentication State.\n\nThe API Endpoint authentication state is unknown.\nThe API Endpoint is authenticated\nThe API Endpoint is unauthenticated.",
         "title": "APIEP Authentication State.",
-        "enum": [
-          "AUTH_STATE_UNKNOWN",
-          "AUTH_STATE_AUTHENTICATED",
-          "AUTH_STATE_UNAUTHENTICATED"
-        ],
+        "enum": ["AUTH_STATE_UNKNOWN", "AUTH_STATE_AUTHENTICATED", "AUTH_STATE_UNAUTHENTICATED"],
         "default": "AUTH_STATE_UNKNOWN",
         "x-displayname": "API EP Authentication State.",
         "x-ves-proto-enum": "ves.io.schema.app_type.AuthenticationState",
@@ -13946,11 +13246,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeAuthenticationTypeLocPair",
-          "required_fields": [
-            "auth_type",
-            "location",
-            "type"
-          ],
+          "required_fields": ["auth_type", "location", "type"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeAuthenticationTypeLocPair\nmetadata:\n  name: example\n  namespace: default\nspec:\n  auth_type: value\n  location: value\n  type: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"auth_type\": \"value\",\n    \"location\": \"value\",\n    \"type\": \"value\"\n  }\n}",
@@ -13984,9 +13280,7 @@
         "x-ves-example": "[EMAIL, CC]",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeBuiltInSensitiveDataType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeBuiltInSensitiveDataType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -14015,11 +13309,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeBusinessLogicMarkupSetting",
-          "required_fields": [
-            "disable",
-            "discovered_api_settings",
-            "enable"
-          ],
+          "required_fields": ["disable", "discovered_api_settings", "enable"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeBusinessLogicMarkupSetting\nmetadata:\n  name: example\n  namespace: default\nspec:\n  disable: value\n  discovered_api_settings: value\n  enable: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"disable\": \"value\",\n    \"discovered_api_settings\": \"value\",\n    \"enable\": \"value\"\n  }\n}",
@@ -14043,10 +13333,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -14070,11 +13357,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -14116,10 +13399,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeCreateSpecType",
-          "required_fields": [
-            "business_logic_markup_setting",
-            "features"
-          ],
+          "required_fields": ["business_logic_markup_setting", "features"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  business_logic_markup_setting: value\n  features: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"business_logic_markup_setting\": \"value\",\n    \"features\": \"value\"\n  }\n}",
@@ -14251,9 +13531,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeCustomSections",
-          "required_fields": [
-            "custom_sections"
-          ],
+          "required_fields": ["custom_sections"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeCustomSections\nmetadata:\n  name: example\n  namespace: default\nspec:\n  custom_sections: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"custom_sections\": \"value\"\n  }\n}",
@@ -14278,11 +13556,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeCustomSensitiveDataDetectionRule",
-          "required_fields": [
-            "metadata",
-            "sensitive_data_detection_config",
-            "sensitive_data_type"
-          ],
+          "required_fields": ["metadata", "sensitive_data_detection_config", "sensitive_data_type"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeCustomSensitiveDataDetectionRule\nmetadata:\n  name: example\n  namespace: default\nspec:\n  sensitive_data_detection_config: value\n  sensitive_data_type: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"sensitive_data_detection_config\": \"value\",\n    \"sensitive_data_type\": \"value\"\n  }\n}",
@@ -14313,9 +13587,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeCustomSensitiveDataType",
-          "required_fields": [
-            "type"
-          ],
+          "required_fields": ["type"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeCustomSensitiveDataType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type\": \"value\"\n  }\n}",
@@ -14382,11 +13654,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -14431,9 +13699,7 @@
         "x-ves-example": "2",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeDiscoveredAPISettings",
-          "required_fields": [
-            "purge_duration_for_inactive_discovered_apis"
-          ],
+          "required_fields": ["purge_duration_for_inactive_discovered_apis"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeDiscoveredAPISettings\nmetadata:\n  name: example\n  namespace: default\nspec:\n  purge_duration_for_inactive_discovered_apis: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"purge_duration_for_inactive_discovered_apis\": \"value\"\n  }\n}",
@@ -14507,9 +13773,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeFeature",
-          "required_fields": [
-            "type"
-          ],
+          "required_fields": ["type"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeFeature\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type\": \"value\"\n  }\n}",
@@ -14705,10 +13969,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeGetSpecType",
-          "required_fields": [
-            "business_logic_markup_setting",
-            "features"
-          ],
+          "required_fields": ["business_logic_markup_setting", "features"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  business_logic_markup_setting: value\n  features: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"business_logic_markup_setting\": \"value\",\n    \"features\": \"value\"\n  }\n}",
@@ -14752,10 +14013,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeKeyPattern",
-          "required_fields": [
-            "exact_value",
-            "regex_value"
-          ],
+          "required_fields": ["exact_value", "regex_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeKeyPattern\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact_value: value\n  regex_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact_value\": \"value\",\n    \"regex_value\": \"value\"\n  }\n}",
@@ -14777,10 +14035,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeKeyValuePattern",
-          "required_fields": [
-            "key_pattern",
-            "value_pattern"
-          ],
+          "required_fields": ["key_pattern", "value_pattern"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeKeyValuePattern\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key_pattern: value\n  value_pattern: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key_pattern\": \"value\",\n    \"value_pattern\": \"value\"\n  }\n}",
@@ -14828,10 +14083,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -15067,10 +14319,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeOverrideInfo",
-          "required_fields": [
-            "component_identifier",
-            "set_dynamic"
-          ],
+          "required_fields": ["component_identifier", "set_dynamic"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeOverrideInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  component_identifier: value\n  set_dynamic: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"component_identifier\": \"value\",\n    \"set_dynamic\": \"value\"\n  }\n}",
@@ -15121,10 +14370,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeOverridePopReq",
-          "required_fields": [
-            "app_type_name",
-            "namespace"
-          ],
+          "required_fields": ["app_type_name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeOverridePopReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  app_type_name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"app_type_name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -15175,10 +14421,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeOverridePopRsp",
-          "required_fields": [
-            "status",
-            "status_msg"
-          ],
+          "required_fields": ["status", "status_msg"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeOverridePopRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  status: value\n  status_msg: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"status\": \"value\",\n    \"status_msg\": \"value\"\n  }\n}",
@@ -15232,11 +14475,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeOverridePushReq",
-          "required_fields": [
-            "app_type_name",
-            "namespace",
-            "override_info"
-          ],
+          "required_fields": ["app_type_name", "namespace", "override_info"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeOverridePushReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  app_type_name: value\n  namespace: value\n  override_info: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"app_type_name\": \"value\",\n    \"namespace\": \"value\",\n    \"override_info\": \"value\"\n  }\n}",
@@ -15287,10 +14526,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeOverridePushRsp",
-          "required_fields": [
-            "status",
-            "status_msg"
-          ],
+          "required_fields": ["status", "status_msg"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeOverridePushRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  status: value\n  status_msg: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"status\": \"value\",\n    \"status_msg\": \"value\"\n  }\n}",
@@ -15323,9 +14559,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeOverridesRsp",
-          "required_fields": [
-            "override_list"
-          ],
+          "required_fields": ["override_list"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeOverridesRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  override_list: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"override_list\": \"value\"\n  }\n}",
@@ -15371,10 +14605,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typePDFSpec",
-          "required_fields": [
-            "probability",
-            "x"
-          ],
+          "required_fields": ["probability", "x"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typePDFSpec\nmetadata:\n  name: example\n  namespace: default\nspec:\n  probability: value\n  x: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"probability\": \"value\",\n    \"x\": \"value\"\n  }\n}",
@@ -15419,10 +14650,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typePDFStat",
-          "required_fields": [
-            "pdf_95",
-            "pdf_mean"
-          ],
+          "required_fields": ["pdf_95", "pdf_mean"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typePDFStat\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pdf_95: value\n  pdf_mean: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pdf_95\": \"value\",\n    \"pdf_mean\": \"value\"\n  }\n}",
@@ -15446,10 +14674,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -15504,10 +14729,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeReplaceSpecType",
-          "required_fields": [
-            "business_logic_markup_setting",
-            "features"
-          ],
+          "required_fields": ["business_logic_markup_setting", "features"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  business_logic_markup_setting: value\n  features: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"business_logic_markup_setting\": \"value\",\n    \"features\": \"value\"\n  }\n}",
@@ -15546,12 +14768,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeRequestSchema",
-          "required_fields": [
-            "body_per_content_type",
-            "cookies",
-            "headers",
-            "query_params"
-          ],
+          "required_fields": ["body_per_content_type", "cookies", "headers", "query_params"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeRequestSchema\nmetadata:\n  name: example\n  namespace: default\nspec:\n  body_per_content_type: value\n  cookies: value\n  headers: value\n  query_params: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"body_per_content_type\": \"value\",\n    \"cookies\": \"value\",\n    \"headers\": \"value\",\n    \"query_params\": \"value\"\n  }\n}",
@@ -15581,10 +14798,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeResponseSchema",
-          "required_fields": [
-            "body_per_content_type",
-            "headers"
-          ],
+          "required_fields": ["body_per_content_type", "headers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeResponseSchema\nmetadata:\n  name: example\n  namespace: default\nspec:\n  body_per_content_type: value\n  headers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"body_per_content_type\": \"value\",\n    \"headers\": \"value\"\n  }\n}",
@@ -15618,10 +14832,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeRiskScore",
-          "required_fields": [
-            "score",
-            "severity"
-          ],
+          "required_fields": ["score", "severity"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeRiskScore\nmetadata:\n  name: example\n  namespace: default\nspec:\n  score: value\n  severity: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"score\": \"value\",\n    \"severity\": \"value\"\n  }\n}",
@@ -15668,10 +14879,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeSchemaStruct",
-          "required_fields": [
-            "examples",
-            "schema"
-          ],
+          "required_fields": ["examples", "schema"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeSchemaStruct\nmetadata:\n  name: example\n  namespace: default\nspec:\n  examples: value\n  schema: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"examples\": \"value\",\n    \"schema\": \"value\"\n  }\n}",
@@ -15789,10 +14997,7 @@
         "type": "string",
         "description": "Sensitive Data Detection Rule Type\n\n- RULE_TYPE_BUILT_IN: built_in\n\nBuilt in rule type\n- RULE_TYPE_CUSTOM: custom\n\nCustom rule type.",
         "title": "Sensitive_data_detection_rule_type.",
-        "enum": [
-          "RULE_TYPE_BUILT_IN",
-          "RULE_TYPE_CUSTOM"
-        ],
+        "enum": ["RULE_TYPE_BUILT_IN", "RULE_TYPE_CUSTOM"],
         "default": "RULE_TYPE_BUILT_IN",
         "x-displayname": "Sensitive Data Detection Rule Type.",
         "x-ves-proto-enum": "ves.io.schema.app_type.SensitiveDataDetectionRuleType",
@@ -15843,10 +15048,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeSensitiveDataDetectionRules",
-          "required_fields": [
-            "custom_sensitive_data_detection_rules",
-            "disabled_built_in_rules"
-          ],
+          "required_fields": ["custom_sensitive_data_detection_rules", "disabled_built_in_rules"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeSensitiveDataDetectionRules\nmetadata:\n  name: example\n  namespace: default\nspec:\n  custom_sensitive_data_detection_rules: value\n  disabled_built_in_rules: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"custom_sensitive_data_detection_rules\": \"value\",\n    \"disabled_built_in_rules\": \"value\"\n  }\n}",
@@ -16120,11 +15322,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -16168,10 +15366,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for app_typeValuePattern",
-          "required_fields": [
-            "exact_value",
-            "regex_value"
-          ],
+          "required_fields": ["exact_value", "regex_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for app_typeValuePattern\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact_value: value\n  regex_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact_value\": \"value\",\n    \"regex_value\": \"value\"\n  }\n}",
@@ -16285,11 +15480,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaMessageMetaType",
-          "required_fields": [
-            "description",
-            "disable",
-            "name"
-          ],
+          "required_fields": ["description", "disable", "name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaMessageMetaType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  disable: value\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"disable\": \"value\",\n    \"name\": \"value\"\n  }\n}",
@@ -16403,13 +15594,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -16462,10 +15647,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointConsulInfo",
-          "required_fields": [
-            "instance_name",
-            "labels"
-          ],
+          "required_fields": ["instance_name", "labels"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointConsulInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  instance_name: value\n  labels: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"instance_name\": \"value\",\n    \"labels\": \"value\"\n  }\n}",
@@ -16489,10 +15671,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -16516,11 +15695,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -16554,9 +15729,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointDNSInfo",
-          "required_fields": [
-            "resolved_ips"
-          ],
+          "required_fields": ["resolved_ips"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointDNSInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  resolved_ips: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"resolved_ips\": \"value\"\n  }\n}",
@@ -16623,11 +15796,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -16655,11 +15824,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointDiscoveredInfoType",
-          "required_fields": [
-            "consul_info",
-            "dns_info",
-            "k8s_info"
-          ],
+          "required_fields": ["consul_info", "dns_info", "k8s_info"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointDiscoveredInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  consul_info: value\n  dns_info: value\n  k8s_info: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"consul_info\": \"value\",\n    \"dns_info\": \"value\",\n    \"k8s_info\": \"value\"\n  }\n}",
@@ -16732,10 +15897,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointDnsNameAdvancedType",
-          "required_fields": [
-            "name",
-            "refresh_interval"
-          ],
+          "required_fields": ["name", "refresh_interval"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointDnsNameAdvancedType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  refresh_interval: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"refresh_interval\": \"value\"\n  }\n}",
@@ -16987,18 +16149,10 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Health check configuration for monitoring origin servers",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "spec"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "spec"],
           "mutually_exclusive_groups": [
             {
-              "fields": [
-                "spec.http",
-                "spec.tcp",
-                "spec.dns"
-              ],
+              "fields": ["spec.http", "spec.tcp", "spec.dns"],
               "reason": "Choose exactly one health check type"
             }
           ],
@@ -17006,21 +16160,14 @@
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"http-health\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"http\": {\"path\": \"/health\", \"use_origin_server_hostname\": true},\n    \"interval_seconds\": 10,\n    \"timeout_seconds\": 3,\n    \"unhealthy_threshold\": 3,\n    \"healthy_threshold\": 2\n  }\n}\n",
           "example_curl": "curl -X POST \"$F5XC_API_URL/api/config/namespaces/default/healthchecks\" \\\n  -H \"Authorization: APIToken $F5XC_API_TOKEN\" \\\n  -H \"Content-Type: application/json\" \\\n  -d @healthcheck.json\n"
         },
-        "x-ves-cli-aliases": [
-          "health-check",
-          "monitor",
-          "probe"
-        ],
+        "x-ves-cli-aliases": ["health-check", "monitor", "probe"],
         "x-ves-cli-domain": "virtual"
       },
       "endpointHealthStatus": {
         "type": "string",
         "description": "X-displayName: \"Health Status\"\nPossible values to specify Health Status of endpoint\n\n- HEALTHY: HEALTHY\n\nx-displayName: \"Healthy Status\"\nStatus is Healthy\n- UNHEALTHY: UNHEALTHY\n\nx-displayName: \"Unhealthy Status\"\nStatus is Unhealthy.",
         "title": "HealthStatus.",
-        "enum": [
-          "HEALTHY",
-          "UNHEALTHY"
-        ],
+        "enum": ["HEALTHY", "UNHEALTHY"],
         "default": "HEALTHY",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointHealthStatus",
@@ -17091,11 +16238,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointK8SInfo",
-          "required_fields": [
-            "in_cluster_discovery",
-            "labels",
-            "pod_name"
-          ],
+          "required_fields": ["in_cluster_discovery", "labels", "pod_name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointK8SInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  in_cluster_discovery: value\n  labels: value\n  pod_name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"in_cluster_discovery\": \"value\",\n    \"labels\": \"value\",\n    \"pod_name\": \"value\"\n  }\n}",
@@ -17143,10 +16286,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -17346,10 +16486,7 @@
         "type": "string",
         "description": "Origin span Status of endpoint object\n\nOrigin is local to the site and is reachable from local vips\nOrigin is global and is reachable from local vips and all other site vips.",
         "title": "OriginSpanStatusType.",
-        "enum": [
-          "Local",
-          "Global"
-        ],
+        "enum": ["Local", "Global"],
         "default": "Local",
         "x-displayname": "Origin Span Status.",
         "x-ves-proto-enum": "ves.io.schema.endpoint.OriginSpanStatusType",
@@ -17379,10 +16516,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -17443,11 +16577,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointServiceInfoType",
-          "required_fields": [
-            "discovery_type",
-            "service_name",
-            "service_selector"
-          ],
+          "required_fields": ["discovery_type", "service_name", "service_selector"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointServiceInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  discovery_type: value\n  service_name: value\n  service_selector: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"discovery_type\": \"value\",\n    \"service_name\": \"value\",\n    \"service_selector\": \"value\"\n  }\n}",
@@ -17525,13 +16655,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for endpointStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs",
-            "origin_span",
-            "ver_status"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs", "origin_span", "ver_status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for endpointStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value\n  origin_span: value\n  ver_status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\",\n    \"origin_span\": \"value\",\n    \"ver_status\": \"value\"\n  }\n}",
@@ -17639,13 +16763,7 @@
         "type": "string",
         "description": "Specifies whether the discovery is from Kubernetes or Consul cluster\n\nInvalid Discovery mechanism\nDiscover from Kubernetes cluster\nDiscover from Consul service\nDiscover from Classic BIG-IP Clusters\nDiscover for Third Party Application.",
         "title": "DiscoveryType.",
-        "enum": [
-          "INVALID_DISCOVERY",
-          "K8S",
-          "CONSUL",
-          "CLASSIC_BIGIP",
-          "THIRD_PARTY"
-        ],
+        "enum": ["INVALID_DISCOVERY", "K8S", "CONSUL", "CLASSIC_BIGIP", "THIRD_PARTY"],
         "default": "INVALID_DISCOVERY",
         "x-displayname": "Discovery Type.",
         "x-ves-proto-enum": "ves.io.schema.DiscoveryType",
@@ -17677,10 +16795,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaIpAddressType",
-          "required_fields": [
-            "ipv4",
-            "ipv6"
-          ],
+          "required_fields": ["ipv4", "ipv6"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaIpAddressType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ipv4: value\n  ipv6: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ipv4\": \"value\",\n    \"ipv6\": \"value\"\n  }\n}",
@@ -17720,9 +16835,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaIpv4AddressType",
-          "required_fields": [
-            "addr"
-          ],
+          "required_fields": ["addr"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaIpv4AddressType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  addr: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"addr\": \"value\"\n  }\n}",
@@ -17762,9 +16875,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaIpv6AddressType",
-          "required_fields": [
-            "addr"
-          ],
+          "required_fields": ["addr"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaIpv6AddressType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  addr: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"addr\": \"value\"\n  }\n}",
@@ -17821,9 +16932,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaLabelSelectorType",
-          "required_fields": [
-            "expressions"
-          ],
+          "required_fields": ["expressions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaLabelSelectorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  expressions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"expressions\": \"value\"\n  }\n}",
@@ -17868,9 +16977,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaNetworkRefType",
-          "required_fields": [
-            "ref"
-          ],
+          "required_fields": ["ref"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaNetworkRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ref: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ref\": \"value\"\n  }\n}",
@@ -17898,11 +17005,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaNetworkSiteRefSelector",
-          "required_fields": [
-            "site",
-            "virtual_network",
-            "virtual_site"
-          ],
+          "required_fields": ["site", "virtual_network", "virtual_site"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaNetworkSiteRefSelector\nmetadata:\n  name: example\n  namespace: default\nspec:\n  site: value\n  virtual_network: value\n  virtual_site: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"site\": \"value\",\n    \"virtual_network\": \"value\",\n    \"virtual_site\": \"value\"\n  }\n}",
@@ -17957,12 +17060,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSiteRefType",
-          "required_fields": [
-            "disable_internet_vip",
-            "enable_internet_vip",
-            "network_type",
-            "ref"
-          ],
+          "required_fields": ["disable_internet_vip", "enable_internet_vip", "network_type", "ref"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaSiteRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  disable_internet_vip: value\n  enable_internet_vip: value\n  network_type: value\n  ref: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"disable_internet_vip\": \"value\",\n    \"enable_internet_vip\": \"value\",\n    \"network_type\": \"value\",\n    \"ref\": \"value\"\n  }\n}",
@@ -18017,12 +17115,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaVSiteRefType",
-          "required_fields": [
-            "disable_internet_vip",
-            "enable_internet_vip",
-            "network_type",
-            "ref"
-          ],
+          "required_fields": ["disable_internet_vip", "enable_internet_vip", "network_type", "ref"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaVSiteRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  disable_internet_vip: value\n  enable_internet_vip: value\n  network_type: value\n  ref: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"disable_internet_vip\": \"value\",\n    \"enable_internet_vip\": \"value\",\n    \"network_type\": \"value\",\n    \"ref\": \"value\"\n  }\n}",
@@ -18609,11 +17702,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaviewsObjectRefType",
-          "required_fields": [
-            "name",
-            "namespace",
-            "tenant"
-          ],
+          "required_fields": ["name", "namespace", "tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaviewsObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\"\n  }\n}",
@@ -18662,9 +17751,7 @@
         "x-ves-example": "192.168.20.0/24.",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsPrefixStringListType",
-          "required_fields": [
-            "prefixes"
-          ],
+          "required_fields": ["prefixes"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsPrefixStringListType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  prefixes: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"prefixes\": \"value\"\n  }\n}",
@@ -18689,10 +17776,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsSnatPoolConfiguration",
-          "required_fields": [
-            "no_snat_pool",
-            "snat_pool"
-          ],
+          "required_fields": ["no_snat_pool", "snat_pool"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsSnatPoolConfiguration\nmetadata:\n  name: example\n  namespace: default\nspec:\n  no_snat_pool: value\n  snat_pool: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"no_snat_pool\": \"value\",\n    \"snat_pool\": \"value\"\n  }\n}",
@@ -18752,10 +17836,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -18779,11 +17860,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -18850,11 +17927,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -19042,10 +18115,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceF5BigIpAWSBYOLImageType",
-          "required_fields": [
-            "image",
-            "license"
-          ],
+          "required_fields": ["image", "license"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceF5BigIpAWSBYOLImageType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  image: value\n  license: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"image\": \"value\",\n    \"license\": \"value\"\n  }\n}",
@@ -19070,10 +18140,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceF5BigIpAWSMarketPlaceImageType",
-          "required_fields": [
-            "AWAFPayG200Mbps",
-            "AWAFPayG3Gbps"
-          ],
+          "required_fields": ["AWAFPayG200Mbps", "AWAFPayG3Gbps"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceF5BigIpAWSMarketPlaceImageType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  AWAFPayG200Mbps: value\n  AWAFPayG3Gbps: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"AWAFPayG200Mbps\": \"value\",\n    \"AWAFPayG3Gbps\": \"value\"\n  }\n}",
@@ -19120,10 +18187,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceF5BigIpAWSReplaceType",
-          "required_fields": [
-            "endpoint_service",
-            "tags"
-          ],
+          "required_fields": ["endpoint_service", "tags"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceF5BigIpAWSReplaceType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  endpoint_service: value\n  tags: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"endpoint_service\": \"value\",\n    \"tags\": \"value\"\n  }\n}",
@@ -19144,9 +18208,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceF5BigIpAWSTGWSiteType",
-          "required_fields": [
-            "aws_tgw_site"
-          ],
+          "required_fields": ["aws_tgw_site"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceF5BigIpAWSTGWSiteType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aws_tgw_site: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aws_tgw_site\": \"value\"\n  }\n}",
@@ -19318,9 +18380,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceF5BigIpAWSVPCSiteType",
-          "required_fields": [
-            "aws_vpc_site"
-          ],
+          "required_fields": ["aws_vpc_site"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceF5BigIpAWSVPCSiteType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aws_vpc_site: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aws_vpc_site\": \"value\"\n  }\n}",
@@ -19356,9 +18416,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceForceDeleteNFVServiceRequest",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceForceDeleteNFVServiceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -19569,10 +18627,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -19799,11 +18854,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceMetricData",
-          "required_fields": [
-            "data",
-            "type",
-            "unit"
-          ],
+          "required_fields": ["data", "type", "unit"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceMetricData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value\n  type: value\n  unit: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\",\n    \"type\": \"value\",\n    \"unit\": \"value\"\n  }\n}",
@@ -19815,12 +18866,7 @@
         "type": "string",
         "description": "Labels in Nfv Service Metrics.",
         "title": "Metric Label.",
-        "enum": [
-          "SITE",
-          "SERVICE",
-          "SERVICE_INSTANCE",
-          "SERVICE_INSTANCE_HOSTNAME"
-        ],
+        "enum": ["SITE", "SERVICE", "SERVICE_INSTANCE", "SERVICE_INSTANCE_HOSTNAME"],
         "default": "SITE",
         "x-displayname": "Metric Label.",
         "x-ves-proto-enum": "ves.io.schema.nfv_service.MetricLabel",
@@ -20055,10 +19101,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceMetricsResponse",
-          "required_fields": [
-            "data",
-            "step"
-          ],
+          "required_fields": ["data", "step"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceMetricsResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value\n  step: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\",\n    \"step\": \"value\"\n  }\n}",
@@ -20104,10 +19147,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceNodeInfo",
-          "required_fields": [
-            "node_name",
-            "ssh_command"
-          ],
+          "required_fields": ["node_name", "ssh_command"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceNodeInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  node_name: value\n  ssh_command: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"node_name\": \"value\",\n    \"ssh_command\": \"value\"\n  }\n}",
@@ -20158,11 +19198,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_servicePANAWSAutoSetupType",
-          "required_fields": [
-            "admin_password",
-            "admin_username",
-            "manual_ssh_keys"
-          ],
+          "required_fields": ["admin_password", "admin_username", "manual_ssh_keys"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_servicePANAWSAutoSetupType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  admin_password: value\n  admin_username: value\n  manual_ssh_keys: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"admin_password\": \"value\",\n    \"admin_username\": \"value\",\n    \"manual_ssh_keys\": \"value\"\n  }\n}",
@@ -20210,9 +19246,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_servicePaloAltoAzNodesAWSType",
-          "required_fields": [
-            "nodes"
-          ],
+          "required_fields": ["nodes"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_servicePaloAltoAzNodesAWSType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  nodes: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"nodes\": \"value\"\n  }\n}",
@@ -20305,9 +19339,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_servicePaloAltoFWAWSReplaceType",
-          "required_fields": [
-            "tags"
-          ],
+          "required_fields": ["tags"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_servicePaloAltoFWAWSReplaceType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  tags: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"tags\": \"value\"\n  }\n}",
@@ -20523,12 +19555,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_servicePaloAltoServiceNodesAWSType",
-          "required_fields": [
-            "aws_az_name",
-            "mgmt_subnet",
-            "node_name",
-            "reserved_mgmt_subnet"
-          ],
+          "required_fields": ["aws_az_name", "mgmt_subnet", "node_name", "reserved_mgmt_subnet"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_servicePaloAltoServiceNodesAWSType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aws_az_name: value\n  mgmt_subnet: value\n  node_name: value\n  reserved_mgmt_subnet: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aws_az_name\": \"value\",\n    \"mgmt_subnet\": \"value\",\n    \"node_name\": \"value\",\n    \"reserved_mgmt_subnet\": \"value\"\n  }\n}",
@@ -20648,10 +19675,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -20714,10 +19738,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceSSHKeyType",
-          "required_fields": [
-            "private_key",
-            "public_key"
-          ],
+          "required_fields": ["private_key", "public_key"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceSSHKeyType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  private_key: value\n  public_key: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"private_key\": \"value\",\n    \"public_key\": \"value\"\n  }\n}",
@@ -20797,10 +19818,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceSSHManagementNodePorts",
-          "required_fields": [
-            "node_name",
-            "ssh_port"
-          ],
+          "required_fields": ["node_name", "ssh_port"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceSSHManagementNodePorts\nmetadata:\n  name: example\n  namespace: default\nspec:\n  node_name: value\n  ssh_port: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"node_name\": \"value\",\n    \"ssh_port\": \"value\"\n  }\n}",
@@ -21273,11 +20291,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nfv_serviceSuggestedCommands",
-          "required_fields": [
-            "command",
-            "description",
-            "warning"
-          ],
+          "required_fields": ["command", "description", "warning"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nfv_serviceSuggestedCommands\nmetadata:\n  name: example\n  namespace: default\nspec:\n  command: value\n  description: value\n  warning: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"command\": \"value\",\n    \"description\": \"value\",\n    \"warning\": \"value\"\n  }\n}",
@@ -21355,11 +20369,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaBlindfoldSecretInfoType",
-          "required_fields": [
-            "decryption_provider",
-            "location",
-            "store_provider"
-          ],
+          "required_fields": ["decryption_provider", "location", "store_provider"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaBlindfoldSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  decryption_provider: value\n  location: value\n  store_provider: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"decryption_provider\": \"value\",\n    \"location\": \"value\",\n    \"store_provider\": \"value\"\n  }\n}",
@@ -21426,10 +20436,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaClearSecretInfoType",
-          "required_fields": [
-            "provider",
-            "url"
-          ],
+          "required_fields": ["provider", "url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaClearSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  provider: value\n  url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"provider\": \"value\",\n    \"url\": \"value\"\n  }\n}",
@@ -21441,11 +20448,7 @@
         "type": "string",
         "description": "Specifies the Hash Algorithm to be used\n\nInvalid hash algorithm\nsha256 hash algorithm\nsha1 hash algorithm.",
         "title": "HashAlgoritm.",
-        "enum": [
-          "INVALID_HASH_ALGORITHM",
-          "SHA256",
-          "SHA1"
-        ],
+        "enum": ["INVALID_HASH_ALGORITHM", "SHA256", "SHA1"],
         "default": "INVALID_HASH_ALGORITHM",
         "x-displayname": "Hash Algorithm.",
         "x-ves-proto-enum": "ves.io.schema.HashAlgorithm",
@@ -21503,9 +20506,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaHashAlgorithms",
-          "required_fields": [
-            "hash_algorithms"
-          ],
+          "required_fields": ["hash_algorithms"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaHashAlgorithms\nmetadata:\n  name: example\n  namespace: default\nspec:\n  hash_algorithms: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"hash_algorithms\": \"value\"\n  }\n}",
@@ -21558,11 +20559,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaMetricValue",
-          "required_fields": [
-            "timestamp",
-            "trend_value",
-            "value"
-          ],
+          "required_fields": ["timestamp", "trend_value", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaMetricValue\nmetadata:\n  name: example\n  namespace: default\nspec:\n  timestamp: value\n  trend_value: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"timestamp\": \"value\",\n    \"trend_value\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -21611,9 +20608,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaPortRangesType",
-          "required_fields": [
-            "ports"
-          ],
+          "required_fields": ["ports"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaPortRangesType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ports: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ports\": \"value\"\n  }\n}",
@@ -21625,10 +20620,7 @@
         "type": "string",
         "description": "X-displayName: \"Secret Encoding\"\nSecretEncodingType defines the encoding type of the secret before handled by the Secret Management Service.\n\n- EncodingNone: x-displayName: \"None\"\nNo Encoding\n- EncodingBase64: Base64\n\nx-displayName: \"Base64\"\nBase64 encoding.",
         "title": "SecretEncodingType.",
-        "enum": [
-          "EncodingNone",
-          "EncodingBase64"
-        ],
+        "enum": ["EncodingNone", "EncodingBase64"],
         "default": "EncodingNone",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSecretEncodingType",
@@ -21657,10 +20649,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSecretType",
-          "required_fields": [
-            "blindfold_secret_info",
-            "clear_secret_info"
-          ],
+          "required_fields": ["blindfold_secret_info", "clear_secret_info"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaSecretType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  blindfold_secret_info: value\n  clear_secret_info: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"blindfold_secret_info\": \"value\",\n    \"clear_secret_info\": \"value\"\n  }\n}",
@@ -21760,13 +20749,7 @@
         "type": "string",
         "description": "TlsProtocol is enumeration of supported TLS versions\n\nF5 Distributed Cloud will choose the optimal TLS version.",
         "title": "TlsProtocol.",
-        "enum": [
-          "TLS_AUTO",
-          "TLSv1_0",
-          "TLSv1_1",
-          "TLSv1_2",
-          "TLSv1_3"
-        ],
+        "enum": ["TLS_AUTO", "TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"],
         "default": "TLS_AUTO",
         "x-displayname": "TLS Protocol.",
         "x-ves-proto-enum": "ves.io.schema.TlsProtocol",
@@ -21784,11 +20767,7 @@
         "type": "string",
         "description": "Trend sentiment\n\nIndicates trend sentiment is positive\nIndicates trend sentiment is negative.",
         "title": "Trend Sentiment.",
-        "enum": [
-          "TREND_SENTIMENT_NONE",
-          "TREND_SENTIMENT_POSITIVE",
-          "TREND_SENTIMENT_NEGATIVE"
-        ],
+        "enum": ["TREND_SENTIMENT_NONE", "TREND_SENTIMENT_POSITIVE", "TREND_SENTIMENT_NEGATIVE"],
         "default": "TREND_SENTIMENT_NONE",
         "x-displayname": "Trend Sentiment.",
         "x-ves-proto-enum": "ves.io.schema.TrendSentiment",
@@ -21866,12 +20845,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaTrendValue",
-          "required_fields": [
-            "description",
-            "previous_value",
-            "sentiment",
-            "value"
-          ],
+          "required_fields": ["description", "previous_value", "sentiment", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaTrendValue\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  previous_value: value\n  sentiment: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"previous_value\": \"value\",\n    \"sentiment\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -22006,13 +20980,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaVaultSecretInfoType",
-          "required_fields": [
-            "key",
-            "location",
-            "provider",
-            "secret_encoding",
-            "version"
-          ],
+          "required_fields": ["key", "location", "provider", "secret_encoding", "version"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaVaultSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  location: value\n  provider: value\n  secret_encoding: value\n  version: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"location\": \"value\",\n    \"provider\": \"value\",\n    \"secret_encoding\": \"value\",\n    \"version\": \"value\"\n  }\n}",
@@ -22045,9 +21013,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaWingmanSecretInfoType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaWingmanSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -22059,14 +21025,7 @@
         "type": "string",
         "description": "X-Forwarded-Client-Cert custom cookie elements\n\nThe entire client certificate in URL encoded PEM format.\nThe entire client certificate chain (including the leaf certificate) in URL encoded PEM format.\nThe Subject field of the current client certificate. The value is always double-quoted.\nThe URI type Subject Alternative Name field of the current client certificate.\nA client certificate may contain multiple URI type Subject Alternative Names,\neach will be a separate key-value pair.\nThe DNS type Subject Alternative Name field of the current client certificate.\nA client certificate may contain multiple DNS type Subject Alternative Names,\neach will be a separate key-value pair.",
         "title": "XfccElement.",
-        "enum": [
-          "XFCC_NONE",
-          "XFCC_CERT",
-          "XFCC_CHAIN",
-          "XFCC_SUBJECT",
-          "XFCC_URI",
-          "XFCC_DNS"
-        ],
+        "enum": ["XFCC_NONE", "XFCC_CERT", "XFCC_CHAIN", "XFCC_SUBJECT", "XFCC_URI", "XFCC_DNS"],
         "default": "XFCC_NONE",
         "x-displayname": "XFCC Elements.",
         "x-ves-proto-enum": "ves.io.schema.XfccElement",
@@ -22279,10 +21238,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemanfv_serviceMetricTypeData",
-          "required_fields": [
-            "key",
-            "value"
-          ],
+          "required_fields": ["key", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemanfv_serviceMetricTypeData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -22488,12 +21444,7 @@
       "terraform_parametersDestroyStageState": {
         "type": "string",
         "title": "- DESTROYED: x-displayName: \"Destroyed\"\n- DESTROY_ERRORED: x-displayName: \"Destroy errored\"\n- DESTROYING: x-displayName: \"Destroying\"\n- DESTROY_QUEUED: x-displayName: \"Destroy Queued\"",
-        "enum": [
-          "DESTROYED",
-          "DESTROY_ERRORED",
-          "DESTROYING",
-          "DESTROY_QUEUED"
-        ],
+        "enum": ["DESTROYED", "DESTROY_ERRORED", "DESTROYING", "DESTROY_QUEUED"],
         "default": "DESTROYED",
         "x-displayname": "",
         "x-ves-proto-enum": "ves.io.schema.views.terraform_parameters.DestroyStageState",
@@ -22510,12 +21461,7 @@
       "terraform_parametersInfraState": {
         "type": "string",
         "title": "- PROVISIONED: x-displayName: \"Provisioned\"\n- TIMED_OUT: x-displayName: \"Timed out\"\n- ERRORED: x-displayName: \"Errored\"\n- PROVISIONING: x-displayName: \"Provisioning\"",
-        "enum": [
-          "PROVISIONED",
-          "TIMED_OUT",
-          "ERRORED",
-          "PROVISIONING"
-        ],
+        "enum": ["PROVISIONED", "TIMED_OUT", "ERRORED", "PROVISIONING"],
         "default": "PROVISIONED",
         "x-displayname": "",
         "x-ves-proto-enum": "ves.io.schema.views.terraform_parameters.InfraState",
@@ -22532,11 +21478,7 @@
       "terraform_parametersRollbackState": {
         "type": "string",
         "title": "- ROLLBACK_SUCCESSFUL: x-displayName: \"Rollback successful\"\n- ROLLBACK_ERRORED: x-displayName: \"Rollback errored\"\n- ROLLBACK_NOT_REQUIRED: x-displayName: \"Rollback not required\"",
-        "enum": [
-          "ROLLBACK_SUCCESSFUL",
-          "ROLLBACK_ERRORED",
-          "ROLLBACK_NOT_REQUIRED"
-        ],
+        "enum": ["ROLLBACK_SUCCESSFUL", "ROLLBACK_ERRORED", "ROLLBACK_NOT_REQUIRED"],
         "default": "ROLLBACK_SUCCESSFUL",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for terraform_parametersRollbackState",
@@ -22552,11 +21494,7 @@
         "type": "string",
         "description": "X-displayName: \"Upgrade State\"\nTerraform State after version Upgrade\n\n- UPGRADE_SUCCESSFUL: x-displayName: \"Upgrade successful\"\n- UPGRADE_ERRORED: x-displayName: \"Upgrade errored\"\n- UPGRADE_NOT_REQUIRED: x-displayName: \"Upgrade not required\"",
         "title": "Upgrade State.",
-        "enum": [
-          "UPGRADE_SUCCESSFUL",
-          "UPGRADE_ERRORED",
-          "UPGRADE_NOT_REQUIRED"
-        ],
+        "enum": ["UPGRADE_SUCCESSFUL", "UPGRADE_ERRORED", "UPGRADE_NOT_REQUIRED"],
         "default": "UPGRADE_SUCCESSFUL",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for terraform_parametersUpgradeState",
@@ -22581,9 +21519,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsAdvertisePublic",
-          "required_fields": [
-            "public_ip"
-          ],
+          "required_fields": ["public_ip"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsAdvertisePublic\nmetadata:\n  name: example\n  namespace: default\nspec:\n  public_ip: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"public_ip\": \"value\"\n  }\n}",
@@ -22632,9 +21568,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsCloudSubnetParamType",
-          "required_fields": [
-            "ipv4"
-          ],
+          "required_fields": ["ipv4"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsCloudSubnetParamType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ipv4: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ipv4\": \"value\"\n  }\n}",
@@ -22682,10 +21616,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsCloudSubnetType",
-          "required_fields": [
-            "existing_subnet_id",
-            "subnet_param"
-          ],
+          "required_fields": ["existing_subnet_id", "subnet_param"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsCloudSubnetType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  existing_subnet_id: value\n  subnet_param: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"existing_subnet_id\": \"value\",\n    \"subnet_param\": \"value\"\n  }\n}",
@@ -22740,11 +21671,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsCustomCiphers",
-          "required_fields": [
-            "cipher_suites",
-            "max_version",
-            "min_version"
-          ],
+          "required_fields": ["cipher_suites", "max_version", "min_version"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsCustomCiphers\nmetadata:\n  name: example\n  namespace: default\nspec:\n  cipher_suites: value\n  max_version: value\n  min_version: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"cipher_suites\": \"value\",\n    \"max_version\": \"value\",\n    \"min_version\": \"value\"\n  }\n}",
@@ -22803,12 +21730,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsDownstreamTlsParamsType",
-          "required_fields": [
-            "no_mtls",
-            "tls_certificates",
-            "tls_config",
-            "use_mtls"
-          ],
+          "required_fields": ["no_mtls", "tls_certificates", "tls_config", "use_mtls"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsDownstreamTlsParamsType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  no_mtls: value\n  tls_certificates: value\n  tls_config: value\n  use_mtls: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"no_mtls\": \"value\",\n    \"tls_certificates\": \"value\",\n    \"tls_config\": \"value\",\n    \"use_mtls\": \"value\"\n  }\n}",
@@ -22976,9 +21898,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsXfccHeaderKeys",
-          "required_fields": [
-            "xfcc_header_elements"
-          ],
+          "required_fields": ["xfcc_header_elements"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsXfccHeaderKeys\nmetadata:\n  name: example\n  namespace: default\nspec:\n  xfcc_header_elements: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"xfcc_header_elements\": \"value\"\n  }\n}",
@@ -23010,10 +21930,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for viewsk8s_manifest_paramsDeploymentStatusType",
-          "required_fields": [
-            "status",
-            "status_output"
-          ],
+          "required_fields": ["status", "status_output"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for viewsk8s_manifest_paramsDeploymentStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  status: value\n  status_output: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"status\": \"value\",\n    \"status_output\": \"value\"\n  }\n}",
@@ -23081,10 +21998,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSiteInfo",
-          "required_fields": [
-            "annotations",
-            "site"
-          ],
+          "required_fields": ["annotations", "site"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaSiteInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  annotations: value\n  site: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"annotations\": \"value\",\n    \"site\": \"value\"\n  }\n}",
@@ -23133,10 +22047,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSiteMeshGroupStatus",
-          "required_fields": [
-            "other_connected_sites",
-            "site_info"
-          ],
+          "required_fields": ["other_connected_sites", "site_info"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaSiteMeshGroupStatus\nmetadata:\n  name: example\n  namespace: default\nspec:\n  other_connected_sites: value\n  site_info: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"other_connected_sites\": \"value\",\n    \"site_info\": \"value\"\n  }\n}",
@@ -23375,10 +22286,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -23402,11 +22310,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -23473,11 +22377,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -23502,10 +22402,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupFullMeshGroupType",
-          "required_fields": [
-            "control_and_data_plane_mesh",
-            "data_plane_mesh"
-          ],
+          "required_fields": ["control_and_data_plane_mesh", "data_plane_mesh"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupFullMeshGroupType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  control_and_data_plane_mesh: value\n  data_plane_mesh: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"control_and_data_plane_mesh\": \"value\",\n    \"data_plane_mesh\": \"value\"\n  }\n}",
@@ -23661,10 +22558,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupHubFullMeshGroupType",
-          "required_fields": [
-            "control_and_data_plane_mesh",
-            "data_plane_mesh"
-          ],
+          "required_fields": ["control_and_data_plane_mesh", "data_plane_mesh"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupHubFullMeshGroupType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  control_and_data_plane_mesh: value\n  data_plane_mesh: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"control_and_data_plane_mesh\": \"value\",\n    \"data_plane_mesh\": \"value\"\n  }\n}",
@@ -23712,10 +22606,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -23927,10 +22818,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -23992,11 +22880,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupSpokeMeshGroupType",
-          "required_fields": [
-            "control_and_data_plane_mesh",
-            "data_plane_mesh",
-            "hub_mesh_group"
-          ],
+          "required_fields": ["control_and_data_plane_mesh", "data_plane_mesh", "hub_mesh_group"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupSpokeMeshGroupType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  control_and_data_plane_mesh: value\n  data_plane_mesh: value\n  hub_mesh_group: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"control_and_data_plane_mesh\": \"value\",\n    \"data_plane_mesh\": \"value\",\n    \"hub_mesh_group\": \"value\"\n  }\n}",
@@ -24050,12 +22934,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for site_mesh_groupStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs",
-            "site_mesh_group_status"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs", "site_mesh_group_status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for site_mesh_groupStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value\n  site_mesh_group_status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\",\n    \"site_mesh_group_status\": \"value\"\n  }\n}",
@@ -24110,9 +22989,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_applianceGetImageRequest",
-          "required_fields": [
-            "uids"
-          ],
+          "required_fields": ["uids"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_applianceGetImageRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  uids: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"uids\": \"value\"\n  }\n}",
@@ -24140,9 +23017,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_applianceGetImageResponse",
-          "required_fields": [
-            "images"
-          ],
+          "required_fields": ["images"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_applianceGetImageResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  images: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"images\": \"value\"\n  }\n}",
@@ -24267,10 +23142,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaNodeInterfaceInfo",
-          "required_fields": [
-            "interface",
-            "node"
-          ],
+          "required_fields": ["interface", "node"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaNodeInterfaceInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  interface: value\n  node: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"interface\": \"value\",\n    \"node\": \"value\"\n  }\n}",
@@ -24311,9 +23183,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaNodeInterfaceType",
-          "required_fields": [
-            "list"
-          ],
+          "required_fields": ["list"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaNodeInterfaceType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  list: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"list\": \"value\"\n  }\n}",
@@ -24362,11 +23232,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaRouteTarget",
-          "required_fields": [
-            "asn2byte_rtarget",
-            "asn4byte_rtarget",
-            "ipv4_addr_rtarget"
-          ],
+          "required_fields": ["asn2byte_rtarget", "asn4byte_rtarget", "ipv4_addr_rtarget"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaRouteTarget\nmetadata:\n  name: example\n  namespace: default\nspec:\n  asn2byte_rtarget: value\n  asn4byte_rtarget: value\n  ipv4_addr_rtarget: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"asn2byte_rtarget\": \"value\",\n    \"asn4byte_rtarget\": \"value\",\n    \"ipv4_addr_rtarget\": \"value\"\n  }\n}",
@@ -24416,10 +23282,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaRouteTarget2ByteAsn",
-          "required_fields": [
-            "as_number",
-            "value"
-          ],
+          "required_fields": ["as_number", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaRouteTarget2ByteAsn\nmetadata:\n  name: example\n  namespace: default\nspec:\n  as_number: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"as_number\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -24469,10 +23332,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaRouteTarget4ByteAsn",
-          "required_fields": [
-            "as_number",
-            "value"
-          ],
+          "required_fields": ["as_number", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaRouteTarget4ByteAsn\nmetadata:\n  name: example\n  namespace: default\nspec:\n  as_number: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"as_number\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -24521,10 +23381,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaRouteTargetIPv4Addr",
-          "required_fields": [
-            "address",
-            "value"
-          ],
+          "required_fields": ["address", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaRouteTargetIPv4Addr\nmetadata:\n  name: example\n  namespace: default\nspec:\n  address: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"address\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -24543,9 +23400,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkAnyCastVIPFleetType",
-          "required_fields": [
-            "vip_allocator"
-          ],
+          "required_fields": ["vip_allocator"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkAnyCastVIPFleetType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  vip_allocator: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"vip_allocator\": \"value\"\n  }\n}",
@@ -24569,10 +23424,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -24596,11 +23448,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -24730,11 +23578,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -25003,10 +23847,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -25372,10 +24213,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -25490,11 +24328,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSIDCounterData",
-          "required_fields": [
-            "data",
-            "type",
-            "unit"
-          ],
+          "required_fields": ["data", "type", "unit"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSIDCounterData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value\n  type: value\n  unit: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\",\n    \"type\": \"value\",\n    \"unit\": \"value\"\n  }\n}",
@@ -25506,11 +24340,7 @@
         "type": "string",
         "description": "Labels in SID Counter metrics\n\nSite name\nVirtual-Network name\nSID prefix.",
         "title": "SID Counter Labels.",
-        "enum": [
-          "SITE",
-          "VIRTUAL_NETWORK",
-          "SID_PREFIX"
-        ],
+        "enum": ["SITE", "VIRTUAL_NETWORK", "SID_PREFIX"],
         "default": "SITE",
         "x-displayname": "SID Counter Labels.",
         "x-ves-proto-enum": "ves.io.schema.virtual_network.SIDCounterLabel",
@@ -25767,10 +24597,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSIDCounterResponse",
-          "required_fields": [
-            "data",
-            "step"
-          ],
+          "required_fields": ["data", "step"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSIDCounterResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value\n  step: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\",\n    \"step\": \"value\"\n  }\n}",
@@ -25846,10 +24673,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSIDCounterTypeData",
-          "required_fields": [
-            "key",
-            "value"
-          ],
+          "required_fields": ["key", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSIDCounterTypeData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -25868,9 +24692,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSNATPoolFleetType",
-          "required_fields": [
-            "snat_pool_allocator"
-          ],
+          "required_fields": ["snat_pool_allocator"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSNATPoolFleetType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  snat_pool_allocator: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"snat_pool_allocator\": \"value\"\n  }\n}",
@@ -25897,9 +24719,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSNATPoolSiteType",
-          "required_fields": [
-            "node_snat_pool"
-          ],
+          "required_fields": ["node_snat_pool"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSNATPoolSiteType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  node_snat_pool: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"node_snat_pool\": \"value\"\n  }\n}",
@@ -25945,10 +24765,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSNATPoolType",
-          "required_fields": [
-            "ipv4_prefixes",
-            "ipv6_prefixes"
-          ],
+          "required_fields": ["ipv4_prefixes", "ipv6_prefixes"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSNATPoolType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ipv4_prefixes: value\n  ipv6_prefixes: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ipv4_prefixes\": \"value\",\n    \"ipv6_prefixes\": \"value\"\n  }\n}",
@@ -25976,9 +24793,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSegmentNetworkType",
-          "required_fields": [
-            "internet_enabled"
-          ],
+          "required_fields": ["internet_enabled"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSegmentNetworkType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  internet_enabled: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"internet_enabled\": \"value\"\n  }\n}",
@@ -26011,9 +24826,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkSrv6NetworkNsParametersType",
-          "required_fields": [
-            "namespace"
-          ],
+          "required_fields": ["namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkSrv6NetworkNsParametersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\"\n  }\n}",
@@ -26298,11 +25111,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for virtual_networkStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for virtual_networkStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",

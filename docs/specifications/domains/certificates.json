@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -200,42 +193,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-crl-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.crl.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "crl"
-          ]
+          "creates": ["crl"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new crl",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Crl resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Crl resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "crl"
-            ]
+            "creates": ["crl"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -425,39 +399,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-crl-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.crl.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "crl"
-          ]
+          "modifies": ["crl"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing crl",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "crl"
-            ]
+            "modifies": ["crl"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -665,24 +623,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-crl-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.crl.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all crls",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -884,26 +834,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-crl-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.crl.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific crl",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1088,43 +1028,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-crl-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.crl.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "crl",
-            "contained_resources"
-          ]
+          "deletes": ["crl", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete crl",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "crl",
-              "contained_resources"
-            ]
+            "deletes": ["crl", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -1303,43 +1227,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "certificate"
-          ]
+          "creates": ["certificate"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new certificate",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": [
               "Certificate resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "certificate"
-            ]
+            "creates": ["certificate"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1529,40 +1436,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "certificate"
-          ]
+          "modifies": ["certificate"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing certificate",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace", "Certificate file or data"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "certificate"
-            ]
+            "modifies": ["certificate"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1770,25 +1660,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all certificates",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1992,27 +1873,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific certificate",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2197,44 +2067,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "certificate",
-            "contained_resources"
-          ]
+          "deletes": ["certificate", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete certificate",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "certificate",
-              "contained_resources"
-            ]
+            "deletes": ["certificate", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -2413,43 +2266,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate_chain-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate_chain.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "certificate-chain"
-          ]
+          "creates": ["certificate-chain"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new certificate-chain",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": [
               "Certificate-chain resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "certificate-chain"
-            ]
+            "creates": ["certificate-chain"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2639,40 +2475,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate_chain-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate_chain.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "certificate-chain"
-          ]
+          "modifies": ["certificate-chain"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing certificate-chain",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace", "Certificate file or data"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "certificate-chain"
-            ]
+            "modifies": ["certificate-chain"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2880,25 +2699,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate_chain-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate_chain.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all certificate-chains",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3102,27 +2912,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate_chain-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate_chain.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific certificate-chain",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3307,44 +3106,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-certificate_chain-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.certificate_chain.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "certificate-chain",
-            "contained_resources"
-          ]
+          "deletes": ["certificate-chain", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete certificate-chain",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Certificate file or data"
-            ],
+            "prerequisites": ["Active namespace", "Certificate file or data"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "certificate-chain",
-              "contained_resources"
-            ]
+            "deletes": ["certificate-chain", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -3523,42 +3305,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-trusted_ca_list-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.trusted_ca_list.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "trusted-ca-list"
-          ]
+          "creates": ["trusted-ca-list"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new trusted-ca-list",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Trusted-ca-list resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "trusted-ca-list"
-            ]
+            "creates": ["trusted-ca-list"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3748,39 +3514,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-trusted_ca_list-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.trusted_ca_list.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "trusted-ca-list"
-          ]
+          "modifies": ["trusted-ca-list"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing trusted-ca-list",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "trusted-ca-list"
-            ]
+            "modifies": ["trusted-ca-list"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3988,24 +3738,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-trusted_ca_list-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.trusted_ca_list.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all trusted-ca-lists",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -4207,26 +3949,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-trusted_ca_list-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.trusted_ca_list.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific trusted-ca-list",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -4411,43 +4143,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-trusted_ca_list-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.trusted_ca_list.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "trusted-ca-list",
-            "contained_resources"
-          ]
+          "deletes": ["trusted-ca-list", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete trusted-ca-list",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "trusted-ca-list",
-              "contained_resources"
-            ]
+            "deletes": ["trusted-ca-list", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -4520,10 +4236,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for crlCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for crlCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -4547,11 +4260,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for crlCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for crlCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -4749,11 +4458,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for crlDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for crlDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -5057,9 +4762,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for crlHTTPAccessInfo",
-          "required_fields": [
-            "path"
-          ],
+          "required_fields": ["path"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for crlHTTPAccessInfo\nmetadata:\n  name: example\n  namespace: default\nspec:\n  path: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"path\": \"value\"\n  }\n}",
@@ -5107,10 +4810,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for crlListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for crlListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -5322,10 +5022,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for crlReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for crlReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -5520,11 +5217,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for crlStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for crlStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -5567,10 +5260,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protobufAny",
-          "required_fields": [
-            "type_url",
-            "value"
-          ],
+          "required_fields": ["type_url", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protobufAny\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type_url: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type_url\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -5770,11 +5460,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaErrorType",
-          "required_fields": [
-            "code",
-            "error_obj",
-            "message"
-          ],
+          "required_fields": ["code", "error_obj", "message"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaErrorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  error_obj: value\n  message: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"error_obj\": \"value\",\n    \"message\": \"value\"\n  }\n}",
@@ -5810,9 +5496,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializerType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -5848,10 +5532,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializersType",
-          "required_fields": [
-            "pending",
-            "result"
-          ],
+          "required_fields": ["pending", "result"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pending: value\n  result: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pending\": \"value\",\n    \"result\": \"value\"\n  }\n}",
@@ -6265,13 +5946,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -6573,10 +6248,7 @@
         "type": "string",
         "description": "StatusPublishType is all possible publish operations on a StatusObject\n\n- STATUS_DO_NOT_PUBLISH: Do Not Publish\n\nDo not propagate this status to user. This could be because status is only informational\n- STATUS_PUBLISH: Publish\n\nPropagate this status up to user as it might be actionable.",
         "title": "StatusPublishType.",
-        "enum": [
-          "STATUS_DO_NOT_PUBLISH",
-          "STATUS_PUBLISH"
-        ],
+        "enum": ["STATUS_DO_NOT_PUBLISH", "STATUS_PUBLISH"],
         "default": "STATUS_DO_NOT_PUBLISH",
         "x-displayname": "Status Publish Type.",
         "x-ves-proto-enum": "ves.io.schema.StatusPublishType",
@@ -6652,11 +6324,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaStatusType",
-          "required_fields": [
-            "code",
-            "reason",
-            "status"
-          ],
+          "required_fields": ["code", "reason", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  reason: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"reason\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -6949,12 +6617,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaViewRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaViewRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -6978,10 +6641,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificateCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificateCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -7005,11 +6665,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificateCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificateCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -7148,11 +6804,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificateDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificateDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -7448,10 +7100,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificateListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificateListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -7663,10 +7312,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificateReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificateReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -7802,11 +7448,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificateStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificateStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -7936,13 +7578,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for ioschemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for ioschemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -8020,11 +7656,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaBlindfoldSecretInfoType",
-          "required_fields": [
-            "decryption_provider",
-            "location",
-            "store_provider"
-          ],
+          "required_fields": ["decryption_provider", "location", "store_provider"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaBlindfoldSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  decryption_provider: value\n  location: value\n  store_provider: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"decryption_provider\": \"value\",\n    \"location\": \"value\",\n    \"store_provider\": \"value\"\n  }\n}",
@@ -8202,10 +7834,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaClearSecretInfoType",
-          "required_fields": [
-            "provider",
-            "url"
-          ],
+          "required_fields": ["provider", "url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaClearSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  provider: value\n  url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"provider\": \"value\",\n    \"url\": \"value\"\n  }\n}",
@@ -8217,11 +7846,7 @@
         "type": "string",
         "description": "Specifies the Hash Algorithm to be used\n\nInvalid hash algorithm\nsha256 hash algorithm\nsha1 hash algorithm.",
         "title": "HashAlgoritm.",
-        "enum": [
-          "INVALID_HASH_ALGORITHM",
-          "SHA256",
-          "SHA1"
-        ],
+        "enum": ["INVALID_HASH_ALGORITHM", "SHA256", "SHA1"],
         "default": "INVALID_HASH_ALGORITHM",
         "x-displayname": "Hash Algorithm.",
         "x-ves-proto-enum": "ves.io.schema.HashAlgorithm",
@@ -8279,9 +7904,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaHashAlgorithms",
-          "required_fields": [
-            "hash_algorithms"
-          ],
+          "required_fields": ["hash_algorithms"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaHashAlgorithms\nmetadata:\n  name: example\n  namespace: default\nspec:\n  hash_algorithms: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"hash_algorithms\": \"value\"\n  }\n}",
@@ -8293,10 +7916,7 @@
         "type": "string",
         "description": "X-displayName: \"Secret Encoding\"\nSecretEncodingType defines the encoding type of the secret before handled by the Secret Management Service.\n\n- EncodingNone: x-displayName: \"None\"\nNo Encoding\n- EncodingBase64: Base64\n\nx-displayName: \"Base64\"\nBase64 encoding.",
         "title": "SecretEncodingType.",
-        "enum": [
-          "EncodingNone",
-          "EncodingBase64"
-        ],
+        "enum": ["EncodingNone", "EncodingBase64"],
         "default": "EncodingNone",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSecretEncodingType",
@@ -8325,10 +7945,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSecretType",
-          "required_fields": [
-            "blindfold_secret_info",
-            "clear_secret_info"
-          ],
+          "required_fields": ["blindfold_secret_info", "clear_secret_info"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaSecretType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  blindfold_secret_info: value\n  clear_secret_info: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"blindfold_secret_info\": \"value\",\n    \"clear_secret_info\": \"value\"\n  }\n}",
@@ -8417,13 +8034,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaVaultSecretInfoType",
-          "required_fields": [
-            "key",
-            "location",
-            "provider",
-            "secret_encoding",
-            "version"
-          ],
+          "required_fields": ["key", "location", "provider", "secret_encoding", "version"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaVaultSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  location: value\n  provider: value\n  secret_encoding: value\n  version: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"location\": \"value\",\n    \"provider\": \"value\",\n    \"secret_encoding\": \"value\",\n    \"version\": \"value\"\n  }\n}",
@@ -8456,9 +8067,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaWingmanSecretInfoType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaWingmanSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -8560,11 +8169,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaviewsObjectRefType",
-          "required_fields": [
-            "name",
-            "namespace",
-            "tenant"
-          ],
+          "required_fields": ["name", "namespace", "tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaviewsObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\"\n  }\n}",
@@ -8588,10 +8193,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -8615,11 +8217,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -8668,9 +8266,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainCreateSpecType",
-          "required_fields": [
-            "certificate_url"
-          ],
+          "required_fields": ["certificate_url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  certificate_url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"certificate_url\": \"value\"\n  }\n}",
@@ -8737,11 +8333,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -8935,10 +8527,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainGetSpecType",
-          "required_fields": [
-            "certificate_url",
-            "infos"
-          ],
+          "required_fields": ["certificate_url", "infos"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  certificate_url: value\n  infos: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"certificate_url\": \"value\",\n    \"infos\": \"value\"\n  }\n}",
@@ -8986,10 +8575,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -9201,10 +8787,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -9284,11 +8867,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for certificate_chainStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for certificate_chainStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -9312,10 +8891,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -9339,11 +8915,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -9385,9 +8957,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listCreateSpecType",
-          "required_fields": [
-            "trusted_ca_url"
-          ],
+          "required_fields": ["trusted_ca_url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  trusted_ca_url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"trusted_ca_url\": \"value\"\n  }\n}",
@@ -9454,11 +9024,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -9645,10 +9211,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listGetSpecType",
-          "required_fields": [
-            "infos",
-            "trusted_ca_url"
-          ],
+          "required_fields": ["infos", "trusted_ca_url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  infos: value\n  trusted_ca_url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"infos\": \"value\",\n    \"trusted_ca_url\": \"value\"\n  }\n}",
@@ -9696,10 +9259,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -9911,10 +9471,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -9969,9 +9526,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listReplaceSpecType",
-          "required_fields": [
-            "trusted_ca_url"
-          ],
+          "required_fields": ["trusted_ca_url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  trusted_ca_url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"trusted_ca_url\": \"value\"\n  }\n}",
@@ -10022,11 +9577,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for trusted_ca_listStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for trusted_ca_listStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",

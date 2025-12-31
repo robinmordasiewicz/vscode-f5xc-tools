@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -233,24 +226,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_csg-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_csg.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all nginx-csgs",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -449,26 +434,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_csg-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_csg.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific nginx-csg",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -678,24 +653,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_instance-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_instance.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all nginx-instances",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -894,26 +861,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_instance-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_instance.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific nginx-instance",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1094,42 +1051,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_server-customapi-getdataplaneservers"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_server.CustomAPI.GetDataplaneServers",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "nginx-dataplane-server"
-          ]
+          "creates": ["nginx-dataplane-server"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new nginx-dataplane-server",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Nginx-dataplane-server resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "nginx-dataplane-server"
-            ]
+            "creates": ["nginx-dataplane-server"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1337,24 +1278,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_server-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_server.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all nginx-servers",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1554,26 +1487,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_server-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_server.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific nginx-server",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1741,40 +1664,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-subscription-customapi-subscribe"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.subscription.CustomAPI.Subscribe",
-        "tags": [
-          "NGINX"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace"
-        ],
+        "tags": ["NGINX"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "subscribe"
-          ]
+          "creates": ["subscribe"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new subscribe",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Subscribe resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Subscribe resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "subscribe"
-            ]
+            "creates": ["subscribe"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1940,40 +1846,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-subscription-customapi-unsubscribe"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.subscription.CustomAPI.Unsubscribe",
-        "tags": [
-          "NGINX"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace"
-        ],
+        "tags": ["NGINX"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "unsubscribe"
-          ]
+          "creates": ["unsubscribe"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new unsubscribe",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Unsubscribe resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "unsubscribe"
-            ]
+            "creates": ["unsubscribe"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2152,42 +2044,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_service_discovery-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_service_discovery.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "nginx-service-discovery"
-          ]
+          "creates": ["nginx-service-discovery"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new nginx-service-discovery",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Nginx-service-discovery resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "nginx-service-discovery"
-            ]
+            "creates": ["nginx-service-discovery"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2377,39 +2253,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_service_discovery-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_service_discovery.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "nginx-service-discovery"
-          ]
+          "modifies": ["nginx-service-discovery"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing nginx-service-discovery",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "nginx-service-discovery"
-            ]
+            "modifies": ["nginx-service-discovery"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2617,24 +2477,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_service_discovery-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_service_discovery.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all nginx-service-discoverys",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2836,26 +2688,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_service_discovery-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_service_discovery.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific nginx-service-discovery",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3040,43 +2882,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-nginx-one-nginx_service_discovery-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.nginx.one.nginx_service_discovery.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "nginx-service-discovery",
-            "contained_resources"
-          ]
+          "deletes": ["nginx-service-discovery", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete nginx-service-discovery",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "nginx-service-discovery",
-              "contained_resources"
-            ]
+            "deletes": ["nginx-service-discovery", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -3255,13 +3081,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for ioschemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for ioschemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -3409,10 +3229,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_csgListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_csgListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -3606,10 +3423,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_instanceAPIDiscoverySpec",
-          "required_fields": [
-            "disabled",
-            "enabled"
-          ],
+          "required_fields": ["disabled", "enabled"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_instanceAPIDiscoverySpec\nmetadata:\n  name: example\n  namespace: default\nspec:\n  disabled: value\n  enabled: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"disabled\": \"value\",\n    \"enabled\": \"value\"\n  }\n}",
@@ -3774,12 +3588,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for onenginx_csgGetSpecType",
-          "required_fields": [
-            "api_discovery_spec",
-            "csg_name",
-            "object_id",
-            "waf_spec"
-          ],
+          "required_fields": ["api_discovery_spec", "csg_name", "object_id", "waf_spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for onenginx_csgGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_discovery_spec: value\n  csg_name: value\n  object_id: value\n  waf_spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_discovery_spec\": \"value\",\n    \"csg_name\": \"value\",\n    \"object_id\": \"value\",\n    \"waf_spec\": \"value\"\n  }\n}",
@@ -3822,10 +3631,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protobufAny",
-          "required_fields": [
-            "type_url",
-            "value"
-          ],
+          "required_fields": ["type_url", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protobufAny\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type_url: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type_url\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -3892,11 +3698,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaErrorType",
-          "required_fields": [
-            "code",
-            "error_obj",
-            "message"
-          ],
+          "required_fields": ["code", "error_obj", "message"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaErrorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  error_obj: value\n  message: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"error_obj\": \"value\",\n    \"message\": \"value\"\n  }\n}",
@@ -3932,9 +3734,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializerType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -3970,10 +3770,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializersType",
-          "required_fields": [
-            "pending",
-            "result"
-          ],
+          "required_fields": ["pending", "result"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pending: value\n  result: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pending\": \"value\",\n    \"result\": \"value\"\n  }\n}",
@@ -4193,11 +3990,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaStatusType",
-          "required_fields": [
-            "code",
-            "reason",
-            "status"
-          ],
+          "required_fields": ["code", "reason", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  reason: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"reason\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -4490,12 +4283,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaViewRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaViewRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -4646,12 +4434,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_instanceGetSpecType",
-          "required_fields": [
-            "api_discovery_spec",
-            "host_name",
-            "object_id",
-            "waf_spec"
-          ],
+          "required_fields": ["api_discovery_spec", "host_name", "object_id", "waf_spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_instanceGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_discovery_spec: value\n  host_name: value\n  object_id: value\n  waf_spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_discovery_spec\": \"value\",\n    \"host_name\": \"value\",\n    \"object_id\": \"value\",\n    \"waf_spec\": \"value\"\n  }\n}",
@@ -4699,10 +4482,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_instanceListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_instanceListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -4898,10 +4678,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_serverDataplaneReference",
-          "required_fields": [
-            "nginx_csg",
-            "nginx_instance"
-          ],
+          "required_fields": ["nginx_csg", "nginx_instance"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_serverDataplaneReference\nmetadata:\n  name: example\n  namespace: default\nspec:\n  nginx_csg: value\n  nginx_instance: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"nginx_csg\": \"value\",\n    \"nginx_instance\": \"value\"\n  }\n}",
@@ -4925,11 +4702,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_serverGetDataplaneServerResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_serverGetDataplaneServerResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -4968,10 +4741,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_serverGetDataplaneServersRequest",
-          "required_fields": [
-            "dataplane_ref",
-            "namespace"
-          ],
+          "required_fields": ["dataplane_ref", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_serverGetDataplaneServersRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  dataplane_ref: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"dataplane_ref\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -5012,9 +4782,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_serverGetDataplaneServersResponse",
-          "required_fields": [
-            "items"
-          ],
+          "required_fields": ["items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_serverGetDataplaneServersResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"items\": \"value\"\n  }\n}",
@@ -5183,10 +4951,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_serverListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_serverListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -5586,11 +5351,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_serverStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_serverStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -5614,10 +5375,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for onenginx_serverGetSpecType",
-          "required_fields": [
-            "dataplane_ref",
-            "server_spec"
-          ],
+          "required_fields": ["dataplane_ref", "server_spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for onenginx_serverGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  dataplane_ref: value\n  server_spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"dataplane_ref\": \"value\",\n    \"server_spec\": \"value\"\n  }\n}",
@@ -5687,12 +5445,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for onenginx_serverLocation",
-          "required_fields": [
-            "api_discovery_spec",
-            "definition",
-            "name",
-            "waf_spec"
-          ],
+          "required_fields": ["api_discovery_spec", "definition", "name", "waf_spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for onenginx_serverLocation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_discovery_spec: value\n  definition: value\n  name: value\n  waf_spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_discovery_spec\": \"value\",\n    \"definition\": \"value\",\n    \"name\": \"value\",\n    \"waf_spec\": \"value\"\n  }\n}",
@@ -5978,10 +5731,7 @@
         "type": "string",
         "description": "StatusPublishType is all possible publish operations on a StatusObject\n\n- STATUS_DO_NOT_PUBLISH: Do Not Publish\n\nDo not propagate this status to user. This could be because status is only informational\n- STATUS_PUBLISH: Publish\n\nPropagate this status up to user as it might be actionable.",
         "title": "StatusPublishType.",
-        "enum": [
-          "STATUS_DO_NOT_PUBLISH",
-          "STATUS_PUBLISH"
-        ],
+        "enum": ["STATUS_DO_NOT_PUBLISH", "STATUS_PUBLISH"],
         "default": "STATUS_DO_NOT_PUBLISH",
         "x-displayname": "Status Publish Type.",
         "x-ves-proto-enum": "ves.io.schema.StatusPublishType",
@@ -6089,11 +5839,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaviewsObjectRefType",
-          "required_fields": [
-            "name",
-            "namespace",
-            "tenant"
-          ],
+          "required_fields": ["name", "namespace", "tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaviewsObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\"\n  }\n}",
@@ -6203,9 +5949,7 @@
         "x-required": true,
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryConfigSyncGroup",
-          "required_fields": [
-            "config_sync_group"
-          ],
+          "required_fields": ["config_sync_group"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryConfigSyncGroup\nmetadata:\n  name: example\n  namespace: default\nspec:\n  config_sync_group: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"config_sync_group\": \"value\"\n  }\n}",
@@ -6229,10 +5973,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -6256,11 +5997,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -6306,10 +6043,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryCreateSpecType",
-          "required_fields": [
-            "discovery_target",
-            "server_block_filters"
-          ],
+          "required_fields": ["discovery_target", "server_block_filters"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  discovery_target: value\n  server_block_filters: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"discovery_target\": \"value\",\n    \"server_block_filters\": \"value\"\n  }\n}",
@@ -6376,11 +6110,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -6404,10 +6134,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryDiscoveryTarget",
-          "required_fields": [
-            "config_sync_group",
-            "nginx_instance"
-          ],
+          "required_fields": ["config_sync_group", "nginx_instance"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryDiscoveryTarget\nmetadata:\n  name: example\n  namespace: default\nspec:\n  config_sync_group: value\n  nginx_instance: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"config_sync_group\": \"value\",\n    \"nginx_instance\": \"value\"\n  }\n}",
@@ -6663,10 +6390,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -6900,9 +6624,7 @@
         "x-required": true,
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryNGINXInstance",
-          "required_fields": [
-            "nginx_instance"
-          ],
+          "required_fields": ["nginx_instance"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryNGINXInstance\nmetadata:\n  name: example\n  namespace: default\nspec:\n  nginx_instance: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"nginx_instance\": \"value\"\n  }\n}",
@@ -6926,10 +6648,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -6988,10 +6707,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryReplaceSpecType",
-          "required_fields": [
-            "discovery_target",
-            "server_block_filters"
-          ],
+          "required_fields": ["discovery_target", "server_block_filters"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  discovery_target: value\n  server_block_filters: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"discovery_target\": \"value\",\n    \"server_block_filters\": \"value\"\n  }\n}",
@@ -7063,10 +6779,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryServerBlockFilter",
-          "required_fields": [
-            "name_regex",
-            "port_ranges"
-          ],
+          "required_fields": ["name_regex", "port_ranges"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryServerBlockFilter\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name_regex: value\n  port_ranges: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name_regex\": \"value\",\n    \"port_ranges\": \"value\"\n  }\n}",
@@ -7117,11 +6830,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for nginx_service_discoveryStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for nginx_service_discoveryStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -7385,13 +7094,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
