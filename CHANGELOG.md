@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.42](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.41...v0.1.42) (2025-12-31)
+
+
+### Features
+
+* p0 api metadata enhancements for improved ux and safety ([#67](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/67)) ([221d6f8](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/221d6f8821f89e6dcf6ba4e457f68d13b8d97dbe)), closes [hi#priority](https://github.com/hi/issues/priority) [#62](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/62) [#63](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/63) [#64](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/64) [#65](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/65) [#66](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/66)
+
 ## [0.1.41](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.40...v0.1.41) (2025-12-31)
 
 
