@@ -3,7 +3,7 @@ name: Sync Upstream API Specs
 on:
   # Run daily at 8 AM UTC as fallback
   schedule:
-    - cron: '0 8 * * *'
+    - cron: "0 8 * * *"
 
   # Allow manual trigger
   workflow_dispatch:
@@ -41,8 +41,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -58,56 +58,19 @@ jobs:
           echo "version=$CURRENT" >> $GITHUB_OUTPUT
           echo "Current version: $CURRENT"
 
-      - name: Download latest specs from upstream
+      - name: Sync specs from upstream
         id: download
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Get latest release info
-          RELEASE_INFO=$(gh api repos/robinmordasiewicz/f5xc-api-enriched/releases/latest)
-          VERSION=$(echo "$RELEASE_INFO" | jq -r '.tag_name' | sed 's/^v//')
-          ASSET_URL=$(echo "$RELEASE_INFO" | jq -r '.assets[] | select(.name | endswith(".zip")) | .browser_download_url')
+          # Sync specs using the TypeScript script
+          npm run specs:sync
 
-          echo "Latest upstream version: $VERSION"
+          # Get the new version
+          VERSION=$(jq -r '.info.version' docs/specifications/api/openapi.json)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-          if [ -z "$ASSET_URL" ]; then
-            echo "::error::No zip asset found in latest release"
-            exit 1
-          fi
-
-          # Download and extract specs
-          echo "Downloading specs from: $ASSET_URL"
-          curl -L "$ASSET_URL" -o specs.zip
-
-          # Extract to temporary directory
-          unzip -o specs.zip -d specs_temp
-
-          # Copy specs to docs/specifications/api/
-          mkdir -p docs/specifications/api
-          cp specs_temp/*.json docs/specifications/api/ 2>/dev/null || true
-          cp specs_temp/openapi.json docs/specifications/api/ 2>/dev/null || true
-          cp specs_temp/index.json docs/specifications/api/ 2>/dev/null || true
-
-          # Also create YAML version if needed
-          if [ -f docs/specifications/api/openapi.json ]; then
-            # Convert JSON to YAML using node
-            node -e "
-              const fs = require('fs');
-              const json = JSON.parse(fs.readFileSync('docs/specifications/api/openapi.json'));
-              const yaml = require('yaml');
-              fs.writeFileSync('docs/specifications/api/openapi.yaml', yaml.stringify(json));
-            " 2>/dev/null || echo "YAML conversion skipped (yaml package not available)"
-          fi
-
-          # Cleanup
-          rm -rf specs.zip specs_temp
-
-          echo "Downloaded specs version: $VERSION"
+          echo "Synced to version: $VERSION"
 
       - name: Regenerate types and docs
-        run: |
-          npm run generate || echo "Generate step completed with warnings"
+        run: npm run generate
 
       - name: Validate build
         run: npm run compile
@@ -143,7 +106,7 @@ jobs:
 
             Co-Authored-By: Upstream Sync Bot <noreply@github.com>
           branch: sync/upstream-${{ steps.download.outputs.version }}
-          title: 'chore: sync upstream API specs to ${{ steps.download.outputs.version }}'
+          title: "chore: sync upstream API specs to ${{ steps.download.outputs.version }}"
           body: |
             ## Automated Upstream Specification Sync
 
