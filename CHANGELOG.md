@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.41](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.40...v0.1.41) (2025-12-31)
+
+
+### Features
+
+* use ui_category directly from upstream (single source of truth) ([f1c3f28](https://github.com/robinmordasiewicz/vscode-f5xc-tools/commit/f1c3f2860a3df6bc30c6f1f53fec1801816ddaef)), closes [robinmordasiewicz/f5xc-api-enriched#246](https://github.com/robinmordasiewicz/f5xc-api-enriched/issues/246) [#252](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues/252)
+
 ## [0.1.40](https://github.com/robinmordasiewicz/vscode-f5xc-tools/compare/v0.1.39...v0.1.40) (2025-12-30)
 
 
