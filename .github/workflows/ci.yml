@@ -181,23 +181,21 @@ jobs:
         run: npm audit --audit-level=high
         continue-on-error: true
 
-  # Run semantic-release after successful build (main branch only)
-  semantic-release:
-    name: Semantic Release
+  # Create release after successful build (main branch only)
+  release:
+    name: Create Release
     runs-on: ubuntu-latest
     needs: [test, build]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
       contents: write
-      issues: write
-      pull-requests: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          persist-credentials: false
+          token: ${{ secrets.RELEASE_PAT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -208,34 +206,72 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run semantic-release
-        id: semantic-release
+      - name: Generate version
+        id: version
+        run: |
+          VERSION_JSON=$(npm run version:json --silent)
+          VERSION=$(echo "$VERSION_JSON" | jq -r '.version')
+          SEMVER=$(echo "$VERSION_JSON" | jq -r '.semver')
+          UPSTREAM=$(echo "$VERSION_JSON" | jq -r '.upstream')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "semver=$SEMVER" >> $GITHUB_OUTPUT
+          echo "upstream=$UPSTREAM" >> $GITHUB_OUTPUT
+          echo "📦 Version: v$VERSION (semver: $SEMVER, upstream: $UPSTREAM)"
+
+      - name: Update package.json version
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
           HUSKY: 0
         run: |
-          # Run semantic-release and capture output
-          OUTPUT=$(npx semantic-release 2>&1) || true
-          echo "$OUTPUT"
+          npm run version:update
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore(release): v${{ steps.version.outputs.version }} [skip ci]" || echo "No changes to commit"
+          git push
 
-          # Check if a new version was published
-          if echo "$OUTPUT" | grep -q "Published release"; then
-            # Extract the version from the output
-            VERSION=$(echo "$OUTPUT" | grep -oP "Published release \K[0-9]+\.[0-9]+\.[0-9]+")
-            echo "new_release=true" >> $GITHUB_OUTPUT
-            echo "new_version=$VERSION" >> $GITHUB_OUTPUT
-            echo "✅ New version published: $VERSION"
-          else
-            echo "new_release=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ No new version published"
-          fi
+      - name: Create and push tag
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          git tag -a "$TAG" -m "Release $TAG"
+          git push origin "$TAG"
+          echo "🏷️ Created tag: $TAG"
 
-      - name: Trigger Release workflow
-        if: steps.semantic-release.outputs.new_release == 'true'
+      - name: Download VSIX artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: vscode-f5xc-tools-vsix
+          path: ./
+
+      - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
         run: |
-          VERSION="${{ steps.semantic-release.outputs.new_version }}"
-          echo "🚀 Triggering Release workflow for v${VERSION}"
-          gh workflow run release.yml --ref "v${VERSION}"
+          TAG="v${{ steps.version.outputs.version }}"
+          VSIX_FILE=$(ls *.vsix)
+
+          # Generate release notes from recent commits
+          NOTES=$(git log --oneline -10 --no-merges --format="- %s")
+
+          gh release create "$TAG" \
+            --title "Release $TAG" \
+            --notes "## Changes
+
+          Based on F5 XC API version: ${{ steps.version.outputs.upstream }}
+
+          ### Recent commits:
+          $NOTES
+
+          ---
+          📦 Download the \`.vsix\` file and install manually, or wait for VS Code Marketplace sync." \
+            "$VSIX_FILE"
+
+          echo "✅ Release created: $TAG"
+
+      - name: Trigger Marketplace publish
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          echo "🚀 Triggering Release workflow for $TAG"
+          gh workflow run release.yml --ref "$TAG"
           echo "✅ Release workflow triggered successfully"
