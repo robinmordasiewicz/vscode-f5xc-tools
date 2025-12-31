@@ -78,26 +78,18 @@ function generateTimestamp(): string {
 /**
  * Convert to semver-compatible format for package.json
  * VSCode requires semver format: major.minor.patch
- * We use: upstream.timestamp where timestamp becomes the patch version
+ * We use: upstream major.minor as prefix with timestamp as patch
+ * Format: {upstream_major}.{upstream_minor}.{timestamp}
+ * Example: 1.0.2512312031 (from upstream 1.0.77 + timestamp 2512312031)
  */
 function toSemver(upstream: string, timestamp: string): string {
   // upstream is like "1.0.77"
   // timestamp is like "2501011430"
-  // Convert timestamp to a numeric patch version
-  // Use the full timestamp as a build identifier isn't valid for VSCode
-  // So we'll use the timestamp as a patch-like number
-
   const parts = upstream.split('.');
-  if (parts.length < 2) {
-    return `${upstream}.${timestamp}`;
-  }
+  const major = parts[0] || '0';
+  const minor = parts[1] || '0';
 
-  // Use upstream major.minor and timestamp as extended patch
-  // Format: major.minor.timestampNumber
-  // e.g., 1.0.2501011430
-  const major = parts[0];
-  const minor = parts[1];
-
+  // Use upstream major.minor as prefix with timestamp as patch
   return `${major}.${minor}.${timestamp}`;
 }
 
