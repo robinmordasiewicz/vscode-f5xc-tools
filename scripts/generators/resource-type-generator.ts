@@ -11,7 +11,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { ParsedSpecInfo, parseAllSpecs, NamespaceScope } from './spec-parser';
+import { ParsedSpecInfo, parseAllSpecs, parseAllDomainFiles, NamespaceScope } from './spec-parser';
 
 /**
  * Structure of the namespace scope overrides file
@@ -142,6 +142,8 @@ export interface GeneratedResourceTypeInfo {
   namespaceScope: NamespaceScope;
   /** Documentation URL */
   documentationUrl?: string;
+  /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
+  domain?: string;
 }
 
 /**
@@ -164,6 +166,11 @@ function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
   // Only include serviceSegment if it's defined
   if (info.serviceSegment) {
     result.serviceSegment = info.serviceSegment;
+  }
+
+  // Only include domain if it's defined
+  if (info.domain) {
+    result.domain = info.domain;
   }
 
   return result;
@@ -236,6 +243,8 @@ export interface GeneratedResourceTypeInfo {
   namespaceScope: NamespaceScope;
   /** Documentation URL */
   documentationUrl?: string;
+  /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
+  domain?: string;
 }
 
 /**
@@ -300,6 +309,61 @@ export function generateResourceTypesFile(
     console.error('No specs parsed successfully');
     return [];
   }
+
+  // Apply namespace scope overrides if provided
+  if (scopeOverridesPath) {
+    const overrides = loadScopeOverrides(scopeOverridesPath);
+    if (overrides) {
+      const overrideCount = applyScopeOverrides(specs, overrides);
+      console.log(`Applied ${overrideCount} namespace scope overrides`);
+    }
+  }
+
+  // Apply display name overrides if provided
+  if (displayNameOverridesPath) {
+    const overrides = loadDisplayNameOverrides(displayNameOverridesPath);
+    if (overrides) {
+      const overrideCount = applyDisplayNameOverrides(specs, overrides);
+      console.log(`Applied ${overrideCount} display name overrides`);
+    }
+  }
+
+  const content = generateResourceTypesContent(specs);
+  const outputDir = path.dirname(outputPath);
+
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  fs.writeFileSync(outputPath, content, 'utf-8');
+  console.log(`Generated: ${outputPath} with ${specs.length} resource types`);
+
+  return specs;
+}
+
+/**
+ * Generate resource types from domain files and write to output file.
+ * Domain files are merged OpenAPI specs organized by x-ves-cli-domain.
+ *
+ * @param domainDir - Directory containing domain-based OpenAPI spec files
+ * @param outputPath - Path for generated TypeScript file
+ * @param scopeOverridesPath - Optional path to namespace scope overrides JSON file
+ * @param displayNameOverridesPath - Optional path to display name overrides JSON file
+ */
+export function generateResourceTypesFromDomainFiles(
+  domainDir: string,
+  outputPath: string,
+  scopeOverridesPath?: string,
+  displayNameOverridesPath?: string,
+): ParsedSpecInfo[] {
+  const specs = parseAllDomainFiles(domainDir);
+
+  if (specs.length === 0) {
+    console.error('No specs parsed successfully from domain files');
+    return [];
+  }
+
+  console.log(`Parsed ${specs.length} resource types from domain files`);
 
   // Apply namespace scope overrides if provided
   if (scopeOverridesPath) {

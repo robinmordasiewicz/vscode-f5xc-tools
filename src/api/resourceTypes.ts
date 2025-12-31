@@ -18,6 +18,7 @@ import {
   API_ENDPOINTS,
   isBuiltInNamespace as generatedIsBuiltInNamespace,
 } from '../generated/constants';
+import { getLocalCategoryForDomain } from '../generated/domainCategories';
 
 /**
  * Namespace scope - which namespaces can access this resource type
@@ -154,8 +155,8 @@ interface ResourceTypeOverride {
   apiPath?: string;
   /** Override the generated displayName */
   displayName?: string;
-  /** Category for tree view grouping (required) */
-  category: ResourceCategory;
+  /** Category for tree view grouping (optional if domain provides category) */
+  category?: ResourceCategory;
   /** Whether the resource supports custom operations */
   supportsCustomOps?: boolean;
   /** Icon name (codicon) */
@@ -192,42 +193,42 @@ interface ResourceTypeOverride {
  */
 const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
   // =====================================================
-  // Load Balancing
+  // Load Balancing (domain: virtual → LoadBalancing)
   // =====================================================
   http_loadbalancer: {
     displayName: 'HTTP Load Balancers',
-    category: ResourceCategory.LoadBalancing,
+    // category auto-populated from domain: virtual
     supportsCustomOps: true,
     icon: 'globe',
     supportsLogs: true,
     supportsMetrics: true,
   },
   tcp_loadbalancer: {
-    category: ResourceCategory.LoadBalancing,
+    // category auto-populated from domain: virtual
     supportsCustomOps: false,
     icon: 'plug',
     supportsLogs: true,
     supportsMetrics: true,
   },
   udp_loadbalancer: {
-    category: ResourceCategory.LoadBalancing,
+    // category auto-populated from domain: virtual
     supportsCustomOps: false,
     icon: 'broadcast',
     supportsMetrics: true,
   },
   origin_pool: {
-    category: ResourceCategory.LoadBalancing,
+    // category auto-populated from domain: virtual
     supportsCustomOps: false,
     icon: 'server-environment',
     supportsMetrics: true,
   },
   cdn_loadbalancer: {
-    category: ResourceCategory.LoadBalancing,
+    // category auto-populated from domain: virtual
     supportsCustomOps: false,
     icon: 'cloud',
   },
   healthcheck: {
-    category: ResourceCategory.LoadBalancing,
+    // category auto-populated from domain: virtual
     supportsCustomOps: false,
     icon: 'heart',
   },
@@ -709,14 +710,40 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
 };
 
 /**
+ * Get category from domain mapping, or undefined if not mapped.
+ * Uses generated domain→upstream_category→local_category mapping from upstream index.json.
+ */
+function getCategoryFromDomain(domain: string | undefined): ResourceCategory | undefined {
+  if (!domain) {
+    return undefined;
+  }
+  const localCategory = getLocalCategoryForDomain(domain);
+  if (!localCategory) {
+    return undefined;
+  }
+  // Convert string to ResourceCategory enum value
+  // Check if localCategory is a valid ResourceCategory value
+  const categoryValues = Object.values(ResourceCategory) as string[];
+  if (categoryValues.includes(localCategory)) {
+    return localCategory as ResourceCategory;
+  }
+  return undefined;
+}
+
+/**
  * Merge generated resource type info with manual overrides.
  * Override values take precedence over generated values.
+ * Category is determined in priority order: override > domain mapping > Configuration fallback
  */
 function mergeResourceType(
   key: string,
   generated: GeneratedResourceTypeInfo | undefined,
   override: ResourceTypeOverride,
 ): ResourceTypeInfo {
+  // Determine category: override > domain mapping > Configuration fallback
+  const domainCategory = getCategoryFromDomain(generated?.domain);
+  const category = override.category ?? domainCategory ?? ResourceCategory.Configuration;
+
   // Start with defaults
   // For namespaceScope: use override first, then generated, then default to 'any'
   const result: ResourceTypeInfo = {
@@ -724,7 +751,7 @@ function mergeResourceType(
     displayName: override.displayName || generated?.displayName || key,
     description: generated?.description,
     schemaFile: generated?.schemaFile,
-    category: override.category,
+    category,
     supportsCustomOps: override.supportsCustomOps ?? false,
     icon: override.icon,
     supportsLogs: override.supportsLogs,

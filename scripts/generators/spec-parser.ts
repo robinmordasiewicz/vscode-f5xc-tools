@@ -49,6 +49,8 @@ export interface ParsedSpecInfo {
   namespaceScope: NamespaceScope;
   /** Documentation URL if available */
   documentationUrl?: string;
+  /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
+  domain?: string;
 }
 
 /**
@@ -58,6 +60,7 @@ interface OpenAPISpec {
   info?: {
     title?: string;
     description?: string;
+    'x-ves-cli-domain'?: string;
   };
   paths?: Record<string, PathItem>;
   externalDocs?: {
@@ -424,6 +427,7 @@ export function parseSpecFile(filePath: string): ParsedSpecInfo | null {
 /**
  * Parse all OpenAPI spec files in a directory.
  * Files are sorted alphabetically for deterministic processing order.
+ * @deprecated Use parseAllDomainFiles for new domain-based format
  */
 export function parseAllSpecs(specDir: string): ParsedSpecInfo[] {
   if (!fs.existsSync(specDir)) {
@@ -452,5 +456,198 @@ export function parseAllSpecs(specDir: string): ParsedSpecInfo[] {
   }
 
   console.log(`Successfully parsed ${results.length} unique resource types`);
+  return results;
+}
+
+// ============================================================================
+// Domain-based parsing functions for new merged spec format
+// ============================================================================
+
+/**
+ * Derive resource key from API path suffix.
+ * Example: "http_loadbalancers" -> "http_loadbalancer"
+ * Example: "app_firewalls" -> "app_firewall"
+ */
+export function deriveResourceKeyFromApiPath(apiPath: string): string {
+  // Remove trailing 's' for singular form
+  if (apiPath.endsWith('ies')) {
+    // policies -> policy (but F5 XC uses policys, so this may not apply)
+    return apiPath.slice(0, -3) + 'y';
+  }
+  if (apiPath.endsWith('ses')) {
+    // classes -> class
+    return apiPath.slice(0, -2);
+  }
+  if (apiPath.endsWith('s')) {
+    return apiPath.slice(0, -1);
+  }
+  return apiPath;
+}
+
+/**
+ * Derive schema ID from API path and operation ID.
+ * Example: operationId "ves.io.schema.app_firewall.API.Create" -> "ves.io.schema.app_firewall"
+ */
+function deriveSchemaIdFromPath(
+  apiPath: string,
+  pathItem: PathItem,
+): string {
+  // Try to get operationId from any method
+  for (const method of ['post', 'get', 'put', 'delete'] as const) {
+    const operation = pathItem[method] as { operationId?: string } | undefined;
+    if (operation?.operationId) {
+      // Extract schema ID from operationId
+      // "ves.io.schema.app_firewall.API.Create" -> "ves.io.schema.app_firewall"
+      const match = operation.operationId.match(/^(ves\.io\.schema\.[^.]+(?:\.[^.]+)*?)\.API\./);
+      if (match && match[1]) {
+        return match[1];
+      }
+    }
+  }
+  // Fallback: construct from apiPath
+  const resourceKey = deriveResourceKeyFromApiPath(apiPath);
+  return `ves.io.schema.${resourceKey}`;
+}
+
+/**
+ * Parse a domain file and extract all resource types.
+ * Domain files contain multiple resource types grouped by domain.
+ */
+export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
+  const filename = path.basename(filePath);
+  const results: ParsedSpecInfo[] = [];
+
+  let spec: OpenAPISpec;
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    spec = JSON.parse(content) as OpenAPISpec;
+  } catch (e) {
+    console.error(`Error parsing domain file ${filename}:`, e);
+    return [];
+  }
+
+  const domain = spec.info?.['x-ves-cli-domain'];
+  const paths = spec.paths;
+
+  if (!paths) {
+    return [];
+  }
+
+  // Pattern for list endpoints (plural resource path)
+  // Matches: /api/config/namespaces/{metadata.namespace}/http_loadbalancers
+  // Also matches extended paths: /api/config/dns/namespaces/{ns}/dns_zones
+  const listEndpointPattern =
+    /^\/api\/([a-z_-]+)(?:\/([a-z_]+))?\/namespaces\/(?:\{[^}]+\}|system|shared)\/([a-z_]+)$/;
+
+  const seen = new Set<string>();
+
+  for (const [pathKey, pathItem] of Object.entries(paths)) {
+    const match = pathKey.match(listEndpointPattern);
+    if (!match) {
+      continue;
+    }
+
+    const apiBase = match[1];
+    const serviceSegment = match[2]; // May be undefined
+    const apiPath = match[3];
+
+    // Skip if required parts are missing
+    if (!apiBase || !apiPath) {
+      continue;
+    }
+
+    // Skip if this is an item endpoint (ends with /{name})
+    if (pathKey.endsWith('}')) {
+      continue;
+    }
+
+    const resourceKey = deriveResourceKeyFromApiPath(apiPath);
+
+    // Skip duplicates (same resource may appear in different namespace patterns)
+    if (seen.has(resourceKey)) {
+      continue;
+    }
+    seen.add(resourceKey);
+
+    // Get display name from x-displayname extension
+    const displayNameRaw = pathItem['x-displayname'] || resourceKey;
+    // Clean up display name (remove trailing period, add 's' for plural)
+    let displayName = displayNameRaw.replace(/\.$/, '');
+    if (!displayName.endsWith('s') && !displayName.endsWith('ing')) {
+      displayName += 's';
+    }
+
+    // Get description from first operation
+    let description = '';
+    for (const method of ['get', 'post'] as const) {
+      const operation = pathItem[method] as { description?: string } | undefined;
+      if (operation?.description) {
+        description = normalizeDescription(operation.description);
+        break;
+      }
+    }
+
+    // Derive namespace scope from path
+    const namespaceScope = deriveNamespaceScope(pathKey);
+
+    // Build full API path
+    const fullApiPath = pathKey;
+
+    // Derive schema ID
+    const schemaId = deriveSchemaIdFromPath(apiPath, pathItem);
+
+    results.push({
+      resourceKey,
+      apiPath,
+      displayName,
+      description,
+      apiBase,
+      serviceSegment,
+      fullApiPath,
+      schemaFile: filename,
+      schemaId,
+      namespaceScoped: true,
+      namespaceScope,
+      domain,
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Parse all domain files in a directory.
+ * Domain files contain merged specs grouped by F5 XC domain (waf, virtual, dns, etc.)
+ */
+export function parseAllDomainFiles(domainDir: string): ParsedSpecInfo[] {
+  if (!fs.existsSync(domainDir)) {
+    console.error(`Domain directory not found: ${domainDir}`);
+    return [];
+  }
+
+  // Sort domain files alphabetically for deterministic processing order
+  const domainFiles = fs
+    .readdirSync(domainDir)
+    .filter((f) => f.endsWith('.json'))
+    .sort();
+  console.log(`Found ${domainFiles.length} domain files`);
+
+  const results: ParsedSpecInfo[] = [];
+  const seen = new Set<string>();
+
+  for (const filename of domainFiles) {
+    const filePath = path.join(domainDir, filename);
+    const domainResults = parseDomainFile(filePath);
+
+    for (const info of domainResults) {
+      // Handle duplicates across domain files (prefer first occurrence)
+      if (!seen.has(info.resourceKey)) {
+        seen.add(info.resourceKey);
+        results.push(info);
+      }
+    }
+  }
+
+  console.log(`Successfully parsed ${results.length} unique resource types from domain files`);
   return results;
 }
