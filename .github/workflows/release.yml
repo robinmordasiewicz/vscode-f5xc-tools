@@ -3,18 +3,20 @@ name: Release
 on:
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
+      # Match new version format: v1.0.77-YYMMDDHHMM or v1.0.77-YYMMDDHHMM-BETA
+      - "v[0-9]+.[0-9]+.[0-9]+-[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-[0-9]+-BETA"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  # Publish to Open VSX Registry
+  # Publish to Open VSX Registry (skip BETA releases)
   publish-openvsx:
     name: Publish to Open VSX
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.ref_name, '-') }}
+    if: ${{ !contains(github.ref_name, 'BETA') }}
 
     steps:
       - name: Checkout repository
@@ -49,11 +51,11 @@ jobs:
           extensionFile: ${{ steps.vsix.outputs.filename }}
           skipDuplicate: true
 
-  # Publish to VS Code Marketplace
+  # Publish to VS Code Marketplace (skip BETA releases)
   publish-marketplace:
     name: Publish to VS Marketplace
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.ref_name, '-') }}
+    if: ${{ !contains(github.ref_name, 'BETA') }}
 
     steps:
       - name: Checkout repository
