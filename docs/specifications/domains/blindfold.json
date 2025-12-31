@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -195,9 +188,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_management-customapi-getpublickey"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_management.CustomAPI.GetPublicKey",
-        "tags": [
-          "Security"
-        ],
+        "tags": ["Security"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all get-public-keys",
@@ -387,27 +378,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_management-customapi-getpolicydocument"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_management.CustomAPI.GetPolicyDocument",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific get-policy-document",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -575,40 +555,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare-customapi-decryptsecret"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare.CustomAPI.DecryptSecret",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "decrypt-secret"
-          ]
+          "creates": ["decrypt-secret"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new decrypt-secret",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Decrypt-secret resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "decrypt-secret"
-            ]
+            "creates": ["decrypt-secret"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -774,41 +740,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare-customapi-processpolicyinformation"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare.CustomAPI.ProcessPolicyInformation",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "process-policy-information"
-          ]
+          "creates": ["process-policy-information"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new process-policy-information",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": [
               "Process-policy-information resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "process-policy-information"
-            ]
+            "creates": ["process-policy-information"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -987,42 +938,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare-monitoringapi-voltshareaccesscountquery"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare.MonitoringAPI.VoltShareAccessCountQuery",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "access-count"
-          ]
+          "creates": ["access-count"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new access-count",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Access-count resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "access-count"
-            ]
+            "creates": ["access-count"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1201,42 +1136,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare-monitoringapi-auditlogquery"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare.MonitoringAPI.AuditLogQuery",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "audit-log"
-          ]
+          "creates": ["audit-log"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new audit-log",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Audit-log resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Audit-log resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "audit-log"
-            ]
+            "creates": ["audit-log"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1415,42 +1331,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare-monitoringapi-auditlogaggregationquery"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare.MonitoringAPI.AuditLogAggregationQuery",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "aggregation"
-          ]
+          "creates": ["aggregation"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new aggregation",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Aggregation resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "aggregation"
-            ]
+            "creates": ["aggregation"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1630,24 +1530,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare-monitoringapi-auditlogscrollquery"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare.MonitoringAPI.AuditLogScrollQuery",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all scrolls",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1823,42 +1715,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare-monitoringapi-auditlogscrollquery"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare.MonitoringAPI.AuditLogScrollQuery",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "scroll"
-          ]
+          "creates": ["scroll"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new scroll",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Scroll resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Scroll resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "scroll"
-            ]
+            "creates": ["scroll"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2037,42 +1910,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_management_access-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_management_access.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "secret-management-access"
-          ]
+          "creates": ["secret-management-access"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new secret-management-access",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Secret-management-access resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "secret-management-access"
-            ]
+            "creates": ["secret-management-access"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2262,39 +2119,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_management_access-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_management_access.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "secret-management-access"
-          ]
+          "modifies": ["secret-management-access"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing secret-management-access",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "secret-management-access"
-            ]
+            "modifies": ["secret-management-access"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2502,24 +2343,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_management_access-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_management_access.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all secret-management-accesss",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2721,26 +2554,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_management_access-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_management_access.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific secret-management-access",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2925,43 +2748,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_management_access-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_management_access.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "secret-management-access",
-            "contained_resources"
-          ]
+          "deletes": ["secret-management-access", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete secret-management-access",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "secret-management-access",
-              "contained_resources"
-            ]
+            "deletes": ["secret-management-access", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -3140,43 +2947,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.API.Create",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "secret-policy"
-          ]
+          "creates": ["secret-policy"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new secret-policy",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": [
               "Secret-policy resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "secret-policy"
-            ]
+            "creates": ["secret-policy"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3366,40 +3156,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.API.Replace",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "secret-policy"
-          ]
+          "modifies": ["secret-policy"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing secret-policy",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "secret-policy"
-            ]
+            "modifies": ["secret-policy"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3578,28 +3351,17 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-customapi-listpolicy"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.CustomAPI.ListPolicy",
-        "tags": [
-          "Security"
-        ],
+        "tags": ["Security"],
         "description": "Listpolicy CustomAPI.",
-        "x-ves-required-fields": [
-          "path.namespace",
-          "path.policy_state"
-        ],
+        "x-ves-required-fields": ["path.namespace", "path.policy_state"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all list-policys",
-          "required_fields": [
-            "path.namespace",
-            "path.policy_state"
-          ],
+          "required_fields": ["path.namespace", "path.policy_state"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3790,9 +3552,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-customapi-recoverpolicy"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.CustomAPI.RecoverPolicy",
-        "tags": [
-          "Security"
-        ],
+        "tags": ["Security"],
         "description": "Recoverpolicy CustomAPI.",
         "x-ves-required-fields": [
           "metadata.name",
@@ -3802,34 +3562,19 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "recover"
-          ]
+          "creates": ["recover"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new recover",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
-            "postconditions": [
-              "Recover resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
+            "postconditions": ["Recover resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "recover"
-            ]
+            "creates": ["recover"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4018,9 +3763,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-customapi-deletepolicy"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.CustomAPI.DeletePolicy",
-        "tags": [
-          "Security"
-        ],
+        "tags": ["Security"],
         "description": "Deletepolicy CustomAPI.",
         "x-ves-required-fields": [
           "metadata.name",
@@ -4030,34 +3773,19 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "softdelete"
-          ]
+          "creates": ["softdelete"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new softdelete",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
-            "postconditions": [
-              "Softdelete resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
+            "postconditions": ["Softdelete resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "softdelete"
-            ]
+            "creates": ["softdelete"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4265,25 +3993,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.API.List",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all secret-policys",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -4485,27 +4204,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.API.Get",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific secret-policy",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -4690,44 +4398,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy.API.Delete",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "secret-policy",
-            "contained_resources"
-          ]
+          "deletes": ["secret-policy", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete secret-policy",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "secret-policy",
-              "contained_resources"
-            ]
+            "deletes": ["secret-policy", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -4906,43 +4597,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy_rule-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy_rule.API.Create",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "secret-policy-rule"
-          ]
+          "creates": ["secret-policy-rule"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new secret-policy-rule",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": [
               "Secret-policy-rule resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "secret-policy-rule"
-            ]
+            "creates": ["secret-policy-rule"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -5132,40 +4806,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy_rule-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy_rule.API.Replace",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "secret-policy-rule"
-          ]
+          "modifies": ["secret-policy-rule"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing secret-policy-rule",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "secret-policy-rule"
-            ]
+            "modifies": ["secret-policy-rule"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -5373,25 +5030,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy_rule-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy_rule.API.List",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all secret-policy-rules",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -5593,27 +5241,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy_rule-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy_rule.API.Get",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific secret-policy-rule",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -5798,44 +5435,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-secret_policy_rule-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.secret_policy_rule.API.Delete",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "secret-policy-rule",
-            "contained_resources"
-          ]
+          "deletes": ["secret-policy-rule", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete secret-policy-rule",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "secret-policy-rule",
-              "contained_resources"
-            ]
+            "deletes": ["secret-policy-rule", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -6014,43 +5634,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare_admin_policy-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare_admin_policy.API.Create",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "voltshare-admin-policy"
-          ]
+          "creates": ["voltshare-admin-policy"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new voltshare-admin-policy",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": [
               "Voltshare-admin-policy resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "voltshare-admin-policy"
-            ]
+            "creates": ["voltshare-admin-policy"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -6240,40 +5843,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare_admin_policy-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare_admin_policy.API.Replace",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "voltshare-admin-policy"
-          ]
+          "modifies": ["voltshare-admin-policy"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing voltshare-admin-policy",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "voltshare-admin-policy"
-            ]
+            "modifies": ["voltshare-admin-policy"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -6481,25 +6067,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare_admin_policy-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare_admin_policy.API.List",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all voltshare-admin-policys",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -6701,27 +6278,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare_admin_policy-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare_admin_policy.API.Get",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific voltshare-admin-policy",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": []
           },
           "side_effects": {},
@@ -6906,44 +6472,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-voltshare_admin_policy-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.voltshare_admin_policy.API.Delete",
-        "tags": [
-          "Security"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Security"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "voltshare-admin-policy",
-            "contained_resources"
-          ]
+          "deletes": ["voltshare-admin-policy", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete voltshare-admin-policy",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace",
-              "Policy parameters defined"
-            ],
+            "prerequisites": ["Active namespace", "Policy parameters defined"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "voltshare-admin-policy",
-              "contained_resources"
-            ]
+            "deletes": ["voltshare-admin-policy", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -7108,11 +6657,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyMatcherType",
-          "required_fields": [
-            "exact_values",
-            "regex_values",
-            "transformers"
-          ],
+          "required_fields": ["exact_values", "regex_values", "transformers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact_values: value\n  regex_values: value\n  transformers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact_values\": \"value\",\n    \"regex_values\": \"value\",\n    \"transformers\": \"value\"\n  }\n}",
@@ -7124,11 +6669,7 @@
         "type": "string",
         "description": "The rule action determines the disposition of the input request API. If a policy matches a rule with an ALLOW action, the processing of the request proceeds\nforward. If it matches a rule with a DENY action, the processing of the request is terminated and an appropriate message/code returned to the originator. If\nit matches a rule with a NEXT_POLICY_SET action, evaluation of the current policy set terminates and evaluation of the next policy set in the chain begins.\n\n- DENY: DENY\n\nDeny the request.\n- ALLOW: ALLOW\n\nAllow the request to proceed.\n- NEXT_POLICY_SET: NEXT_POLICY_SET\n\nTerminate evaluation of the current policy set and begin evaluating the next policy set in the chain. Note that the evaluation of any remaining policies\nin the current policy set is skipped.\n- NEXT_POLICY: NEXT_POLICY\n\nTerminate evaluation of the current policy and begin evaluating the next policy in the policy set. Note that the evaluation of any remaining rules in the\ncurrent policy is skipped.\n- LAST_POLICY: LAST_POLICY\n\nTerminate evaluation of the current policy and begin evaluating the last policy in the policy set. Note that the evaluation of any remaining rules in the\ncurrent policy is skipped.\n- GOTO_POLICY: GOTO_POLICY\n\nTerminate evaluation of the current policy and begin evaluating a specific policy in the policy set. The policy is specified using the goto_policy field in\nthe rule and must be after the current policy in the policy set.",
         "title": "Rule Action.",
-        "enum": [
-          "DENY",
-          "ALLOW",
-          "NEXT_POLICY"
-        ],
+        "enum": ["DENY", "ALLOW", "NEXT_POLICY"],
         "default": "DENY",
         "x-displayname": "Rule Action.",
         "x-ves-proto-enum": "ves.io.schema.policy.RuleAction",
@@ -7146,11 +6687,7 @@
         "type": "string",
         "description": "The rule combining algorithm for a policy determines how the list of rules in the policy is evaluated.\nIf any of the rules is configured with a App Firewall action, the rule combining algorithm must be configured to be FIRST_MATCH.\n\n- FIRST_MATCH Rules are evaluated sequentially till a matching rule is identified\n- ALLOW_OVERRIDES Rules with an ALLOW action are evaluated prior to rules with a DENY action\n- DENY_OVERRIDES Rules with a DENY action are evaluated prior to rules with an ALLOW action\n\n- FIRST_MATCH: First Match\n\nRules are evaluated sequentially till a matching rule is identified\n- DENY_OVERRIDES: Deny Overrides\n\nRules with a DENY action are evaluated prior to rules with an ALLOW action\n- ALLOW_OVERRIDES: Allow Overrides\n\nRules with an ALLOW action are evaluated prior to rules with a DENY action.",
         "title": "RuleCombiningAlgorithm.",
-        "enum": [
-          "FIRST_MATCH",
-          "DENY_OVERRIDES",
-          "ALLOW_OVERRIDES"
-        ],
+        "enum": ["FIRST_MATCH", "DENY_OVERRIDES", "ALLOW_OVERRIDES"],
         "default": "FIRST_MATCH",
         "x-displayname": "Rule Combining Algorithm.",
         "x-ves-proto-enum": "ves.io.schema.policy.RuleCombiningAlgorithm",
@@ -7215,9 +6752,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaLabelMatcherType",
-          "required_fields": [
-            "keys"
-          ],
+          "required_fields": ["keys"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaLabelMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  keys: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"keys\": \"value\"\n  }\n}",
@@ -7274,9 +6809,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaLabelSelectorType",
-          "required_fields": [
-            "expressions"
-          ],
+          "required_fields": ["expressions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaLabelSelectorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  expressions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"expressions\": \"value\"\n  }\n}",
@@ -7326,12 +6859,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemasecret_policy_ruleGlobalSpecType",
-          "required_fields": [
-            "action",
-            "client_name",
-            "client_name_matcher",
-            "client_selector"
-          ],
+          "required_fields": ["action", "client_name", "client_name_matcher", "client_selector"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemasecret_policy_ruleGlobalSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  action: value\n  client_name: value\n  client_name_matcher: value\n  client_selector: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"action\": \"value\",\n    \"client_name\": \"value\",\n    \"client_name_matcher\": \"value\",\n    \"client_selector\": \"value\"\n  }\n}",
@@ -7352,9 +6880,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_managementGetPolicyDocumentResponse",
-          "required_fields": [
-            "data"
-          ],
+          "required_fields": ["data"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_managementGetPolicyDocumentResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\"\n  }\n}",
@@ -7375,9 +6901,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_managementGetPublicKeyResponse",
-          "required_fields": [
-            "data"
-          ],
+          "required_fields": ["data"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_managementGetPublicKeyResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\"\n  }\n}",
@@ -7460,12 +6984,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_managementKeyData",
-          "required_fields": [
-            "key_version",
-            "modulus_base64",
-            "public_exponent_base64",
-            "tenant"
-          ],
+          "required_fields": ["key_version", "modulus_base64", "public_exponent_base64", "tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_managementKeyData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key_version: value\n  modulus_base64: value\n  public_exponent_base64: value\n  tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key_version\": \"value\",\n    \"modulus_base64\": \"value\",\n    \"public_exponent_base64\": \"value\",\n    \"tenant\": \"value\"\n  }\n}",
@@ -7568,13 +7087,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_managementPolicyData",
-          "required_fields": [
-            "name",
-            "namespace",
-            "policy_id",
-            "policy_info",
-            "tenant"
-          ],
+          "required_fields": ["name", "namespace", "policy_id", "policy_info", "tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_managementPolicyData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  policy_id: value\n  policy_info: value\n  tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"policy_id\": \"value\",\n    \"policy_info\": \"value\",\n    \"tenant\": \"value\"\n  }\n}",
@@ -7610,10 +7123,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_managementPolicyInfoType",
-          "required_fields": [
-            "algo",
-            "rules"
-          ],
+          "required_fields": ["algo", "rules"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_managementPolicyInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  algo: value\n  rules: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"algo\": \"value\",\n    \"rules\": \"value\"\n  }\n}",
@@ -7635,10 +7145,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logAggregationRequest",
-          "required_fields": [
-            "date_aggregation",
-            "field_aggregation"
-          ],
+          "required_fields": ["date_aggregation", "field_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logAggregationRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  date_aggregation: value\n  field_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"date_aggregation\": \"value\",\n    \"field_aggregation\": \"value\"\n  }\n}",
@@ -7670,9 +7177,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logAvgAggregationData",
-          "required_fields": [
-            "value"
-          ],
+          "required_fields": ["value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logAvgAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"value\": \"value\"\n  }\n}",
@@ -7705,10 +7210,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logCardinalityAggregationData",
-          "required_fields": [
-            "count",
-            "trend_value"
-          ],
+          "required_fields": ["count", "trend_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logCardinalityAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  trend_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"trend_value\": \"value\"\n  }\n}",
@@ -7749,10 +7251,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateAggregation",
-          "required_fields": [
-            "step",
-            "sub_aggs"
-          ],
+          "required_fields": ["step", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  step: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"step\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -7810,12 +7309,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateAggregationBucket",
-          "required_fields": [
-            "count",
-            "sub_aggs",
-            "time",
-            "trend_value"
-          ],
+          "required_fields": ["count", "sub_aggs", "time", "trend_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  sub_aggs: value\n  time: value\n  trend_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"time\": \"value\",\n    \"trend_value\": \"value\"\n  }\n}",
@@ -7859,10 +7353,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateAggregationData",
-          "required_fields": [
-            "buckets",
-            "step"
-          ],
+          "required_fields": ["buckets", "step"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value\n  step: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\",\n    \"step\": \"value\"\n  }\n}",
@@ -7881,9 +7372,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateSubAggregation",
-          "required_fields": [
-            "field_aggregation"
-          ],
+          "required_fields": ["field_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateSubAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field_aggregation\": \"value\"\n  }\n}",
@@ -7905,10 +7394,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logDateSubAggregationData",
-          "required_fields": [
-            "field_aggregation",
-            "multi_field_aggregation"
-          ],
+          "required_fields": ["field_aggregation", "multi_field_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logDateSubAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field_aggregation: value\n  multi_field_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field_aggregation\": \"value\",\n    \"multi_field_aggregation\": \"value\"\n  }\n}",
@@ -7942,10 +7428,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldAggregation",
-          "required_fields": [
-            "field",
-            "topk"
-          ],
+          "required_fields": ["field", "topk"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldAggregation\nmetadata:\n  name: example\n  namespace: default\nspec:\n  field: value\n  topk: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"field\": \"value\",\n    \"topk\": \"value\"\n  }\n}",
@@ -8009,13 +7492,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "key",
-            "order_by",
-            "sub_aggs",
-            "trend_value"
-          ],
+          "required_fields": ["count", "key", "order_by", "sub_aggs", "trend_value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value\n  order_by: value\n  sub_aggs: value\n  trend_value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\",\n    \"order_by\": \"value\",\n    \"sub_aggs\": \"value\",\n    \"trend_value\": \"value\"\n  }\n}",
@@ -8045,9 +7522,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -8097,11 +7572,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldSubAggregationBucket",
-          "required_fields": [
-            "count",
-            "key",
-            "order_by"
-          ],
+          "required_fields": ["count", "key", "order_by"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldSubAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value\n  order_by: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\",\n    \"order_by\": \"value\"\n  }\n}",
@@ -8204,10 +7675,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldSubFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "key"
-          ],
+          "required_fields": ["count", "key"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldSubFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\"\n  }\n}",
@@ -8237,9 +7705,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFieldSubFieldAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFieldSubFieldAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -8280,10 +7746,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFilterAggregationData",
-          "required_fields": [
-            "count",
-            "sub_aggs"
-          ],
+          "required_fields": ["count", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFilterAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -8313,9 +7776,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFilterSubAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFilterSubAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -8373,11 +7834,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logFilterSubFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "key",
-            "sub_aggs"
-          ],
+          "required_fields": ["count", "key", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logFilterSubFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  key: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"key\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -8494,9 +7951,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMaxAggregationData",
-          "required_fields": [
-            "value"
-          ],
+          "required_fields": ["value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMaxAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"value\": \"value\"\n  }\n}",
@@ -8515,9 +7970,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMetricsAggregationData",
-          "required_fields": [
-            "percentile"
-          ],
+          "required_fields": ["percentile"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMetricsAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  percentile: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"percentile\": \"value\"\n  }\n}",
@@ -8549,9 +8002,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMinAggregationData",
-          "required_fields": [
-            "value"
-          ],
+          "required_fields": ["value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMinAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"value\": \"value\"\n  }\n}",
@@ -8607,12 +8058,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMultiFieldAggregationBucket",
-          "required_fields": [
-            "count",
-            "keys",
-            "order_by",
-            "sub_aggs"
-          ],
+          "required_fields": ["count", "keys", "order_by", "sub_aggs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMultiFieldAggregationBucket\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  keys: value\n  order_by: value\n  sub_aggs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"keys\": \"value\",\n    \"order_by\": \"value\",\n    \"sub_aggs\": \"value\"\n  }\n}",
@@ -8642,9 +8088,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMultiFieldAggregationData",
-          "required_fields": [
-            "buckets"
-          ],
+          "required_fields": ["buckets"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMultiFieldAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  buckets: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"buckets\": \"value\"\n  }\n}",
@@ -8711,9 +8155,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logMultiFilterAggregationData",
-          "required_fields": [
-            "count"
-          ],
+          "required_fields": ["count"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logMultiFilterAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\"\n  }\n}",
@@ -8732,9 +8174,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logOrderByData",
-          "required_fields": [
-            "metrics_aggregation"
-          ],
+          "required_fields": ["metrics_aggregation"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logOrderByData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  metrics_aggregation: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"metrics_aggregation\": \"value\"\n  }\n}",
@@ -8782,10 +8222,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logPercentileAggregationData",
-          "required_fields": [
-            "key",
-            "value"
-          ],
+          "required_fields": ["key", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logPercentileAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -8829,10 +8266,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for logTopHitsAggregationData",
-          "required_fields": [
-            "count",
-            "documents"
-          ],
+          "required_fields": ["count", "documents"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for logTopHitsAggregationData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  count: value\n  documents: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"count\": \"value\",\n    \"documents\": \"value\"\n  }\n}",
@@ -8868,10 +8302,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsVoltShareAccessCounter",
-          "required_fields": [
-            "id",
-            "metric"
-          ],
+          "required_fields": ["id", "metric"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsVoltShareAccessCounter\nmetadata:\n  name: example\n  namespace: default\nspec:\n  id: value\n  metric: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"id\": \"value\",\n    \"metric\": \"value\"\n  }\n}",
@@ -8949,12 +8380,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsVoltShareAccessId",
-          "required_fields": [
-            "country",
-            "operation",
-            "result",
-            "user_tenant"
-          ],
+          "required_fields": ["country", "operation", "result", "user_tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsVoltShareAccessId\nmetadata:\n  name: example\n  namespace: default\nspec:\n  country: value\n  operation: value\n  result: value\n  user_tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"country\": \"value\",\n    \"operation\": \"value\",\n    \"result\": \"value\",\n    \"user_tenant\": \"value\"\n  }\n}",
@@ -8966,12 +8392,7 @@
         "type": "string",
         "description": "VoltShare Access metric can be sliced and diced based\non one or more labels listed below.",
         "title": "MetricLabel.",
-        "enum": [
-          "OPERATION",
-          "RESULT",
-          "USER_TENANT",
-          "COUNTRY"
-        ],
+        "enum": ["OPERATION", "RESULT", "USER_TENANT", "COUNTRY"],
         "default": "OPERATION",
         "x-displayname": "VoltShare Access Metric Labels.",
         "x-ves-proto-enum": "ves.io.schema.voltshare.metrics.VoltShareMetricLabel",
@@ -9019,11 +8440,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsVoltShareMetricLabelFilter",
-          "required_fields": [
-            "label",
-            "op",
-            "value"
-          ],
+          "required_fields": ["label", "op", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsVoltShareMetricLabelFilter\nmetadata:\n  name: example\n  namespace: default\nspec:\n  label: value\n  op: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"label\": \"value\",\n    \"op\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -9035,10 +8452,7 @@
         "type": "string",
         "description": "The operator to use when querying VoltShare Access metrics with labels.",
         "title": "MetricLabelOp.",
-        "enum": [
-          "EQ",
-          "NEQ"
-        ],
+        "enum": ["EQ", "NEQ"],
         "default": "EQ",
         "x-displayname": "VoltShare Access Metric Label Operator.",
         "x-ves-proto-enum": "ves.io.schema.voltshare.metrics.VoltShareMetricLabelOp",
@@ -9094,10 +8508,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for metricsVoltShareMetricValue",
-          "required_fields": [
-            "timestamp",
-            "value"
-          ],
+          "required_fields": ["timestamp", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for metricsVoltShareMetricValue\nmetadata:\n  name: example\n  namespace: default\nspec:\n  timestamp: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"timestamp\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -9109,10 +8520,7 @@
         "type": "string",
         "description": "Sort algorithm\n\nSort in descending order\nSort in ascending order.",
         "title": "SortOrder",
-        "enum": [
-          "DESCENDING",
-          "ASCENDING"
-        ],
+        "enum": ["DESCENDING", "ASCENDING"],
         "default": "DESCENDING",
         "x-displayname": "Sort Order.",
         "x-ves-proto-enum": "ves.io.schema.SortOrder",
@@ -9130,11 +8538,7 @@
         "type": "string",
         "description": "X-displayName: \"Trend Sentiment\"\ntrend sentiment\n\n- TREND_SENTIMENT_NONE: x-displayName: \"None\"\n- TREND_SENTIMENT_POSITIVE: x-displayName: \"Positive\"\nIndicates trend sentiment is positive\n- TREND_SENTIMENT_NEGATIVE: x-displayName: \"Negative\"\nIndicates trend sentiment is negative.",
         "title": "Trend Sentiment.",
-        "enum": [
-          "TREND_SENTIMENT_NONE",
-          "TREND_SENTIMENT_POSITIVE",
-          "TREND_SENTIMENT_NEGATIVE"
-        ],
+        "enum": ["TREND_SENTIMENT_NONE", "TREND_SENTIMENT_POSITIVE", "TREND_SENTIMENT_NEGATIVE"],
         "default": "TREND_SENTIMENT_NONE",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaTrendSentiment",
@@ -9205,12 +8609,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaTrendValue",
-          "required_fields": [
-            "description",
-            "previous_value",
-            "sentiment",
-            "value"
-          ],
+          "required_fields": ["description", "previous_value", "sentiment", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaTrendValue\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  previous_value: value\n  sentiment: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"previous_value\": \"value\",\n    \"sentiment\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -9317,13 +8716,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareAuditLogAggregationRequest",
-          "required_fields": [
-            "aggs",
-            "end_time",
-            "namespace",
-            "query",
-            "start_time"
-          ],
+          "required_fields": ["aggs", "end_time", "namespace", "query", "start_time"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareAuditLogAggregationRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  end_time: value\n  namespace: value\n  query: value\n  start_time: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"end_time\": \"value\",\n    \"namespace\": \"value\",\n    \"query\": \"value\",\n    \"start_time\": \"value\"\n  }\n}",
@@ -9369,10 +8762,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareAuditLogAggregationResponse",
-          "required_fields": [
-            "aggs",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareAuditLogAggregationResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -9599,12 +8989,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareAuditLogResponse",
-          "required_fields": [
-            "aggs",
-            "logs",
-            "scroll_id",
-            "total_hits"
-          ],
+          "required_fields": ["aggs", "logs", "scroll_id", "total_hits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareAuditLogResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aggs: value\n  logs: value\n  scroll_id: value\n  total_hits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aggs\": \"value\",\n    \"logs\": \"value\",\n    \"scroll_id\": \"value\",\n    \"total_hits\": \"value\"\n  }\n}",
@@ -9656,10 +9041,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareAuditLogScrollRequest",
-          "required_fields": [
-            "namespace",
-            "scroll_id"
-          ],
+          "required_fields": ["namespace", "scroll_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareAuditLogScrollRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value\n  scroll_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\",\n    \"scroll_id\": \"value\"\n  }\n}",
@@ -9763,9 +9145,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareDecryptSecretResponse",
-          "required_fields": [
-            "blinded_key_base64"
-          ],
+          "required_fields": ["blinded_key_base64"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareDecryptSecretResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  blinded_key_base64: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"blinded_key_base64\": \"value\"\n  }\n}",
@@ -9915,10 +9295,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltsharePolicyType",
-          "required_fields": [
-            "allowed_users",
-            "expiration_timestamp"
-          ],
+          "required_fields": ["allowed_users", "expiration_timestamp"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltsharePolicyType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  allowed_users: value\n  expiration_timestamp: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"allowed_users\": \"value\",\n    \"expiration_timestamp\": \"value\"\n  }\n}",
@@ -9968,10 +9345,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareProcessPolicyRequest",
-          "required_fields": [
-            "policy",
-            "secret_name"
-          ],
+          "required_fields": ["policy", "secret_name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareProcessPolicyRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  policy: value\n  secret_name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"policy\": \"value\",\n    \"secret_name\": \"value\"\n  }\n}",
@@ -10022,11 +9396,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareProcessPolicyResponse",
-          "required_fields": [
-            "policy_document",
-            "policy_document_hmac_base64",
-            "public_key"
-          ],
+          "required_fields": ["policy_document", "policy_document_hmac_base64", "public_key"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareProcessPolicyResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  policy_document: value\n  policy_document_hmac_base64: value\n  public_key: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"policy_document\": \"value\",\n    \"policy_document_hmac_base64\": \"value\",\n    \"public_key\": \"value\"\n  }\n}",
@@ -10103,10 +9473,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareUserRecordType",
-          "required_fields": [
-            "email",
-            "tenant"
-          ],
+          "required_fields": ["email", "tenant"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareUserRecordType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  email: value\n  tenant: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"email\": \"value\",\n    \"tenant\": \"value\"\n  }\n}",
@@ -10300,10 +9667,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshareVoltShareAccessCountResponse",
-          "required_fields": [
-            "data",
-            "step"
-          ],
+          "required_fields": ["data", "step"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshareVoltShareAccessCountResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  data: value\n  step: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"data\": \"value\",\n    \"step\": \"value\"\n  }\n}",
@@ -10362,10 +9726,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protobufAny",
-          "required_fields": [
-            "type_url",
-            "value"
-          ],
+          "required_fields": ["type_url", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protobufAny\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type_url: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type_url\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -10402,10 +9763,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaAppRoleAuthInfoType",
-          "required_fields": [
-            "role_id",
-            "secret_id"
-          ],
+          "required_fields": ["role_id", "secret_id"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaAppRoleAuthInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  role_id: value\n  secret_id: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"role_id\": \"value\",\n    \"secret_id\": \"value\"\n  }\n}",
@@ -10441,10 +9799,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaAuthnTypeBasicAuth",
-          "required_fields": [
-            "password",
-            "username"
-          ],
+          "required_fields": ["password", "username"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaAuthnTypeBasicAuth\nmetadata:\n  name: example\n  namespace: default\nspec:\n  password: value\n  username: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"password\": \"value\",\n    \"username\": \"value\"\n  }\n}",
@@ -10487,9 +9842,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaAuthnTypeHeaders",
-          "required_fields": [
-            "headers"
-          ],
+          "required_fields": ["headers"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaAuthnTypeHeaders\nmetadata:\n  name: example\n  namespace: default\nspec:\n  headers: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"headers\": \"value\"\n  }\n}",
@@ -10532,9 +9885,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaAuthnTypeQueryParams",
-          "required_fields": [
-            "query_params"
-          ],
+          "required_fields": ["query_params"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaAuthnTypeQueryParams\nmetadata:\n  name: example\n  namespace: default\nspec:\n  query_params: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"query_params\": \"value\"\n  }\n}",
@@ -10612,11 +9963,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaBlindfoldSecretInfoType",
-          "required_fields": [
-            "decryption_provider",
-            "location",
-            "store_provider"
-          ],
+          "required_fields": ["decryption_provider", "location", "store_provider"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaBlindfoldSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  decryption_provider: value\n  location: value\n  store_provider: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"decryption_provider\": \"value\",\n    \"location\": \"value\",\n    \"store_provider\": \"value\"\n  }\n}",
@@ -10683,10 +10030,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaClearSecretInfoType",
-          "required_fields": [
-            "provider",
-            "url"
-          ],
+          "required_fields": ["provider", "url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaClearSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  provider: value\n  url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"provider\": \"value\",\n    \"url\": \"value\"\n  }\n}",
@@ -10886,11 +10230,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaErrorType",
-          "required_fields": [
-            "code",
-            "error_obj",
-            "message"
-          ],
+          "required_fields": ["code", "error_obj", "message"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaErrorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  error_obj: value\n  message: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"error_obj\": \"value\",\n    \"message\": \"value\"\n  }\n}",
@@ -10902,11 +10242,7 @@
         "type": "string",
         "description": "Specifies the Hash Algorithm to be used\n\nInvalid hash algorithm\nsha256 hash algorithm\nsha1 hash algorithm.",
         "title": "HashAlgoritm.",
-        "enum": [
-          "INVALID_HASH_ALGORITHM",
-          "SHA256",
-          "SHA1"
-        ],
+        "enum": ["INVALID_HASH_ALGORITHM", "SHA256", "SHA1"],
         "default": "INVALID_HASH_ALGORITHM",
         "x-displayname": "Hash Algorithm.",
         "x-ves-proto-enum": "ves.io.schema.HashAlgorithm",
@@ -10964,9 +10300,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaHashAlgorithms",
-          "required_fields": [
-            "hash_algorithms"
-          ],
+          "required_fields": ["hash_algorithms"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaHashAlgorithms\nmetadata:\n  name: example\n  namespace: default\nspec:\n  hash_algorithms: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"hash_algorithms\": \"value\"\n  }\n}",
@@ -11068,9 +10402,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializerType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -11106,10 +10438,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializersType",
-          "required_fields": [
-            "pending",
-            "result"
-          ],
+          "required_fields": ["pending", "result"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pending: value\n  result: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pending\": \"value\",\n    \"result\": \"value\"\n  }\n}",
@@ -11154,9 +10483,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaNetworkRefType",
-          "required_fields": [
-            "ref"
-          ],
+          "required_fields": ["ref"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaNetworkRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  ref: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"ref\": \"value\"\n  }\n}",
@@ -11184,11 +10511,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaNetworkSiteRefSelector",
-          "required_fields": [
-            "site",
-            "virtual_network",
-            "virtual_site"
-          ],
+          "required_fields": ["site", "virtual_network", "virtual_site"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaNetworkSiteRefSelector\nmetadata:\n  name: example\n  namespace: default\nspec:\n  site: value\n  virtual_network: value\n  virtual_site: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"site\": \"value\",\n    \"virtual_network\": \"value\",\n    \"virtual_site\": \"value\"\n  }\n}",
@@ -11602,13 +10925,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -11785,11 +11102,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaRestAuthInfoType",
-          "required_fields": [
-            "basic_auth",
-            "headers_auth",
-            "query_params_auth"
-          ],
+          "required_fields": ["basic_auth", "headers_auth", "query_params_auth"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaRestAuthInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  basic_auth: value\n  headers_auth: value\n  query_params_auth: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"basic_auth\": \"value\",\n    \"headers_auth\": \"value\",\n    \"query_params_auth\": \"value\"\n  }\n}",
@@ -11801,10 +11114,7 @@
         "type": "string",
         "description": "X-displayName: \"Secret Encoding\"\nSecretEncodingType defines the encoding type of the secret before handled by the Secret Management Service.\n\n- EncodingNone: x-displayName: \"None\"\nNo Encoding\n- EncodingBase64: Base64\n\nx-displayName: \"Base64\"\nBase64 encoding.",
         "title": "SecretEncodingType.",
-        "enum": [
-          "EncodingNone",
-          "EncodingBase64"
-        ],
+        "enum": ["EncodingNone", "EncodingBase64"],
         "default": "EncodingNone",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSecretEncodingType",
@@ -11833,10 +11143,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSecretType",
-          "required_fields": [
-            "blindfold_secret_info",
-            "clear_secret_info"
-          ],
+          "required_fields": ["blindfold_secret_info", "clear_secret_info"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaSecretType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  blindfold_secret_info: value\n  clear_secret_info: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"blindfold_secret_info\": \"value\",\n    \"clear_secret_info\": \"value\"\n  }\n}",
@@ -11891,12 +11198,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaSiteRefType",
-          "required_fields": [
-            "disable_internet_vip",
-            "enable_internet_vip",
-            "network_type",
-            "ref"
-          ],
+          "required_fields": ["disable_internet_vip", "enable_internet_vip", "network_type", "ref"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaSiteRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  disable_internet_vip: value\n  enable_internet_vip: value\n  network_type: value\n  ref: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"disable_internet_vip\": \"value\",\n    \"enable_internet_vip\": \"value\",\n    \"network_type\": \"value\",\n    \"ref\": \"value\"\n  }\n}",
@@ -12049,10 +11351,7 @@
         "type": "string",
         "description": "StatusPublishType is all possible publish operations on a StatusObject\n\n- STATUS_DO_NOT_PUBLISH: Do Not Publish\n\nDo not propagate this status to user. This could be because status is only informational\n- STATUS_PUBLISH: Publish\n\nPropagate this status up to user as it might be actionable.",
         "title": "StatusPublishType.",
-        "enum": [
-          "STATUS_DO_NOT_PUBLISH",
-          "STATUS_PUBLISH"
-        ],
+        "enum": ["STATUS_DO_NOT_PUBLISH", "STATUS_PUBLISH"],
         "default": "STATUS_DO_NOT_PUBLISH",
         "x-displayname": "Status Publish Type.",
         "x-ves-proto-enum": "ves.io.schema.StatusPublishType",
@@ -12128,11 +11427,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaStatusType",
-          "required_fields": [
-            "code",
-            "reason",
-            "status"
-          ],
+          "required_fields": ["code", "reason", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  reason: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"reason\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -12508,13 +11803,7 @@
         "type": "string",
         "description": "TlsProtocol is enumeration of supported TLS versions\n\nF5 Distributed Cloud will choose the optimal TLS version.",
         "title": "TlsProtocol.",
-        "enum": [
-          "TLS_AUTO",
-          "TLSv1_0",
-          "TLSv1_1",
-          "TLSv1_2",
-          "TLSv1_3"
-        ],
+        "enum": ["TLS_AUTO", "TLSv1_0", "TLSv1_1", "TLSv1_2", "TLSv1_3"],
         "default": "TLS_AUTO",
         "x-displayname": "TLS Protocol.",
         "x-ves-proto-enum": "ves.io.schema.TlsProtocol",
@@ -12641,9 +11930,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaTrustedCAList",
-          "required_fields": [
-            "trusted_ca_list"
-          ],
+          "required_fields": ["trusted_ca_list"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaTrustedCAList\nmetadata:\n  name: example\n  namespace: default\nspec:\n  trusted_ca_list: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"trusted_ca_list\": \"value\"\n  }\n}",
@@ -12655,10 +11942,7 @@
         "type": "string",
         "description": "SchemeType is used to indicate URL scheme\n\nHTTP:// scheme\nHTTPS:// scheme.",
         "title": "URLSchemeType.",
-        "enum": [
-          "HTTP",
-          "HTTPS"
-        ],
+        "enum": ["HTTP", "HTTPS"],
         "default": "HTTP",
         "x-displayname": "URL Scheme.",
         "x-ves-proto-enum": "ves.io.schema.URLSchemeType",
@@ -12907,12 +12191,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaVSiteRefType",
-          "required_fields": [
-            "disable_internet_vip",
-            "enable_internet_vip",
-            "network_type",
-            "ref"
-          ],
+          "required_fields": ["disable_internet_vip", "enable_internet_vip", "network_type", "ref"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaVSiteRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  disable_internet_vip: value\n  enable_internet_vip: value\n  network_type: value\n  ref: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"disable_internet_vip\": \"value\",\n    \"enable_internet_vip\": \"value\",\n    \"network_type\": \"value\",\n    \"ref\": \"value\"\n  }\n}",
@@ -12937,10 +12216,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaVaultAuthInfoType",
-          "required_fields": [
-            "app_role_auth",
-            "token"
-          ],
+          "required_fields": ["app_role_auth", "token"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaVaultAuthInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  app_role_auth: value\n  token: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"app_role_auth\": \"value\",\n    \"token\": \"value\"\n  }\n}",
@@ -13029,13 +12305,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaVaultSecretInfoType",
-          "required_fields": [
-            "key",
-            "location",
-            "provider",
-            "secret_encoding",
-            "version"
-          ],
+          "required_fields": ["key", "location", "provider", "secret_encoding", "version"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaVaultSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  key: value\n  location: value\n  provider: value\n  secret_encoding: value\n  version: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"key\": \"value\",\n    \"location\": \"value\",\n    \"provider\": \"value\",\n    \"secret_encoding\": \"value\",\n    \"version\": \"value\"\n  }\n}",
@@ -13127,12 +12397,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaViewRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaViewRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -13197,9 +12462,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaWingmanSecretInfoType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaWingmanSecretInfoType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -13223,10 +12486,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -13250,11 +12510,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -13307,11 +12563,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessCreateSpecType",
-          "required_fields": [
-            "access_info",
-            "provider_name",
-            "where"
-          ],
+          "required_fields": ["access_info", "provider_name", "where"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  access_info: value\n  provider_name: value\n  where: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"access_info\": \"value\",\n    \"provider_name\": \"value\",\n    \"where\": \"value\"\n  }\n}",
@@ -13378,11 +12630,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -13566,11 +12814,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessGetSpecType",
-          "required_fields": [
-            "access_info",
-            "provider_name",
-            "where"
-          ],
+          "required_fields": ["access_info", "provider_name", "where"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  access_info: value\n  provider_name: value\n  where: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"access_info\": \"value\",\n    \"provider_name\": \"value\",\n    \"where\": \"value\"\n  }\n}",
@@ -13618,10 +12862,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -13833,10 +13074,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -13902,11 +13140,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessReplaceSpecType",
-          "required_fields": [
-            "access_info",
-            "provider_name",
-            "where"
-          ],
+          "required_fields": ["access_info", "provider_name", "where"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  access_info: value\n  provider_name: value\n  where: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"access_info\": \"value\",\n    \"provider_name\": \"value\",\n    \"where\": \"value\"\n  }\n}",
@@ -13957,11 +13191,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_management_accessStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_management_accessStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -14075,13 +13305,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for ioschemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for ioschemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -14156,10 +13380,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaMessageMetaType",
-          "required_fields": [
-            "description",
-            "name"
-          ],
+          "required_fields": ["description", "name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaMessageMetaType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"name\": \"value\"\n  }\n}",
@@ -14208,11 +13429,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemasecret_policyCreateSpecType",
-          "required_fields": [
-            "allow_f5xc",
-            "decrypt_cache_timeout",
-            "rule_list"
-          ],
+          "required_fields": ["allow_f5xc", "decrypt_cache_timeout", "rule_list"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemasecret_policyCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  allow_f5xc: value\n  decrypt_cache_timeout: value\n  rule_list: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"allow_f5xc\": \"value\",\n    \"decrypt_cache_timeout\": \"value\",\n    \"rule_list\": \"value\"\n  }\n}",
@@ -14380,10 +13597,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -14407,11 +13621,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -14478,11 +13688,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -14654,9 +13860,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyLegacyRuleList",
-          "required_fields": [
-            "rules"
-          ],
+          "required_fields": ["rules"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyLegacyRuleList\nmetadata:\n  name: example\n  namespace: default\nspec:\n  rules: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"rules\": \"value\"\n  }\n}",
@@ -14704,10 +13908,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyListPolicyResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyListPolicyResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -14922,10 +14123,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -15183,10 +14381,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyRecoverRequest",
-          "required_fields": [
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyRecoverRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -15223,9 +14418,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyRecoverResponse",
-          "required_fields": [
-            "status"
-          ],
+          "required_fields": ["status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyRecoverResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"status\": \"value\"\n  }\n}",
@@ -15249,10 +14442,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -15289,10 +14479,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyRule",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyRule\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -15336,9 +14523,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyRuleList",
-          "required_fields": [
-            "rules"
-          ],
+          "required_fields": ["rules"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyRuleList\nmetadata:\n  name: example\n  namespace: default\nspec:\n  rules: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"rules\": \"value\"\n  }\n}",
@@ -15408,10 +14593,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policySoftDeleteRequest",
-          "required_fields": [
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policySoftDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -15448,9 +14630,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policySoftDeleteResponse",
-          "required_fields": [
-            "status"
-          ],
+          "required_fields": ["status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policySoftDeleteResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"status\": \"value\"\n  }\n}",
@@ -15501,11 +14681,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policyStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policyStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -15594,10 +14770,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for policyMatcherTypeBasic",
-          "required_fields": [
-            "exact_values",
-            "regex_values"
-          ],
+          "required_fields": ["exact_values", "regex_values"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for policyMatcherTypeBasic\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact_values: value\n  regex_values: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact_values\": \"value\",\n    \"regex_values\": \"value\"\n  }\n}",
@@ -15646,12 +14819,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemasecret_policy_ruleCreateSpecType",
-          "required_fields": [
-            "action",
-            "client_name",
-            "client_name_matcher",
-            "client_selector"
-          ],
+          "required_fields": ["action", "client_name", "client_name_matcher", "client_selector"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemasecret_policy_ruleCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  action: value\n  client_name: value\n  client_name_matcher: value\n  client_selector: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"action\": \"value\",\n    \"client_name\": \"value\",\n    \"client_name_matcher\": \"value\",\n    \"client_selector\": \"value\"\n  }\n}",
@@ -15700,12 +14868,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemasecret_policy_ruleGetSpecType",
-          "required_fields": [
-            "action",
-            "client_name",
-            "client_name_matcher",
-            "client_selector"
-          ],
+          "required_fields": ["action", "client_name", "client_name_matcher", "client_selector"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemasecret_policy_ruleGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  action: value\n  client_name: value\n  client_name_matcher: value\n  client_selector: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"action\": \"value\",\n    \"client_name\": \"value\",\n    \"client_name_matcher\": \"value\",\n    \"client_selector\": \"value\"\n  }\n}",
@@ -15754,12 +14917,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemasecret_policy_ruleReplaceSpecType",
-          "required_fields": [
-            "action",
-            "client_name",
-            "client_name_matcher",
-            "client_selector"
-          ],
+          "required_fields": ["action", "client_name", "client_name_matcher", "client_selector"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemasecret_policy_ruleReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  action: value\n  client_name: value\n  client_name_matcher: value\n  client_selector: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"action\": \"value\",\n    \"client_name\": \"value\",\n    \"client_name_matcher\": \"value\",\n    \"client_selector\": \"value\"\n  }\n}",
@@ -15783,10 +14941,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policy_ruleCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policy_ruleCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -15810,11 +14965,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policy_ruleCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policy_ruleCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -15881,11 +15032,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policy_ruleDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policy_ruleDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -16064,10 +15211,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policy_ruleListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policy_ruleListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -16279,10 +15423,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policy_ruleReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policy_ruleReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -16346,11 +15487,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for secret_policy_ruleStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for secret_policy_ruleStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -16408,11 +15545,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemavoltshare_admin_policyCreateSpecType",
-          "required_fields": [
-            "author_restrictions",
-            "max_validity_duration",
-            "user_restrictions"
-          ],
+          "required_fields": ["author_restrictions", "max_validity_duration", "user_restrictions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemavoltshare_admin_policyCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  author_restrictions: value\n  max_validity_duration: value\n  user_restrictions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"author_restrictions\": \"value\",\n    \"max_validity_duration\": \"value\",\n    \"user_restrictions\": \"value\"\n  }\n}",
@@ -16470,11 +15603,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemavoltshare_admin_policyGetSpecType",
-          "required_fields": [
-            "author_restrictions",
-            "max_validity_duration",
-            "user_restrictions"
-          ],
+          "required_fields": ["author_restrictions", "max_validity_duration", "user_restrictions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemavoltshare_admin_policyGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  author_restrictions: value\n  max_validity_duration: value\n  user_restrictions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"author_restrictions\": \"value\",\n    \"max_validity_duration\": \"value\",\n    \"user_restrictions\": \"value\"\n  }\n}",
@@ -16548,10 +15677,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemavoltshare_admin_policyMatcherType",
-          "required_fields": [
-            "exact_value",
-            "regex_pattern"
-          ],
+          "required_fields": ["exact_value", "regex_pattern"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemavoltshare_admin_policyMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  exact_value: value\n  regex_pattern: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"exact_value\": \"value\",\n    \"regex_pattern\": \"value\"\n  }\n}",
@@ -16609,11 +15735,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemavoltshare_admin_policyReplaceSpecType",
-          "required_fields": [
-            "author_restrictions",
-            "max_validity_duration",
-            "user_restrictions"
-          ],
+          "required_fields": ["author_restrictions", "max_validity_duration", "user_restrictions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemavoltshare_admin_policyReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  author_restrictions: value\n  max_validity_duration: value\n  user_restrictions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"author_restrictions\": \"value\",\n    \"max_validity_duration\": \"value\",\n    \"user_restrictions\": \"value\"\n  }\n}",
@@ -16637,10 +15759,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -16664,11 +15783,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -16713,9 +15828,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyCustomListType",
-          "required_fields": [
-            "custom_list"
-          ],
+          "required_fields": ["custom_list"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyCustomListType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  custom_list: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"custom_list\": \"value\"\n  }\n}",
@@ -16782,11 +15895,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -16965,10 +16074,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -17180,10 +16286,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -17247,11 +16350,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -17283,12 +16382,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyUserMatcherType",
-          "required_fields": [
-            "allow_all",
-            "allow_list",
-            "deny_all",
-            "deny_list"
-          ],
+          "required_fields": ["allow_all", "allow_list", "deny_all", "deny_list"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyUserMatcherType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  allow_all: value\n  allow_list: value\n  deny_all: value\n  deny_list: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"allow_all\": \"value\",\n    \"allow_list\": \"value\",\n    \"deny_all\": \"value\",\n    \"deny_list\": \"value\"\n  }\n}",
@@ -17345,12 +16439,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for voltshare_admin_policyUserRestrictionType",
-          "required_fields": [
-            "all_tenants",
-            "individual_users",
-            "tenant",
-            "user_restrictions"
-          ],
+          "required_fields": ["all_tenants", "individual_users", "tenant", "user_restrictions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for voltshare_admin_policyUserRestrictionType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  all_tenants: value\n  individual_users: value\n  tenant: value\n  user_restrictions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"all_tenants\": \"value\",\n    \"individual_users\": \"value\",\n    \"tenant\": \"value\",\n    \"user_restrictions\": \"value\"\n  }\n}",

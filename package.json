@@ -60,6 +60,21 @@
           "default": true,
           "description": "Show confirmation dialog before deleting resources"
         },
+        "f5xc.deleteConfirmationLevel": {
+          "type": "string",
+          "enum": [
+            "always",
+            "high-only",
+            "never"
+          ],
+          "default": "always",
+          "enumDescriptions": [
+            "Always show confirmation dialog for all deletes",
+            "Only show confirmation for high-danger delete operations",
+            "Never show confirmation dialog (use with caution)"
+          ],
+          "description": "When to show delete confirmation based on operation danger level"
+        },
         "f5xc.autoRefreshInterval": {
           "type": "number",
           "default": 0,
@@ -73,6 +88,11 @@
           ],
           "default": "console",
           "description": "Resource display mode: 'console' shows clean output like F5 Console, 'full' shows complete API response"
+        },
+        "f5xc.showPreviewApis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show preview/beta APIs in the explorer. Preview APIs are marked with 🧪 badge."
         }
       }
     },

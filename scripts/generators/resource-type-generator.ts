@@ -11,7 +11,23 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { ParsedSpecInfo, parseAllSpecs, parseAllDomainFiles, NamespaceScope } from './spec-parser';
+import {
+  ParsedSpecInfo,
+  parseAllSpecs,
+  parseAllDomainFiles,
+  NamespaceScope,
+  ResourceOperationMetadata,
+} from './spec-parser';
+
+// Re-export types that are used in generated output
+export type {
+  OperationMetadata,
+  DangerLevel,
+  CommonError,
+  PerformanceImpact,
+  SideEffects,
+  ResourceOperationMetadata,
+} from './spec-parser';
 
 /**
  * Structure of the namespace scope overrides file
@@ -144,6 +160,8 @@ export interface GeneratedResourceTypeInfo {
   documentationUrl?: string;
   /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
   domain?: string;
+  /** Operation metadata for CRUD operations (from x-ves-operation-metadata) */
+  operationMetadata?: ResourceOperationMetadata;
 }
 
 /**
@@ -171,6 +189,11 @@ function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
   // Only include domain if it's defined
   if (info.domain) {
     result.domain = info.domain;
+  }
+
+  // Only include operationMetadata if it's defined and has content
+  if (info.operationMetadata && Object.keys(info.operationMetadata).length > 0) {
+    result.operationMetadata = info.operationMetadata;
   }
 
   return result;
@@ -217,6 +240,76 @@ export function generateResourceTypesContent(specs: ParsedSpecInfo[]): string {
 export type NamespaceScope = 'any' | 'system' | 'shared';
 
 /**
+ * Danger level for operations - indicates risk level and affects UI behavior
+ */
+export type DangerLevel = 'low' | 'medium' | 'high';
+
+/**
+ * Common error information from x-ves-operation-metadata
+ */
+export interface CommonError {
+  code: number;
+  message: string;
+  solution: string;
+}
+
+/**
+ * Performance impact information from x-ves-operation-metadata
+ */
+export interface PerformanceImpact {
+  latency: string;
+  resourceUsage: string;
+}
+
+/**
+ * Side effects information from x-ves-operation-metadata
+ */
+export interface SideEffects {
+  creates?: string[];
+  updates?: string[];
+  deletes?: string[];
+  invalidates?: string[];
+}
+
+/**
+ * Operation metadata extracted from x-ves-operation-metadata extension.
+ * Provides rich context about API operations for UX enhancements.
+ */
+export interface OperationMetadata {
+  /** Human-readable purpose of the operation */
+  purpose?: string;
+  /** Risk level of the operation */
+  dangerLevel?: DangerLevel;
+  /** Whether user confirmation should be required */
+  confirmationRequired?: boolean;
+  /** Required fields for the operation */
+  requiredFields?: string[];
+  /** Optional fields for the operation */
+  optionalFields?: string[];
+  /** Prerequisites that must be met before operation */
+  prerequisites?: string[];
+  /** Expected outcomes after successful operation */
+  postconditions?: string[];
+  /** Side effects the operation may cause */
+  sideEffects?: SideEffects;
+  /** Common errors and their solutions */
+  commonErrors?: CommonError[];
+  /** Performance impact information */
+  performanceImpact?: PerformanceImpact;
+}
+
+/**
+ * Collection of operation metadata for all CRUD operations on a resource
+ */
+export interface ResourceOperationMetadata {
+  list?: OperationMetadata;
+  get?: OperationMetadata;
+  create?: OperationMetadata;
+  update?: OperationMetadata;
+  delete?: OperationMetadata;
+}
+
+/**
  * Information about a generated resource type.
  * Contains data that can be extracted directly from OpenAPI specs.
  */
@@ -245,6 +338,8 @@ export interface GeneratedResourceTypeInfo {
   documentationUrl?: string;
   /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
   domain?: string;
+  /** Operation metadata for CRUD operations (from x-ves-operation-metadata) */
+  operationMetadata?: ResourceOperationMetadata;
 }
 
 /**

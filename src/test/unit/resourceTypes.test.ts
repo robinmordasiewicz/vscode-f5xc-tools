@@ -14,6 +14,11 @@ import {
   isResourceTypeAvailableForNamespace,
   getResourceTypesForNamespace,
   getCategorizedResourceTypesForNamespace,
+  getDangerLevel,
+  getOperationPurpose,
+  getRequiredFields,
+  isResourceTypePreview,
+  getResourceTypeTierRequirement,
 } from '../../api/resourceTypes';
 
 describe('Resource Types Registry', () => {
@@ -461,6 +466,98 @@ describe('Resource Types Registry', () => {
           }
         }
         expect(foundAppFirewall).toBe(true);
+      });
+    });
+  });
+
+  describe('Operation metadata helpers', () => {
+    describe('getDangerLevel', () => {
+      it('should return danger level for delete operation', () => {
+        const dangerLevel = getDangerLevel('http_loadbalancer', 'delete');
+        expect(['low', 'medium', 'high']).toContain(dangerLevel);
+      });
+
+      it('should default to medium for unknown resource type', () => {
+        const dangerLevel = getDangerLevel('unknown_resource', 'delete');
+        expect(dangerLevel).toBe('medium');
+      });
+
+      it('should default to delete operation when not specified', () => {
+        const dangerLevel = getDangerLevel('http_loadbalancer');
+        expect(['low', 'medium', 'high']).toContain(dangerLevel);
+      });
+
+      it('should handle create operation', () => {
+        const dangerLevel = getDangerLevel('http_loadbalancer', 'create');
+        expect(['low', 'medium', 'high']).toContain(dangerLevel);
+      });
+    });
+
+    describe('getOperationPurpose', () => {
+      it('should return purpose for list operation', () => {
+        const purpose = getOperationPurpose('http_loadbalancer', 'list');
+        // May be undefined if no metadata, but should not throw
+        expect(purpose === undefined || typeof purpose === 'string').toBe(true);
+      });
+
+      it('should return purpose for get operation', () => {
+        const purpose = getOperationPurpose('http_loadbalancer', 'get');
+        expect(purpose === undefined || typeof purpose === 'string').toBe(true);
+      });
+
+      it('should return undefined for unknown resource type', () => {
+        const purpose = getOperationPurpose('unknown_resource', 'list');
+        expect(purpose).toBeUndefined();
+      });
+    });
+
+    describe('getRequiredFields', () => {
+      it('should return array for create operation', () => {
+        const fields = getRequiredFields('http_loadbalancer', 'create');
+        expect(Array.isArray(fields)).toBe(true);
+      });
+
+      it('should return array for update operation', () => {
+        const fields = getRequiredFields('http_loadbalancer', 'update');
+        expect(Array.isArray(fields)).toBe(true);
+      });
+
+      it('should return empty array for unknown resource type', () => {
+        const fields = getRequiredFields('unknown_resource', 'create');
+        expect(fields).toEqual([]);
+      });
+
+      it('should include metadata.name for resources that require it', () => {
+        // Most resources require metadata.name for create
+        const fields = getRequiredFields('http_loadbalancer', 'create');
+        // If required fields exist, they should be strings
+        expect(fields.every((f) => typeof f === 'string')).toBe(true);
+      });
+    });
+  });
+
+  describe('Preview and tier helpers', () => {
+    describe('isResourceTypePreview', () => {
+      it('should return boolean for known resource type', () => {
+        const isPreview = isResourceTypePreview('http_loadbalancer');
+        expect(typeof isPreview).toBe('boolean');
+      });
+
+      it('should return false for unknown resource type', () => {
+        const isPreview = isResourceTypePreview('unknown_resource');
+        expect(isPreview).toBe(false);
+      });
+    });
+
+    describe('getResourceTypeTierRequirement', () => {
+      it('should return tier or undefined for known resource type', () => {
+        const tier = getResourceTypeTierRequirement('http_loadbalancer');
+        expect(tier === undefined || typeof tier === 'string').toBe(true);
+      });
+
+      it('should return undefined for unknown resource type', () => {
+        const tier = getResourceTypeTierRequirement('unknown_resource');
+        expect(tier).toBeUndefined();
       });
     });
   });

@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -214,10 +207,7 @@
             "x-displayname": "PREFIX MATCH.",
             "schema": {
               "type": "string",
-              "enum": [
-                "EXACT_MATCH",
-                "PREFIX_MATCH"
-              ],
+              "enum": ["EXACT_MATCH", "PREFIX_MATCH"],
               "default": "EXACT_MATCH"
             }
           },
@@ -238,24 +228,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-mobileappshieldcustomapi-listmobileappshields"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.MobileAppShieldCustomAPI.ListMobileAppShields",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all mobile-app-shields",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -459,28 +441,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-mobileappshieldcustomapi-getmobileappshield"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.MobileAppShieldCustomAPI.GetMobileAppShield",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace",
-          "path.version"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace", "path.version"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific mobile-app-shield",
-          "required_fields": [
-            "path.name",
-            "path.namespace",
-            "path.version"
-          ],
+          "required_fields": ["path.name", "path.namespace", "path.version"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -675,10 +645,7 @@
             "x-displayname": "PREFIX MATCH.",
             "schema": {
               "type": "string",
-              "enum": [
-                "EXACT_MATCH",
-                "PREFIX_MATCH"
-              ],
+              "enum": ["EXACT_MATCH", "PREFIX_MATCH"],
               "default": "EXACT_MATCH"
             }
           },
@@ -699,24 +666,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-mobileintegratorcustomapi-listmobileintegrators"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.MobileIntegratorCustomAPI.ListMobileIntegrators",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all mobile-integrators",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -920,28 +879,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-mobileintegratorcustomapi-getmobileintegrator"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.MobileIntegratorCustomAPI.GetMobileIntegrator",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace",
-          "path.version"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace", "path.version"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific mobile-integrator",
-          "required_fields": [
-            "path.name",
-            "path.namespace",
-            "path.version"
-          ],
+          "required_fields": ["path.name", "path.namespace", "path.version"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1136,10 +1083,7 @@
             "x-displayname": "PREFIX MATCH.",
             "schema": {
               "type": "string",
-              "enum": [
-                "EXACT_MATCH",
-                "PREFIX_MATCH"
-              ],
+              "enum": ["EXACT_MATCH", "PREFIX_MATCH"],
               "default": "EXACT_MATCH"
             }
           },
@@ -1160,26 +1104,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-customapi-listobjects"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.CustomAPI.ListObjects",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace",
-          "path.object_type"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace", "path.object_type"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all stored-objects",
-          "required_fields": [
-            "path.namespace",
-            "path.object_type"
-          ],
+          "required_fields": ["path.namespace", "path.object_type"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1395,45 +1329,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-customapi-deleteobject"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.CustomAPI.DeleteObject",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace",
-          "path.object_type"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace", "path.object_type"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "stored-object",
-            "contained_resources"
-          ]
+          "deletes": ["stored-object", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete stored-object",
-          "required_fields": [
-            "path.name",
-            "path.namespace",
-            "path.object_type"
-          ],
+          "required_fields": ["path.name", "path.namespace", "path.object_type"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "stored-object",
-              "contained_resources"
-            ]
+            "deletes": ["stored-object", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -1629,41 +1545,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-customapi-createobject"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.CustomAPI.CreateObject",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace",
-          "path.object_type"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace", "path.object_type"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "stored-object"
-          ]
+          "modifies": ["stored-object"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing stored-object",
-          "required_fields": [
-            "path.name",
-            "path.namespace",
-            "path.object_type"
-          ],
+          "required_fields": ["path.name", "path.namespace", "path.object_type"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "stored-object"
-            ]
+            "modifies": ["stored-object"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1865,9 +1763,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-customapi-getobject"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.CustomAPI.GetObject",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "path.name",
           "path.namespace",
@@ -1877,18 +1773,11 @@
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific stored-object",
-          "required_fields": [
-            "path.name",
-            "path.namespace",
-            "path.object_type",
-            "path.version"
-          ],
+          "required_fields": ["path.name", "path.namespace", "path.object_type", "path.version"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2099,9 +1988,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-stored_object-customapi-deleteobject"
         },
         "x-ves-proto-rpc": "ves.io.schema.stored_object.CustomAPI.DeleteObject",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-required-fields": [
           "path.name",
           "path.namespace",
@@ -2111,35 +1998,22 @@
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "stored-object",
-            "contained_resources"
-          ]
+          "deletes": ["stored-object", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete stored-object",
-          "required_fields": [
-            "path.name",
-            "path.namespace",
-            "path.object_type",
-            "path.version"
-          ],
+          "required_fields": ["path.name", "path.namespace", "path.object_type", "path.version"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "stored-object",
-              "contained_resources"
-            ]
+            "deletes": ["stored-object", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -2487,12 +2361,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectCreateObjectResponse",
-          "required_fields": [
-            "metadata",
-            "no_additional_info",
-            "presigned_url",
-            "status"
-          ],
+          "required_fields": ["metadata", "no_additional_info", "presigned_url", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectCreateObjectResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  no_additional_info: value\n  presigned_url: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"no_additional_info\": \"value\",\n    \"presigned_url\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -2526,9 +2395,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectDeleteObjectResponse",
-          "required_fields": [
-            "deleted_objects"
-          ],
+          "required_fields": ["deleted_objects"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectDeleteObjectResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  deleted_objects: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"deleted_objects\": \"value\"\n  }\n}",
@@ -2744,9 +2611,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectListObjectsResponse",
-          "required_fields": [
-            "items"
-          ],
+          "required_fields": ["items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectListObjectsResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"items\": \"value\"\n  }\n}",
@@ -2792,10 +2657,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectMobileAppShieldAttributes",
-          "required_fields": [
-            "os_type",
-            "release_version"
-          ],
+          "required_fields": ["os_type", "release_version"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectMobileAppShieldAttributes\nmetadata:\n  name: example\n  namespace: default\nspec:\n  os_type: value\n  release_version: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"os_type\": \"value\",\n    \"release_version\": \"value\"\n  }\n}",
@@ -2841,10 +2703,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectMobileIntegratorAttributes",
-          "required_fields": [
-            "os_type",
-            "release_version"
-          ],
+          "required_fields": ["os_type", "release_version"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectMobileIntegratorAttributes\nmetadata:\n  name: example\n  namespace: default\nspec:\n  os_type: value\n  release_version: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"os_type\": \"value\",\n    \"release_version\": \"value\"\n  }\n}",
@@ -2880,10 +2739,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectMobileSDKAttributes",
-          "required_fields": [
-            "os_type",
-            "release_version"
-          ],
+          "required_fields": ["os_type", "release_version"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectMobileSDKAttributes\nmetadata:\n  name: example\n  namespace: default\nspec:\n  os_type: value\n  release_version: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"os_type\": \"value\",\n    \"release_version\": \"value\"\n  }\n}",
@@ -2895,10 +2751,7 @@
         "type": "string",
         "description": "Defines a selection for operating system type. Its either ANDROID or IOS\n\n- ANDROID: ANDROID\n\n- IOS: IOS.",
         "title": "OSType",
-        "enum": [
-          "ANDROID",
-          "IOS"
-        ],
+        "enum": ["ANDROID", "IOS"],
         "default": "ANDROID",
         "x-displayname": "Operating System type.",
         "x-ves-proto-enum": "ves.io.schema.stored_object.OSType",
@@ -2926,9 +2779,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectPreSignedUrl",
-          "required_fields": [
-            "aws"
-          ],
+          "required_fields": ["aws"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectPreSignedUrl\nmetadata:\n  name: example\n  namespace: default\nspec:\n  aws: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"aws\": \"value\"\n  }\n}",
@@ -2965,10 +2816,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectPresignedUrlData",
-          "required_fields": [
-            "method",
-            "url"
-          ],
+          "required_fields": ["method", "url"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for stored_objectPresignedUrlData\nmetadata:\n  name: example\n  namespace: default\nspec:\n  method: value\n  url: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"method\": \"value\",\n    \"url\": \"value\"\n  }\n}",
@@ -2980,10 +2828,7 @@
         "type": "string",
         "description": "X-displayName: \"Query Type\"\nThe type of search query needs to be performed. Could be EXACT_MATCH or PREFIX_MATCH.\nEXACT_MATCH returns the objects with exact match on the name filed, while PREFIX_MATCH returns the list of object having the 'name' as prefix. Default is EXACT_MATCH.\n\n- EXACT_MATCH: EXACT_MATCH\n\nx-displayName: \"EXACT MATCH\"\nReturns list of objects with exact match on the name filed.\n- PREFIX_MATCH: PREFIX_MATCH\n\nx-displayName: \"PREFIX MATCH\"\nReturns the list of object matching the 'name' prefix.",
         "title": "QueryType",
-        "enum": [
-          "EXACT_MATCH",
-          "PREFIX_MATCH"
-        ],
+        "enum": ["EXACT_MATCH", "PREFIX_MATCH"],
         "default": "EXACT_MATCH",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for stored_objectQueryType",

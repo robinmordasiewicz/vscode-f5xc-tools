@@ -71,9 +71,20 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
     return;
   }
 
+  // Output metadata interface (uses camelCase for TypeScript convention)
+  interface OutputDomainMetadata {
+    title: string;
+    description_short: string;
+    icon: string;
+    primary_resources?: string[];
+    complexity: string;
+    requires_tier: string;
+    isPreview: boolean;
+  }
+
   // Build domain→ui_category mapping (single source of truth from upstream)
   const domainToUiCategory: Record<string, string> = {};
-  const domainMetadata: Record<string, Partial<DomainInfo>> = {};
+  const domainMetadata: Record<string, OutputDomainMetadata> = {};
 
   for (const domain of domains) {
     // Use ui_category directly from upstream
@@ -85,6 +96,7 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
       primary_resources: domain.primary_resources,
       complexity: domain.complexity,
       requires_tier: domain.requires_tier,
+      isPreview: domain.is_preview,
     };
   }
 
@@ -128,7 +140,7 @@ export function getUiCategoryForDomain(domain: string): UiCategory | undefined {
 
 /**
  * Domain metadata from upstream index.json.
- * Includes title, description, icon, and primary resources.
+ * Includes title, description, icon, primary resources, and preview status.
  */
 export const DOMAIN_METADATA: Record<string, {
   title: string;
@@ -137,6 +149,7 @@ export const DOMAIN_METADATA: Record<string, {
   primary_resources?: string[];
   complexity: string;
   requires_tier: string;
+  isPreview: boolean;
 }> = ${JSON.stringify(domainMetadata, null, 2)};
 
 /**
@@ -144,6 +157,20 @@ export const DOMAIN_METADATA: Record<string, {
  */
 export function getDomainMetadata(domain: string) {
   return DOMAIN_METADATA[domain];
+}
+
+/**
+ * Check if a domain is in preview/beta status.
+ */
+export function isPreviewDomain(domain: string): boolean {
+  return DOMAIN_METADATA[domain]?.isPreview ?? false;
+}
+
+/**
+ * Get the tier requirement for a domain.
+ */
+export function getDomainTierRequirement(domain: string): string | undefined {
+  return DOMAIN_METADATA[domain]?.requires_tier;
 }
 
 // Legacy aliases for backwards compatibility

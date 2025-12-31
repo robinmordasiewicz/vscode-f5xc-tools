@@ -26,19 +26,12 @@
         "console_url": {
           "default": "console.ves.volterra.io",
           "description": "Console URL base (e.g., console.ves.volterra.io for production, staging.volterra.us for staging)",
-          "enum": [
-            "console.ves.volterra.io",
-            "staging.volterra.us"
-          ]
+          "enum": ["console.ves.volterra.io", "staging.volterra.us"]
         },
         "environment": {
           "default": "production",
           "description": "Environment designation (production, staging, development)",
-          "enum": [
-            "production",
-            "staging",
-            "development"
-          ]
+          "enum": ["production", "staging", "development"]
         },
         "domain_prefix": {
           "default": "api",
@@ -205,24 +198,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-invoice-customapi-downloadinvoicepdf"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.invoice.CustomAPI.DownloadInvoicePdf",
-        "tags": [
-          "Billing"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Billing"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all invoice-pdfs",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -405,24 +390,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-invoice-customapi-listinvoices"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.invoice.CustomAPI.ListInvoices",
-        "tags": [
-          "Billing"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Billing"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all custom-lists",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -612,9 +589,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-billing-payment_method-customapi-makepaymentmethodprimary"
         },
         "x-ves-proto-rpc": "ves.io.schema.billing.payment_method.CustomAPI.MakePaymentMethodPrimary",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -623,33 +598,19 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "primary"
-          ]
+          "creates": ["primary"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new primary",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Primary resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Primary resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "primary"
-            ]
+            "creates": ["primary"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -837,9 +798,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-billing-payment_method-customapi-makepaymentmethodsecondary"
         },
         "x-ves-proto-rpc": "ves.io.schema.billing.payment_method.CustomAPI.MakePaymentMethodSecondary",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -848,33 +807,19 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "secondary"
-          ]
+          "creates": ["secondary"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new secondary",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Secondary resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Secondary resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "secondary"
-            ]
+            "creates": ["secondary"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1062,9 +1007,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-billing-payment_method-customapi-swappaymentmethodrole"
         },
         "x-ves-proto-rpc": "ves.io.schema.billing.payment_method.CustomAPI.SwapPaymentMethodRole",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "x-ves-required-fields": [
           "metadata.name",
           "metadata.namespace",
@@ -1073,33 +1016,22 @@
         ],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "swap-primary"
-          ]
+          "creates": ["swap-primary"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new swap-primary",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Swap-primary resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "swap-primary"
-            ]
+            "creates": ["swap-primary"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1278,42 +1210,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-billing-payment_method-customapi-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.billing.payment_method.CustomAPI.Create",
-        "tags": [
-          "Billing"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Billing"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "payment-method"
-          ]
+          "creates": ["payment-method"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new payment-method",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Payment-method resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "payment-method"
-            ]
+            "creates": ["payment-method"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -1491,43 +1407,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-billing-payment_method-customapi-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.billing.payment_method.CustomAPI.Delete",
-        "tags": [
-          "Billing"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Billing"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "payment-method",
-            "contained_resources"
-          ]
+          "deletes": ["payment-method", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete payment-method",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "payment-method",
-              "contained_resources"
-            ]
+            "deletes": ["payment-method", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -1696,9 +1596,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-billing-plan_transition-customapi-getplantransition"
         },
         "x-ves-proto-rpc": "ves.io.schema.billing.plan_transition.CustomAPI.GetPlanTransition",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all plan-transitions",
@@ -1706,9 +1604,7 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -1889,42 +1785,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-billing-plan_transition-customapi-initiateplantransition"
         },
         "x-ves-proto-rpc": "ves.io.schema.billing.plan_transition.CustomAPI.InitiatePlanTransition",
-        "tags": [
-          "Billing"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Billing"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "plan-transition"
-          ]
+          "creates": ["plan-transition"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new plan-transition",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Plan-transition resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "plan-transition"
-            ]
+            "creates": ["plan-transition"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2103,42 +1983,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-quota-api-create"
         },
         "x-ves-proto-rpc": "ves.io.schema.quota.API.Create",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "quota"
-          ]
+          "creates": ["quota"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new quota",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Quota resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Quota resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "quota"
-            ]
+            "creates": ["quota"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2328,39 +2189,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-quota-api-replace"
         },
         "x-ves-proto-rpc": "ves.io.schema.quota.API.Replace",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.metadata.name",
-          "path.metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.metadata.name", "path.metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "modifies": [
-            "quota"
-          ]
+          "modifies": ["quota"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Replace existing quota",
-          "required_fields": [
-            "path.metadata.name",
-            "path.metadata.namespace"
-          ],
+          "required_fields": ["path.metadata.name", "path.metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Resource updated with new values"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Resource updated with new values"]
           },
           "side_effects": {
-            "modifies": [
-              "quota"
-            ]
+            "modifies": ["quota"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -2529,24 +2374,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-quota-customapi-customgetquotalimits"
         },
         "x-ves-proto-rpc": "ves.io.schema.quota.CustomAPI.CustomGetQuotaLimits",
-        "tags": [
-          "Billing"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Billing"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all limits",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2717,24 +2554,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-quota-customapi-getquotausage"
         },
         "x-ves-proto-rpc": "ves.io.schema.quota.CustomAPI.GetQuotaUsage",
-        "tags": [
-          "Billing"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Billing"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all usages",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -2944,24 +2773,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-quota-api-list"
         },
         "x-ves-proto-rpc": "ves.io.schema.quota.API.List",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all quotas",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3163,26 +2984,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-quota-api-get"
         },
         "x-ves-proto-rpc": "ves.io.schema.quota.API.Get",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "Retrieve specific quota",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3367,43 +3178,27 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-quota-api-delete"
         },
         "x-ves-proto-rpc": "ves.io.schema.quota.API.Delete",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.name",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.name", "path.namespace"],
         "x-ves-danger-level": "high",
         "x-ves-confirmation-required": true,
         "x-ves-side-effects": {
-          "deletes": [
-            "quota",
-            "contained_resources"
-          ]
+          "deletes": ["quota", "contained_resources"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Delete quota",
-          "required_fields": [
-            "path.name",
-            "path.namespace"
-          ],
+          "required_fields": ["path.name", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Resource removed from system",
               "Associated resources may be affected"
             ]
           },
           "side_effects": {
-            "deletes": [
-              "quota",
-              "contained_resources"
-            ]
+            "deletes": ["quota", "contained_resources"]
           },
           "danger_level": "high",
           "confirmation_required": true,
@@ -3583,24 +3378,16 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-subscription-customapi-listsubscriptions"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.subscription.CustomAPI.ListSubscriptions",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["path.namespace"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all custom-lists",
-          "required_fields": [
-            "path.namespace"
-          ],
+          "required_fields": ["path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -3768,40 +3555,23 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-subscription-customapi-subscribe"
         },
         "x-ves-proto-rpc": "ves.io.schema.subscription.CustomAPI.Subscribe",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "subscribe"
-          ]
+          "creates": ["subscribe"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new subscribe",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
-            "postconditions": [
-              "Subscribe resource created",
-              "Resource assigned unique identifier"
-            ]
+            "prerequisites": ["Active namespace"],
+            "postconditions": ["Subscribe resource created", "Resource assigned unique identifier"]
           },
           "side_effects": {
-            "creates": [
-              "subscribe"
-            ]
+            "creates": ["subscribe"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -3967,40 +3737,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-subscription-customapi-unsubscribe"
         },
         "x-ves-proto-rpc": "ves.io.schema.subscription.CustomAPI.Unsubscribe",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "unsubscribe"
-          ]
+          "creates": ["unsubscribe"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new unsubscribe",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Unsubscribe resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "unsubscribe"
-            ]
+            "creates": ["unsubscribe"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4179,42 +3935,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-customcalculatedusageapi-listcurrentusage"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.CustomCalculatedUsageAPI.ListCurrentUsage",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "current-usage"
-          ]
+          "creates": ["current-usage"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new current-usage",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Current-usage resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "current-usage"
-            ]
+            "creates": ["current-usage"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4393,42 +4133,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-customaggregatedusageapi-listhourlyusagedetails"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.CustomAggregatedUsageAPI.ListHourlyUsageDetails",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "hourly-usage-detail"
-          ]
+          "creates": ["hourly-usage-detail"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new hourly-usage-detail",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Hourly-usage-detail resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "hourly-usage-detail"
-            ]
+            "creates": ["hourly-usage-detail"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4607,42 +4331,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-customcalculatedusageapi-listmonthlyusage"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.CustomCalculatedUsageAPI.ListMonthlyUsage",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "monthly-usage"
-          ]
+          "creates": ["monthly-usage"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new monthly-usage",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Monthly-usage resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "monthly-usage"
-            ]
+            "creates": ["monthly-usage"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -4821,42 +4529,26 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-customaggregatedusageapi-listusagedetails"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.CustomAggregatedUsageAPI.ListUsageDetails",
-        "tags": [
-          "Other"
-        ],
-        "x-ves-required-fields": [
-          "metadata.name",
-          "metadata.namespace",
-          "path.namespace"
-        ],
+        "tags": ["Other"],
+        "x-ves-required-fields": ["metadata.name", "metadata.namespace", "path.namespace"],
         "x-ves-danger-level": "medium",
         "x-ves-side-effects": {
-          "creates": [
-            "usage-detail"
-          ]
+          "creates": ["usage-detail"]
         },
         "x-ves-operation-metadata": {
           "purpose": "Create new usage-detail",
-          "required_fields": [
-            "metadata.name",
-            "metadata.namespace",
-            "path.namespace"
-          ],
+          "required_fields": ["metadata.name", "metadata.namespace", "path.namespace"],
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": [
               "Usage-detail resource created",
               "Resource assigned unique identifier"
             ]
           },
           "side_effects": {
-            "creates": [
-              "usage-detail"
-            ]
+            "creates": ["usage-detail"]
           },
           "danger_level": "medium",
           "confirmation_required": false,
@@ -5012,9 +4704,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-plan-customapi-getcurrentplan"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.plan.CustomAPI.GetCurrentPlan",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all currents",
@@ -5022,9 +4712,7 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -5182,9 +4870,7 @@
           "url": "https://docs.cloud.f5.com/docs-v2/platform/reference/api-ref/ves-io-schema-usage-plan-customapi-listusageplans"
         },
         "x-ves-proto-rpc": "ves.io.schema.usage.plan.CustomAPI.ListUsagePlans",
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "x-ves-danger-level": "low",
         "x-ves-operation-metadata": {
           "purpose": "List all custom-lists",
@@ -5192,9 +4878,7 @@
           "optional_fields": [],
           "field_docs": {},
           "conditions": {
-            "prerequisites": [
-              "Active namespace"
-            ],
+            "prerequisites": ["Active namespace"],
             "postconditions": []
           },
           "side_effects": {},
@@ -5278,9 +4962,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for invoiceDownloadInvoicePdfRsp",
-          "required_fields": [
-            "pdf"
-          ],
+          "required_fields": ["pdf"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for invoiceDownloadInvoicePdfRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pdf: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pdf\": \"value\"\n  }\n}",
@@ -5462,9 +5144,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for invoiceListInvoicesRsp",
-          "required_fields": [
-            "invoices"
-          ],
+          "required_fields": ["invoices"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for invoiceListInvoicesRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  invoices: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"invoices\": \"value\"\n  }\n}",
@@ -5476,11 +5156,7 @@
         "type": "string",
         "description": "Determines the contact type\n\nIndicates snail mail address (used for correspondence)\nIndicates billing address (this address will appear on invoices)\nIndicates contact used for a payment method (this address is used when charging a payment method)",
         "title": "Contact Type.",
-        "enum": [
-          "MAILING",
-          "BILLING",
-          "PAYMENT"
-        ],
+        "enum": ["MAILING", "BILLING", "PAYMENT"],
         "default": "MAILING",
         "x-displayname": "Contact Type.",
         "x-ves-proto-enum": "ves.io.schema.contact.ContactType",
@@ -5710,12 +5386,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for payment_methodCreatePaymentMethodRequest",
-          "required_fields": [
-            "contact",
-            "namespace",
-            "role",
-            "token"
-          ],
+          "required_fields": ["contact", "namespace", "role", "token"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for payment_methodCreatePaymentMethodRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  contact: value\n  namespace: value\n  role: value\n  token: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"contact\": \"value\",\n    \"namespace\": \"value\",\n    \"role\": \"value\",\n    \"token\": \"value\"\n  }\n}",
@@ -5748,9 +5419,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for payment_methodCreatePaymentMethodResponse",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for payment_methodCreatePaymentMethodResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -5804,10 +5473,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for payment_methodPaymentMethodPrimaryReq",
-          "required_fields": [
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for payment_methodPaymentMethodPrimaryReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -5884,10 +5550,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for payment_methodPaymentMethodRoleSwapReq",
-          "required_fields": [
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for payment_methodPaymentMethodRoleSwapReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -5941,10 +5604,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for payment_methodPaymentMethodSecondaryReq",
-          "required_fields": [
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for payment_methodPaymentMethodSecondaryReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -5965,9 +5625,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for plan_transitionGetPlanTransitionRsp",
-          "required_fields": [
-            "state"
-          ],
+          "required_fields": ["state"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for plan_transitionGetPlanTransitionRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  state: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"state\": \"value\"\n  }\n}",
@@ -6021,11 +5679,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for plan_transitionInitiatePlanTransitionReq",
-          "required_fields": [
-            "namespace",
-            "new_plan",
-            "payload"
-          ],
+          "required_fields": ["namespace", "new_plan", "payload"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for plan_transitionInitiatePlanTransitionReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value\n  new_plan: value\n  payload: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\",\n    \"new_plan\": \"value\",\n    \"payload\": \"value\"\n  }\n}",
@@ -6073,10 +5727,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for plan_transitionInitiatePlanTransitionRsp",
-          "required_fields": [
-            "id",
-            "requires_manual_approval"
-          ],
+          "required_fields": ["id", "requires_manual_approval"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for plan_transitionInitiatePlanTransitionRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  id: value\n  requires_manual_approval: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"id\": \"value\",\n    \"requires_manual_approval\": \"value\"\n  }\n}",
@@ -6515,10 +6166,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for protobufAny",
-          "required_fields": [
-            "type_url",
-            "value"
-          ],
+          "required_fields": ["type_url", "value"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for protobufAny\nmetadata:\n  name: example\n  namespace: default\nspec:\n  type_url: value\n  value: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"type_url\": \"value\",\n    \"value\": \"value\"\n  }\n}",
@@ -6542,10 +6190,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaCreateRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaCreateRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -6569,11 +6214,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaCreateResponse",
-          "required_fields": [
-            "metadata",
-            "spec",
-            "system_metadata"
-          ],
+          "required_fields": ["metadata", "spec", "system_metadata"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaCreateResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value\n  system_metadata: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\",\n    \"system_metadata\": \"value\"\n  }\n}",
@@ -6640,11 +6281,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaDeleteRequest",
-          "required_fields": [
-            "fail_if_referred",
-            "name",
-            "namespace"
-          ],
+          "required_fields": ["fail_if_referred", "name", "namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaDeleteRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  fail_if_referred: value\n  name: value\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"fail_if_referred\": \"value\",\n    \"name\": \"value\",\n    \"namespace\": \"value\"\n  }\n}",
@@ -6673,9 +6310,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaFloatLimitType",
-          "required_fields": [
-            "maximum"
-          ],
+          "required_fields": ["maximum"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaFloatLimitType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  maximum: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"maximum\": \"value\"\n  }\n}",
@@ -7032,9 +6667,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaLimitType",
-          "required_fields": [
-            "maximum"
-          ],
+          "required_fields": ["maximum"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaLimitType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  maximum: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"maximum\": \"value\"\n  }\n}",
@@ -7082,10 +6715,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaListResponse",
-          "required_fields": [
-            "errors",
-            "items"
-          ],
+          "required_fields": ["errors", "items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaListResponse\nmetadata:\n  name: example\n  namespace: default\nspec:\n  errors: value\n  items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"errors\": \"value\",\n    \"items\": \"value\"\n  }\n}",
@@ -7322,11 +6952,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaQuotaLimits",
-          "required_fields": [
-            "description",
-            "display_name",
-            "limit"
-          ],
+          "required_fields": ["description", "display_name", "limit"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaQuotaLimits\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  display_name: value\n  limit: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"display_name\": \"value\",\n    \"limit\": \"value\"\n  }\n}",
@@ -7378,12 +7004,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaQuotaLimitsItemType",
-          "required_fields": [
-            "api_limit",
-            "description",
-            "display_name",
-            "limit"
-          ],
+          "required_fields": ["api_limit", "description", "display_name", "limit"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaQuotaLimitsItemType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_limit: value\n  description: value\n  display_name: value\n  limit: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_limit\": \"value\",\n    \"description\": \"value\",\n    \"display_name\": \"value\",\n    \"limit\": \"value\"\n  }\n}",
@@ -7432,12 +7053,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaQuotaUsage",
-          "required_fields": [
-            "description",
-            "display_name",
-            "limit",
-            "usage"
-          ],
+          "required_fields": ["description", "display_name", "limit", "usage"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaQuotaUsage\nmetadata:\n  name: example\n  namespace: default\nspec:\n  description: value\n  display_name: value\n  limit: value\n  usage: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"description\": \"value\",\n    \"display_name\": \"value\",\n    \"limit\": \"value\",\n    \"usage\": \"value\"\n  }\n}",
@@ -7492,13 +7108,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaQuotaUsageItemType",
-          "required_fields": [
-            "api_limit",
-            "description",
-            "display_name",
-            "limit",
-            "usage"
-          ],
+          "required_fields": ["api_limit", "description", "display_name", "limit", "usage"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaQuotaUsageItemType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_limit: value\n  description: value\n  display_name: value\n  limit: value\n  usage: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_limit\": \"value\",\n    \"description\": \"value\",\n    \"display_name\": \"value\",\n    \"limit\": \"value\",\n    \"usage\": \"value\"\n  }\n}",
@@ -7558,11 +7168,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaRateLimitType",
-          "required_fields": [
-            "burst",
-            "rate",
-            "unit"
-          ],
+          "required_fields": ["burst", "rate", "unit"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaRateLimitType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  burst: value\n  rate: value\n  unit: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"burst\": \"value\",\n    \"rate\": \"value\",\n    \"unit\": \"value\"\n  }\n}",
@@ -7586,10 +7192,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaReplaceRequest",
-          "required_fields": [
-            "metadata",
-            "spec"
-          ],
+          "required_fields": ["metadata", "spec"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaReplaceRequest\nmetadata:\n  name: example\n  namespace: default\nspec:\n  spec: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"spec\": \"value\"\n  }\n}",
@@ -7652,11 +7255,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for quotaStatusObject",
-          "required_fields": [
-            "conditions",
-            "metadata",
-            "object_refs"
-          ],
+          "required_fields": ["conditions", "metadata", "object_refs"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for quotaStatusObject\nmetadata:\n  name: example\n  namespace: default\nspec:\n  conditions: value\n  object_refs: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"conditions\": \"value\",\n    \"object_refs\": \"value\"\n  }\n}",
@@ -7856,11 +7455,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaErrorType",
-          "required_fields": [
-            "code",
-            "error_obj",
-            "message"
-          ],
+          "required_fields": ["code", "error_obj", "message"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaErrorType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  error_obj: value\n  message: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"error_obj\": \"value\",\n    \"message\": \"value\"\n  }\n}",
@@ -7896,9 +7491,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializerType",
-          "required_fields": [
-            "name"
-          ],
+          "required_fields": ["name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializerType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\"\n  }\n}",
@@ -7934,10 +7527,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaInitializersType",
-          "required_fields": [
-            "pending",
-            "result"
-          ],
+          "required_fields": ["pending", "result"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaInitializersType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  pending: value\n  result: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"pending\": \"value\",\n    \"result\": \"value\"\n  }\n}",
@@ -8351,13 +7941,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaObjectRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "tenant",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "tenant", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaObjectRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  tenant: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"tenant\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -8659,10 +8243,7 @@
         "type": "string",
         "description": "StatusPublishType is all possible publish operations on a StatusObject\n\n- STATUS_DO_NOT_PUBLISH: Do Not Publish\n\nDo not propagate this status to user. This could be because status is only informational\n- STATUS_PUBLISH: Publish\n\nPropagate this status up to user as it might be actionable.",
         "title": "StatusPublishType.",
-        "enum": [
-          "STATUS_DO_NOT_PUBLISH",
-          "STATUS_PUBLISH"
-        ],
+        "enum": ["STATUS_DO_NOT_PUBLISH", "STATUS_PUBLISH"],
         "default": "STATUS_DO_NOT_PUBLISH",
         "x-displayname": "Status Publish Type.",
         "x-ves-proto-enum": "ves.io.schema.StatusPublishType",
@@ -8738,11 +8319,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaStatusType",
-          "required_fields": [
-            "code",
-            "reason",
-            "status"
-          ],
+          "required_fields": ["code", "reason", "status"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaStatusType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  code: value\n  reason: value\n  status: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"code\": \"value\",\n    \"reason\": \"value\",\n    \"status\": \"value\"\n  }\n}",
@@ -9035,12 +8612,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaViewRefType",
-          "required_fields": [
-            "kind",
-            "name",
-            "namespace",
-            "uid"
-          ],
+          "required_fields": ["kind", "name", "namespace", "uid"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaViewRefType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  name: value\n  namespace: value\n  uid: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"name\": \"value\",\n    \"namespace\": \"value\",\n    \"uid\": \"value\"\n  }\n}",
@@ -9130,11 +8702,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaquotaCreateSpecType",
-          "required_fields": [
-            "api_limits",
-            "object_limits",
-            "resource_limits"
-          ],
+          "required_fields": ["api_limits", "object_limits", "resource_limits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaquotaCreateSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_limits: value\n  object_limits: value\n  resource_limits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_limits\": \"value\",\n    \"object_limits\": \"value\",\n    \"resource_limits\": \"value\"\n  }\n}",
@@ -9224,11 +8792,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaquotaGetSpecType",
-          "required_fields": [
-            "api_limits",
-            "object_limits",
-            "resource_limits"
-          ],
+          "required_fields": ["api_limits", "object_limits", "resource_limits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaquotaGetSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_limits: value\n  object_limits: value\n  resource_limits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_limits\": \"value\",\n    \"object_limits\": \"value\",\n    \"resource_limits\": \"value\"\n  }\n}",
@@ -9318,11 +8882,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaquotaReplaceSpecType",
-          "required_fields": [
-            "api_limits",
-            "object_limits",
-            "resource_limits"
-          ],
+          "required_fields": ["api_limits", "object_limits", "resource_limits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaquotaReplaceSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_limits: value\n  object_limits: value\n  resource_limits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_limits\": \"value\",\n    \"object_limits\": \"value\",\n    \"resource_limits\": \"value\"\n  }\n}",
@@ -9350,9 +8910,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageFloatUsageType",
-          "required_fields": [
-            "current"
-          ],
+          "required_fields": ["current"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageFloatUsageType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  current: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"current\": \"value\"\n  }\n}",
@@ -9382,9 +8940,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageUsageType",
-          "required_fields": [
-            "current"
-          ],
+          "required_fields": ["current"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageUsageType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  current: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"current\": \"value\"\n  }\n}",
@@ -9414,9 +8970,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for subscriptionListSubscriptionsRsp",
-          "required_fields": [
-            "subscriptions"
-          ],
+          "required_fields": ["subscriptions"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for subscriptionListSubscriptionsRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  subscriptions: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"subscriptions\": \"value\"\n  }\n}",
@@ -9972,12 +9526,7 @@
         "type": "string",
         "description": "All possible usage line statuses\n\n- STATUS_UNKNOWN: No value defined\n- STATUS_NO_DATA: No data\n- STATUS_NOT_MEASURED: No measured\n- STATUS_ACTIVE: Active.",
         "title": "Status type.",
-        "enum": [
-          "STATUS_UNKNOWN",
-          "STATUS_NO_DATA",
-          "STATUS_NOT_MEASURED",
-          "STATUS_ACTIVE"
-        ],
+        "enum": ["STATUS_UNKNOWN", "STATUS_NO_DATA", "STATUS_NOT_MEASURED", "STATUS_ACTIVE"],
         "default": "STATUS_UNKNOWN",
         "x-displayname": "Status type.",
         "x-ves-proto-enum": "ves.io.schema.usage.StatusType",
@@ -10247,11 +9796,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageCoupon",
-          "required_fields": [
-            "discount_amount",
-            "discount_type",
-            "title"
-          ],
+          "required_fields": ["discount_amount", "discount_type", "title"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageCoupon\nmetadata:\n  name: example\n  namespace: default\nspec:\n  discount_amount: value\n  discount_type: value\n  title: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"discount_amount\": \"value\",\n    \"discount_type\": \"value\",\n    \"title\": \"value\"\n  }\n}",
@@ -10263,11 +9808,7 @@
         "type": "string",
         "description": "Indicates what type of discount is applied for a coupon: fixed price or percentage.\n\nUnknown\nThe specified amount will be given as discount.\nThe specified percentage will be given as discount.",
         "title": "Discount type.",
-        "enum": [
-          "DISCOUNT_TYPE_UNKNOWN",
-          "DISCOUNT_TYPE_FIXED_AMOUNT",
-          "DISCOUNT_TYPE_PERCENTAGE"
-        ],
+        "enum": ["DISCOUNT_TYPE_UNKNOWN", "DISCOUNT_TYPE_FIXED_AMOUNT", "DISCOUNT_TYPE_PERCENTAGE"],
         "default": "DISCOUNT_TYPE_UNKNOWN",
         "x-displayname": "Discount type.",
         "x-ves-proto-enum": "ves.io.schema.usage.DiscountType",
@@ -10465,11 +10006,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListCurrentUsageReq",
-          "required_fields": [
-            "from",
-            "namespace",
-            "to"
-          ],
+          "required_fields": ["from", "namespace", "to"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListCurrentUsageReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  from: value\n  namespace: value\n  to: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"from\": \"value\",\n    \"namespace\": \"value\",\n    \"to\": \"value\"\n  }\n}",
@@ -10549,12 +10086,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListCurrentUsageResp",
-          "required_fields": [
-            "coupons",
-            "discount",
-            "total_cost",
-            "usage_items"
-          ],
+          "required_fields": ["coupons", "discount", "total_cost", "usage_items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListCurrentUsageResp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  coupons: value\n  discount: value\n  total_cost: value\n  usage_items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"coupons\": \"value\",\n    \"discount\": \"value\",\n    \"total_cost\": \"value\",\n    \"usage_items\": \"value\"\n  }\n}",
@@ -10605,10 +10137,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListHourlyUsageDetailsReq",
-          "required_fields": [
-            "namespace",
-            "query"
-          ],
+          "required_fields": ["namespace", "query"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListHourlyUsageDetailsReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value\n  query: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\",\n    \"query\": \"value\"\n  }\n}",
@@ -10641,9 +10170,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListHourlyUsageDetailsResp",
-          "required_fields": [
-            "hourly_usage_items"
-          ],
+          "required_fields": ["hourly_usage_items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListHourlyUsageDetailsResp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  hourly_usage_items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"hourly_usage_items\": \"value\"\n  }\n}",
@@ -10679,9 +10206,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListMonthlyUsageReq",
-          "required_fields": [
-            "namespace"
-          ],
+          "required_fields": ["namespace"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListMonthlyUsageReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  namespace: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"namespace\": \"value\"\n  }\n}",
@@ -10714,9 +10239,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListMonthlyUsageResp",
-          "required_fields": [
-            "monthly_usage_items"
-          ],
+          "required_fields": ["monthly_usage_items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListMonthlyUsageResp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  monthly_usage_items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"monthly_usage_items\": \"value\"\n  }\n}",
@@ -10784,11 +10307,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListUsageDetailsReq",
-          "required_fields": [
-            "from",
-            "namespace",
-            "to"
-          ],
+          "required_fields": ["from", "namespace", "to"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListUsageDetailsReq\nmetadata:\n  name: example\n  namespace: default\nspec:\n  from: value\n  namespace: value\n  to: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"from\": \"value\",\n    \"namespace\": \"value\",\n    \"to\": \"value\"\n  }\n}",
@@ -10821,9 +10340,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageListUsageDetailsResp",
-          "required_fields": [
-            "usage_items"
-          ],
+          "required_fields": ["usage_items"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageListUsageDetailsResp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  usage_items: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"usage_items\": \"value\"\n  }\n}",
@@ -10904,12 +10421,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for usageMonthlyUsageType",
-          "required_fields": [
-            "amount",
-            "currency_code",
-            "end_timestamp",
-            "start_timestamp"
-          ],
+          "required_fields": ["amount", "currency_code", "end_timestamp", "start_timestamp"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for usageMonthlyUsageType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  amount: value\n  currency_code: value\n  end_timestamp: value\n  start_timestamp: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"amount\": \"value\",\n    \"currency_code\": \"value\",\n    \"end_timestamp\": \"value\",\n    \"start_timestamp\": \"value\"\n  }\n}",
@@ -11158,10 +10670,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for planAddonServiceDetails",
-          "required_fields": [
-            "display_name",
-            "name"
-          ],
+          "required_fields": ["display_name", "name"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for planAddonServiceDetails\nmetadata:\n  name: example\n  namespace: default\nspec:\n  display_name: value\n  name: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"display_name\": \"value\",\n    \"name\": \"value\"\n  }\n}",
@@ -11194,9 +10703,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for planListUsagePlansRsp",
-          "required_fields": [
-            "usage_plans"
-          ],
+          "required_fields": ["usage_plans"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for planListUsagePlansRsp\nmetadata:\n  name: example\n  namespace: default\nspec:\n  usage_plans: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"usage_plans\": \"value\"\n  }\n}",
@@ -11244,10 +10751,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for planLocalizedPlan",
-          "required_fields": [
-            "locale",
-            "plans"
-          ],
+          "required_fields": ["locale", "plans"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for planLocalizedPlan\nmetadata:\n  name: example\n  namespace: default\nspec:\n  locale: value\n  plans: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"locale\": \"value\",\n    \"plans\": \"value\"\n  }\n}",
@@ -11259,13 +10763,7 @@
         "type": "string",
         "description": "Temporal period type\n\n- PERIOD_UNKNOWN: unknown, undefined period of time\n- PERIOD_DAY: Day\n- PERIOD_WEEK: Week\n- PERIOD_MONTH: Month\n- PERIOD_YEAR: Year.",
         "title": "Period type.",
-        "enum": [
-          "PERIOD_UNKNOWN",
-          "PERIOD_DAY",
-          "PERIOD_WEEK",
-          "PERIOD_MONTH",
-          "PERIOD_YEAR"
-        ],
+        "enum": ["PERIOD_UNKNOWN", "PERIOD_DAY", "PERIOD_WEEK", "PERIOD_MONTH", "PERIOD_YEAR"],
         "default": "PERIOD_UNKNOWN",
         "x-displayname": "Period type.",
         "x-ves-proto-enum": "ves.io.schema.usage.plan.PeriodUnitType",
@@ -11495,11 +10993,7 @@
         "type": "string",
         "description": "State of the\n\n- STATE_UNSPECIFIED: zero value\n- STATE_READY: the plan is in default state\n- STATE_TRANSITION_PENDING: the plan is in the state of plan transitioning. If the plan has current flag equals to true and in\nTRANSITION_PENDING then tenant moves to another plan which is in state TRANSITION_PENDING.\nAt the same moment in time no more than 2 plans should have TRANSITION_PENDING state.",
         "title": "PlanTransitionState.",
-        "enum": [
-          "STATE_UNSPECIFIED",
-          "STATE_READY",
-          "STATE_TRANSITION_PENDING"
-        ],
+        "enum": ["STATE_UNSPECIFIED", "STATE_READY", "STATE_TRANSITION_PENDING"],
         "default": "STATE_UNSPECIFIED",
         "x-displayname": "PlanTransitionState.",
         "x-ves-proto-enum": "ves.io.schema.usage.plan.PlanState",
@@ -11600,11 +11094,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for planUsagePlanTransitionFlow",
-          "required_fields": [
-            "method",
-            "required_fields",
-            "requires_manual_approval"
-          ],
+          "required_fields": ["method", "required_fields", "requires_manual_approval"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for planUsagePlanTransitionFlow\nmetadata:\n  name: example\n  namespace: default\nspec:\n  method: value\n  required_fields: value\n  requires_manual_approval: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"method\": \"value\",\n    \"required_fields\": \"value\",\n    \"requires_manual_approval\": \"value\"\n  }\n}",
@@ -11634,9 +11124,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterInputHours",
-          "required_fields": [
-            "duration"
-          ],
+          "required_fields": ["duration"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterInputHours\nmetadata:\n  name: example\n  namespace: default\nspec:\n  duration: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"duration\": \"value\"\n  }\n}",
@@ -11666,9 +11154,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterInputMinutes",
-          "required_fields": [
-            "duration"
-          ],
+          "required_fields": ["duration"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterInputMinutes\nmetadata:\n  name: example\n  namespace: default\nspec:\n  duration: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"duration\": \"value\"\n  }\n}",
@@ -11698,9 +11184,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterInputSeconds",
-          "required_fields": [
-            "duration"
-          ],
+          "required_fields": ["duration"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterInputSeconds\nmetadata:\n  name: example\n  namespace: default\nspec:\n  duration: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"duration\": \"value\"\n  }\n}",
@@ -11739,11 +11223,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterRateLimitBlockAction",
-          "required_fields": [
-            "hours",
-            "minutes",
-            "seconds"
-          ],
+          "required_fields": ["hours", "minutes", "seconds"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for rate_limiterRateLimitBlockAction\nmetadata:\n  name: example\n  namespace: default\nspec:\n  hours: value\n  minutes: value\n  seconds: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"hours\": \"value\",\n    \"minutes\": \"value\",\n    \"seconds\": \"value\"\n  }\n}",
@@ -11755,12 +11235,7 @@
         "type": "string",
         "description": "X-displayName: \"Rate Limit Period Unit\"\nUnit for the period per which the rate limit is applied.\n\n- SECOND: Second\n\nx-displayName: \"Seconds\"\nRate limit period unit is seconds\n- MINUTE: Minute\n\nx-displayName: \"Minutes\"\nRate limit period unit is minutes\n- HOUR: Hour\n\nx-displayName: \"Hours\"\nRate limit period unit is hours\n- DAY: Day\n\nx-displayName: \"Days\"\nRate limit period unit is days.",
         "title": "RateLimitPeriodUnit.",
-        "enum": [
-          "SECOND",
-          "MINUTE",
-          "HOUR",
-          "DAY"
-        ],
+        "enum": ["SECOND", "MINUTE", "HOUR", "DAY"],
         "default": "SECOND",
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for rate_limiterRateLimitPeriodUnit",
@@ -11875,13 +11350,7 @@
         "type": "string",
         "description": "PlanType is the type of billing plan for the customer.",
         "title": "PlanType",
-        "enum": [
-          "FREE",
-          "INDIVIDUAL",
-          "TEAM",
-          "ORGANIZATION",
-          "PLAN_TYPE_UNSPECIFIED"
-        ],
+        "enum": ["FREE", "INDIVIDUAL", "TEAM", "ORGANIZATION", "PLAN_TYPE_UNSPECIFIED"],
         "default": "FREE",
         "x-displayname": "Plan Type",
         "x-ves-proto-enum": "ves.io.schema.PlanType",
@@ -11899,11 +11368,7 @@
         "type": "string",
         "description": "TenantType is the type of the customer\n\nUNKNOWN indicates the field not being set\nFREEMIUM are customer that don't have their domain\nENTERPRiISE customer have their domain.",
         "title": "TenantType.",
-        "enum": [
-          "UNKNOWN",
-          "FREEMIUM",
-          "ENTERPRISE"
-        ],
+        "enum": ["UNKNOWN", "FREEMIUM", "ENTERPRISE"],
         "default": "UNKNOWN",
         "x-displayname": "Tenant type.",
         "x-ves-proto-enum": "ves.io.schema.TenantType",
@@ -12027,12 +11492,7 @@
         },
         "x-ves-minimum-configuration": {
           "description": "Minimum configuration for schemaquotaGlobalSpecType",
-          "required_fields": [
-            "api_limits",
-            "apigw_limits",
-            "object_limits",
-            "resource_limits"
-          ],
+          "required_fields": ["api_limits", "apigw_limits", "object_limits", "resource_limits"],
           "mutually_exclusive_groups": [],
           "example_yaml": "# Minimal example for schemaquotaGlobalSpecType\nmetadata:\n  name: example\n  namespace: default\nspec:\n  api_limits: value\n  apigw_limits: value\n  object_limits: value\n  resource_limits: value",
           "example_json": "{\n  \"metadata\": {\n    \"name\": \"example\",\n    \"namespace\": \"default\"\n  },\n  \"spec\": {\n    \"api_limits\": \"value\",\n    \"apigw_limits\": \"value\",\n    \"object_limits\": \"value\",\n    \"resource_limits\": \"value\"\n  }\n}",

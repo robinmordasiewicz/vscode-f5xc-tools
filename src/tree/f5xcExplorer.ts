@@ -9,6 +9,10 @@ import {
   isResourceTypeAvailableForNamespace,
   BUILT_IN_NAMESPACES,
   isBuiltInNamespace,
+  getDangerLevel,
+  getOperationPurpose,
+  isResourceTypePreview,
+  getResourceTypeTierRequirement,
 } from '../api/resourceTypes';
 import { getLogger } from '../utils/logger';
 import {
@@ -260,13 +264,56 @@ class ResourceTypeNode implements F5XCTreeItem {
   ) {}
 
   getTreeItem(): vscode.TreeItem {
-    const item = new vscode.TreeItem(
-      this.data.resourceType.displayName,
-      vscode.TreeItemCollapsibleState.Collapsed,
-    );
+    // Check for preview status
+    const isPreview = isResourceTypePreview(this.data.resourceTypeKey);
+    const tierRequirement = getResourceTypeTierRequirement(this.data.resourceTypeKey);
+
+    // Add preview badge to display name if applicable
+    const displayName = isPreview
+      ? `${this.data.resourceType.displayName} 🧪`
+      : this.data.resourceType.displayName;
+
+    const item = new vscode.TreeItem(displayName, vscode.TreeItemCollapsibleState.Collapsed);
     item.contextValue = `${TreeItemContext.RESOURCE_TYPE}:${this.data.resourceTypeKey}`;
     item.iconPath = new vscode.ThemeIcon(this.data.resourceType.icon);
-    item.tooltip = this.data.resourceType.description || this.data.resourceType.displayName;
+
+    // Build enhanced tooltip with resource type information
+    const tooltip = new vscode.MarkdownString();
+    tooltip.appendMarkdown(`**${this.data.resourceType.displayName}**`);
+    if (isPreview) {
+      tooltip.appendMarkdown(' 🧪 *(Preview)*');
+    }
+    tooltip.appendMarkdown('\n\n');
+
+    if (this.data.resourceType.description) {
+      tooltip.appendMarkdown(`${this.data.resourceType.description}\n\n`);
+    }
+    tooltip.appendMarkdown(`**Category**: ${this.data.resourceType.category}\n\n`);
+
+    // Add tier requirement if applicable
+    if (tierRequirement) {
+      tooltip.appendMarkdown(`**Requires**: ${tierRequirement} tier\n\n`);
+    }
+
+    // Add operation information
+    const listPurpose = getOperationPurpose(this.data.resourceTypeKey, 'list');
+    const createPurpose = getOperationPurpose(this.data.resourceTypeKey, 'create');
+    const deleteDanger = getDangerLevel(this.data.resourceTypeKey, 'delete');
+
+    tooltip.appendMarkdown(`---\n\n`);
+    tooltip.appendMarkdown(`**Available Operations:**\n\n`);
+    if (listPurpose) {
+      tooltip.appendMarkdown(`- List: ${listPurpose}\n`);
+    }
+    if (createPurpose) {
+      tooltip.appendMarkdown(`- Create: ${createPurpose}\n`);
+    }
+    const dangerIcon = deleteDanger === 'high' ? '⚠️' : deleteDanger === 'medium' ? '⚡' : '✓';
+    tooltip.appendMarkdown(
+      `- Delete: ${dangerIcon} ${deleteDanger === 'high' ? 'High Risk' : deleteDanger === 'medium' ? 'Medium' : 'Low'}\n`,
+    );
+
+    item.tooltip = tooltip;
     return item;
   }
 
@@ -380,7 +427,33 @@ export class ResourceNode implements F5XCTreeItem {
     const item = new vscode.TreeItem(this.data.name, vscode.TreeItemCollapsibleState.None);
     item.contextValue = `${TreeItemContext.RESOURCE}:${this.data.resourceTypeKey}`;
     item.iconPath = new vscode.ThemeIcon('file');
-    item.tooltip = `${this.data.resourceType.displayName}: ${this.data.name}\nNamespace: ${this.data.namespace}\nCategory: ${this.data.resourceType.category}`;
+
+    // Build enhanced tooltip with operation metadata
+    const deleteDanger = getDangerLevel(this.data.resourceTypeKey, 'delete');
+    const deletePurpose = getOperationPurpose(this.data.resourceTypeKey, 'delete');
+    const getPurpose = getOperationPurpose(this.data.resourceTypeKey, 'get');
+
+    // Use MarkdownString for richer tooltip
+    const tooltip = new vscode.MarkdownString();
+    tooltip.appendMarkdown(`**${this.data.resourceType.displayName}**: ${this.data.name}\n\n`);
+    tooltip.appendMarkdown(`**Namespace**: ${this.data.namespace}\n\n`);
+    tooltip.appendMarkdown(`**Category**: ${this.data.resourceType.category}\n\n`);
+    tooltip.appendMarkdown(`---\n\n`);
+    tooltip.appendMarkdown(`**Operations:**\n\n`);
+    if (getPurpose) {
+      tooltip.appendMarkdown(`- View: ${getPurpose}\n`);
+    }
+    // Show danger level with appropriate indicator
+    const dangerIcon = deleteDanger === 'high' ? '⚠️' : deleteDanger === 'medium' ? '⚡' : '✓';
+    const dangerText =
+      deleteDanger === 'high' ? 'High Risk' : deleteDanger === 'medium' ? 'Medium' : 'Low';
+    tooltip.appendMarkdown(`- Delete: ${dangerIcon} ${dangerText}`);
+    if (deletePurpose) {
+      tooltip.appendMarkdown(` - ${deletePurpose}`);
+    }
+    tooltip.appendMarkdown('\n');
+
+    item.tooltip = tooltip;
     item.command = {
       command: 'f5xc.describe',
       title: 'Describe Resource',
