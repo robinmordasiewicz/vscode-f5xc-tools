@@ -4,8 +4,12 @@
  * Generates version strings based on upstream API version and timestamp.
  *
  * Formats:
- * - Release: v{upstream}-YYMMDDHHMM (e.g., v1.0.77-2501011430)
- * - Beta/Local: v{upstream}-YYMMDDHHMM-BETA
+ * - Git tag: v{upstream}-YYMMDDHHMM (e.g., v1.0.82-2501011430)
+ * - Package.json (semver): {major}.{minor}.{patch}.{MMDDHHMM} (e.g., 1.0.82.1011430)
+ * - Beta: v{upstream}-YYMMDDHHMM-BETA
+ *
+ * The 4-segment semver format ensures compatibility with VS Code marketplace
+ * which requires each segment to be ≤ 2,147,483,647.
  *
  * Usage:
  *   npx ts-node scripts/version.ts           # Output current version
@@ -77,20 +81,27 @@ function generateTimestamp(): string {
 
 /**
  * Convert to semver-compatible format for package.json
- * VSCode requires semver format: major.minor.patch
- * We use: upstream major.minor as prefix with timestamp as patch
- * Format: {upstream_major}.{upstream_minor}.{timestamp}
- * Example: 1.0.2512312031 (from upstream 1.0.77 + timestamp 2512312031)
+ * VSCode marketplace requires 4 segments, each ≤ 2,147,483,647
+ * Format: {upstream_major}.{upstream_minor}.{upstream_patch}.{MMDDHHMM}
+ * Example: 1.0.82.1011430 (from upstream 1.0.82 + Jan 01 14:30)
+ *
+ * MMDDHHMM format ensures uniqueness per-minute within a year
+ * Max value: 12312359 (Dec 31, 23:59) - well under marketplace limit
  */
 function toSemver(upstream: string, timestamp: string): string {
-  // upstream is like "1.0.77"
-  // timestamp is like "2501011430"
+  // upstream is like "1.0.82"
+  // timestamp is like "2501011430" (YYMMDDHHMM)
   const parts = upstream.split('.');
   const major = parts[0] || '0';
   const minor = parts[1] || '0';
+  const patch = parts[2] || '0';
 
-  // Use upstream major.minor as prefix with timestamp as patch
-  return `${major}.${minor}.${timestamp}`;
+  // Extract MMDDHHMM from full timestamp (strip YY prefix)
+  // timestamp: 2501011430 → MMDDHHMM: 01011430
+  const buildId = timestamp.slice(2); // Remove YY prefix
+
+  // Use 4-segment format: major.minor.patch.buildId
+  return `${major}.${minor}.${patch}.${buildId}`;
 }
 
 /**
@@ -157,9 +168,10 @@ Options:
   --help    Show this help message
 
 Examples:
-  npx ts-node scripts/version.ts           # Output: 1.0.77-2501011430
-  npx ts-node scripts/version.ts --beta    # Output: 1.0.77-2501011430-BETA
-  npx ts-node scripts/version.ts --update  # Updates package.json
+  npx ts-node scripts/version.ts           # Output: 1.0.82-2501011430
+  npx ts-node scripts/version.ts --beta    # Output: 1.0.82-2501011430-BETA
+  npx ts-node scripts/version.ts --update  # Updates package.json to 1.0.82.1011430
+  npx ts-node scripts/version.ts --json    # Shows version, semver, upstream, etc.
 `);
     return;
   }
