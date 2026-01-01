@@ -33,6 +33,8 @@ jobs:
 
       - name: Sync API specs from upstream
         run: npm run specs:sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build production bundle
         run: npm run package
@@ -75,6 +77,8 @@ jobs:
 
       - name: Sync API specs from upstream
         run: npm run specs:sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build production bundle
         run: npm run package
