@@ -4,12 +4,12 @@
  * Generates version strings based on upstream API version and timestamp.
  *
  * Formats:
- * - Git tag: v{upstream}-YYMMDDHHMM (e.g., v1.0.82-2501011430)
- * - Package.json (semver): {major}.{minor}.{patch}.{MMDDHHMM} (e.g., 1.0.82.1011430)
+ * - Git tag: v{upstream}-YYMMDDHHMM (e.g., v1.0.82-2601010516)
+ * - Package.json (semver): {major}.{YYMM}.{DDHHMM} (e.g., 1.2601.10516)
  * - Beta: v{upstream}-YYMMDDHHMM-BETA
  *
- * The 4-segment semver format ensures compatibility with VS Code marketplace
- * which requires each segment to be ≤ 2,147,483,647.
+ * The 3-segment semver format is required by VS Code marketplace.
+ * Each segment must be ≤ 2,147,483,647 (YYMM max=9912, DDHHMM max=312359).
  *
  * Usage:
  *   npx ts-node scripts/version.ts           # Output current version
@@ -81,27 +81,33 @@ function generateTimestamp(): string {
 
 /**
  * Convert to semver-compatible format for package.json
- * VSCode marketplace requires 4 segments, each ≤ 2,147,483,647
- * Format: {upstream_major}.{upstream_minor}.{upstream_patch}.{MMDDHHMM}
- * Example: 1.0.82.1011430 (from upstream 1.0.82 + Jan 01 14:30)
+ * VS Code requires standard 3-segment semver (major.minor.patch)
+ * Each segment must be ≤ 2,147,483,647
  *
- * MMDDHHMM format ensures uniqueness per-minute within a year
- * Max value: 12312359 (Dec 31, 23:59) - well under marketplace limit
+ * Format: {upstream_major}.{YYMM}.{DDHHMM}
+ * Example: 1.2601.10516 (upstream 1.x, Jan 2026, day 01 05:16)
+ *
+ * This provides:
+ * - Major: Upstream API major version (1)
+ * - Minor: Year-month (YYMM, max 9912, well under limit)
+ * - Patch: Day-hour-minute (DDHHMM, max 312359, well under limit)
  */
 function toSemver(upstream: string, timestamp: string): string {
   // upstream is like "1.0.82"
-  // timestamp is like "2501011430" (YYMMDDHHMM)
+  // timestamp is like "2601010516" (YYMMDDHHMM)
   const parts = upstream.split('.');
   const major = parts[0] || '0';
-  const minor = parts[1] || '0';
-  const patch = parts[2] || '0';
 
-  // Extract MMDDHHMM from full timestamp (strip YY prefix)
-  // timestamp: 2501011430 → MMDDHHMM: 01011430
-  const buildId = timestamp.slice(2); // Remove YY prefix
+  // Extract YYMM for minor version
+  // timestamp: 2601010516 → YYMM: 2601
+  const yymm = parseInt(timestamp.slice(0, 4), 10);
 
-  // Use 4-segment format: major.minor.patch.buildId
-  return `${major}.${minor}.${patch}.${buildId}`;
+  // Extract DDHHMM for patch version
+  // timestamp: 2601010516 → DDHHMM: 010516 → integer: 10516
+  const ddhhmm = parseInt(timestamp.slice(4), 10);
+
+  // Use 3-segment format: major.YYMM.DDHHMM
+  return `${major}.${yymm}.${ddhhmm}`;
 }
 
 /**
@@ -168,9 +174,9 @@ Options:
   --help    Show this help message
 
 Examples:
-  npx ts-node scripts/version.ts           # Output: 1.0.82-2501011430
-  npx ts-node scripts/version.ts --beta    # Output: 1.0.82-2501011430-BETA
-  npx ts-node scripts/version.ts --update  # Updates package.json to 1.0.82.1011430
+  npx ts-node scripts/version.ts           # Output: 1.0.82-2601010516
+  npx ts-node scripts/version.ts --beta    # Output: 1.0.82-2601010516-BETA
+  npx ts-node scripts/version.ts --update  # Updates package.json to 1.2601.10516
   npx ts-node scripts/version.ts --json    # Shows version, semver, upstream, etc.
 `);
     return;
