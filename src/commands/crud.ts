@@ -64,7 +64,7 @@ export function registerCrudCommands(
     vscode.commands.registerCommand('f5xc.get', async (node: ResourceNode) => {
       await withErrorHandling(async () => {
         const data = node.getData();
-        const profile = profileManager.getProfile(data.profileName);
+        const profile = await profileManager.getProfile(data.profileName);
 
         if (!profile) {
           showWarning(`Profile "${data.profileName}" not found`);
@@ -150,7 +150,7 @@ export function registerCrudCommands(
             };
           }
 
-          const profile = profileManager.getProfile(data.profileName);
+          const profile = await profileManager.getProfile(data.profileName);
 
           if (!profile) {
             showWarning(`Profile "${data.profileName}" not found`);
@@ -298,7 +298,7 @@ export function registerCrudCommands(
         }
 
         // Get active profile
-        const activeProfile = profileManager.getActiveProfile();
+        const activeProfile = await profileManager.getActiveProfile();
         if (!activeProfile) {
           showWarning('No active profile. Configure a profile first.');
           return;
@@ -680,7 +680,7 @@ export function registerCrudCommands(
             return;
           }
 
-          const activeProfile = profileManager.getActiveProfile();
+          const activeProfile = await profileManager.getActiveProfile();
           if (!activeProfile) {
             showWarning('No active profile');
             return;
@@ -768,7 +768,7 @@ export function registerCrudCommands(
   context.subscriptions.push(
     vscode.commands.registerCommand('f5xc.openInBrowser', async (node: ResourceNode) => {
       const data = node.getData();
-      const profile = profileManager.getProfile(data.profileName);
+      const profile = await profileManager.getProfile(data.profileName);
 
       if (!profile) {
         showWarning(`Profile "${data.profileName}" not found`);

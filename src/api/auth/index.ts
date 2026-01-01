@@ -5,7 +5,7 @@ import * as https from 'https';
  */
 export interface AuthProvider {
   /** The type of authentication */
-  readonly type: 'token' | 'p12';
+  readonly type: 'token' | 'cert';
 
   /** Get HTTP headers required for authentication */
   getHeaders(): Record<string, string>;
@@ -25,16 +25,23 @@ export interface AuthProvider {
  */
 export interface TokenAuthConfig {
   apiUrl: string;
-  token: string;
+  apiToken: string;
 }
 
 /**
- * Configuration for P12 certificate-based authentication
+ * Configuration for certificate-based authentication
+ * Supports two methods:
+ * 1. P12 Bundle: p12Bundle path (password from F5XC_P12_PASSWORD env var)
+ * 2. Cert + Key: Direct PEM file paths
  */
-export interface P12AuthConfig {
+export interface CertAuthConfig {
   apiUrl: string;
-  p12Path: string;
-  p12Password: string;
+  /** P12 bundle file path */
+  p12Bundle?: string;
+  /** TLS certificate PEM file path */
+  cert?: string;
+  /** TLS private key PEM file path */
+  key?: string;
 }
 
 /**
@@ -42,7 +49,7 @@ export interface P12AuthConfig {
  */
 export type AuthConfig =
   | { type: 'token'; config: TokenAuthConfig }
-  | { type: 'p12'; config: P12AuthConfig };
+  | { type: 'cert'; config: CertAuthConfig };
 
 export { TokenAuthProvider } from './tokenAuth';
-export { P12AuthProvider } from './p12Auth';
+export { CertAuthProvider } from './certAuth';

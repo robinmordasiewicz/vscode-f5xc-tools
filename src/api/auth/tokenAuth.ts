@@ -9,17 +9,17 @@ import { API_ENDPOINTS } from '../../generated/constants';
 export class TokenAuthProvider implements AuthProvider {
   readonly type = 'token' as const;
   private readonly apiUrl: string;
-  private readonly token: string;
+  private readonly apiToken: string;
   private readonly logger = getLogger();
 
   constructor(config: TokenAuthConfig) {
     this.apiUrl = config.apiUrl;
-    this.token = config.token;
+    this.apiToken = config.apiToken;
   }
 
   getHeaders(): Record<string, string> {
     return {
-      Authorization: `APIToken ${this.token}`,
+      Authorization: `APIToken ${this.apiToken}`,
       'Content-Type': 'application/json',
       Accept: 'application/json',
     };

@@ -1,26 +1,46 @@
+/**
+ * Certificate-based authentication provider for F5 XC
+ * Supports two methods:
+ * 1. P12 Bundle: p12Bundle path with password from F5XC_P12_PASSWORD env var
+ * 2. Cert + Key: Direct PEM file paths (no password needed)
+ */
+
 import * as https from 'https';
 import * as fs from 'fs';
 import * as forge from 'node-forge';
-import { AuthProvider, P12AuthConfig } from './index';
+import { AuthProvider, CertAuthConfig } from './index';
 import { getLogger } from '../../utils/logger';
 import { AuthenticationError } from '../../utils/errors';
 import { API_ENDPOINTS } from '../../generated/constants';
 
 /**
- * P12 Certificate-based authentication provider for F5 XC
+ * Certificate-based authentication provider for F5 XC mTLS
  */
-export class P12AuthProvider implements AuthProvider {
-  readonly type = 'p12' as const;
+export class CertAuthProvider implements AuthProvider {
+  readonly type = 'cert' as const;
   private readonly apiUrl: string;
-  private readonly p12Path: string;
-  private readonly password: string;
+  private readonly p12Bundle?: string;
+  private readonly certPath?: string;
+  private readonly keyPath?: string;
   private agent?: https.Agent;
   private readonly logger = getLogger();
 
-  constructor(config: P12AuthConfig) {
+  constructor(config: CertAuthConfig) {
     this.apiUrl = config.apiUrl;
-    this.p12Path = config.p12Path;
-    this.password = config.p12Password;
+    this.p12Bundle = config.p12Bundle;
+    this.certPath = config.cert;
+    this.keyPath = config.key;
+
+    // Validate config
+    if (this.p12Bundle && (this.certPath || this.keyPath)) {
+      throw new AuthenticationError(
+        'Cannot specify both p12Bundle and cert/key paths. Use one method only.',
+      );
+    }
+
+    if (!this.p12Bundle && (!this.certPath || !this.keyPath)) {
+      throw new AuthenticationError('Must specify either p12Bundle or both cert and key paths.');
+    }
   }
 
   getHeaders(): Record<string, string> {
@@ -35,20 +55,38 @@ export class P12AuthProvider implements AuthProvider {
       return this.agent;
     }
 
+    if (this.p12Bundle) {
+      this.agent = this.createAgentFromP12();
+    } else {
+      this.agent = this.createAgentFromCertKey();
+    }
+
+    return this.agent;
+  }
+
+  /**
+   * Create HTTPS agent from P12 bundle
+   */
+  private createAgentFromP12(): https.Agent {
     this.logger.debug('Creating HTTPS agent from P12 certificate...');
 
-    try {
-      // Read P12 file
-      if (!fs.existsSync(this.p12Path)) {
-        throw new AuthenticationError(`P12 file not found: ${this.p12Path}`);
-      }
+    const password = process.env.F5XC_P12_PASSWORD || '';
 
-      const p12Buffer = fs.readFileSync(this.p12Path);
+    if (!this.p12Bundle) {
+      throw new AuthenticationError('P12 bundle path not specified');
+    }
+
+    if (!fs.existsSync(this.p12Bundle)) {
+      throw new AuthenticationError(`P12 file not found: ${this.p12Bundle}`);
+    }
+
+    try {
+      const p12Buffer = fs.readFileSync(this.p12Bundle);
       const p12Der = p12Buffer.toString('binary');
 
       // Parse P12 using node-forge
       const p12Asn1 = forge.asn1.fromDer(p12Der);
-      const p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, this.password);
+      const p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, password);
 
       // Extract certificate
       const certBagType = forge.pki.oids.certBag as string;
@@ -89,17 +127,15 @@ export class P12AuthProvider implements AuthProvider {
 
       const key = forge.pki.privateKeyToPem(keyBag.key);
 
-      // Create HTTPS agent with certificate and key
-      this.agent = new https.Agent({
+      this.logger.info('P12 certificate loaded successfully');
+
+      return new https.Agent({
         cert,
         key,
         rejectUnauthorized: true,
         keepAlive: true,
         maxSockets: 10,
       });
-
-      this.logger.info('P12 certificate loaded successfully');
-      return this.agent;
     } catch (error) {
       if (error instanceof AuthenticationError) {
         throw error;
@@ -108,15 +144,54 @@ export class P12AuthProvider implements AuthProvider {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
       if (errorMessage.includes('Invalid password')) {
-        throw new AuthenticationError('Invalid P12 password');
+        throw new AuthenticationError(
+          'Invalid P12 password. Set F5XC_P12_PASSWORD environment variable.',
+        );
       }
 
       throw new AuthenticationError(`Failed to load P12 certificate: ${errorMessage}`);
     }
   }
 
+  /**
+   * Create HTTPS agent from separate cert and key PEM files
+   */
+  private createAgentFromCertKey(): https.Agent {
+    this.logger.debug('Creating HTTPS agent from cert and key files...');
+
+    if (!this.certPath || !this.keyPath) {
+      throw new AuthenticationError('Certificate and key paths not specified');
+    }
+
+    if (!fs.existsSync(this.certPath)) {
+      throw new AuthenticationError(`Certificate file not found: ${this.certPath}`);
+    }
+
+    if (!fs.existsSync(this.keyPath)) {
+      throw new AuthenticationError(`Key file not found: ${this.keyPath}`);
+    }
+
+    try {
+      const cert = fs.readFileSync(this.certPath, 'utf-8');
+      const key = fs.readFileSync(this.keyPath, 'utf-8');
+
+      this.logger.info('Certificate and key loaded successfully');
+
+      return new https.Agent({
+        cert,
+        key,
+        rejectUnauthorized: true,
+        keepAlive: true,
+        maxSockets: 10,
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new AuthenticationError(`Failed to load certificate files: ${errorMessage}`);
+    }
+  }
+
   async validate(): Promise<boolean> {
-    this.logger.debug('Validating P12 certificate...');
+    this.logger.debug('Validating certificate authentication...');
 
     try {
       const agent = this.getHttpsAgent();
@@ -137,27 +212,26 @@ export class P12AuthProvider implements AuthProvider {
 
         const req = https.request(options, (res) => {
           if (res.statusCode === 200) {
-            this.logger.info('P12 certificate validated successfully');
+            this.logger.info('Certificate validated successfully');
             resolve(true);
           } else if (res.statusCode === 401 || res.statusCode === 403) {
-            this.logger.warn(`P12 certificate validation failed: ${res.statusCode}`);
+            this.logger.warn(`Certificate validation failed: ${res.statusCode}`);
             resolve(false);
           } else {
             this.logger.warn(`Unexpected status during validation: ${res.statusCode}`);
             resolve(false);
           }
 
-          // Consume response data to free up memory
           res.resume();
         });
 
         req.on('error', (error) => {
-          this.logger.error('P12 validation request failed', error);
+          this.logger.error('Certificate validation request failed', error);
           resolve(false);
         });
 
         req.on('timeout', () => {
-          this.logger.warn('P12 validation request timed out');
+          this.logger.warn('Certificate validation request timed out');
           req.destroy();
           resolve(false);
         });
@@ -165,7 +239,7 @@ export class P12AuthProvider implements AuthProvider {
         req.end();
       });
     } catch (error) {
-      this.logger.error('P12 validation failed', error as Error);
+      this.logger.error('Certificate validation failed', error as Error);
       return false;
     }
   }
@@ -174,7 +248,7 @@ export class P12AuthProvider implements AuthProvider {
     if (this.agent) {
       this.agent.destroy();
       this.agent = undefined;
-      this.logger.debug('P12 HTTPS agent disposed');
+      this.logger.debug('Certificate HTTPS agent disposed');
     }
   }
 }

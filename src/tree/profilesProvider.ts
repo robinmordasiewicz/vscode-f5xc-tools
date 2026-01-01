@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { ProfileManager, F5XCProfile } from '../config/profiles';
+import { ProfileManager, Profile } from '../config/profiles';
 import { F5XCTreeItem } from './treeTypes';
 
 /**
@@ -15,13 +15,15 @@ export class ProfilesProvider implements vscode.TreeDataProvider<ProfileTreeItem
     return element.getTreeItem();
   }
 
-  getChildren(element?: ProfileTreeItem): Promise<ProfileTreeItem[]> {
+  async getChildren(element?: ProfileTreeItem): Promise<ProfileTreeItem[]> {
     if (element) {
-      return Promise.resolve([]);
+      return [];
     }
 
-    const profiles = this.profileManager.getProfiles();
-    return Promise.resolve(profiles.map((profile) => new ProfileTreeItem(profile)));
+    const profiles = await this.profileManager.getProfiles();
+    const activeName = await this.profileManager.getActiveProfileName();
+
+    return profiles.map((profile) => new ProfileTreeItem(profile, profile.name === activeName));
   }
 
   refresh(): void {
@@ -33,20 +35,23 @@ export class ProfilesProvider implements vscode.TreeDataProvider<ProfileTreeItem
  * Profile tree item
  */
 export class ProfileTreeItem implements F5XCTreeItem {
-  constructor(private readonly profile: F5XCProfile) {}
+  constructor(
+    private readonly profile: Profile,
+    private readonly isActive: boolean,
+  ) {}
 
   getTreeItem(): vscode.TreeItem {
-    const label = this.profile.isActive ? `${this.profile.name} (active)` : this.profile.name;
+    const label = this.isActive ? `${this.profile.name} (active)` : this.profile.name;
 
     const item = new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.None);
 
     item.contextValue = 'profile';
-    item.iconPath = new vscode.ThemeIcon(this.profile.isActive ? 'star-full' : 'account');
+    item.iconPath = new vscode.ThemeIcon(this.isActive ? 'star-full' : 'account');
     item.tooltip = this.buildTooltip();
     item.description = this.profile.apiUrl;
 
     // Click to activate profile (only if not already active)
-    if (!this.profile.isActive) {
+    if (!this.isActive) {
       item.command = {
         command: 'f5xc.setActiveProfile',
         title: 'Set as Active Profile',
@@ -61,7 +66,7 @@ export class ProfileTreeItem implements F5XCTreeItem {
     return Promise.resolve([]);
   }
 
-  getProfile(): F5XCProfile {
+  getProfile(): Profile {
     return this.profile;
   }
 
@@ -69,17 +74,42 @@ export class ProfileTreeItem implements F5XCTreeItem {
     const lines = [
       `Name: ${this.profile.name}`,
       `URL: ${this.profile.apiUrl}`,
-      `Auth Type: ${this.profile.authType}`,
+      `Auth: ${this.getAuthTypeDescription()}`,
     ];
 
-    if (this.profile.authType === 'p12' && this.profile.p12Path) {
-      lines.push(`P12 File: ${this.profile.p12Path}`);
+    if (this.profile.defaultNamespace) {
+      lines.push(`Default Namespace: ${this.profile.defaultNamespace}`);
     }
 
-    if (this.profile.isActive) {
+    if (this.profile.p12Bundle) {
+      lines.push(`P12 Bundle: ${this.profile.p12Bundle}`);
+    }
+
+    if (this.profile.cert) {
+      lines.push(`Certificate: ${this.profile.cert}`);
+    }
+
+    if (this.profile.key) {
+      lines.push(`Private Key: ${this.profile.key}`);
+    }
+
+    if (this.isActive) {
       lines.push('Status: Active');
     }
 
     return lines.join('\n');
+  }
+
+  private getAuthTypeDescription(): string {
+    if (this.profile.apiToken) {
+      return 'API Token';
+    }
+    if (this.profile.p12Bundle) {
+      return 'P12 Certificate';
+    }
+    if (this.profile.cert && this.profile.key) {
+      return 'Certificate + Key';
+    }
+    return 'Not configured';
   }
 }

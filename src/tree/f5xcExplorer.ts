@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { ProfileManager, F5XCProfile } from '../config/profiles';
+import { ProfileManager, Profile } from '../config/profiles';
 import { F5XCClient } from '../api/client';
 import {
   RESOURCE_TYPES,
@@ -32,12 +32,12 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
   readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
   private readonly profileManager: ProfileManager;
-  private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>;
+  private readonly clientFactory: (profile: Profile) => Promise<F5XCClient>;
   private readonly logger = getLogger();
 
   constructor(
     profileManager: ProfileManager,
-    clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
+    clientFactory: (profile: Profile) => Promise<F5XCClient>,
   ) {
     this.profileManager = profileManager;
     this.clientFactory = clientFactory;
@@ -59,7 +59,7 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
   }
 
   private async getRootItems(): Promise<F5XCTreeItem[]> {
-    const activeProfile = this.profileManager.getActiveProfile();
+    const activeProfile = await this.profileManager.getActiveProfile();
 
     if (!activeProfile) {
       return [];
@@ -128,7 +128,7 @@ class NamespaceGroupNode implements F5XCTreeItem {
     private readonly groupName: string,
     private readonly namespaceNames: string[],
     private readonly profileName: string,
-    private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
+    private readonly clientFactory: (profile: Profile) => Promise<F5XCClient>,
     private readonly profileManager: ProfileManager,
     private readonly icon: string,
     private readonly isBuiltIn: boolean,
@@ -162,7 +162,7 @@ class NamespaceGroupNode implements F5XCTreeItem {
 export class NamespaceNode implements F5XCTreeItem {
   constructor(
     private readonly data: NamespaceNodeData,
-    private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
+    private readonly clientFactory: (profile: Profile) => Promise<F5XCClient>,
     private readonly profileManager: ProfileManager,
   ) {}
 
@@ -213,7 +213,7 @@ export class NamespaceNode implements F5XCTreeItem {
 class CategoryNode implements F5XCTreeItem {
   constructor(
     private readonly data: CategoryNodeData,
-    private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
+    private readonly clientFactory: (profile: Profile) => Promise<F5XCClient>,
     private readonly profileManager: ProfileManager,
   ) {}
 
@@ -259,7 +259,7 @@ class ResourceTypeNode implements F5XCTreeItem {
 
   constructor(
     private readonly data: ResourceTypeNodeData,
-    private readonly clientFactory: (profile: F5XCProfile) => Promise<F5XCClient>,
+    private readonly clientFactory: (profile: Profile) => Promise<F5XCClient>,
     private readonly profileManager: ProfileManager,
   ) {}
 
@@ -319,7 +319,7 @@ class ResourceTypeNode implements F5XCTreeItem {
 
   async getChildren(): Promise<F5XCTreeItem[]> {
     try {
-      const profile = this.profileManager.getProfile(this.data.profileName);
+      const profile = await this.profileManager.getProfile(this.data.profileName);
       if (!profile) {
         return [];
       }
