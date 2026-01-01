@@ -27,6 +27,8 @@ export const TreeItemContext = {
   SUBSCRIPTION_GROUP: 'subscriptionGroup',
   SUBSCRIPTION_PLAN: 'subscriptionPlan',
   SUBSCRIPTION_QUOTAS: 'subscriptionQuotas',
+  // Error display
+  ERROR: 'error',
 } as const;
 
 /**

@@ -58,6 +58,31 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
     this._onDidChangeTreeData.fire(undefined);
   }
 
+  /**
+   * Convert error to user-friendly message
+   */
+  private getErrorMessage(error: Error): string {
+    const message = error.message.toLowerCase();
+
+    if (message.includes('timeout')) {
+      return 'Connection timed out. Check your network connection or VPN status.';
+    }
+    if (message.includes('socket hang up') || message.includes('econnrefused')) {
+      return 'Could not connect to API. The endpoint may be unreachable or VPN may be required.';
+    }
+    if (message.includes('401') || message.includes('unauthorized')) {
+      return 'Authentication failed. Your API token may be invalid or expired.';
+    }
+    if (message.includes('403') || message.includes('forbidden')) {
+      return 'Access denied. You may not have permission to access this resource.';
+    }
+    if (message.includes('certificate')) {
+      return 'Certificate error. Check your P12 certificate configuration.';
+    }
+
+    return error.message || 'An unknown error occurred';
+  }
+
   private async getRootItems(): Promise<F5XCTreeItem[]> {
     const activeProfile = await this.profileManager.getActiveProfile();
 
@@ -115,7 +140,8 @@ export class F5XCExplorerProvider implements vscode.TreeDataProvider<F5XCTreeIte
       return groups;
     } catch (error) {
       this.logger.error('Failed to load namespaces', error as Error);
-      return [];
+      const errorMessage = this.getErrorMessage(error as Error);
+      return [new ErrorNode('Failed to load namespaces', errorMessage)];
     }
   }
 }
@@ -408,7 +434,7 @@ class ResourceTypeNode implements F5XCTreeItem {
       );
     } catch (error) {
       this.logger.error(`Failed to load ${this.data.resourceType.displayName}`, error as Error);
-      return [];
+      return [new ErrorNode('Failed to load resources', (error as Error).message)];
     }
   }
 
@@ -488,5 +514,33 @@ export class ResourceNode implements F5XCTreeItem {
 
   get profileName(): string {
     return this.data.profileName;
+  }
+}
+
+/**
+ * Error node for displaying connection/API errors in the tree
+ */
+class ErrorNode implements F5XCTreeItem {
+  constructor(
+    private readonly title: string,
+    private readonly message: string,
+    private readonly retryCommand: string = 'f5xc.refreshExplorer',
+  ) {}
+
+  getTreeItem(): vscode.TreeItem {
+    const item = new vscode.TreeItem(this.title, vscode.TreeItemCollapsibleState.None);
+    item.contextValue = TreeItemContext.ERROR;
+    item.iconPath = new vscode.ThemeIcon('error', new vscode.ThemeColor('list.errorForeground'));
+    item.description = 'Click to retry';
+    item.tooltip = this.message;
+    item.command = {
+      command: this.retryCommand,
+      title: 'Retry',
+    };
+    return item;
+  }
+
+  getChildren(): Promise<F5XCTreeItem[]> {
+    return Promise.resolve([]);
   }
 }

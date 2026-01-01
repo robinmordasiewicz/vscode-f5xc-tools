@@ -41,6 +41,10 @@ describe('TreeItemContext', () => {
     expect(TreeItemContext.SUBSCRIPTION_QUOTAS).toBe('subscriptionQuotas');
   });
 
+  it('should have ERROR context', () => {
+    expect(TreeItemContext.ERROR).toBe('error');
+  });
+
   it('should be a readonly object', () => {
     // Test that all keys are present
     const keys = Object.keys(TreeItemContext);
@@ -54,6 +58,7 @@ describe('TreeItemContext', () => {
     expect(keys).toContain('SUBSCRIPTION_GROUP');
     expect(keys).toContain('SUBSCRIPTION_PLAN');
     expect(keys).toContain('SUBSCRIPTION_QUOTAS');
-    expect(keys).toHaveLength(10);
+    expect(keys).toContain('ERROR');
+    expect(keys).toHaveLength(11);
   });
 });

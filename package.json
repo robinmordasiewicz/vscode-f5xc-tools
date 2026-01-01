@@ -133,7 +133,8 @@
     "viewsWelcome": [
       {
         "view": "f5xc.explorer",
-        "contents": "No F5 XC profile configured.\n[Add Profile](command:f5xc.addProfile)\nLearn more about [F5 Distributed Cloud](https://www.f5.com/cloud)."
+        "contents": "No F5 XC profile configured.\n[Add Profile](command:f5xc.addProfile)\nLearn more about [F5 Distributed Cloud](https://www.f5.com/cloud).",
+        "when": "!f5xc.hasActiveProfile"
       }
     ],
     "commands": [
