@@ -13,3 +13,7 @@ yarn-error.log*
 .env.local
 coverage/
 .nyc_output/
+
+# API specs - fetched at build time from upstream
+docs/specifications/
+.specs-temp/

@@ -1,18 +1,7 @@
 #!/usr/bin/env sh
 
 # Husky pre-commit hook
-# - Automatically regenerates files when OpenAPI specs change
 # - Runs lint-staged for TypeScript/JavaScript linting and formatting
-
-# Check if any OpenAPI spec files are staged for commit
-if git diff --cached --name-only | grep -q "docs/specifications/api/"; then
-  echo "OpenAPI specs changed - regenerating types and schemas..."
-  npm run generate
-
-  # Stage the regenerated files
-  git add src/generated/
-  echo "✅ Generated files updated and staged"
-fi
 
 # Run lint-staged for code quality
 npx lint-staged
