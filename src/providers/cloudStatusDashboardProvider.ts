@@ -1733,7 +1733,7 @@ export class CloudStatusDashboardProvider {
     // Try to fetch Regional Edge data from XC API if authenticated
     // Note: F5-managed Regional Edge sites are visible in LIST but coordinates are not accessible
     let xcSite: Site | null = null;
-    const activeProfile = this.profileManager.getActiveProfile();
+    const activeProfile = await this.profileManager.getActiveProfile();
 
     if (activeProfile && siteCode) {
       try {

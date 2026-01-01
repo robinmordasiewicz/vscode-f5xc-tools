@@ -1,137 +1,151 @@
+/**
+ * ProfileManager - XDG-compliant profile management
+ * Compatible with f5xc-xcsh and f5xc-api-mcp
+ */
+
 import * as vscode from 'vscode';
 import {
   AuthProvider,
   TokenAuthProvider,
-  P12AuthProvider,
+  CertAuthProvider,
   TokenAuthConfig,
-  P12AuthConfig,
+  CertAuthConfig,
 } from '../api/auth';
 import { F5XCClient } from '../api/client';
 import { getLogger } from '../utils/logger';
 import { ConfigurationError } from '../utils/errors';
+import { Profile, XDGProfileManager, xdgProfileManager } from './xdgProfiles';
+import { getProfilesDir, getActiveProfilePath } from './paths';
+
+// Re-export Profile for consumers
+export type { Profile } from './xdgProfiles';
 
 /**
- * Profile configuration stored in VSCode settings
- */
-export interface F5XCProfile {
-  /** Unique profile name */
-  name: string;
-  /** F5 XC API URL (e.g., https://tenant.console.ves.volterra.io) */
-  apiUrl: string;
-  /** Authentication type */
-  authType: 'token' | 'p12';
-  /** Path to P12 file (for p12 auth) */
-  p12Path?: string;
-  /** Whether this is the active profile */
-  isActive?: boolean;
-}
-
-/**
- * Internal profile with secrets resolved
- */
-interface ResolvedProfile extends F5XCProfile {
-  token?: string;
-  p12Password?: string;
-}
-
-const PROFILES_KEY = 'f5xc.profiles';
-const ACTIVE_PROFILE_KEY = 'f5xc.activeProfile';
-const SECRET_PREFIX = 'f5xc.secret.';
-
-/**
- * Manages F5 XC connection profiles with secure credential storage
+ * Manages F5 XC connection profiles with XDG-compliant file storage
+ * Compatible with f5xc-xcsh CLI and f5xc-api-mcp
  */
 export class ProfileManager {
-  private readonly context: vscode.ExtensionContext;
-  private readonly secrets: vscode.SecretStorage;
+  private readonly xdg: XDGProfileManager;
   private readonly logger = getLogger();
   private readonly _onDidChangeProfiles = new vscode.EventEmitter<void>();
   private clientCache = new Map<string, F5XCClient>();
   private authProviderCache = new Map<string, AuthProvider>();
+  private watchers: vscode.FileSystemWatcher[] = [];
 
   readonly onDidChangeProfiles = this._onDidChangeProfiles.event;
 
-  constructor(context: vscode.ExtensionContext, secrets: vscode.SecretStorage) {
-    this.context = context;
-    this.secrets = secrets;
+  constructor() {
+    this.xdg = xdgProfileManager;
+    this.initFileWatcher();
+  }
+
+  /**
+   * Initialize file watcher for cross-tool sync
+   * Detects changes made by f5xc-xcsh CLI or other tools
+   */
+  private initFileWatcher(): void {
+    const profilesDir = getProfilesDir();
+    const activeProfilePath = getActiveProfilePath();
+
+    try {
+      // Watch for profile JSON file changes
+      const profilesWatcher = vscode.workspace.createFileSystemWatcher(
+        new vscode.RelativePattern(vscode.Uri.file(profilesDir), '*.json'),
+      );
+
+      // Watch for active profile file changes
+      const activeWatcher = vscode.workspace.createFileSystemWatcher(
+        new vscode.RelativePattern(
+          vscode.Uri.file(activeProfilePath).with({
+            path: activeProfilePath.replace(/[^/]+$/, ''),
+          }),
+          'active_profile',
+        ),
+      );
+
+      const handleChange = () => {
+        this.logger.debug('Profile files changed externally');
+        // Clear caches on external change
+        this.clearAllCaches();
+        this._onDidChangeProfiles.fire();
+      };
+
+      // Set up event handlers for both watchers
+      for (const watcher of [profilesWatcher, activeWatcher]) {
+        watcher.onDidChange(handleChange);
+        watcher.onDidCreate(handleChange);
+        watcher.onDidDelete(handleChange);
+        this.watchers.push(watcher);
+      }
+
+      this.logger.debug('Profile file watcher initialized');
+    } catch (error) {
+      this.logger.warn('Failed to initialize file watcher', error as Error);
+    }
   }
 
   /**
    * Get all configured profiles
    */
-  getProfiles(): F5XCProfile[] {
-    const profiles = this.context.globalState.get<F5XCProfile[]>(PROFILES_KEY, []);
-    const activeProfile = this.getActiveProfileName();
+  async getProfiles(): Promise<Profile[]> {
+    const profiles = await this.xdg.list();
+    const activeName = await this.xdg.getActive();
 
-    return profiles.map((p) => ({
-      ...p,
-      isActive: p.name === activeProfile,
-    }));
+    // Sort profiles alphabetically, with active profile first
+    return profiles.sort((a, b) => {
+      if (a.name === activeName) {
+        return -1;
+      }
+      if (b.name === activeName) {
+        return 1;
+      }
+      return a.name.localeCompare(b.name);
+    });
   }
 
   /**
    * Get a profile by name
    */
-  getProfile(name: string): F5XCProfile | undefined {
-    const profiles = this.getProfiles();
-    return profiles.find((p) => p.name === name);
+  async getProfile(name: string): Promise<Profile | null> {
+    return this.xdg.get(name);
   }
 
   /**
    * Get the active profile
    */
-  getActiveProfile(): F5XCProfile | undefined {
-    const activeProfileName = this.getActiveProfileName();
-    if (!activeProfileName) {
-      return undefined;
-    }
-    return this.getProfile(activeProfileName);
+  async getActiveProfile(): Promise<Profile | null> {
+    return this.xdg.getActiveProfile();
+  }
+
+  /**
+   * Get the active profile with environment variable overrides
+   */
+  async getActiveProfileWithEnvOverrides(): Promise<Profile | null> {
+    return this.xdg.getActiveProfileWithEnvOverrides();
   }
 
   /**
    * Get active profile name
    */
-  getActiveProfileName(): string | undefined {
-    return this.context.globalState.get<string>(ACTIVE_PROFILE_KEY);
+  async getActiveProfileName(): Promise<string | null> {
+    return this.xdg.getActive();
   }
 
   /**
    * Add a new profile
    */
-  async addProfile(
-    profile: F5XCProfile,
-    credentials: { token?: string; p12Password?: string },
-  ): Promise<void> {
+  async addProfile(profile: Profile): Promise<void> {
     this.logger.info(`Adding profile: ${profile.name}`);
 
-    const profiles = this.getProfiles();
-
     // Check for duplicate names
-    if (profiles.some((p) => p.name === profile.name)) {
+    if (await this.xdg.exists(profile.name)) {
       throw new ConfigurationError(`Profile "${profile.name}" already exists`);
     }
 
-    // Store credentials securely
-    if (profile.authType === 'token' && credentials.token) {
-      await this.secrets.store(`${SECRET_PREFIX}${profile.name}.token`, credentials.token);
-    } else if (profile.authType === 'p12' && credentials.p12Password) {
-      await this.secrets.store(
-        `${SECRET_PREFIX}${profile.name}.p12Password`,
-        credentials.p12Password,
-      );
-    }
-
-    // Add profile to list
-    profiles.push({
-      name: profile.name,
-      apiUrl: profile.apiUrl,
-      authType: profile.authType,
-      p12Path: profile.p12Path,
-    });
-
-    await this.context.globalState.update(PROFILES_KEY, profiles);
+    await this.xdg.save(profile);
 
     // Set as active if it's the first profile
+    const profiles = await this.xdg.list();
     if (profiles.length === 1) {
       await this.setActiveProfile(profile.name);
     }
@@ -143,42 +157,25 @@ export class ProfileManager {
   /**
    * Update an existing profile
    */
-  async updateProfile(
-    name: string,
-    updates: Partial<F5XCProfile>,
-    credentials?: { token?: string; p12Password?: string },
-  ): Promise<void> {
+  async updateProfile(name: string, updates: Partial<Profile>): Promise<void> {
     this.logger.info(`Updating profile: ${name}`);
 
-    const profiles = this.getProfiles();
-    const index = profiles.findIndex((p) => p.name === name);
-
-    if (index === -1) {
+    const existing = await this.xdg.get(name);
+    if (!existing) {
       throw new ConfigurationError(`Profile "${name}" not found`);
     }
 
     // Clear cached client and auth provider
     this.clearCache(name);
 
-    // Update credentials if provided
-    if (credentials?.token) {
-      await this.secrets.store(`${SECRET_PREFIX}${name}.token`, credentials.token);
-    }
-    if (credentials?.p12Password) {
-      await this.secrets.store(`${SECRET_PREFIX}${name}.p12Password`, credentials.p12Password);
-    }
+    // Merge updates (name cannot be changed)
+    const updated: Profile = {
+      ...existing,
+      ...updates,
+      name, // Preserve original name
+    };
 
-    // Update profile
-    const existingProfile = profiles[index];
-    if (existingProfile) {
-      profiles[index] = {
-        ...existingProfile,
-        ...updates,
-        name, // Name cannot be changed
-      };
-    }
-
-    await this.context.globalState.update(PROFILES_KEY, profiles);
+    await this.xdg.save(updated);
     this._onDidChangeProfiles.fire();
     this.logger.info(`Profile "${name}" updated successfully`);
   }
@@ -189,29 +186,24 @@ export class ProfileManager {
   async removeProfile(name: string): Promise<void> {
     this.logger.info(`Removing profile: ${name}`);
 
-    const profiles = this.getProfiles();
-    const filteredProfiles = profiles.filter((p) => p.name !== name);
-
-    if (filteredProfiles.length === profiles.length) {
+    if (!(await this.xdg.exists(name))) {
       throw new ConfigurationError(`Profile "${name}" not found`);
     }
 
     // Clear cached client and auth provider
     this.clearCache(name);
 
-    // Remove secrets
-    await this.secrets.delete(`${SECRET_PREFIX}${name}.token`);
-    await this.secrets.delete(`${SECRET_PREFIX}${name}.p12Password`);
+    // Check if this is the active profile
+    const activeName = await this.xdg.getActive();
+    const isActive = activeName === name;
 
-    await this.context.globalState.update(PROFILES_KEY, filteredProfiles);
+    await this.xdg.delete(name);
 
-    // If this was the active profile, clear or set another
-    const activeProfile = this.getActiveProfileName();
-    if (activeProfile === name) {
-      if (filteredProfiles.length > 0 && filteredProfiles[0]) {
-        await this.setActiveProfile(filteredProfiles[0].name);
-      } else {
-        await this.context.globalState.update(ACTIVE_PROFILE_KEY, undefined);
+    // If this was the active profile, set another one
+    if (isActive) {
+      const profiles = await this.xdg.list();
+      if (profiles.length > 0 && profiles[0]) {
+        await this.setActiveProfile(profiles[0].name);
       }
     }
 
@@ -223,12 +215,11 @@ export class ProfileManager {
    * Set the active profile
    */
   async setActiveProfile(name: string): Promise<void> {
-    const profile = this.getProfile(name);
-    if (!profile) {
+    if (!(await this.xdg.exists(name))) {
       throw new ConfigurationError(`Profile "${name}" not found`);
     }
 
-    await this.context.globalState.update(ACTIVE_PROFILE_KEY, name);
+    await this.xdg.setActive(name);
     this._onDidChangeProfiles.fire();
     this.logger.info(`Active profile set to "${name}"`);
   }
@@ -244,7 +235,7 @@ export class ProfileManager {
     }
 
     const authProvider = await this.getAuthProvider(profileName);
-    const profile = this.getProfile(profileName);
+    const profile = await this.getProfile(profileName);
 
     if (!profile) {
       throw new ConfigurationError(`Profile "${profileName}" not found`);
@@ -266,41 +257,49 @@ export class ProfileManager {
       return cached;
     }
 
-    const resolved = await this.resolveProfile(profileName);
+    const profile = await this.xdg.getActiveProfileWithEnvOverrides();
 
-    let authProvider: AuthProvider;
-
-    if (resolved.authType === 'token') {
-      if (!resolved.token) {
-        throw new ConfigurationError(`No API token configured for profile "${profileName}"`);
+    if (!profile || profile.name !== profileName) {
+      // Get the specific profile if not the active one
+      const specificProfile = await this.xdg.get(profileName);
+      if (!specificProfile) {
+        throw new ConfigurationError(`Profile "${profileName}" not found`);
       }
-
-      const config: TokenAuthConfig = {
-        apiUrl: resolved.apiUrl,
-        token: resolved.token,
-      };
-
-      authProvider = new TokenAuthProvider(config);
-    } else if (resolved.authType === 'p12') {
-      if (!resolved.p12Path) {
-        throw new ConfigurationError(`No P12 file path configured for profile "${profileName}"`);
-      }
-      if (!resolved.p12Password) {
-        throw new ConfigurationError(`No P12 password configured for profile "${profileName}"`);
-      }
-
-      const config: P12AuthConfig = {
-        apiUrl: resolved.apiUrl,
-        p12Path: resolved.p12Path,
-        p12Password: resolved.p12Password,
-      };
-
-      authProvider = new P12AuthProvider(config);
-    } else {
-      throw new ConfigurationError(`Unknown auth type for profile "${profileName}"`);
+      return this.createAuthProvider(specificProfile);
     }
 
-    this.authProviderCache.set(profileName, authProvider);
+    return this.createAuthProvider(profile);
+  }
+
+  /**
+   * Create an auth provider for a profile
+   */
+  private createAuthProvider(profile: Profile): AuthProvider {
+    let authProvider: AuthProvider;
+
+    // Determine auth type based on available credentials
+    if (profile.apiToken) {
+      const config: TokenAuthConfig = {
+        apiUrl: profile.apiUrl,
+        apiToken: profile.apiToken,
+      };
+      authProvider = new TokenAuthProvider(config);
+    } else if (profile.p12Bundle || (profile.cert && profile.key)) {
+      const config: CertAuthConfig = {
+        apiUrl: profile.apiUrl,
+        p12Bundle: profile.p12Bundle,
+        cert: profile.cert,
+        key: profile.key,
+      };
+      authProvider = new CertAuthProvider(config);
+    } else {
+      throw new ConfigurationError(
+        `No valid credentials configured for profile "${profile.name}". ` +
+          'Provide apiToken, p12Bundle, or both cert and key.',
+      );
+    }
+
+    this.authProviderCache.set(profile.name, authProvider);
     return authProvider;
   }
 
@@ -318,25 +317,6 @@ export class ProfileManager {
   }
 
   /**
-   * Resolve profile with secrets
-   */
-  private async resolveProfile(name: string): Promise<ResolvedProfile> {
-    const profile = this.getProfile(name);
-    if (!profile) {
-      throw new ConfigurationError(`Profile "${name}" not found`);
-    }
-
-    const token = await this.secrets.get(`${SECRET_PREFIX}${name}.token`);
-    const p12Password = await this.secrets.get(`${SECRET_PREFIX}${name}.p12Password`);
-
-    return {
-      ...profile,
-      token,
-      p12Password,
-    };
-  }
-
-  /**
    * Clear cached client and auth provider for a profile
    */
   private clearCache(profileName: string): void {
@@ -349,14 +329,25 @@ export class ProfileManager {
   }
 
   /**
-   * Dispose all resources
+   * Clear all caches (used when external changes detected)
    */
-  dispose(): void {
+  private clearAllCaches(): void {
     for (const authProvider of this.authProviderCache.values()) {
       authProvider.dispose();
     }
     this.authProviderCache.clear();
     this.clientCache.clear();
+  }
+
+  /**
+   * Dispose all resources
+   */
+  dispose(): void {
+    this.clearAllCaches();
     this._onDidChangeProfiles.dispose();
+    for (const watcher of this.watchers) {
+      watcher.dispose();
+    }
+    this.watchers = [];
   }
 }

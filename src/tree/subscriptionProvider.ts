@@ -28,7 +28,7 @@ export class SubscriptionProvider implements vscode.TreeDataProvider<F5XCTreeIte
     }
 
     // Root level - return Plan and Quotas nodes if there's an active profile
-    const activeProfile = this.profileManager.getActiveProfile();
+    const activeProfile = await this.profileManager.getActiveProfile();
     if (!activeProfile) {
       return [];
     }

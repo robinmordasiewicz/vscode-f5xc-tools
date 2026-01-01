@@ -22,8 +22,8 @@ export function activate(context: vscode.ExtensionContext): void {
   logger = getLogger();
   logger.info('F5 Distributed Cloud extension is activating...');
 
-  // Initialize profile manager with secure storage
-  const profileManager = new ProfileManager(context, context.secrets);
+  // Initialize profile manager with XDG-compliant file storage
+  const profileManager = new ProfileManager();
 
   // Client factory for creating API clients
   const clientFactory = (profile: { apiUrl: string; name: string }) => {
@@ -38,11 +38,11 @@ export function activate(context: vscode.ExtensionContext): void {
   const cloudStatusDashboardProvider = new CloudStatusDashboardProvider(profileManager);
 
   // Set context for active profile to control view visibility
-  const updateHasActiveProfile = () => {
-    const hasActive = profileManager.getActiveProfile() !== null;
+  const updateHasActiveProfile = async () => {
+    const hasActive = (await profileManager.getActiveProfile()) !== null;
     void vscode.commands.executeCommand('setContext', 'f5xc.hasActiveProfile', hasActive);
   };
-  updateHasActiveProfile();
+  void updateHasActiveProfile();
 
   // Initialize F5 XC file system provider for editing resources
   const fsProvider = new F5XCFileSystemProvider(profileManager, () => {
@@ -71,8 +71,9 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Register subscription commands (f5xc.showPlan, f5xc.showQuotas)
   context.subscriptions.push(
-    vscode.commands.registerCommand('f5xc.showPlan', (profileName?: string) => {
-      const profile = profileName || profileManager.getActiveProfile()?.name;
+    vscode.commands.registerCommand('f5xc.showPlan', async (profileName?: string) => {
+      const activeProfile = await profileManager.getActiveProfile();
+      const profile = profileName || activeProfile?.name;
       if (profile) {
         void subscriptionDashboardProvider.showPlan(profile);
       } else {
@@ -82,8 +83,9 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('f5xc.showQuotas', (profileName?: string) => {
-      const profile = profileName || profileManager.getActiveProfile()?.name;
+    vscode.commands.registerCommand('f5xc.showQuotas', async (profileName?: string) => {
+      const activeProfile = await profileManager.getActiveProfile();
+      const profile = profileName || activeProfile?.name;
       if (profile) {
         void subscriptionDashboardProvider.showQuotas(profile);
       } else {
@@ -97,7 +99,8 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand(
       'f5xc.activateAddon',
       async (addonName: string, profileName?: string) => {
-        const profile = profileName || profileManager.getActiveProfile()?.name;
+        const activeProfile = await profileManager.getActiveProfile();
+        const profile = profileName || activeProfile?.name;
         if (!profile) {
           void vscode.window.showWarningMessage('No active profile selected');
           return;
@@ -191,7 +194,7 @@ export function activate(context: vscode.ExtensionContext): void {
     profilesProvider.refresh();
     explorerProvider.refresh();
     subscriptionProvider.refresh();
-    updateHasActiveProfile();
+    void updateHasActiveProfile();
   });
 
   logger.info('F5 Distributed Cloud extension activated successfully');

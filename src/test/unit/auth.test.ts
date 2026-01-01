@@ -29,7 +29,7 @@ interface MockRequest {
 describe('TokenAuthProvider', () => {
   const mockConfig = {
     apiUrl: 'https://tenant.console.ves.volterra.io',
-    token: 'test-api-token-12345',
+    apiToken: 'test-api-token-12345',
   };
 
   let provider: TokenAuthProvider;
@@ -249,7 +249,7 @@ describe('TokenAuthProvider with different configurations', () => {
   it('should handle URL with trailing slash', () => {
     const provider = new TokenAuthProvider({
       apiUrl: 'https://tenant.console.ves.volterra.io/',
-      token: 'test-token',
+      apiToken: 'test-token',
     });
 
     const headers = provider.getHeaders();
@@ -261,7 +261,7 @@ describe('TokenAuthProvider with different configurations', () => {
   it('should handle URL without protocol prefix in token', () => {
     const provider = new TokenAuthProvider({
       apiUrl: 'https://tenant.console.ves.volterra.io',
-      token: 'simple-token',
+      apiToken: 'simple-token',
     });
 
     const headers = provider.getHeaders();
@@ -274,7 +274,7 @@ describe('TokenAuthProvider with different configurations', () => {
     const specialToken = 'token-with-special-chars!@#$%';
     const provider = new TokenAuthProvider({
       apiUrl: 'https://test.example.com',
-      token: specialToken,
+      apiToken: specialToken,
     });
 
     const headers = provider.getHeaders();
@@ -286,7 +286,7 @@ describe('TokenAuthProvider with different configurations', () => {
   it('should handle empty token', () => {
     const provider = new TokenAuthProvider({
       apiUrl: 'https://test.example.com',
-      token: '',
+      apiToken: '',
     });
 
     const headers = provider.getHeaders();
@@ -330,7 +330,7 @@ describe('TokenAuthProvider validation URL construction', () => {
 
     const provider = new TokenAuthProvider({
       apiUrl: 'https://mytenant.console.ves.volterra.io',
-      token: 'test-token',
+      apiToken: 'test-token',
     });
 
     await provider.validate();

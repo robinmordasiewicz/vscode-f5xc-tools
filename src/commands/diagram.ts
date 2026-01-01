@@ -27,7 +27,7 @@ export function registerDiagramCommands(
     vscode.commands.registerCommand('f5xc.diagram', async (node: ResourceNode) => {
       await withErrorHandling(async () => {
         const data = node.getData();
-        const profile = profileManager.getProfile(data.profileName);
+        const profile = await profileManager.getProfile(data.profileName);
 
         if (!profile) {
           showWarning(`Profile "${data.profileName}" not found`);
