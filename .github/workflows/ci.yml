@@ -86,6 +86,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Sync API specs from upstream
+        run: npm run specs:sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Download generated files
         uses: actions/download-artifact@v5
         with:
@@ -142,6 +147,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Sync API specs from upstream
+        run: npm run specs:sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download generated files
         uses: actions/download-artifact@v5
@@ -210,6 +220,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Sync API specs from upstream
+        run: npm run specs:sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate version
         id: version
