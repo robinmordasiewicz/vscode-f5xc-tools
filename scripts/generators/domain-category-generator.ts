@@ -19,6 +19,7 @@ export interface DomainInfo {
   title: string;
   description: string;
   description_short: string;
+  description_medium?: string;
   file: string;
   path_count: number;
   schema_count: number;
@@ -74,9 +75,12 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
   // Output metadata interface (uses camelCase for TypeScript convention)
   interface OutputDomainMetadata {
     title: string;
+    description: string;
     description_short: string;
+    description_medium: string;
     icon: string;
     primary_resources?: string[];
+    use_cases: string[];
     complexity: string;
     requires_tier: string;
     isPreview: boolean;
@@ -91,9 +95,12 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
     domainToUiCategory[domain.domain] = domain.ui_category;
     domainMetadata[domain.domain] = {
       title: domain.title,
+      description: domain.description,
       description_short: domain.description_short,
+      description_medium: domain.description_medium ?? domain.description_short,
       icon: domain.icon,
       primary_resources: domain.primary_resources,
+      use_cases: domain.use_cases ?? [],
       complexity: domain.complexity,
       requires_tier: domain.requires_tier,
       isPreview: domain.is_preview,
@@ -140,13 +147,16 @@ export function getUiCategoryForDomain(domain: string): UiCategory | undefined {
 
 /**
  * Domain metadata from upstream index.json.
- * Includes title, description, icon, primary resources, and preview status.
+ * Includes title, descriptions, icon, primary resources, use cases, and preview status.
  */
 export const DOMAIN_METADATA: Record<string, {
   title: string;
+  description: string;
   description_short: string;
+  description_medium: string;
   icon: string;
   primary_resources?: string[];
+  use_cases: string[];
   complexity: string;
   requires_tier: string;
   isPreview: boolean;
@@ -157,6 +167,36 @@ export const DOMAIN_METADATA: Record<string, {
  */
 export function getDomainMetadata(domain: string) {
   return DOMAIN_METADATA[domain];
+}
+
+/**
+ * Get all domains belonging to a specific UI category.
+ */
+export function getDomainsForCategory(category: UiCategory): string[] {
+  return Object.entries(DOMAIN_TO_UI_CATEGORY)
+    .filter(([_, cat]) => cat === category)
+    .map(([domain]) => domain);
+}
+
+/**
+ * Get the full description for a domain.
+ */
+export function getDomainDescription(domain: string): string | undefined {
+  return DOMAIN_METADATA[domain]?.description;
+}
+
+/**
+ * Get the medium-length description for a domain.
+ */
+export function getDomainDescriptionMedium(domain: string): string | undefined {
+  return DOMAIN_METADATA[domain]?.description_medium;
+}
+
+/**
+ * Get use cases for a domain.
+ */
+export function getDomainUseCases(domain: string): string[] {
+  return DOMAIN_METADATA[domain]?.use_cases ?? [];
 }
 
 /**

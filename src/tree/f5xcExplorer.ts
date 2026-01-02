@@ -13,7 +13,13 @@ import {
   getOperationPurpose,
   isResourceTypePreview,
   getResourceTypeTierRequirement,
+  getResourceDomain,
 } from '../api/resourceTypes';
+import {
+  getDomainsForCategory,
+  getDomainMetadata,
+  UiCategory,
+} from '../generated/domainCategories';
 import { getLogger } from '../utils/logger';
 import {
   F5XCTreeItem,
@@ -247,7 +253,32 @@ class CategoryNode implements F5XCTreeItem {
     const item = new vscode.TreeItem(this.data.category, vscode.TreeItemCollapsibleState.Collapsed);
     item.contextValue = TreeItemContext.CATEGORY;
     item.iconPath = new vscode.ThemeIcon(getCategoryIcon(this.data.category));
-    item.tooltip = `${this.data.category} resources`;
+
+    // Build enhanced tooltip with domain descriptions
+    const tooltip = new vscode.MarkdownString();
+    tooltip.appendMarkdown(`**${this.data.category}**\n\n`);
+
+    // Get domains in this category and show their descriptions
+    const domainsInCategory = getDomainsForCategory(this.data.category as UiCategory);
+    if (domainsInCategory.length > 0) {
+      // Show up to 3 domains with their icons and descriptions
+      for (const domain of domainsInCategory.slice(0, 3)) {
+        const meta = getDomainMetadata(domain);
+        if (meta) {
+          tooltip.appendMarkdown(
+            `${meta.icon} **${meta.title.replace(/^F5 XC /, '').replace(/ API$/, '')}**\n`,
+          );
+          tooltip.appendMarkdown(`${meta.description_short}\n\n`);
+        }
+      }
+      if (domainsInCategory.length > 3) {
+        tooltip.appendMarkdown(`*...and ${domainsInCategory.length - 3} more*\n`);
+      }
+    } else {
+      tooltip.appendMarkdown(`${this.data.category} resources`);
+    }
+
+    item.tooltip = tooltip;
     return item;
   }
 
@@ -338,6 +369,18 @@ class ResourceTypeNode implements F5XCTreeItem {
     tooltip.appendMarkdown(
       `- Delete: ${dangerIcon} ${deleteDanger === 'high' ? 'High Risk' : deleteDanger === 'medium' ? 'Medium' : 'Low'}\n`,
     );
+
+    // Add domain context if available
+    const domain = getResourceDomain(this.data.resourceTypeKey);
+    if (domain) {
+      const domainMeta = getDomainMetadata(domain);
+      if (domainMeta) {
+        tooltip.appendMarkdown(`\n---\n\n`);
+        tooltip.appendMarkdown(
+          `${domainMeta.icon} *Domain: ${domainMeta.title.replace(/^F5 XC /, '').replace(/ API$/, '')}*\n`,
+        );
+      }
+    }
 
     item.tooltip = tooltip;
     return item;
