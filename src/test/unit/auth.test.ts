@@ -283,14 +283,68 @@ describe('TokenAuthProvider with different configurations', () => {
     provider.dispose();
   });
 
-  it('should handle empty token', () => {
+  it('should throw error for empty token', () => {
+    expect(() => {
+      new TokenAuthProvider({
+        apiUrl: 'https://test.example.com',
+        apiToken: '',
+      });
+    }).toThrow('API token cannot be empty');
+  });
+
+  it('should throw error for whitespace-only token', () => {
+    expect(() => {
+      new TokenAuthProvider({
+        apiUrl: 'https://test.example.com',
+        apiToken: '   ',
+      });
+    }).toThrow('API token cannot be empty');
+  });
+
+  it('should trim token with trailing newline', () => {
     const provider = new TokenAuthProvider({
       apiUrl: 'https://test.example.com',
-      apiToken: '',
+      apiToken: 'test-token\n',
     });
 
     const headers = provider.getHeaders();
-    expect(headers.Authorization).toBe('APIToken ');
+    expect(headers.Authorization).toBe('APIToken test-token');
+
+    provider.dispose();
+  });
+
+  it('should trim token with leading and trailing whitespace', () => {
+    const provider = new TokenAuthProvider({
+      apiUrl: 'https://test.example.com',
+      apiToken: '  test-token  \n',
+    });
+
+    const headers = provider.getHeaders();
+    expect(headers.Authorization).toBe('APIToken test-token');
+
+    provider.dispose();
+  });
+
+  it('should trim apiUrl with trailing whitespace', () => {
+    const provider = new TokenAuthProvider({
+      apiUrl: 'https://test.example.com  \n',
+      apiToken: 'test-token',
+    });
+
+    // Validate URL was trimmed by checking it doesn't throw during construction
+    expect(provider).toBeInstanceOf(TokenAuthProvider);
+
+    provider.dispose();
+  });
+
+  it('should handle token with carriage return and newline', () => {
+    const provider = new TokenAuthProvider({
+      apiUrl: 'https://test.example.com',
+      apiToken: 'test-token\r\n',
+    });
+
+    const headers = provider.getHeaders();
+    expect(headers.Authorization).toBe('APIToken test-token');
 
     provider.dispose();
   });

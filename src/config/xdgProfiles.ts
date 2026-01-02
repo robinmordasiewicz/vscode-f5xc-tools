@@ -98,6 +98,12 @@ export class XDGProfileManager {
 
       // Ensure name matches filename
       profile.name = name;
+
+      // Trim credentials to prevent whitespace issues (e.g., trailing newlines from $(cat file))
+      if (profile.apiToken) {
+        profile.apiToken = profile.apiToken.trim();
+      }
+
       return profile;
     } catch {
       // Malformed JSON - skip profile, don't crash
@@ -282,9 +288,9 @@ export class XDGProfileManager {
       if (envApiUrl && envApiToken) {
         return {
           name: 'env',
-          apiUrl: envApiUrl,
-          apiToken: envApiToken,
-          defaultNamespace: process.env.F5XC_NAMESPACE,
+          apiUrl: envApiUrl.trim(),
+          apiToken: envApiToken.trim(),
+          defaultNamespace: process.env.F5XC_NAMESPACE?.trim(),
         };
       }
 
@@ -292,14 +298,15 @@ export class XDGProfileManager {
     }
 
     // Apply environment variable overrides
+    // Trim all values to prevent whitespace issues (e.g., trailing newlines from $(cat file))
     return {
       ...profile,
-      apiUrl: process.env.F5XC_API_URL || profile.apiUrl,
-      apiToken: process.env.F5XC_API_TOKEN || profile.apiToken,
-      p12Bundle: process.env.F5XC_P12_BUNDLE || profile.p12Bundle,
-      cert: process.env.F5XC_CERT || profile.cert,
-      key: process.env.F5XC_KEY || profile.key,
-      defaultNamespace: process.env.F5XC_NAMESPACE || profile.defaultNamespace,
+      apiUrl: process.env.F5XC_API_URL?.trim() || profile.apiUrl,
+      apiToken: process.env.F5XC_API_TOKEN?.trim() || profile.apiToken,
+      p12Bundle: process.env.F5XC_P12_BUNDLE?.trim() || profile.p12Bundle,
+      cert: process.env.F5XC_CERT?.trim() || profile.cert,
+      key: process.env.F5XC_KEY?.trim() || profile.key,
+      defaultNamespace: process.env.F5XC_NAMESPACE?.trim() || profile.defaultNamespace,
     };
   }
 }

@@ -13,8 +13,14 @@ export class TokenAuthProvider implements AuthProvider {
   private readonly logger = getLogger();
 
   constructor(config: TokenAuthConfig) {
-    this.apiUrl = config.apiUrl;
-    this.apiToken = config.apiToken;
+    this.apiUrl = config.apiUrl.trim();
+
+    // Defensive trimming to prevent whitespace issues (e.g., trailing newlines from $(cat file))
+    const trimmedToken = config.apiToken.trim();
+    if (!trimmedToken) {
+      throw new Error('API token cannot be empty');
+    }
+    this.apiToken = trimmedToken;
   }
 
   getHeaders(): Record<string, string> {
