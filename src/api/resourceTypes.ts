@@ -35,6 +35,8 @@ import {
   getLocalCategoryForDomain,
   isPreviewDomain,
   getDomainTierRequirement,
+  getDomainUseCases,
+  getDomainComplexity,
 } from '../generated/domainCategories';
 
 /**
@@ -1367,6 +1369,36 @@ export function getAllOperationMetadata(
 export function getResourceDomain(resourceKey: string): string | undefined {
   const generated = GENERATED_RESOURCE_TYPES[resourceKey];
   return generated?.domain;
+}
+
+/**
+ * Get use cases for a resource type's domain.
+ * Convenience wrapper that looks up the domain and retrieves its use cases.
+ *
+ * @param resourceKey - The resource type key
+ * @returns Array of use case descriptions or empty array
+ */
+export function getDomainUseCasesForResource(resourceKey: string): string[] {
+  const domain = getResourceDomain(resourceKey);
+  if (!domain) {
+    return [];
+  }
+  return getDomainUseCases(domain);
+}
+
+/**
+ * Get complexity level for a resource type's domain.
+ * Convenience wrapper that looks up the domain and retrieves its complexity.
+ *
+ * @param resourceKey - The resource type key
+ * @returns Complexity level (e.g., "simple", "advanced", "expert") or undefined
+ */
+export function getDomainComplexityForResource(resourceKey: string): string | undefined {
+  const domain = getResourceDomain(resourceKey);
+  if (!domain) {
+    return undefined;
+  }
+  return getDomainComplexity(domain);
 }
 
 /**

@@ -11,6 +11,8 @@ import {
   isBuiltInNamespace,
   getDangerLevel,
   getOperationPurpose,
+  getPrerequisites,
+  getCommonErrors,
   isResourceTypePreview,
   getResourceTypeTierRequirement,
   getResourceDomain,
@@ -18,6 +20,8 @@ import {
 import {
   getDomainsForCategory,
   getDomainMetadata,
+  getDomainComplexity,
+  getDomainUseCases,
   UiCategory,
 } from '../generated/domainCategories';
 import { getLogger } from '../utils/logger';
@@ -352,6 +356,28 @@ class ResourceTypeNode implements F5XCTreeItem {
       tooltip.appendMarkdown(`**Requires**: ${tierRequirement} tier\n\n`);
     }
 
+    // Add complexity level from domain metadata
+    const domain = getResourceDomain(this.data.resourceTypeKey);
+    if (domain) {
+      const complexity = getDomainComplexity(domain);
+      if (complexity) {
+        const complexityLabel = complexity.charAt(0).toUpperCase() + complexity.slice(1);
+        const complexityIcon =
+          complexity === 'expert' ? '🔴' : complexity === 'advanced' ? '🟡' : '🟢';
+        tooltip.appendMarkdown(`**Complexity**: ${complexityIcon} ${complexityLabel}\n\n`);
+      }
+
+      // Add use cases (show first 3)
+      const useCases = getDomainUseCases(domain);
+      if (useCases.length > 0) {
+        tooltip.appendMarkdown(`---\n\n**Use Cases:**\n\n`);
+        for (const useCase of useCases.slice(0, 3)) {
+          tooltip.appendMarkdown(`• ${useCase}\n`);
+        }
+        tooltip.appendMarkdown(`\n`);
+      }
+    }
+
     // Add operation information
     const listPurpose = getOperationPurpose(this.data.resourceTypeKey, 'list');
     const createPurpose = getOperationPurpose(this.data.resourceTypeKey, 'create');
@@ -370,8 +396,13 @@ class ResourceTypeNode implements F5XCTreeItem {
       `- Delete: ${dangerIcon} ${deleteDanger === 'high' ? 'High Risk' : deleteDanger === 'medium' ? 'Medium' : 'Low'}\n`,
     );
 
+    // Add prerequisites from create operation
+    const createPrereqs = getPrerequisites(this.data.resourceTypeKey, 'create');
+    if (createPrereqs.length > 0) {
+      tooltip.appendMarkdown(`\n**Prerequisites**: ${createPrereqs.join(', ')}\n`);
+    }
+
     // Add domain context if available
-    const domain = getResourceDomain(this.data.resourceTypeKey);
     if (domain) {
       const domainMeta = getDomainMetadata(domain);
       if (domainMeta) {
@@ -521,6 +552,23 @@ export class ResourceNode implements F5XCTreeItem {
       tooltip.appendMarkdown(` - ${deletePurpose}`);
     }
     tooltip.appendMarkdown('\n');
+
+    // Add common errors section (combine get and delete operations)
+    const getErrors = getCommonErrors(this.data.resourceTypeKey, 'get');
+    const deleteErrors = getCommonErrors(this.data.resourceTypeKey, 'delete');
+    const allErrors = [...getErrors, ...deleteErrors];
+
+    // Deduplicate by error code and show top 3
+    const uniqueErrors = allErrors.filter(
+      (error, index, self) => index === self.findIndex((e) => e.code === error.code),
+    );
+
+    if (uniqueErrors.length > 0) {
+      tooltip.appendMarkdown(`\n---\n\n**Common Issues:**\n\n`);
+      for (const error of uniqueErrors.slice(0, 3)) {
+        tooltip.appendMarkdown(`• **${error.code}**: ${error.solution || error.message}\n`);
+      }
+    }
 
     item.tooltip = tooltip;
     item.command = {

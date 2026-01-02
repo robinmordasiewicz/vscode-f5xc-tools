@@ -33,7 +33,22 @@ export interface DomainInfo {
   related_domains?: string[];
   icon: string;
   logo_svg?: string;
-  primary_resources?: string[];
+  primary_resources?: Array<{
+    name: string;
+    description: string;
+    description_short: string;
+    tier: string;
+    icon: string;
+    category: string;
+    supports_logs: boolean;
+    supports_metrics: boolean;
+    dependencies: {
+      required: string[];
+      optional: string[];
+    };
+    relationship_hints: string[];
+  }>;
+  primary_resources_simple?: string[];
 }
 
 /**
@@ -79,7 +94,15 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
     description_short: string;
     description_medium: string;
     icon: string;
-    primary_resources?: string[];
+    primary_resources?: Array<{
+      name: string;
+      description: string;
+      description_short: string;
+      tier: string;
+      icon: string;
+      category: string;
+    }>;
+    primary_resources_simple?: string[];
     use_cases: string[];
     complexity: string;
     requires_tier: string;
@@ -93,13 +116,25 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
   for (const domain of domains) {
     // Use ui_category directly from upstream
     domainToUiCategory[domain.domain] = domain.ui_category;
+
+    // Extract simplified primary_resources for output (just the essential fields)
+    const simplifiedResources = domain.primary_resources?.map((r) => ({
+      name: r.name,
+      description: r.description,
+      description_short: r.description_short,
+      tier: r.tier,
+      icon: r.icon,
+      category: r.category,
+    }));
+
     domainMetadata[domain.domain] = {
       title: domain.title,
       description: domain.description,
       description_short: domain.description_short,
       description_medium: domain.description_medium ?? domain.description_short,
       icon: domain.icon,
-      primary_resources: domain.primary_resources,
+      primary_resources: simplifiedResources,
+      primary_resources_simple: domain.primary_resources_simple,
       use_cases: domain.use_cases ?? [],
       complexity: domain.complexity,
       requires_tier: domain.requires_tier,
@@ -146,6 +181,18 @@ export function getUiCategoryForDomain(domain: string): UiCategory | undefined {
 }
 
 /**
+ * Primary resource info from upstream.
+ */
+export interface PrimaryResourceInfo {
+  name: string;
+  description: string;
+  description_short: string;
+  tier: string;
+  icon: string;
+  category: string;
+}
+
+/**
  * Domain metadata from upstream index.json.
  * Includes title, descriptions, icon, primary resources, use cases, and preview status.
  */
@@ -155,7 +202,8 @@ export const DOMAIN_METADATA: Record<string, {
   description_short: string;
   description_medium: string;
   icon: string;
-  primary_resources?: string[];
+  primary_resources?: PrimaryResourceInfo[];
+  primary_resources_simple?: string[];
   use_cases: string[];
   complexity: string;
   requires_tier: string;
@@ -211,6 +259,27 @@ export function isPreviewDomain(domain: string): boolean {
  */
 export function getDomainTierRequirement(domain: string): string | undefined {
   return DOMAIN_METADATA[domain]?.requires_tier;
+}
+
+/**
+ * Get the complexity level for a domain.
+ */
+export function getDomainComplexity(domain: string): string | undefined {
+  return DOMAIN_METADATA[domain]?.complexity;
+}
+
+/**
+ * Get primary resources for a domain (rich info with descriptions).
+ */
+export function getDomainPrimaryResources(domain: string): PrimaryResourceInfo[] {
+  return DOMAIN_METADATA[domain]?.primary_resources ?? [];
+}
+
+/**
+ * Get primary resource names for a domain (simple string array).
+ */
+export function getDomainPrimaryResourcesSimple(domain: string): string[] {
+  return DOMAIN_METADATA[domain]?.primary_resources_simple ?? [];
 }
 
 // Legacy aliases for backwards compatibility
