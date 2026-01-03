@@ -105,9 +105,9 @@ jest.mock('../../api/auth', () => ({
 
 // Mock paths module
 jest.mock('../../config/paths', () => ({
-  getProfilesDir: jest.fn(() => '/mock/config/xcsh/profiles'),
-  getActiveProfilePath: jest.fn(() => '/mock/config/xcsh/active_profile'),
-  getConfigDir: jest.fn(() => '/mock/config/xcsh'),
+  getProfilesDir: jest.fn(() => '/mock/config/f5xc/profiles'),
+  getActiveProfilePath: jest.fn(() => '/mock/config/f5xc/active_profile'),
+  getConfigDir: jest.fn(() => '/mock/config/f5xc'),
 }));
 
 describe('ProfileManager', () => {

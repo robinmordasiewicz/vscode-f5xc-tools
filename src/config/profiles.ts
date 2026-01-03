@@ -1,6 +1,6 @@
 /**
  * ProfileManager - XDG-compliant profile management
- * Compatible with f5xc-xcsh and f5xc-api-mcp
+ * Shared across F5 XC tools
  */
 
 import * as vscode from 'vscode';
@@ -22,7 +22,7 @@ export type { Profile } from './xdgProfiles';
 
 /**
  * Manages F5 XC connection profiles with XDG-compliant file storage
- * Compatible with f5xc-xcsh CLI and f5xc-api-mcp
+ * Shared across F5 XC tools (VS Code extension, CLI, MCP servers)
  */
 export class ProfileManager {
   private readonly xdg: XDGProfileManager;
@@ -41,7 +41,7 @@ export class ProfileManager {
 
   /**
    * Initialize file watcher for cross-tool sync
-   * Detects changes made by f5xc-xcsh CLI or other tools
+   * Detects changes made by other F5 XC tools
    */
   private initFileWatcher(): void {
     const profilesDir = getProfilesDir();

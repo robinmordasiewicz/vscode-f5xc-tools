@@ -1,8 +1,8 @@
 /**
- * XDG Base Directory paths for cross-tool compatibility with f5xc-xcsh and f5xc-api-mcp
+ * XDG Base Directory paths for cross-tool compatibility with F5 XC tools
  *
  * Structure:
- *   ~/.config/xcsh/
+ *   ~/.config/f5xc/
  *   ├── active_profile     # Plain text: active profile name
  *   └── profiles/          # Profile JSON files
  *       ├── profile-1.json
@@ -12,8 +12,8 @@
 import * as path from 'path';
 import * as os from 'os';
 
-/** Application name for XDG directories - matches f5xc-xcsh */
-const APP_NAME = 'xcsh';
+/** Application name for XDG directories - shared across F5 XC tools */
+const APP_NAME = 'f5xc';
 
 /** File permissions: owner read/write only */
 export const FILE_MODE = 0o600;
@@ -22,9 +22,9 @@ export const FILE_MODE = 0o600;
 export const DIR_MODE = 0o700;
 
 /**
- * Get the XDG config directory for xcsh
- * - Windows: %APPDATA%\xcsh
- * - Unix: $XDG_CONFIG_HOME/xcsh or ~/.config/xcsh
+ * Get the XDG config directory for F5 XC tools
+ * - Windows: %APPDATA%\f5xc
+ * - Unix: $XDG_CONFIG_HOME/f5xc or ~/.config/f5xc
  */
 export function getConfigDir(): string {
   if (process.platform === 'win32') {
@@ -65,7 +65,7 @@ export function getProfilePath(name: string): string {
 
 /**
  * Validate profile name - must be alphanumeric, dash, underscore only
- * Max 64 characters (matches f5xc-xcsh)
+ * Max 64 characters
  */
 export function isValidProfileName(name: string): boolean {
   if (!name || name.length > 64) {

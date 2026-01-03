@@ -1,9 +1,9 @@
 /**
  * XDG-compliant ProfileManager for cross-tool compatibility
- * Compatible with f5xc-xcsh and f5xc-api-mcp
+ * Shared across F5 XC tools (VS Code extension, CLI, MCP servers)
  *
- * Profiles stored at: ~/.config/xcsh/profiles/{name}.json
- * Active profile at: ~/.config/xcsh/active_profile
+ * Profiles stored at: ~/.config/f5xc/profiles/{name}.json
+ * Active profile at: ~/.config/f5xc/active_profile
  */
 
 import * as fs from 'fs';
@@ -19,7 +19,7 @@ import {
 } from './paths';
 
 /**
- * Profile interface - must match f5xc-xcsh exactly
+ * Profile interface for F5 XC authentication
  */
 export interface Profile {
   name: string;
