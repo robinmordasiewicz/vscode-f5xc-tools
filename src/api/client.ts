@@ -570,6 +570,12 @@ export class F5XCClient {
       }
     }
 
+    // Log detailed auth context on 401 errors for debugging
+    if (response.statusCode === 401) {
+      const authContext = `apiUrl=${this.baseUrl}, authType=${this.authProvider.type}, tokenFingerprint=${this.getTokenFingerprint()}`;
+      this.logger.error(`Authentication failed (401) for ${method} ${fullPath} [${authContext}]`);
+    }
+
     throw new F5XCApiError(response.statusCode, response.body, fullPath);
   }
 
@@ -618,5 +624,23 @@ export class F5XCClient {
 
       req.end();
     });
+  }
+
+  /**
+   * Get a fingerprint of the current auth token for debugging
+   * Returns first 4 and last 4 characters of the token (e.g., "+K7Z...SAk=")
+   */
+  private getTokenFingerprint(): string {
+    try {
+      const headers = this.authProvider.getHeaders();
+      const auth = headers['Authorization'] || '';
+      const token = auth.replace('APIToken ', '');
+      if (token.length < 12) {
+        return 'invalid-length';
+      }
+      return `${token.substring(0, 4)}...${token.substring(token.length - 4)}`;
+    } catch {
+      return 'unknown';
+    }
   }
 }

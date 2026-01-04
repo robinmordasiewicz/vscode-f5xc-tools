@@ -143,11 +143,17 @@ export async function withErrorHandling<T>(
       }
 
       if (error.isUnauthorized) {
-        // 401 - Authentication failed, offer to configure profile
+        // 401 - Authentication failed, offer to configure profile or clear cache
         const message = smartMessage || error.userFriendlyMessage;
-        const action = await vscode.window.showErrorMessage(message, 'Configure Profile');
+        const action = await vscode.window.showErrorMessage(
+          `${message}\n\nIf you recently updated credentials, try clearing the auth cache.`,
+          'Configure Profile',
+          'Clear Auth Cache',
+        );
         if (action === 'Configure Profile') {
           await vscode.commands.executeCommand('f5xc.editProfile');
+        } else if (action === 'Clear Auth Cache') {
+          await vscode.commands.executeCommand('f5xc.clearAuthCache');
         }
       } else if (error.isForbidden) {
         // 403 - Permission denied, show smart message if available

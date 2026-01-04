@@ -254,18 +254,26 @@ export class ProfileManager {
     // Check cache first
     const cached = this.authProviderCache.get(profileName);
     if (cached) {
+      this.logger.debug(`Using cached auth provider for profile: ${profileName}`);
       return cached;
     }
 
-    const profile = await this.xdg.getActiveProfileWithEnvOverrides();
+    this.logger.debug(`Creating new auth provider for profile: ${profileName}`);
 
-    if (!profile || profile.name !== profileName) {
-      // Get the specific profile if not the active one
-      const specificProfile = await this.xdg.get(profileName);
-      if (!specificProfile) {
-        throw new ConfigurationError(`Profile "${profileName}" not found`);
-      }
-      return this.createAuthProvider(specificProfile);
+    // Only apply env overrides for the active profile
+    const activeName = await this.xdg.getActive();
+    let profile: Profile | null;
+
+    if (profileName === activeName) {
+      // Active profile: apply environment variable overrides
+      profile = await this.xdg.getActiveProfileWithEnvOverrides();
+    } else {
+      // Non-active profile: get directly without env overrides
+      profile = await this.xdg.get(profileName);
+    }
+
+    if (!profile) {
+      throw new ConfigurationError(`Profile "${profileName}" not found`);
     }
 
     return this.createAuthProvider(profile);
@@ -337,6 +345,15 @@ export class ProfileManager {
     }
     this.authProviderCache.clear();
     this.clientCache.clear();
+  }
+
+  /**
+   * Public method to clear all auth caches (for troubleshooting)
+   * Use when credentials have been updated but cached auth is stale
+   */
+  clearAllCachesPublic(): void {
+    this.logger.info('Manually clearing all auth provider and client caches');
+    this.clearAllCaches();
   }
 
   /**

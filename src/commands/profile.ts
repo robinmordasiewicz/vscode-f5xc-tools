@@ -503,6 +503,18 @@ export function registerProfileCommands(
       }, 'Set active profile');
     }),
   );
+
+  // CLEAR AUTH CACHE
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.clearAuthCache', async () => {
+      await withErrorHandling(() => {
+        profileManager.clearAllCachesPublic();
+        showInfo('Authentication cache cleared. Re-authentication will occur on next request.');
+        explorerProvider.refresh();
+        return Promise.resolve();
+      }, 'Clear auth cache');
+    }),
+  );
 }
 
 /**

@@ -163,6 +163,12 @@
         "icon": "$(check)"
       },
       {
+        "command": "f5xc.clearAuthCache",
+        "title": "Clear Authentication Cache",
+        "category": "F5 XC",
+        "icon": "$(clear-all)"
+      },
+      {
         "command": "f5xc.refresh",
         "title": "Refresh",
         "category": "F5 XC",
