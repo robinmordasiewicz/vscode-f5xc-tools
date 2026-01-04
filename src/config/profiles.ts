@@ -234,13 +234,30 @@ export class ProfileManager {
       return cached;
     }
 
-    const authProvider = await this.getAuthProvider(profileName);
-    const profile = await this.getProfile(profileName);
+    // Get profile with env overrides applied (for active profile)
+    // This ensures URL and token come from the same source
+    const activeName = await this.xdg.getActive();
+    let profile: Profile | null;
+
+    if (profileName === activeName) {
+      profile = await this.xdg.getActiveProfileWithEnvOverrides();
+      // Warn if environment variables are overriding profile settings
+      if (process.env.F5XC_API_URL || process.env.F5XC_API_TOKEN) {
+        this.logger.warn(
+          'Environment variables (F5XC_API_URL/F5XC_API_TOKEN) are overriding profile settings',
+        );
+      }
+    } else {
+      profile = await this.xdg.get(profileName);
+    }
 
     if (!profile) {
       throw new ConfigurationError(`Profile "${profileName}" not found`);
     }
 
+    this.logger.debug(`Creating client for profile: ${profileName}, apiUrl: ${profile.apiUrl}`);
+
+    const authProvider = await this.getAuthProvider(profileName);
     const client = new F5XCClient(profile.apiUrl, authProvider);
     this.clientCache.set(profileName, client);
 
