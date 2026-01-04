@@ -226,6 +226,7 @@ export class ProfileManager {
 
   /**
    * Get an authenticated API client for a profile
+   * If env vars are set but invalid, automatically falls back to profile credentials
    */
   async getClient(profileName: string): Promise<F5XCClient> {
     // Check cache first
@@ -234,30 +235,53 @@ export class ProfileManager {
       return cached;
     }
 
-    // Get profile with env overrides applied (for active profile)
-    // This ensures URL and token come from the same source
     const activeName = await this.xdg.getActive();
-    let profile: Profile | null;
+    const isActiveProfile = profileName === activeName;
+    const hasEnvOverrides = !!(process.env.F5XC_API_URL || process.env.F5XC_API_TOKEN);
 
-    if (profileName === activeName) {
-      profile = await this.xdg.getActiveProfileWithEnvOverrides();
-      // Warn if environment variables are overriding profile settings
-      if (process.env.F5XC_API_URL || process.env.F5XC_API_TOKEN) {
-        this.logger.warn(
-          'Environment variables (F5XC_API_URL/F5XC_API_TOKEN) are overriding profile settings',
-        );
+    // For active profile with env overrides, validate env credentials first with fallback
+    if (isActiveProfile && hasEnvOverrides) {
+      const envProfile = await this.xdg.getActiveProfileWithEnvOverrides();
+      if (envProfile) {
+        this.logger.debug(`Validating env var credentials for profile: ${profileName}`);
+
+        try {
+          // Create temporary auth provider to validate (skipCache=true)
+          const envAuthProvider = this.createAuthProvider(envProfile, true);
+          const isValid = await envAuthProvider.validate();
+
+          if (isValid) {
+            this.logger.info('Using environment variable credentials');
+            this.logger.debug(
+              `Creating client for profile: ${profileName}, apiUrl: ${envProfile.apiUrl}`,
+            );
+            const client = new F5XCClient(envProfile.apiUrl, envAuthProvider);
+            this.authProviderCache.set(profileName, envAuthProvider);
+            this.clientCache.set(profileName, client);
+            return client;
+          } else {
+            this.logger.warn(
+              'Environment variable credentials are invalid, falling back to profile credentials',
+            );
+            envAuthProvider.dispose();
+          }
+        } catch (error) {
+          this.logger.warn(
+            `Failed to validate env var credentials: ${(error as Error).message}, falling back to profile credentials`,
+          );
+        }
       }
-    } else {
-      profile = await this.xdg.get(profileName);
     }
 
+    // Use profile credentials (no env overrides or fallback after env validation failed)
+    const profile = await this.xdg.get(profileName);
     if (!profile) {
       throw new ConfigurationError(`Profile "${profileName}" not found`);
     }
 
     this.logger.debug(`Creating client for profile: ${profileName}, apiUrl: ${profile.apiUrl}`);
 
-    const authProvider = await this.getAuthProvider(profileName);
+    const authProvider = this.createAuthProvider(profile);
     const client = new F5XCClient(profile.apiUrl, authProvider);
     this.clientCache.set(profileName, client);
 
@@ -298,8 +322,10 @@ export class ProfileManager {
 
   /**
    * Create an auth provider for a profile
+   * @param profile - The profile to create auth provider for
+   * @param skipCache - If true, don't cache the provider (for temporary validation)
    */
-  private createAuthProvider(profile: Profile): AuthProvider {
+  private createAuthProvider(profile: Profile, skipCache = false): AuthProvider {
     let authProvider: AuthProvider;
 
     // Determine auth type based on available credentials
@@ -324,7 +350,9 @@ export class ProfileManager {
       );
     }
 
-    this.authProviderCache.set(profile.name, authProvider);
+    if (!skipCache) {
+      this.authProviderCache.set(profile.name, authProvider);
+    }
     return authProvider;
   }
 
