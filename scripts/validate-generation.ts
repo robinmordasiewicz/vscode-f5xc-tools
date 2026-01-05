@@ -127,13 +127,13 @@ function validate(): ValidationResult {
     return result;
   }
 
-  // Expected files
+  // Expected files (core generated files used by the extension)
   const expectedFiles = [
     'index.ts',
     'constants.ts',
     'resourceTypesBase.ts',
     'documentationUrls.ts',
-    'menuSchema.json',
+    'domainCategories.ts',
   ];
 
   // Check all expected files exist

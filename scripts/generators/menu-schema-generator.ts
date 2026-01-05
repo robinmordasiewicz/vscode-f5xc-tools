@@ -449,10 +449,10 @@ function applyOverrides(resources: ResourceAnalysis[], overrides: ScopeOverrides
 function generateMenuSchema(specsDir: string, outputPath: string, overridesPath: string): void {
   console.log('Generating menu schema from OpenAPI specs...\n');
 
-  // Find all spec files
+  // Find all spec files (domain JSON files in new structure)
   const specFiles = fs
     .readdirSync(specsDir)
-    .filter((f) => f.endsWith('.json') && f.includes('ves-swagger'))
+    .filter((f) => f.endsWith('.json') && !f.includes('index'))
     .map((f) => path.join(specsDir, f));
 
   console.log(`Found ${specFiles.length} spec files\n`);
@@ -525,7 +525,7 @@ function generateMenuSchema(specsDir: string, outputPath: string, overridesPath:
 }
 
 // Main execution
-const specsDir = path.join(__dirname, '../../docs/specifications/api');
+const specsDir = path.join(__dirname, '../../docs/specifications/api/domains');
 const outputPath = path.join(__dirname, '../../src/generated/menuSchema.json');
 const overridesPath = path.join(__dirname, 'namespace-scope-overrides.json');
 
