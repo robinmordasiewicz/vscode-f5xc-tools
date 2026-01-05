@@ -81,7 +81,7 @@ Access settings via `File > Preferences > Settings` and search for "F5 XC":
 
 ## Supported Resource Types
 
-The extension supports 40+ F5 XC resource types organized by category:
+The extension supports 236 F5 XC resource types organized by category:
 
 - **Load Balancing**: HTTP/TCP/UDP Load Balancers, Origin Pools, Health Checks
 - **Security**: App Firewalls, Service Policies, Rate Limiters, WAF Exclusions
@@ -95,7 +95,7 @@ The extension supports 40+ F5 XC resource types organized by category:
 
 ### Prerequisites
 
-- Node.js 20.x or higher
+- Node.js 22.x or higher
 - VS Code 1.85.0 or higher
 
 ### Setup
