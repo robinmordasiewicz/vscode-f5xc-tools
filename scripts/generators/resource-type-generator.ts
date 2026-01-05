@@ -158,9 +158,9 @@ export interface GeneratedResourceTypeInfo {
   namespaceScope: NamespaceScope;
   /** Documentation URL */
   documentationUrl?: string;
-  /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
+  /** Domain from x-f5xc-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
   domain?: string;
-  /** Operation metadata for CRUD operations (from x-ves-operation-metadata) */
+  /** Operation metadata for CRUD operations (from x-f5xc-operation-metadata) */
   operationMetadata?: ResourceOperationMetadata;
 }
 
@@ -245,7 +245,7 @@ export type NamespaceScope = 'any' | 'system' | 'shared';
 export type DangerLevel = 'low' | 'medium' | 'high';
 
 /**
- * Common error information from x-ves-operation-metadata
+ * Common error information from x-f5xc-operation-metadata
  */
 export interface CommonError {
   code: number;
@@ -254,7 +254,7 @@ export interface CommonError {
 }
 
 /**
- * Performance impact information from x-ves-operation-metadata
+ * Performance impact information from x-f5xc-operation-metadata
  */
 export interface PerformanceImpact {
   latency: string;
@@ -262,7 +262,7 @@ export interface PerformanceImpact {
 }
 
 /**
- * Side effects information from x-ves-operation-metadata
+ * Side effects information from x-f5xc-operation-metadata
  */
 export interface SideEffects {
   creates?: string[];
@@ -272,7 +272,7 @@ export interface SideEffects {
 }
 
 /**
- * Operation metadata extracted from x-ves-operation-metadata extension.
+ * Operation metadata extracted from x-f5xc-operation-metadata extension.
  * Provides rich context about API operations for UX enhancements.
  */
 export interface OperationMetadata {
@@ -336,9 +336,9 @@ export interface GeneratedResourceTypeInfo {
   namespaceScope: NamespaceScope;
   /** Documentation URL */
   documentationUrl?: string;
-  /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
+  /** Domain from x-f5xc-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
   domain?: string;
-  /** Operation metadata for CRUD operations (from x-ves-operation-metadata) */
+  /** Operation metadata for CRUD operations (from x-f5xc-operation-metadata) */
   operationMetadata?: ResourceOperationMetadata;
 }
 
@@ -438,7 +438,7 @@ export function generateResourceTypesFile(
 
 /**
  * Generate resource types from domain files and write to output file.
- * Domain files are merged OpenAPI specs organized by x-ves-cli-domain.
+ * Domain files are merged OpenAPI specs organized by x-f5xc-cli-domain.
  *
  * @param domainDir - Directory containing domain-based OpenAPI spec files
  * @param outputPath - Path for generated TypeScript file

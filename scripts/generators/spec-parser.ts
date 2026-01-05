@@ -27,7 +27,7 @@ export type NamespaceScope = 'any' | 'system' | 'shared';
 export type DangerLevel = 'low' | 'medium' | 'high';
 
 /**
- * Common error information from x-ves-operation-metadata
+ * Common error information from x-f5xc-operation-metadata
  */
 export interface CommonError {
   code: number;
@@ -36,7 +36,7 @@ export interface CommonError {
 }
 
 /**
- * Performance impact information from x-ves-operation-metadata
+ * Performance impact information from x-f5xc-operation-metadata
  */
 export interface PerformanceImpact {
   latency: string;
@@ -44,7 +44,7 @@ export interface PerformanceImpact {
 }
 
 /**
- * Side effects information from x-ves-operation-metadata
+ * Side effects information from x-f5xc-operation-metadata
  */
 export interface SideEffects {
   creates?: string[];
@@ -54,7 +54,7 @@ export interface SideEffects {
 }
 
 /**
- * Operation metadata extracted from x-ves-operation-metadata extension.
+ * Operation metadata extracted from x-f5xc-operation-metadata extension.
  * Provides rich context about API operations for UX enhancements.
  */
 export interface OperationMetadata {
@@ -119,9 +119,9 @@ export interface ParsedSpecInfo {
   namespaceScope: NamespaceScope;
   /** Documentation URL if available */
   documentationUrl?: string;
-  /** Domain from x-ves-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
+  /** Domain from x-f5xc-cli-domain extension (e.g., 'waf', 'virtual', 'dns') */
   domain?: string;
-  /** Operation metadata extracted from x-ves-operation-metadata extensions */
+  /** Operation metadata extracted from x-f5xc-operation-metadata extensions */
   operationMetadata?: ResourceOperationMetadata;
 }
 
@@ -132,7 +132,9 @@ interface OpenAPISpec {
   info?: {
     title?: string;
     description?: string;
-    'x-ves-cli-domain'?: string;
+    // Support both old and new field names during migration
+    'x-f5xc-cli-domain'?: string;
+    'x-ves-cli-domain'?: string; // Legacy fallback (upstream migration incomplete)
   };
   paths?: Record<string, PathItem>;
   externalDocs?: {
@@ -149,7 +151,7 @@ interface PathItem {
 }
 
 /**
- * Raw operation metadata from OpenAPI spec x-ves-operation-metadata extension
+ * Raw operation metadata from OpenAPI spec x-f5xc-operation-metadata extension
  */
 interface RawOperationMetadata {
   purpose?: string;
@@ -184,8 +186,8 @@ interface Operation {
   externalDocs?: {
     url?: string;
   };
-  'x-ves-operation-metadata'?: RawOperationMetadata;
-  'x-ves-danger-level'?: string;
+  'x-f5xc-operation-metadata'?: RawOperationMetadata;
+  'x-f5xc-danger-level'?: string;
 }
 
 /**
@@ -692,18 +694,18 @@ function convertRawMetadata(raw: RawOperationMetadata | undefined): OperationMet
 }
 
 /**
- * Extract operation metadata from a path item (including x-ves-danger-level fallback)
+ * Extract operation metadata from a path item (including x-f5xc-danger-level fallback)
  */
 function extractOperationMetadata(operation: Operation | undefined): OperationMetadata | undefined {
   if (!operation) {
     return undefined;
   }
 
-  const metadata = convertRawMetadata(operation['x-ves-operation-metadata']);
+  const metadata = convertRawMetadata(operation['x-f5xc-operation-metadata']);
 
-  // Fallback to x-ves-danger-level if not in operation metadata
-  if (metadata && !metadata.dangerLevel && operation['x-ves-danger-level']) {
-    const level = operation['x-ves-danger-level'].toLowerCase();
+  // Fallback to x-f5xc-danger-level if not in operation metadata
+  if (metadata && !metadata.dangerLevel && operation['x-f5xc-danger-level']) {
+    const level = operation['x-f5xc-danger-level'].toLowerCase();
     if (level === 'low' || level === 'medium' || level === 'high') {
       metadata.dangerLevel = level;
     }
@@ -729,7 +731,8 @@ export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
     return [];
   }
 
-  const domain = spec.info?.['x-ves-cli-domain'];
+  // Prefer new field name, fall back to legacy (upstream migration incomplete)
+  const domain = spec.info?.['x-f5xc-cli-domain'] ?? spec.info?.['x-ves-cli-domain'];
   const paths = spec.paths;
 
   if (!paths) {

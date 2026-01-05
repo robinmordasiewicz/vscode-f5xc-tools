@@ -2,8 +2,10 @@
  * Domain Category Generator
  *
  * Generates domain-to-category mappings from upstream index.json metadata.
- * The upstream now provides ui_category directly, eliminating the need for
+ * The upstream provides x-f5xc-category directly, eliminating the need for
  * a separate mapping file.
+ *
+ * Uses x-f5xc-* extension namespace (v2.0.0+ format).
  *
  * Generated output: src/generated/domainCategories.ts
  */
@@ -13,27 +15,27 @@ import * as path from 'path';
 
 /**
  * Domain metadata from upstream index.json
+ * Uses x-f5xc-* extension namespace (v2.0.0+ format)
  */
 export interface DomainInfo {
   domain: string;
   title: string;
   description: string;
-  description_short: string;
-  description_medium?: string;
+  'x-f5xc-description-short': string;
+  'x-f5xc-description-medium'?: string;
   file: string;
   path_count: number;
   schema_count: number;
-  complexity: string;
-  is_preview: boolean;
-  requires_tier: string;
-  domain_category: string;
-  ui_category: string; // New field from upstream - provides UI-friendly category directly
-  aliases?: string[];
-  use_cases?: string[];
-  related_domains?: string[];
-  icon: string;
-  logo_svg?: string;
-  primary_resources?: Array<{
+  'x-f5xc-complexity': string;
+  'x-f5xc-is-preview': boolean;
+  'x-f5xc-requires-tier': string;
+  'x-f5xc-category': string; // Unified category field (replaces domain_category and ui_category)
+  'x-f5xc-aliases'?: string[];
+  'x-f5xc-use-cases'?: string[];
+  'x-f5xc-related-domains'?: string[];
+  'x-f5xc-icon': string;
+  'x-f5xc-logo-svg'?: string;
+  'x-f5xc-primary-resources'?: Array<{
     name: string;
     description: string;
     description_short: string;
@@ -48,7 +50,7 @@ export interface DomainInfo {
     };
     relationship_hints: string[];
   }>;
-  primary_resources_simple?: string[];
+  'x-f5xc-primary-resources-simple'?: string[];
 }
 
 /**
@@ -77,7 +79,7 @@ export function loadDomainMetadata(indexPath: string): DomainInfo[] {
 
 /**
  * Generate the domainCategories.ts file from index.json metadata.
- * Uses ui_category directly from upstream - no mapping file needed.
+ * Uses x-f5xc-category directly from upstream - no mapping file needed.
  */
 export function generateDomainCategoriesFile(indexPath: string, outputPath: string): void {
   const domains = loadDomainMetadata(indexPath);
@@ -114,11 +116,11 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
   const domainMetadata: Record<string, OutputDomainMetadata> = {};
 
   for (const domain of domains) {
-    // Use ui_category directly from upstream
-    domainToUiCategory[domain.domain] = domain.ui_category;
+    // Use x-f5xc-category directly from upstream (unified category field)
+    domainToUiCategory[domain.domain] = domain['x-f5xc-category'];
 
     // Extract simplified primary_resources for output (just the essential fields)
-    const simplifiedResources = domain.primary_resources?.map((r) => ({
+    const simplifiedResources = domain['x-f5xc-primary-resources']?.map((r) => ({
       name: r.name,
       description: r.description,
       description_short: r.description_short,
@@ -130,20 +132,20 @@ export function generateDomainCategoriesFile(indexPath: string, outputPath: stri
     domainMetadata[domain.domain] = {
       title: domain.title,
       description: domain.description,
-      description_short: domain.description_short,
-      description_medium: domain.description_medium ?? domain.description_short,
-      icon: domain.icon,
+      description_short: domain['x-f5xc-description-short'],
+      description_medium: domain['x-f5xc-description-medium'] ?? domain['x-f5xc-description-short'],
+      icon: domain['x-f5xc-icon'],
       primary_resources: simplifiedResources,
-      primary_resources_simple: domain.primary_resources_simple,
-      use_cases: domain.use_cases ?? [],
-      complexity: domain.complexity,
-      requires_tier: domain.requires_tier,
-      isPreview: domain.is_preview,
+      primary_resources_simple: domain['x-f5xc-primary-resources-simple'],
+      use_cases: domain['x-f5xc-use-cases'] ?? [],
+      complexity: domain['x-f5xc-complexity'],
+      requires_tier: domain['x-f5xc-requires-tier'],
+      isPreview: domain['x-f5xc-is-preview'],
     };
   }
 
   // Collect unique UI categories
-  const uiCategories = [...new Set(domains.map((d) => d.ui_category))].sort();
+  const uiCategories = [...new Set(domains.map((d) => d['x-f5xc-category']))].sort();
 
   // Generate TypeScript content
   const content = `/**

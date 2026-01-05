@@ -18,7 +18,7 @@ import {
 import { writeConstantsFile } from './generators/constants-generator';
 import { generateDomainCategoriesFile } from './generators/domain-category-generator';
 
-// Use domain-based specs (new upstream format with x-ves-cli-domain)
+// Use domain-based specs (new upstream format with x-f5xc-cli-domain)
 const DOMAIN_DIR = path.join(__dirname, '..', 'docs', 'specifications', 'api', 'domains');
 const SPECS_DIR = path.join(__dirname, '..', 'docs', 'specifications', 'api');
 const GENERATED_DIR = path.join(__dirname, '..', 'src', 'generated');

@@ -216,38 +216,44 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
   // =====================================================
   http_loadbalancer: {
     displayName: 'HTTP Load Balancers',
-    // category auto-populated from domain: virtual
+    // upstream x-f5xc-primary-resources specifies category: "Load Balancing" (domain-level is "Networking")
+    category: ResourceCategory.LoadBalancing,
     supportsCustomOps: true,
     icon: 'globe',
     supportsLogs: true,
     supportsMetrics: true,
   },
   tcp_loadbalancer: {
-    // category auto-populated from domain: virtual
+    // upstream x-f5xc-primary-resources specifies category: "Load Balancing"
+    category: ResourceCategory.LoadBalancing,
     supportsCustomOps: false,
     icon: 'plug',
     supportsLogs: true,
     supportsMetrics: true,
   },
   udp_loadbalancer: {
-    // category auto-populated from domain: virtual
+    // UDP load balancer - same category as HTTP/TCP
+    category: ResourceCategory.LoadBalancing,
     supportsCustomOps: false,
     icon: 'broadcast',
     supportsMetrics: true,
   },
   origin_pool: {
-    // category auto-populated from domain: virtual
+    // upstream x-f5xc-primary-resources specifies category: "Load Balancing"
+    category: ResourceCategory.LoadBalancing,
     supportsCustomOps: false,
     icon: 'server-environment',
     supportsMetrics: true,
   },
   cdn_loadbalancer: {
-    // category auto-populated from domain: virtual
+    // CDN load balancer - same category as HTTP/TCP
+    category: ResourceCategory.LoadBalancing,
     supportsCustomOps: false,
     icon: 'cloud',
   },
   healthcheck: {
-    // category auto-populated from domain: virtual
+    // upstream x-f5xc-primary-resources specifies category: "Monitoring", map to Observability
+    category: ResourceCategory.Observability,
     supportsCustomOps: false,
     icon: 'heart',
   },
