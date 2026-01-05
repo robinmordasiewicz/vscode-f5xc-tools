@@ -730,6 +730,13 @@ export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
   }
 
   const domain = spec.info?.['x-f5xc-cli-domain'];
+
+  // Clean break: Require x-f5xc-cli-domain field - skip legacy files
+  if (!domain) {
+    console.warn(`SKIP: ${filename} missing required x-f5xc-cli-domain field`);
+    return [];
+  }
+
   const paths = spec.paths;
 
   if (!paths) {
