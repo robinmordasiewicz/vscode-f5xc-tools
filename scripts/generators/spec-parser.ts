@@ -132,9 +132,7 @@ interface OpenAPISpec {
   info?: {
     title?: string;
     description?: string;
-    // Support both old and new field names during migration
     'x-f5xc-cli-domain'?: string;
-    'x-ves-cli-domain'?: string; // Legacy fallback (upstream migration incomplete)
   };
   paths?: Record<string, PathItem>;
   externalDocs?: {
@@ -731,8 +729,7 @@ export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
     return [];
   }
 
-  // Prefer new field name, fall back to legacy (upstream migration incomplete)
-  const domain = spec.info?.['x-f5xc-cli-domain'] ?? spec.info?.['x-ves-cli-domain'];
+  const domain = spec.info?.['x-f5xc-cli-domain'];
   const paths = spec.paths;
 
   if (!paths) {
