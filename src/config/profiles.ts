@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * ProfileManager - XDG-compliant profile management
  * Shared across F5 XC tools

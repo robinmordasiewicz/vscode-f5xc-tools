@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import * as vscode from 'vscode';
 import { ResourceCategory, ResourceTypeInfo } from '../api/resourceTypes';
 

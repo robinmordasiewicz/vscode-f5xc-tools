@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * VSCode Integration Test Runner
  * This file is the entry point for running VSCode extension integration tests

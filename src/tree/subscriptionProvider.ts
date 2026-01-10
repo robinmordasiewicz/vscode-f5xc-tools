@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Subscription tree data provider
  * Provides a separate top-level view for Plan and Quotas

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * OpenAPI specification parsing utilities for F5 XC resource type generation.
  *

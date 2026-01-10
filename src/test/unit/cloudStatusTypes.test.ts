@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import { CloudStatusContext } from '../../tree/cloudStatusTypes';
 
 describe('CloudStatusContext', () => {

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * VSCode Extension Integration Tests
  * These tests run inside the VSCode Extension Development Host

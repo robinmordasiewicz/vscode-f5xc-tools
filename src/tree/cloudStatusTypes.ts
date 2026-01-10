@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Cloud Status Tree Types
  * Types and interfaces for the Cloud Status tree view

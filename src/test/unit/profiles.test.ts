@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Unit tests for the ProfileManager with XDG-compliant storage
  */

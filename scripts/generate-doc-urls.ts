@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Build-time script to generate documentation URLs from OpenAPI spec files.
  *
