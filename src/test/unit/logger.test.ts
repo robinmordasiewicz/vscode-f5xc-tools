@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import { Logger, getLogger } from '../../utils/logger';
 import * as vscode from 'vscode';
 

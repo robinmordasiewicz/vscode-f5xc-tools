@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * F5 Cloud Status API Client
  * Fetches status information from https://www.f5cloudstatus.com (Statuspage.io API)

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import * as vscode from 'vscode';
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error';

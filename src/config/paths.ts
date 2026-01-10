@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * XDG Base Directory paths for cross-tool compatibility with F5 XC tools
  *

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /** @type {import('jest').Config} */
 module.exports = {
   preset: 'ts-jest',

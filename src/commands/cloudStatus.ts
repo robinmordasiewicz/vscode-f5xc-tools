@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Cloud Status Command Handlers
  * Commands for interacting with the Cloud Status feature

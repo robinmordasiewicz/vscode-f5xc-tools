@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 // Commitlint configuration
 // See https://commitlint.js.org/reference/configuration.html
 

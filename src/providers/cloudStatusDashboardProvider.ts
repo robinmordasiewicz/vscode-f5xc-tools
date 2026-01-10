@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Cloud Status Dashboard WebView Provider
  * Displays detailed F5 Cloud Status information in a WebView panel

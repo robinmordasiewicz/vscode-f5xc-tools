@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * XDG-compliant ProfileManager for cross-tool compatibility
  * Shared across F5 XC tools (VS Code extension, CLI, MCP servers)

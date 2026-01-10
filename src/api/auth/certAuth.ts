@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Certificate-based authentication provider for F5 XC
  * Supports two methods:

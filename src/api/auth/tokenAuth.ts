@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import * as https from 'https';
 import { AuthProvider, TokenAuthConfig } from './index';
 import { getLogger } from '../../utils/logger';

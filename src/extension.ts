@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import * as vscode from 'vscode';
 import { ProfileManager } from './config/profiles';
 import { F5XCExplorerProvider } from './tree/f5xcExplorer';

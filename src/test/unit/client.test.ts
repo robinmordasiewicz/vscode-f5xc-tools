@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import { F5XCClient, ListOptions } from '../../api/client';
 import { ResourceTypeInfo, ResourceCategory } from '../../api/resourceTypes';
 

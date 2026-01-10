@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * VSCode API mock for Jest unit tests
  * This mock provides basic implementations of VSCode APIs used by the extension

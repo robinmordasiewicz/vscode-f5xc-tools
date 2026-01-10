@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Geocoder Module
  * Nominatim (OpenStreetMap) geocoding wrapper for location lookup

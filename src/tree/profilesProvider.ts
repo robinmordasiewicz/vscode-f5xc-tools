@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import * as vscode from 'vscode';
 import { ProfileManager, Profile } from '../config/profiles';
 import { F5XCTreeItem } from './treeTypes';

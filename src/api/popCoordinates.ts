@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * PoP Coordinates Module
  * Static mapping of known F5 Regional Edge PoP coordinates with geocoding fallback support

@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 import * as vscode from 'vscode';
 import { ProfileManager } from '../config/profiles';
 import { RESOURCE_TYPES } from '../api/resourceTypes';

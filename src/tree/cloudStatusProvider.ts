@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Robin Mordasiewicz. MIT License.
+
 /**
  * Cloud Status Tree Provider
  * TreeDataProvider for F5 Cloud Status information
