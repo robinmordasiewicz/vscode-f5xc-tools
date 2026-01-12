@@ -86,25 +86,9 @@ repos:
         exclude: ^\.serena/memories/
 
   # =============================================================================
-  # TypeScript/JavaScript Linting
+  # TypeScript/JavaScript Linting (handled by lint-staged)
+  # ESLint uses flat config (eslint.config.mjs) which lint-staged supports
   # =============================================================================
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v10.0.0-alpha.1
-    hooks:
-      - id: eslint
-        files: \.[jt]sx?$
-        types: [file]
-        exclude: webpack\.config\.js$
-        args: [--fix, --max-warnings=0]
-        additional_dependencies:
-          - eslint@8.56.0
-          - typescript@5.3.3
-          - "@typescript-eslint/eslint-plugin@6.15.0"
-          - "@typescript-eslint/parser@6.15.0"
-          - "@eslint/js@8.56.0"
-          - typescript-eslint@7.0.0
-          - eslint-config-prettier@9.1.0
-          - globals@13.24.0
 
   # =============================================================================
   # Prettier Code Formatting
@@ -134,7 +118,7 @@ repos:
   # Security Scanning - SAST with Semgrep
   # =============================================================================
   - repo: https://github.com/semgrep/semgrep
-    rev: v1.89.0
+    rev: v1.147.0
     hooks:
       - id: semgrep
         args:
@@ -144,6 +128,7 @@ repos:
           - --error
           - --skip-unknown-extensions
         files: \.[jt]sx?$
+        language_version: python3.13
 
   # =============================================================================
   # TypeScript Type Checking
