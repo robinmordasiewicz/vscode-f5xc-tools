@@ -31,8 +31,9 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}:/docs" \
             -w /docs \
+            --entrypoint sh \
             ghcr.io/robinmordasiewicz/f5xc-mkdocs:latest \
-            mkdocs build --strict
+            -c "mkdocs build --strict"
 
       - name: Deploy to gh-pages branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
