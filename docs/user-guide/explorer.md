@@ -1,3 +1,0 @@
-# Explorer
-
-Documentation coming soon.
