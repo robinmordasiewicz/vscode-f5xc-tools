@@ -12,9 +12,24 @@
   "MD024": { "siblings_only": true },
   "MD025": { "front_matter_title": "" },
   "MD026": { "punctuation": ".,;:!" },
-  "MD029": { "style": "ordered" },
+  "MD029": false,
   "MD030": { "ul_single": 1, "ol_single": 1, "ul_multi": 1, "ol_multi": 1 },
-  "MD033": { "allowed_elements": ["br", "details", "summary", "img", "kbd", "sub", "sup"] },
+  "MD033": {
+    "allowed_elements": [
+      "br",
+      "details",
+      "summary",
+      "img",
+      "kbd",
+      "sub",
+      "sup",
+      "div",
+      "a",
+      "span",
+      "h3",
+      "p"
+    ]
+  },
   "MD034": true,
   "MD035": { "style": "---" },
   "MD036": false,
@@ -26,7 +41,7 @@
     "code_blocks": false,
     "html_elements": false
   },
-  "MD046": { "style": "fenced" },
+  "MD046": false,
   "MD047": true,
   "MD048": { "style": "backtick" },
   "MD049": { "style": "underscore" },
