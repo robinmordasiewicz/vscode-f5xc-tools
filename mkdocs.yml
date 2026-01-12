@@ -35,8 +35,8 @@ theme:
 
 plugins:
   - search
-  - minify:
-      minify_html: true
+  # - minify:                    # TEMPORARY: Disabled until f5xc-mkdocs container includes mkdocs-minify-plugin
+  #     minify_html: true        # See: https://github.com/robinmordasiewicz/f5xc-mkdocs/issues/10
 
 markdown_extensions:
   - pymdownx.highlight:
