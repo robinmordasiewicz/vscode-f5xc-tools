@@ -29,6 +29,7 @@ jobs:
       - name: Build site with f5xc-mkdocs container
         run: |
           docker run --rm \
+            --user $(id -u):$(id -g) \
             -v "${{ github.workspace }}:/docs" \
             -w /docs \
             --entrypoint sh \
