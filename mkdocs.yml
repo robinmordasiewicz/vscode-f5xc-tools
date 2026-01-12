@@ -1,4 +1,4 @@
-site_name: F5 Distributed Cloud Tools Documentation
+site_name: F5 Distributed Cloud Tools
 site_description: VS Code extension for managing F5 Distributed Cloud resources
 site_url: https://robinmordasiewicz.github.io/vscode-f5xc-tools/
 repo_name: robinmordasiewicz/vscode-f5xc-tools
@@ -6,7 +6,6 @@ repo_url: https://github.com/robinmordasiewicz/vscode-f5xc-tools
 
 theme:
   name: material
-  custom_dir: docs/overrides
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -26,21 +25,10 @@ theme:
     text: Inter
     code: JetBrains Mono
   features:
-    - navigation.tabs
-    - navigation.indexes
-    - navigation.path
     - navigation.top
-    - navigation.footer
-    - navigation.instant
-    - navigation.tracking
     - search.suggest
-    - search.highlight
-    - search.share
     - content.code.copy
-    - content.code.annotate
-    - content.tabs.link
     - toc.follow
-    - header.autohide
   icon:
     repo: fontawesome/brands/github
     logo: material/cloud
@@ -53,25 +41,11 @@ plugins:
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
   - pymdownx.superfences
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.details
-  - pymdownx.mark
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - admonition
   - tables
-  - attr_list
-  - md_in_html
   - toc:
       permalink: true
-      toc_depth: 3
 
 extra:
   social:
@@ -82,32 +56,5 @@ extra:
 extra_css:
   - stylesheets/extra.css
 
-extra_javascript:
-  - javascripts/sidebar-fix.js
-
 nav:
   - Home: index.md
-  - Getting Started:
-      - getting-started/index.md
-      - Installation: getting-started/installation.md
-      - Quick Start: getting-started/quick-start.md
-      - Authentication: getting-started/authentication.md
-  - User Guide:
-      - user-guide/index.md
-      - Profile Management: user-guide/profiles.md
-      - Resource Explorer: user-guide/explorer.md
-      - CRUD Operations: user-guide/crud-operations.md
-      - Subscription Dashboard: user-guide/subscription.md
-      - Cloud Status: user-guide/cloud-status.md
-  - Features:
-      - features/index.md
-      - Resource Types: features/resource-types.md
-      - Authentication Methods: features/authentication.md
-      - Tree Views: features/tree-views.md
-      - Commands: features/commands.md
-  - Development:
-      - development/index.md
-      - Architecture: development/architecture.md
-      - Contributing: development/contributing.md
-      - Building: development/building.md
-      - Testing: development/testing.md

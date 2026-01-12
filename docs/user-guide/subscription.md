@@ -1,3 +1,0 @@
-# Subscription
-
-Documentation coming soon.

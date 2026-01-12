@@ -1,3 +1,0 @@
-# Authentication
-
-Documentation coming soon.

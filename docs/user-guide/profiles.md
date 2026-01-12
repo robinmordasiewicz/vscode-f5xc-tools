@@ -1,3 +1,0 @@
-# Profiles
-
-Documentation coming soon.
