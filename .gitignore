@@ -17,3 +17,4 @@ coverage/
 # API specs - fetched at build time from upstream
 docs/specifications/
 .specs-temp/
+site/
