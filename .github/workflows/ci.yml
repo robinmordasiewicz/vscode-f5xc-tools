@@ -8,6 +8,8 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+  repository_dispatch:
+    types: [theme-updated]
 
 jobs:
   # Validate that code generation is deterministic
@@ -16,6 +18,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Log dispatch event (if triggered by repository_dispatch)
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          echo "::notice::Triggered by repository_dispatch from ${{ github.event.client_payload.source_repo }}"
+          echo "Source commit: ${{ github.event.client_payload.commit_short_sha }}"
+          echo "Timestamp: ${{ github.event.client_payload.timestamp }}"
+          echo "Trigger URL: ${{ github.event.client_payload.trigger_run_url }}"
+
       - name: Checkout repository
         uses: actions/checkout@v6
 
