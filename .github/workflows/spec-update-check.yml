@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.RELEASE_PAT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -84,6 +86,8 @@ jobs:
 
       - name: Push update
         if: steps.check.outputs.needs_update == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
         run: |
           git push origin main
           echo "✅ Pushed commit to trigger rebuild pipeline"
