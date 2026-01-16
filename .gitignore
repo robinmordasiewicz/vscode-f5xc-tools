@@ -18,6 +18,3 @@ coverage/
 docs/specifications/
 .specs-temp/
 site/
-
-# Automated workflow triggers (committed but safe to ignore locally)
-.github/spec-update-trigger
