@@ -31,7 +31,8 @@ jobs:
         id: check
         run: |
           # Get current and latest versions
-          STATUS=$(npm run specs:status --silent)
+          # Note: specs:status exits with code 1 if outdated, so capture output first
+          STATUS=$(npm run specs:status --silent || true)
           echo "Status: $STATUS"
 
           CURRENT=$(echo "$STATUS" | jq -r '.currentVersion')
