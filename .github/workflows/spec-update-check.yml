@@ -1,0 +1,114 @@
+name: API Spec Update Check
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC (adjust as needed)
+    - cron: "0 2 * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-specs:
+    name: Check for API Spec Updates
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check spec version
+        id: check
+        run: |
+          # Get current and latest versions
+          STATUS=$(npm run specs:status --silent)
+          echo "Status: $STATUS"
+
+          CURRENT=$(echo "$STATUS" | jq -r '.currentVersion')
+          LATEST=$(echo "$STATUS" | jq -r '.latestVersion')
+          IS_OUTDATED=$(echo "$STATUS" | jq -r '.isUpToDate')
+          UPSTREAM_URL=$(echo "$STATUS" | jq -r '.upstreamUrl')
+
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          echo "latest=$LATEST" >> $GITHUB_OUTPUT
+          echo "is_outdated=$IS_OUTDATED" >> $GITHUB_OUTPUT
+          echo "upstream_url=$UPSTREAM_URL" >> $GITHUB_OUTPUT
+
+          if [ "$IS_OUTDATED" = "false" ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "📦 New API spec version detected: $CURRENT → $LATEST"
+            echo "🔗 Upstream: $UPSTREAM_URL"
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "✅ Specs are up-to-date (version $CURRENT)"
+          fi
+
+      - name: Create update commit
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create a marker file to trigger build
+          mkdir -p .github
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > .github/spec-update-trigger
+
+          # Commit with conventional commit format
+          git add .github/spec-update-trigger
+          git commit -m "build: trigger rebuild for API spec v${{ steps.check.outputs.latest }}" \
+            -m "" \
+            -m "Detected new upstream API specification version." \
+            -m "- Previous: v${{ steps.check.outputs.current }}" \
+            -m "- Latest: v${{ steps.check.outputs.latest }}" \
+            -m "- Upstream: ${{ steps.check.outputs.upstream_url }}" \
+            -m "" \
+            -m "This commit triggers the CI/CD pipeline to:" \
+            -m "- Sync latest API specs from upstream" \
+            -m "- Regenerate resource types and documentation" \
+            -m "- Run full test suite" \
+            -m "- Build and publish new VSIX package" \
+            -m "" \
+            -m "Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+
+      - name: Push update
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          git push origin main
+          echo "✅ Pushed commit to trigger rebuild pipeline"
+          echo "📋 CI/CD will now:"
+          echo "   1. Sync API specs v${{ steps.check.outputs.latest }}"
+          echo "   2. Regenerate code"
+          echo "   3. Run tests"
+          echo "   4. Build and release VSIX"
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.check.outputs.needs_update }}" = "true" ]; then
+            echo "## 🚀 API Spec Update Triggered" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Version Change:** v${{ steps.check.outputs.current }} → v${{ steps.check.outputs.latest }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Upstream:** ${{ steps.check.outputs.upstream_url }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Next Steps:**" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Commit pushed to trigger CI/CD pipeline" >> $GITHUB_STEP_SUMMARY
+            echo "- 🔄 Watch [CI workflow](https://github.com/${{ github.repository }}/actions/workflows/ci.yml) for build progress" >> $GITHUB_STEP_SUMMARY
+            echo "- 📦 New VSIX will be published automatically on success" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ✅ Specs Up-to-Date" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Current Version:** v${{ steps.check.outputs.current }}" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "No update needed. Next check: tomorrow at 2 AM UTC" >> $GITHUB_STEP_SUMMARY
+          fi
