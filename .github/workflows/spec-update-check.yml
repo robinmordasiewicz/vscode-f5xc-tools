@@ -67,7 +67,7 @@ jobs:
 
           # Commit with conventional commit format
           git add .github/spec-update-trigger
-          git commit -m "build: trigger rebuild for API spec v${{ steps.check.outputs.latest }}" \
+          git commit -m "build: trigger rebuild for api spec v${{ steps.check.outputs.latest }}" \
             -m "" \
             -m "Detected new upstream API specification version." \
             -m "- Previous: v${{ steps.check.outputs.current }}" \
