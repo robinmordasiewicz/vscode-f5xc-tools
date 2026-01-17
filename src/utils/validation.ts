@@ -212,6 +212,18 @@ export function validateResourcePayload(
     }
   }
 
+  // Add origin_pool-specific hint for LB_OVERRIDE
+  if (resourceKey === 'origin_pool') {
+    const lbAlgo = getNestedValue(payload, 'spec.loadbalancer_algorithm');
+    if (lbAlgo === 'LB_OVERRIDE') {
+      hints.push(
+        'LB_OVERRIDE means the load balancing algorithm is inherited from the HTTP Load Balancer. ' +
+          'If not set on the load balancer, ROUND_ROBIN will be used. ' +
+          'Consider setting explicitly if specific behavior is required.',
+      );
+    }
+  }
+
   const result: ValidationResult = {
     valid: missingFields.length === 0,
     missingFields,

@@ -25,6 +25,10 @@ import {
   getRecommendedValue,
   getRecommendedValueFields,
   hasRecommendedValue,
+  getServerDefaultFields,
+  getFieldDefaults,
+  getUserRequiredFields,
+  getFieldMetadata,
 } from '../../api/resourceTypes';
 
 describe('Resource Types Registry', () => {
@@ -673,6 +677,103 @@ describe('Resource Types Registry', () => {
       it('should return false for unknown field', () => {
         const has = hasRecommendedValue('healthcheck', 'spec.nonexistent_field');
         expect(has).toBe(false);
+      });
+    });
+  });
+
+  describe('origin_pool field metadata', () => {
+    describe('getServerDefaultFields', () => {
+      it('should have server default fields for origin_pool', () => {
+        const fields = getServerDefaultFields('origin_pool');
+        expect(fields.length).toBeGreaterThan(0);
+      });
+
+      it('should include loadbalancer_algorithm in server defaults', () => {
+        const fields = getServerDefaultFields('origin_pool');
+        expect(fields).toContain('spec.loadbalancer_algorithm');
+      });
+
+      it('should include endpoint_selection in server defaults', () => {
+        const fields = getServerDefaultFields('origin_pool');
+        expect(fields).toContain('spec.endpoint_selection');
+      });
+
+      it('should include no_tls in server defaults', () => {
+        const fields = getServerDefaultFields('origin_pool');
+        expect(fields).toContain('spec.no_tls');
+      });
+
+      it('should include healthcheck in server defaults', () => {
+        const fields = getServerDefaultFields('origin_pool');
+        expect(fields).toContain('spec.healthcheck');
+      });
+    });
+
+    describe('getFieldDefaults', () => {
+      it('should have ROUND_ROBIN as default for loadbalancer_algorithm', () => {
+        const defaults = getFieldDefaults('origin_pool');
+        expect(defaults['spec.loadbalancer_algorithm']).toBe('ROUND_ROBIN');
+      });
+
+      it('should have DISTRIBUTED as default for endpoint_selection', () => {
+        const defaults = getFieldDefaults('origin_pool');
+        expect(defaults['spec.endpoint_selection']).toBe('DISTRIBUTED');
+      });
+
+      it('should have empty object as default for no_tls', () => {
+        const defaults = getFieldDefaults('origin_pool');
+        expect(defaults['spec.no_tls']).toEqual({});
+      });
+
+      it('should have empty array as default for healthcheck', () => {
+        const defaults = getFieldDefaults('origin_pool');
+        expect(defaults['spec.healthcheck']).toEqual([]);
+      });
+    });
+
+    describe('getUserRequiredFields', () => {
+      it('should mark origin_servers as user required', () => {
+        const required = getUserRequiredFields('origin_pool', 'create');
+        expect(required).toContain('spec.origin_servers');
+      });
+
+      it('should mark port as user required', () => {
+        const required = getUserRequiredFields('origin_pool', 'create');
+        expect(required).toContain('spec.port');
+      });
+
+      it('should not include loadbalancer_algorithm as user required', () => {
+        // loadbalancer_algorithm has a server default, so user doesn't need to provide it
+        const required = getUserRequiredFields('origin_pool', 'create');
+        expect(required).not.toContain('spec.loadbalancer_algorithm');
+      });
+
+      it('should not include endpoint_selection as user required', () => {
+        // endpoint_selection has a server default
+        const required = getUserRequiredFields('origin_pool', 'create');
+        expect(required).not.toContain('spec.endpoint_selection');
+      });
+    });
+
+    describe('getFieldMetadata for origin_pool', () => {
+      it('should have fieldMetadata defined', () => {
+        expect(RESOURCE_TYPES.origin_pool).toBeDefined();
+        const fieldMetadata = getFieldMetadata('origin_pool');
+        expect(fieldMetadata).toBeDefined();
+      });
+
+      it('should have serverDefaultFields in fieldMetadata', () => {
+        const fieldMetadata = getFieldMetadata('origin_pool');
+        expect(fieldMetadata).toBeDefined();
+        expect(fieldMetadata!.serverDefaultFields).toBeDefined();
+        expect(fieldMetadata!.serverDefaultFields!.length).toBeGreaterThan(0);
+      });
+
+      it('should have userRequiredFields in fieldMetadata', () => {
+        const fieldMetadata = getFieldMetadata('origin_pool');
+        expect(fieldMetadata).toBeDefined();
+        expect(fieldMetadata!.userRequiredFields).toBeDefined();
+        expect(fieldMetadata!.userRequiredFields!.length).toBeGreaterThan(0);
       });
     });
   });

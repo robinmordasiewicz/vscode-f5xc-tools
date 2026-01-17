@@ -926,6 +926,9 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
       };
 
     case 'origin_pool':
+      // Server defaults: no_tls (TLS disabled), loadbalancer_algorithm (ROUND_ROBIN),
+      // endpoint_selection (DISTRIBUTED), healthcheck (empty array)
+      // User must provide: origin_servers, port
       return {
         ...baseTemplate,
         spec: {
@@ -937,11 +940,10 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
             },
           ],
           port: 443,
-          use_tls: {
-            use_host_header_as_sni: {},
-          },
-          loadbalancer_algorithm: 'LB_OVERRIDE',
-          ...(hasServerDefaults ? buildSpecWithDefaults(resourceTypeKey) : {}),
+          // Removed: use_tls - server applies no_tls by default
+          // Removed: loadbalancer_algorithm - server applies ROUND_ROBIN by default
+          // Use buildSpecWithDefaults to pull in any additional server defaults
+          ...(hasFieldMetadata ? buildSpecWithDefaults(resourceTypeKey) : {}),
         },
       };
 
