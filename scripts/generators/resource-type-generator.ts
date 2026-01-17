@@ -29,6 +29,9 @@ export type {
   PerformanceImpact,
   SideEffects,
   ResourceOperationMetadata,
+  ResourceFieldMetadata,
+  FieldMetadata,
+  FieldRequiredFor,
 } from './spec-parser';
 
 /**
@@ -135,6 +138,22 @@ function applyDisplayNameOverrides(
 export { ParsedSpecInfo, NamespaceScope } from './spec-parser';
 
 /**
+ * Serializable field metadata for generated output.
+ * Contains only fields with meaningful metadata (defaults or required-for).
+ */
+export interface GeneratedFieldMetadata {
+  /** Server-provided default value for this field */
+  default?: unknown;
+  /** Whether server applies a default for this field */
+  serverDefault?: boolean;
+  /** When this field is required */
+  requiredFor?: {
+    create?: boolean;
+    update?: boolean;
+  };
+}
+
+/**
  * Generated resource type interface matching what can be extracted from specs
  */
 export interface GeneratedResourceTypeInfo {
@@ -164,6 +183,15 @@ export interface GeneratedResourceTypeInfo {
   domain?: string;
   /** Operation metadata for CRUD operations (from x-f5xc-operation-metadata) */
   operationMetadata?: ResourceOperationMetadata;
+  /** Field metadata for server defaults and required fields */
+  fieldMetadata?: {
+    /** Map of field paths to their metadata */
+    fields: Record<string, GeneratedFieldMetadata>;
+    /** List of field paths that have server defaults */
+    serverDefaultFields?: string[];
+    /** List of field paths that user must provide at creation */
+    userRequiredFields?: string[];
+  };
 }
 
 /**
@@ -198,6 +226,55 @@ function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
     result.operationMetadata = info.operationMetadata;
   }
 
+  // Only include fieldMetadata if it's defined and has fields
+  if (info.fieldMetadata && Object.keys(info.fieldMetadata.fields).length > 0) {
+    // Convert FieldMetadata to GeneratedFieldMetadata (strip unnecessary properties)
+    const generatedFields: Record<string, GeneratedFieldMetadata> = {};
+
+    for (const [path, meta] of Object.entries(info.fieldMetadata.fields)) {
+      const genMeta: GeneratedFieldMetadata = {};
+
+      if (meta.default !== undefined) {
+        genMeta.default = meta.default;
+      }
+      if (meta.serverDefault) {
+        genMeta.serverDefault = true;
+      }
+      if (meta.requiredFor) {
+        const reqFor: { create?: boolean; update?: boolean } = {};
+        if (meta.requiredFor.create !== undefined) {
+          reqFor.create = meta.requiredFor.create;
+        }
+        if (meta.requiredFor.update !== undefined) {
+          reqFor.update = meta.requiredFor.update;
+        }
+        if (Object.keys(reqFor).length > 0) {
+          genMeta.requiredFor = reqFor;
+        }
+      }
+
+      // Only include if there's meaningful metadata
+      if (Object.keys(genMeta).length > 0) {
+        generatedFields[path] = genMeta;
+      }
+    }
+
+    // Only include if we have fields after filtering
+    if (Object.keys(generatedFields).length > 0) {
+      result.fieldMetadata = {
+        fields: generatedFields,
+      };
+
+      // Include arrays only if they have items
+      if (info.fieldMetadata.serverDefaultFields.length > 0) {
+        result.fieldMetadata.serverDefaultFields = info.fieldMetadata.serverDefaultFields;
+      }
+      if (info.fieldMetadata.userRequiredFields.length > 0) {
+        result.fieldMetadata.userRequiredFields = info.fieldMetadata.userRequiredFields;
+      }
+    }
+  }
+
   return result;
 }
 
@@ -222,7 +299,11 @@ export function generateResourceTypesContent(specs: ParsedSpecInfo[]): string {
 
   // Pretty print with proper TypeScript formatting
   // Keep double quotes for values since they're properly escaped by JSON.stringify
-  const resourceTypesJson = JSON.stringify(resourceTypes, null, 2).replace(/"([^"]+)":/g, '$1:'); // Remove quotes from keys only
+  // Only remove quotes from keys that are valid JS identifiers (no dots, dashes, etc.)
+  const resourceTypesJson = JSON.stringify(resourceTypes, null, 2).replace(
+    /"([a-zA-Z_$][a-zA-Z0-9_$]*)":/g,
+    '$1:',
+  );
 
   const apiPathToKeyJson = JSON.stringify(apiPathToKey, null, 2).replace(/"([^"]+)":/g, "'$1':"); // Use single quotes for keys in reverse lookup
 
@@ -312,6 +393,35 @@ export interface ResourceOperationMetadata {
 }
 
 /**
+ * Metadata for a single field in a resource schema.
+ * Contains server default and required-for information.
+ */
+export interface GeneratedFieldMetadata {
+  /** Server-provided default value for this field */
+  default?: unknown;
+  /** Whether server applies a default for this field (from x-f5xc-server-default) */
+  serverDefault?: boolean;
+  /** When this field is required (from x-f5xc-required-for) */
+  requiredFor?: {
+    create?: boolean;
+    update?: boolean;
+  };
+}
+
+/**
+ * Complete field metadata for a resource type.
+ * Provides information about server defaults and user requirements.
+ */
+export interface ResourceFieldMetadata {
+  /** Map of field paths to their metadata */
+  fields: Record<string, GeneratedFieldMetadata>;
+  /** List of field paths that have server defaults */
+  serverDefaultFields?: string[];
+  /** List of field paths that user must provide at creation */
+  userRequiredFields?: string[];
+}
+
+/**
  * Information about a generated resource type.
  * Contains data that can be extracted directly from OpenAPI specs.
  */
@@ -342,6 +452,8 @@ export interface GeneratedResourceTypeInfo {
   domain?: string;
   /** Operation metadata for CRUD operations (from x-f5xc-operation-metadata) */
   operationMetadata?: ResourceOperationMetadata;
+  /** Field metadata for server defaults and required fields */
+  fieldMetadata?: ResourceFieldMetadata;
 }
 
 /**

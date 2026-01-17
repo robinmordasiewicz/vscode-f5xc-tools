@@ -125,6 +125,85 @@ export interface ParsedSpecInfo {
   domain?: string;
   /** Operation metadata extracted from x-f5xc-operation-metadata extensions */
   operationMetadata?: ResourceOperationMetadata;
+  /** Field metadata for server defaults and required fields */
+  fieldMetadata?: ResourceFieldMetadata;
+}
+
+/**
+ * Required-for configuration indicating when a field is required.
+ * From upstream x-f5xc-required-for extension.
+ */
+export interface FieldRequiredFor {
+  /** Required for minimum configuration */
+  minimum_config?: boolean;
+  /** Required for create operation (user must provide) */
+  create?: boolean;
+  /** Required for update operation */
+  update?: boolean;
+}
+
+/**
+ * Metadata for a single field in a resource schema.
+ * Extracted from components.schemas in OpenAPI specs.
+ */
+export interface FieldMetadata {
+  /** Dot-separated path to the field (e.g., 'spec.monitoring') */
+  path: string;
+  /** Server-provided default value for this field */
+  default?: unknown;
+  /** Whether server applies a default for this field (from x-f5xc-server-default) */
+  serverDefault?: boolean;
+  /** When this field is required (from x-f5xc-required-for) */
+  requiredFor?: FieldRequiredFor;
+  /** Field description */
+  description?: string;
+  /** Field type */
+  type?: string;
+}
+
+/**
+ * Complete field metadata for a resource type.
+ * Provides information about server defaults and user requirements.
+ */
+export interface ResourceFieldMetadata {
+  /** Map of field paths to their metadata */
+  fields: Record<string, FieldMetadata>;
+  /** List of field paths that have server defaults */
+  serverDefaultFields: string[];
+  /** List of field paths that user must provide at creation */
+  userRequiredFields: string[];
+}
+
+/**
+ * Schema object structure from components.schemas
+ */
+export interface SchemaObject {
+  type?: string;
+  description?: string;
+  properties?: Record<string, SchemaProperty>;
+  required?: string[];
+  allOf?: SchemaObject[];
+  $ref?: string;
+}
+
+/**
+ * Schema property with F5 XC extensions
+ */
+interface SchemaProperty {
+  type?: string;
+  description?: string;
+  default?: unknown;
+  'x-f5xc-server-default'?: boolean;
+  'x-f5xc-required-for'?: {
+    minimum_config?: boolean;
+    create?: boolean;
+    update?: boolean;
+    read?: boolean;
+  };
+  'x-ves-required'?: string;
+  properties?: Record<string, SchemaProperty>;
+  items?: SchemaProperty;
+  $ref?: string;
 }
 
 /**
@@ -139,6 +218,9 @@ interface OpenAPISpec {
   paths?: Record<string, PathItem>;
   externalDocs?: {
     url?: string;
+  };
+  components?: {
+    schemas?: Record<string, SchemaObject>;
   };
 }
 
@@ -714,6 +796,241 @@ function extractOperationMetadata(operation: Operation | undefined): OperationMe
   return metadata;
 }
 
+// ============================================================================
+// Field Metadata Extraction Functions
+// ============================================================================
+
+/**
+ * Extract field metadata from a schema property recursively.
+ *
+ * @param property - The schema property to process
+ * @param basePath - The current path prefix (e.g., 'spec.monitoring')
+ * @param metadata - The map to store extracted metadata
+ * @param schemas - All schemas for resolving $ref
+ */
+function extractFieldMetadataFromProperty(
+  property: SchemaObject | Record<string, unknown>,
+  basePath: string,
+  metadata: Record<string, FieldMetadata>,
+  schemas: Record<string, SchemaObject>,
+): void {
+  const prop = property as {
+    type?: string;
+    description?: string;
+    default?: unknown;
+    'x-f5xc-server-default'?: boolean;
+    'x-f5xc-required-for'?: {
+      minimum_config?: boolean;
+      create?: boolean;
+      update?: boolean;
+      read?: boolean;
+    };
+    'x-ves-required'?: string;
+    properties?: Record<string, unknown>;
+    items?: Record<string, unknown>;
+    $ref?: string;
+  };
+
+  // Handle $ref by resolving to actual schema
+  if (prop.$ref) {
+    const refName = prop.$ref.replace('#/components/schemas/', '');
+    const refSchema = schemas[refName];
+    if (refSchema && refSchema.properties) {
+      for (const [propName, propValue] of Object.entries(refSchema.properties)) {
+        const childPath = basePath ? `${basePath}.${propName}` : propName;
+        extractFieldMetadataFromProperty(propValue as SchemaObject, childPath, metadata, schemas);
+      }
+    }
+    return;
+  }
+
+  // Check if this property has meaningful metadata
+  const hasDefault = prop.default !== undefined;
+  const hasServerDefault = prop['x-f5xc-server-default'] === true;
+  const hasRequiredFor = prop['x-f5xc-required-for'] !== undefined;
+
+  if (hasDefault || hasServerDefault || hasRequiredFor) {
+    const fieldMeta: FieldMetadata = {
+      path: basePath,
+    };
+
+    if (hasDefault) {
+      fieldMeta.default = prop.default;
+    }
+
+    if (hasServerDefault) {
+      fieldMeta.serverDefault = true;
+    }
+
+    if (hasRequiredFor) {
+      const reqFor = prop['x-f5xc-required-for'];
+      if (reqFor) {
+        fieldMeta.requiredFor = {
+          minimum_config: reqFor.minimum_config,
+          create: reqFor.create,
+          update: reqFor.update,
+        };
+      }
+    }
+
+    if (prop.description) {
+      fieldMeta.description = prop.description;
+    }
+
+    if (prop.type) {
+      fieldMeta.type = prop.type;
+    }
+
+    metadata[basePath] = fieldMeta;
+  }
+
+  // Recurse into nested properties
+  if (prop.properties) {
+    for (const [propName, propValue] of Object.entries(prop.properties)) {
+      const childPath = basePath ? `${basePath}.${propName}` : propName;
+      extractFieldMetadataFromProperty(propValue as SchemaObject, childPath, metadata, schemas);
+    }
+  }
+
+  // Handle array items
+  if (prop.items) {
+    extractFieldMetadataFromProperty(prop.items as SchemaObject, basePath, metadata, schemas);
+  }
+}
+
+/**
+ * Extract field metadata from a schema, walking through its properties.
+ *
+ * @param schema - The schema object to process
+ * @param basePath - Base path prefix for all fields
+ * @param metadata - Map to store extracted metadata
+ * @param schemas - All schemas for resolving $ref
+ */
+function extractFieldMetadataFromSchema(
+  schema: SchemaObject,
+  basePath: string,
+  metadata: Record<string, FieldMetadata>,
+  schemas: Record<string, SchemaObject>,
+): void {
+  if (schema.properties) {
+    for (const [propName, propValue] of Object.entries(schema.properties)) {
+      const fieldPath = basePath ? `${basePath}.${propName}` : propName;
+      extractFieldMetadataFromProperty(propValue, fieldPath, metadata, schemas);
+    }
+  }
+
+  // Handle allOf (schema composition)
+  if (schema.allOf) {
+    for (const subSchema of schema.allOf) {
+      if (subSchema.$ref) {
+        const refName = subSchema.$ref.replace('#/components/schemas/', '');
+        const refSchema = schemas[refName];
+        if (refSchema) {
+          extractFieldMetadataFromSchema(refSchema, basePath, metadata, schemas);
+        }
+      } else {
+        extractFieldMetadataFromSchema(subSchema, basePath, metadata, schemas);
+      }
+    }
+  }
+}
+
+/**
+ * Find the CreateSpecType or SpecType schema for a resource.
+ * Schema naming patterns:
+ * - {resource}CreateSpecType (e.g., app_firewallCreateSpecType)
+ * - {resource}SpecType
+ *
+ * @param schemas - All component schemas
+ * @param resourceKey - The resource key (e.g., 'app_firewall')
+ * @returns The schema name if found
+ */
+function findCreateSpecSchemaName(
+  schemas: Record<string, SchemaObject>,
+  resourceKey: string,
+): string | undefined {
+  // Convert resource key to schema prefix patterns
+  // e.g., 'http_loadbalancer' -> 'http_loadbalancer', 'httpLoadbalancer', 'http_Loadbalancer'
+  const patterns = [
+    `${resourceKey}CreateSpecType`,
+    `${resourceKey}SpecType`,
+    // Handle cases where resource name is camelCased in schema
+    resourceKey.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase()) + 'CreateSpecType',
+  ];
+
+  for (const schemaName of Object.keys(schemas)) {
+    const lowerName = schemaName.toLowerCase();
+    for (const pattern of patterns) {
+      if (lowerName === pattern.toLowerCase()) {
+        return schemaName;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Extract resource field metadata from OpenAPI spec's components.schemas.
+ *
+ * @param spec - The OpenAPI spec
+ * @param resourceKey - The resource key (e.g., 'app_firewall')
+ * @returns Resource field metadata or undefined if not available
+ */
+export function extractResourceFieldMetadata(
+  spec: OpenAPISpec,
+  resourceKey: string,
+): ResourceFieldMetadata | undefined {
+  const schemas = spec.components?.schemas;
+  if (!schemas) {
+    return undefined;
+  }
+
+  const schemaName = findCreateSpecSchemaName(schemas, resourceKey);
+  if (!schemaName) {
+    return undefined;
+  }
+
+  const schema = schemas[schemaName];
+  if (!schema) {
+    return undefined;
+  }
+
+  const fields: Record<string, FieldMetadata> = {};
+
+  // Extract field metadata starting at 'spec' level (as that's how CreateSpecType works)
+  extractFieldMetadataFromSchema(schema, 'spec', fields, schemas);
+
+  // Calculate derived arrays
+  const serverDefaultFields: string[] = [];
+  const userRequiredFields: string[] = [];
+
+  for (const [path, meta] of Object.entries(fields)) {
+    // Fields with server defaults
+    if (meta.serverDefault || meta.default !== undefined) {
+      serverDefaultFields.push(path);
+    }
+
+    // Fields user must provide at creation
+    // Required if: x-f5xc-required-for.create is true AND no server default
+    const reqFor = meta.requiredFor;
+    if (reqFor?.create === true && !meta.serverDefault && meta.default === undefined) {
+      userRequiredFields.push(path);
+    }
+  }
+
+  // Only return if we found meaningful metadata
+  if (Object.keys(fields).length === 0) {
+    return undefined;
+  }
+
+  return {
+    fields,
+    serverDefaultFields: serverDefaultFields.sort(),
+    userRequiredFields: userRequiredFields.sort(),
+  };
+}
+
 /**
  * Parse a domain file and extract all resource types.
  * Domain files contain multiple resource types grouped by domain.
@@ -843,6 +1160,9 @@ export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
       }
     }
 
+    // Extract field metadata from components.schemas
+    const fieldMetadata = extractResourceFieldMetadata(spec, resourceKey);
+
     const result: ParsedSpecInfo = {
       resourceKey,
       apiPath,
@@ -861,6 +1181,11 @@ export function parseDomainFile(filePath: string): ParsedSpecInfo[] {
     // Only include operationMetadata if we have at least one operation
     if (Object.keys(operationMetadata).length > 0) {
       result.operationMetadata = operationMetadata;
+    }
+
+    // Only include fieldMetadata if we have meaningful data
+    if (fieldMetadata) {
+      result.fieldMetadata = fieldMetadata;
     }
 
     results.push(result);
