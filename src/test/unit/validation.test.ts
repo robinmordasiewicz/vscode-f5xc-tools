@@ -434,4 +434,107 @@ describe('Validation Utilities', () => {
       }
     });
   });
+
+  describe('origin_pool LB_OVERRIDE hint', () => {
+    it('should show hint when LB_OVERRIDE is used for loadbalancer_algorithm', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          origin_servers: [{ public_ip: { ip: '1.2.3.4' } }],
+          port: 443,
+          loadbalancer_algorithm: 'LB_OVERRIDE',
+        },
+      };
+
+      const result = validateResourcePayload('origin_pool', 'create', payload);
+
+      // Should have a hint about LB_OVERRIDE
+      const hasLbOverrideHint = result.hints.some((h) => h.includes('LB_OVERRIDE'));
+      expect(hasLbOverrideHint).toBe(true);
+    });
+
+    it('should explain that LB_OVERRIDE inherits from load balancer', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          origin_servers: [{ public_ip: { ip: '1.2.3.4' } }],
+          port: 443,
+          loadbalancer_algorithm: 'LB_OVERRIDE',
+        },
+      };
+
+      const result = validateResourcePayload('origin_pool', 'create', payload);
+
+      // Hint should mention inheritance from HTTP Load Balancer
+      const hint = result.hints.find((h) => h.includes('LB_OVERRIDE'));
+      expect(hint).toBeDefined();
+      expect(hint).toContain('inherited');
+    });
+
+    it('should mention ROUND_ROBIN fallback in LB_OVERRIDE hint', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          origin_servers: [{ public_ip: { ip: '1.2.3.4' } }],
+          port: 443,
+          loadbalancer_algorithm: 'LB_OVERRIDE',
+        },
+      };
+
+      const result = validateResourcePayload('origin_pool', 'create', payload);
+
+      // Hint should mention ROUND_ROBIN as fallback
+      const hint = result.hints.find((h) => h.includes('LB_OVERRIDE'));
+      expect(hint).toBeDefined();
+      expect(hint).toContain('ROUND_ROBIN');
+    });
+
+    it('should not show LB_OVERRIDE hint when not using LB_OVERRIDE', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          origin_servers: [{ public_ip: { ip: '1.2.3.4' } }],
+          port: 443,
+          loadbalancer_algorithm: 'ROUND_ROBIN',
+        },
+      };
+
+      const result = validateResourcePayload('origin_pool', 'create', payload);
+
+      // Should NOT have the LB_OVERRIDE hint
+      const hasLbOverrideHint = result.hints.some((h) => h.includes('LB_OVERRIDE'));
+      expect(hasLbOverrideHint).toBe(false);
+    });
+
+    it('should not show LB_OVERRIDE hint when loadbalancer_algorithm is not set', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          origin_servers: [{ public_ip: { ip: '1.2.3.4' } }],
+          port: 443,
+        },
+      };
+
+      const result = validateResourcePayload('origin_pool', 'create', payload);
+
+      // Should NOT have the LB_OVERRIDE hint
+      const hasLbOverrideHint = result.hints.some((h) => h.includes('LB_OVERRIDE'));
+      expect(hasLbOverrideHint).toBe(false);
+    });
+
+    it('should not show LB_OVERRIDE hint for other resource types', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          loadbalancer_algorithm: 'LB_OVERRIDE',
+        },
+      };
+
+      const result = validateResourcePayload('http_loadbalancer', 'create', payload);
+
+      // Should NOT have the LB_OVERRIDE hint for non-origin_pool resources
+      const hasLbOverrideHint = result.hints.some((h) => h.includes('LB_OVERRIDE'));
+      expect(hasLbOverrideHint).toBe(false);
+    });
+  });
 });

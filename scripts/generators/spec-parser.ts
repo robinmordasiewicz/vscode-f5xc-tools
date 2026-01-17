@@ -837,19 +837,9 @@ function extractFieldMetadataFromProperty(
     $ref?: string;
   };
 
-  // Handle $ref by resolving to actual schema
-  if (prop.$ref) {
-    const refName = prop.$ref.replace('#/components/schemas/', '');
-    const refSchema = schemas[refName];
-    if (refSchema && refSchema.properties) {
-      for (const [propName, propValue] of Object.entries(refSchema.properties)) {
-        const childPath = basePath ? `${basePath}.${propName}` : propName;
-        extractFieldMetadataFromProperty(propValue as SchemaObject, childPath, metadata, schemas);
-      }
-    }
-    return;
-  }
-
+  // IMPORTANT: Check metadata BEFORE handling $ref
+  // Some properties have both a $ref AND metadata (e.g., x-f5xc-server-default, default)
+  // Example: endpoint_selection has $ref to clusterEndpointSelectionPolicy AND default: "DISTRIBUTED"
   // Check if this property has meaningful metadata
   const hasDefault = prop.default !== undefined;
   const hasServerDefault = prop['x-f5xc-server-default'] === true;
@@ -893,6 +883,20 @@ function extractFieldMetadataFromProperty(
     }
 
     metadata[basePath] = fieldMeta;
+  }
+
+  // Handle $ref by resolving to actual schema for nested properties
+  // This is done AFTER extracting metadata from the current property
+  if (prop.$ref) {
+    const refName = prop.$ref.replace('#/components/schemas/', '');
+    const refSchema = schemas[refName];
+    if (refSchema && refSchema.properties) {
+      for (const [propName, propValue] of Object.entries(refSchema.properties)) {
+        const childPath = basePath ? `${basePath}.${propName}` : propName;
+        extractFieldMetadataFromProperty(propValue as SchemaObject, childPath, metadata, schemas);
+      }
+    }
+    // Don't return early - continue to check for nested properties
   }
 
   // Recurse into nested properties
@@ -962,11 +966,15 @@ function findCreateSpecSchemaName(
 ): string | undefined {
   // Convert resource key to schema prefix patterns
   // e.g., 'http_loadbalancer' -> 'http_loadbalancer', 'httpLoadbalancer', 'http_Loadbalancer'
+  // Also handle views-prefixed schemas (e.g., 'viewsorigin_poolCreateSpecType' for 'origin_pool')
   const patterns = [
     `${resourceKey}CreateSpecType`,
     `${resourceKey}SpecType`,
     // Handle cases where resource name is camelCased in schema
     resourceKey.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase()) + 'CreateSpecType',
+    // Handle views-prefixed schemas (origin_pool, http_loadbalancer, etc.)
+    `views${resourceKey}CreateSpecType`,
+    `views${resourceKey}SpecType`,
   ];
 
   for (const schemaName of Object.keys(schemas)) {
