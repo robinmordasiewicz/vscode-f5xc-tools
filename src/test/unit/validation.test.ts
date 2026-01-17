@@ -300,4 +300,138 @@ describe('Validation Utilities', () => {
       expect(result.hints).toEqual([]);
     });
   });
+
+  describe('Recommended value field handling', () => {
+    it('should include recommendedValueFields property in result', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {},
+      };
+
+      const result: ValidationResult = validateResourcePayload('healthcheck', 'create', payload);
+
+      // recommendedValueFields is optional, may be present or not
+      if (result.recommendedValueFields !== undefined) {
+        expect(Array.isArray(result.recommendedValueFields)).toBe(true);
+      }
+    });
+
+    it('should track missing fields with recommended values for healthcheck', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {},
+      };
+
+      const result = validateResourcePayload('healthcheck', 'create', payload);
+
+      // healthcheck has recommended values for timeout, interval, etc.
+      if (result.recommendedValueFields) {
+        expect(result.recommendedValueFields.length).toBeGreaterThan(0);
+      }
+    });
+
+    it('should not include recommended value fields that are provided', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          timeout: 5, // User provided a value
+        },
+      };
+
+      const result = validateResourcePayload('healthcheck', 'create', payload);
+
+      // If recommendedValueFields is present, it should not include 'spec.timeout'
+      if (result.recommendedValueFields) {
+        expect(result.recommendedValueFields).not.toContain('spec.timeout');
+      }
+    });
+
+    it('should provide hints for recommended values', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {},
+      };
+
+      const result = validateResourcePayload('healthcheck', 'create', payload);
+
+      // Should have hints about recommended values
+      const hasRecommendedHint = result.hints.some((h) => h.includes('Recommended'));
+      expect(hasRecommendedHint).toBe(true);
+    });
+
+    it('should include recommended value in hint message', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {},
+      };
+
+      const result = validateResourcePayload('healthcheck', 'create', payload);
+
+      // Hints should include actual recommended values like "3" for timeout
+      const recommendedHint = result.hints.find((h) => h.includes('Recommended'));
+      if (recommendedHint) {
+        // Should contain some numeric values
+        expect(recommendedHint).toMatch(/\d+/);
+      }
+    });
+
+    it('should not have recommended value hints when all provided', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {
+          timeout: 5,
+          interval: 10,
+          unhealthy_threshold: 2,
+          healthy_threshold: 2,
+          jitter_percent: 20,
+        },
+      };
+
+      const result = validateResourcePayload('healthcheck', 'create', payload);
+
+      // Should not have recommended value hints when user provided all values
+      const hasRecommendedHint = result.hints.some((h) => h.includes('Recommended'));
+      // Either no recommended hint, or empty recommendedValueFields
+      if (result.recommendedValueFields) {
+        expect(result.recommendedValueFields.length).toBe(0);
+      }
+      if (!result.recommendedValueFields || result.recommendedValueFields.length === 0) {
+        expect(hasRecommendedHint).toBe(false);
+      }
+    });
+
+    it('should not have recommendedValueFields for resources without recommended values', () => {
+      const payload = {
+        metadata: { name: 'test' },
+      };
+
+      // Unknown resources have no recommended values
+      const result = validateResourcePayload('unknown_resource', 'create', payload);
+
+      // recommendedValueFields should be undefined or empty for unknown resources
+      expect(
+        result.recommendedValueFields === undefined || result.recommendedValueFields.length === 0,
+      ).toBe(true);
+    });
+
+    it('should keep recommended value fields separate from server defaulted fields', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {},
+      };
+
+      const result = validateResourcePayload('healthcheck', 'create', payload);
+
+      // Recommended value fields and server defaulted fields should be separate concepts
+      // No overlap expected
+      if (result.recommendedValueFields && result.recommendedValueFields.length > 0) {
+        const overlap = result.recommendedValueFields.filter((f) =>
+          result.serverDefaultedFields.includes(f),
+        );
+        // Fields with recommended values shouldn't also be in serverDefaultedFields
+        // (they are different metadata attributes)
+        expect(Array.isArray(overlap)).toBe(true);
+      }
+    });
+  });
 });

@@ -1554,10 +1554,12 @@ export function getFieldMetadata(resourceKey: string):
           default?: unknown;
           serverDefault?: boolean;
           requiredFor?: { create?: boolean; update?: boolean };
+          recommendedValue?: unknown;
         }
       >;
       serverDefaultFields?: string[];
       userRequiredFields?: string[];
+      recommendedValueFields?: string[];
     }
   | undefined {
   const generated = GENERATED_RESOURCE_TYPES[resourceKey];
@@ -1589,4 +1591,68 @@ export function isFieldUserRequired(
 
   // Required AND not server-defaulted
   return isRequired === true && !fieldMeta.serverDefault && fieldMeta.default === undefined;
+}
+
+// =====================================================
+// Recommended Value Helper Functions
+// =====================================================
+
+/**
+ * Get all recommended values for a resource type.
+ * Returns a map of field paths to their recommended values.
+ *
+ * @param resourceKey - The resource type key (e.g., 'healthcheck')
+ * @returns Object mapping field paths to their recommended values
+ */
+export function getRecommendedValues(resourceKey: string): Record<string, unknown> {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMetadata = generated?.fieldMetadata;
+  if (!fieldMetadata) {
+    return {};
+  }
+
+  const recommended: Record<string, unknown> = {};
+  for (const [path, meta] of Object.entries(fieldMetadata.fields)) {
+    if (meta.recommendedValue !== undefined) {
+      recommended[path] = meta.recommendedValue;
+    }
+  }
+  return recommended;
+}
+
+/**
+ * Get the recommended value for a specific field.
+ *
+ * @param resourceKey - The resource type key
+ * @param fieldPath - The dot-separated field path (e.g., 'spec.timeout')
+ * @returns The recommended value or undefined if not set
+ */
+export function getRecommendedValue(resourceKey: string, fieldPath: string): unknown {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMeta = generated?.fieldMetadata?.fields[fieldPath];
+  return fieldMeta?.recommendedValue;
+}
+
+/**
+ * Get the list of field paths that have recommended values.
+ *
+ * @param resourceKey - The resource type key
+ * @returns Array of field paths with recommended values
+ */
+export function getRecommendedValueFields(resourceKey: string): string[] {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  return generated?.fieldMetadata?.recommendedValueFields ?? [];
+}
+
+/**
+ * Check if a specific field has a recommended value.
+ *
+ * @param resourceKey - The resource type key
+ * @param fieldPath - The dot-separated field path
+ * @returns True if there is a recommended value for this field
+ */
+export function hasRecommendedValue(resourceKey: string, fieldPath: string): boolean {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMeta = generated?.fieldMetadata?.fields[fieldPath];
+  return fieldMeta?.recommendedValue !== undefined;
 }

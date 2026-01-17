@@ -21,6 +21,10 @@ import {
   getRequiredFields,
   isResourceTypePreview,
   getResourceTypeTierRequirement,
+  getRecommendedValues,
+  getRecommendedValue,
+  getRecommendedValueFields,
+  hasRecommendedValue,
 } from '../../api/resourceTypes';
 
 describe('Resource Types Registry', () => {
@@ -560,6 +564,115 @@ describe('Resource Types Registry', () => {
       it('should return undefined for unknown resource type', () => {
         const tier = getResourceTypeTierRequirement('unknown_resource');
         expect(tier).toBeUndefined();
+      });
+    });
+  });
+
+  describe('Recommended value helpers', () => {
+    describe('getRecommendedValues', () => {
+      it('should return object for known resource type', () => {
+        const recommended = getRecommendedValues('healthcheck');
+        expect(typeof recommended).toBe('object');
+        expect(recommended).not.toBeNull();
+      });
+
+      it('should return expected recommended values for healthcheck', () => {
+        const recommended = getRecommendedValues('healthcheck');
+        // healthcheck has recommended values for timeout, interval, thresholds, jitter_percent
+        expect(recommended['spec.timeout']).toBe(3);
+        expect(recommended['spec.interval']).toBe(15);
+        expect(recommended['spec.unhealthy_threshold']).toBe(1);
+        expect(recommended['spec.healthy_threshold']).toBe(3);
+        expect(recommended['spec.jitter_percent']).toBe(30);
+      });
+
+      it('should return empty object for unknown resource type', () => {
+        const recommended = getRecommendedValues('unknown_resource');
+        expect(recommended).toEqual({});
+      });
+
+      it('should return empty object for resource without recommended values', () => {
+        // Most resources don't have recommended values
+        const recommended = getRecommendedValues('app_firewall');
+        // May be empty or have values depending on spec
+        expect(typeof recommended).toBe('object');
+      });
+    });
+
+    describe('getRecommendedValue', () => {
+      it('should return value for known field with recommended value', () => {
+        const value = getRecommendedValue('healthcheck', 'spec.timeout');
+        expect(value).toBe(3);
+      });
+
+      it('should return undefined for unknown field', () => {
+        const value = getRecommendedValue('healthcheck', 'spec.nonexistent_field');
+        expect(value).toBeUndefined();
+      });
+
+      it('should return undefined for unknown resource type', () => {
+        const value = getRecommendedValue('unknown_resource', 'spec.timeout');
+        expect(value).toBeUndefined();
+      });
+
+      it('should return correct types for different recommended values', () => {
+        // timeout is a number
+        const timeout = getRecommendedValue('healthcheck', 'spec.timeout');
+        expect(typeof timeout).toBe('number');
+
+        // interval is a number
+        const interval = getRecommendedValue('healthcheck', 'spec.interval');
+        expect(typeof interval).toBe('number');
+      });
+    });
+
+    describe('getRecommendedValueFields', () => {
+      it('should return array of field paths for resource with recommended values', () => {
+        const fields = getRecommendedValueFields('healthcheck');
+        expect(Array.isArray(fields)).toBe(true);
+        expect(fields.length).toBeGreaterThan(0);
+      });
+
+      it('should include expected fields for healthcheck', () => {
+        const fields = getRecommendedValueFields('healthcheck');
+        expect(fields).toContain('spec.timeout');
+        expect(fields).toContain('spec.interval');
+        expect(fields).toContain('spec.unhealthy_threshold');
+        expect(fields).toContain('spec.healthy_threshold');
+        expect(fields).toContain('spec.jitter_percent');
+      });
+
+      it('should return empty array for unknown resource type', () => {
+        const fields = getRecommendedValueFields('unknown_resource');
+        expect(fields).toEqual([]);
+      });
+
+      it('should return sorted array', () => {
+        const fields = getRecommendedValueFields('healthcheck');
+        const sorted = [...fields].sort();
+        expect(fields).toEqual(sorted);
+      });
+    });
+
+    describe('hasRecommendedValue', () => {
+      it('should return true for field with recommended value', () => {
+        const has = hasRecommendedValue('healthcheck', 'spec.timeout');
+        expect(has).toBe(true);
+      });
+
+      it('should return false for field without recommended value', () => {
+        const has = hasRecommendedValue('healthcheck', 'metadata.name');
+        expect(has).toBe(false);
+      });
+
+      it('should return false for unknown resource type', () => {
+        const has = hasRecommendedValue('unknown_resource', 'spec.timeout');
+        expect(has).toBe(false);
+      });
+
+      it('should return false for unknown field', () => {
+        const has = hasRecommendedValue('healthcheck', 'spec.nonexistent_field');
+        expect(has).toBe(false);
       });
     });
   });

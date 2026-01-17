@@ -13,6 +13,8 @@ import {
   isFieldServerDefaulted,
   getUserRequiredFields,
   getServerDefaultFields,
+  getRecommendedValueFields,
+  getRecommendedValue,
 } from '../api/resourceTypes';
 
 /**
@@ -25,9 +27,11 @@ export interface ValidationResult {
   missingFields: string[];
   /** List of missing fields that server will provide defaults for */
   serverDefaultedFields: string[];
+  /** List of fields with recommended values that user hasn't provided */
+  recommendedValueFields?: string[];
   /** Warning messages for the user */
   warnings: string[];
-  /** Informational hints about server defaults */
+  /** Informational hints about server defaults and recommended values */
   hints: string[];
 }
 
@@ -127,8 +131,12 @@ export function validateResourcePayload(
   // Get all server-defaulted fields for this resource
   const allServerDefaults = getServerDefaultFields(resourceKey);
 
+  // Get fields with recommended values
+  const allRecommendedFields = getRecommendedValueFields(resourceKey);
+
   const missingFields: string[] = [];
   const serverDefaultedFields: string[] = [];
+  const recommendedValueFieldsMissing: string[] = [];
   const warnings: string[] = [];
   const hints: string[] = [];
 
@@ -151,6 +159,14 @@ export function validateResourcePayload(
     const value = getNestedValue(payload, field);
     if (!isValuePresent(value) && isFieldServerDefaulted(resourceKey, field)) {
       serverDefaultedFields.push(field);
+    }
+  }
+
+  // Check fields with recommended values that user hasn't provided
+  for (const field of allRecommendedFields) {
+    const value = getNestedValue(payload, field);
+    if (!isValuePresent(value)) {
+      recommendedValueFieldsMissing.push(field);
     }
   }
 
@@ -182,13 +198,34 @@ export function validateResourcePayload(
     );
   }
 
-  return {
+  // Build hints for recommended values
+  if (recommendedValueFieldsMissing.length > 0) {
+    const recommendedHints: string[] = [];
+    for (const field of recommendedValueFieldsMissing) {
+      const recValue = getRecommendedValue(resourceKey, field);
+      if (recValue !== undefined) {
+        recommendedHints.push(`${formatFieldName(field)}: ${JSON.stringify(recValue)}`);
+      }
+    }
+    if (recommendedHints.length > 0) {
+      hints.push(`Recommended values available:\n• ${recommendedHints.join('\n• ')}`);
+    }
+  }
+
+  const result: ValidationResult = {
     valid: missingFields.length === 0,
     missingFields,
     serverDefaultedFields,
     warnings,
     hints,
   };
+
+  // Only include recommendedValueFields if we have any
+  if (recommendedValueFieldsMissing.length > 0) {
+    result.recommendedValueFields = recommendedValueFieldsMissing;
+  }
+
+  return result;
 }
 
 /**
