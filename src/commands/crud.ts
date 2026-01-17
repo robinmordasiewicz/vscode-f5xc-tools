@@ -16,6 +16,8 @@ import {
   getSideEffects,
   getFieldDefaults,
   getServerDefaultFields,
+  getRecommendedValues,
+  getRecommendedValueFields,
 } from '../api/resourceTypes';
 import { filterResource, getFilterOptionsForViewMode, ViewMode } from '../utils/resourceFilter';
 import { ResourceNodeData } from '../tree/treeTypes';
@@ -835,19 +837,35 @@ function setNestedValue(obj: Record<string, unknown>, path: string, value: unkno
 }
 
 /**
- * Build a spec object with server defaults pre-populated.
+ * Build a spec object with server defaults and recommended values pre-populated.
+ * Recommended values are included for fields that don't have server defaults,
+ * providing sensible starting points for user configuration.
  *
  * @param resourceTypeKey - The resource type key
- * @returns Object with spec defaults populated
+ * @param includeRecommended - Whether to include recommended values (default: true)
+ * @returns Object with spec defaults and recommended values populated
  */
-function buildSpecWithDefaults(resourceTypeKey: string): Record<string, unknown> {
+function buildSpecWithDefaults(
+  resourceTypeKey: string,
+  includeRecommended: boolean = true,
+): Record<string, unknown> {
   const defaults = getFieldDefaults(resourceTypeKey);
+  const recommended = includeRecommended ? getRecommendedValues(resourceTypeKey) : {};
   const spec: Record<string, unknown> = {};
 
+  // First apply defaults
   for (const [path, value] of Object.entries(defaults)) {
     // Remove 'spec.' prefix if present since we're building the spec object
     const specPath = path.startsWith('spec.') ? path.slice(5) : path;
     if (specPath) {
+      setNestedValue(spec, specPath, value);
+    }
+  }
+
+  // Then apply recommended values for fields without defaults
+  for (const [path, value] of Object.entries(recommended)) {
+    const specPath = path.startsWith('spec.') ? path.slice(5) : path;
+    if (specPath && !defaults[path]) {
       setNestedValue(spec, specPath, value);
     }
   }
@@ -873,9 +891,12 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
     spec: {},
   };
 
-  // Check if we have field metadata with server defaults
+  // Check if we have field metadata with server defaults or recommended values
   const serverDefaultFields = getServerDefaultFields(resourceTypeKey);
+  const recommendedFields = getRecommendedValueFields(resourceTypeKey);
   const hasServerDefaults = serverDefaultFields.length > 0;
+  const hasRecommendedValues = recommendedFields.length > 0;
+  const hasFieldMetadata = hasServerDefaults || hasRecommendedValues;
 
   // Add type-specific spec templates for complex types
   // These require more sophisticated structure than just defaults
@@ -948,8 +969,8 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
       };
 
     default:
-      // For other types, use server defaults if available
-      if (hasServerDefaults) {
+      // For other types, use server defaults and recommended values if available
+      if (hasFieldMetadata) {
         return {
           ...baseTemplate,
           spec: buildSpecWithDefaults(resourceTypeKey),

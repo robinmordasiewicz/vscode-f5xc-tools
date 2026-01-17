@@ -139,7 +139,7 @@ export { ParsedSpecInfo, NamespaceScope } from './spec-parser';
 
 /**
  * Serializable field metadata for generated output.
- * Contains only fields with meaningful metadata (defaults or required-for).
+ * Contains only fields with meaningful metadata (defaults, required-for, or recommended values).
  */
 export interface GeneratedFieldMetadata {
   /** Server-provided default value for this field */
@@ -151,6 +151,8 @@ export interface GeneratedFieldMetadata {
     create?: boolean;
     update?: boolean;
   };
+  /** Recommended value for this field (from x-f5xc-recommended-value) */
+  recommendedValue?: unknown;
 }
 
 /**
@@ -191,6 +193,8 @@ export interface GeneratedResourceTypeInfo {
     serverDefaultFields?: string[];
     /** List of field paths that user must provide at creation */
     userRequiredFields?: string[];
+    /** List of field paths that have recommended values */
+    recommendedValueFields?: string[];
   };
 }
 
@@ -252,6 +256,9 @@ function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
           genMeta.requiredFor = reqFor;
         }
       }
+      if (meta.recommendedValue !== undefined) {
+        genMeta.recommendedValue = meta.recommendedValue;
+      }
 
       // Only include if there's meaningful metadata
       if (Object.keys(genMeta).length > 0) {
@@ -271,6 +278,12 @@ function toGeneratedTypeInfo(info: ParsedSpecInfo): GeneratedResourceTypeInfo {
       }
       if (info.fieldMetadata.userRequiredFields.length > 0) {
         result.fieldMetadata.userRequiredFields = info.fieldMetadata.userRequiredFields;
+      }
+      if (
+        info.fieldMetadata.recommendedValueFields &&
+        info.fieldMetadata.recommendedValueFields.length > 0
+      ) {
+        result.fieldMetadata.recommendedValueFields = info.fieldMetadata.recommendedValueFields;
       }
     }
   }
@@ -394,7 +407,7 @@ export interface ResourceOperationMetadata {
 
 /**
  * Metadata for a single field in a resource schema.
- * Contains server default and required-for information.
+ * Contains server default, required-for, and recommended value information.
  */
 export interface GeneratedFieldMetadata {
   /** Server-provided default value for this field */
@@ -406,11 +419,13 @@ export interface GeneratedFieldMetadata {
     create?: boolean;
     update?: boolean;
   };
+  /** Recommended value for this field (from x-f5xc-recommended-value) */
+  recommendedValue?: unknown;
 }
 
 /**
  * Complete field metadata for a resource type.
- * Provides information about server defaults and user requirements.
+ * Provides information about server defaults, user requirements, and recommended values.
  */
 export interface ResourceFieldMetadata {
   /** Map of field paths to their metadata */
@@ -419,6 +434,8 @@ export interface ResourceFieldMetadata {
   serverDefaultFields?: string[];
   /** List of field paths that user must provide at creation */
   userRequiredFields?: string[];
+  /** List of field paths that have recommended values */
+  recommendedValueFields?: string[];
 }
 
 /**

@@ -155,6 +155,8 @@ export interface FieldMetadata {
   serverDefault?: boolean;
   /** When this field is required (from x-f5xc-required-for) */
   requiredFor?: FieldRequiredFor;
+  /** Recommended value for this field (from x-f5xc-recommended-value) */
+  recommendedValue?: unknown;
   /** Field description */
   description?: string;
   /** Field type */
@@ -172,6 +174,8 @@ export interface ResourceFieldMetadata {
   serverDefaultFields: string[];
   /** List of field paths that user must provide at creation */
   userRequiredFields: string[];
+  /** List of field paths that have recommended values */
+  recommendedValueFields?: string[];
 }
 
 /**
@@ -200,6 +204,7 @@ interface SchemaProperty {
     update?: boolean;
     read?: boolean;
   };
+  'x-f5xc-recommended-value'?: unknown;
   'x-ves-required'?: string;
   properties?: Record<string, SchemaProperty>;
   items?: SchemaProperty;
@@ -825,6 +830,7 @@ function extractFieldMetadataFromProperty(
       update?: boolean;
       read?: boolean;
     };
+    'x-f5xc-recommended-value'?: unknown;
     'x-ves-required'?: string;
     properties?: Record<string, unknown>;
     items?: Record<string, unknown>;
@@ -848,8 +854,9 @@ function extractFieldMetadataFromProperty(
   const hasDefault = prop.default !== undefined;
   const hasServerDefault = prop['x-f5xc-server-default'] === true;
   const hasRequiredFor = prop['x-f5xc-required-for'] !== undefined;
+  const hasRecommendedValue = prop['x-f5xc-recommended-value'] !== undefined;
 
-  if (hasDefault || hasServerDefault || hasRequiredFor) {
+  if (hasDefault || hasServerDefault || hasRequiredFor || hasRecommendedValue) {
     const fieldMeta: FieldMetadata = {
       path: basePath,
     };
@@ -871,6 +878,10 @@ function extractFieldMetadataFromProperty(
           update: reqFor.update,
         };
       }
+    }
+
+    if (hasRecommendedValue) {
+      fieldMeta.recommendedValue = prop['x-f5xc-recommended-value'];
     }
 
     if (prop.description) {
@@ -1004,6 +1015,7 @@ export function extractResourceFieldMetadata(
   // Calculate derived arrays
   const serverDefaultFields: string[] = [];
   const userRequiredFields: string[] = [];
+  const recommendedValueFields: string[] = [];
 
   for (const [path, meta] of Object.entries(fields)) {
     // Fields with server defaults
@@ -1017,6 +1029,11 @@ export function extractResourceFieldMetadata(
     if (reqFor?.create === true && !meta.serverDefault && meta.default === undefined) {
       userRequiredFields.push(path);
     }
+
+    // Fields with recommended values
+    if (meta.recommendedValue !== undefined) {
+      recommendedValueFields.push(path);
+    }
   }
 
   // Only return if we found meaningful metadata
@@ -1024,11 +1041,18 @@ export function extractResourceFieldMetadata(
     return undefined;
   }
 
-  return {
+  const result: ResourceFieldMetadata = {
     fields,
     serverDefaultFields: serverDefaultFields.sort(),
     userRequiredFields: userRequiredFields.sort(),
   };
+
+  // Only include recommendedValueFields if we have any
+  if (recommendedValueFields.length > 0) {
+    result.recommendedValueFields = recommendedValueFields.sort();
+  }
+
+  return result;
 }
 
 /**
