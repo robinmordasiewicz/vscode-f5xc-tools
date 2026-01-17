@@ -270,4 +270,50 @@ describe('Generated Files Contract', () => {
       expect(validScopes).toContain(resource.namespaceScope);
     }
   });
+
+  it('should have valid fieldMetadata structure when present', () => {
+    const generated = require('../../generated/resourceTypesBase');
+
+    for (const key of Object.keys(generated.GENERATED_RESOURCE_TYPES)) {
+      const resource = generated.GENERATED_RESOURCE_TYPES[key];
+
+      // fieldMetadata is optional - only validate if present
+      if (resource.fieldMetadata) {
+        expect(resource.fieldMetadata).toHaveProperty('fields');
+        expect(typeof resource.fieldMetadata.fields).toBe('object');
+
+        // serverDefaultFields should be array if present
+        if (resource.fieldMetadata.serverDefaultFields) {
+          expect(Array.isArray(resource.fieldMetadata.serverDefaultFields)).toBe(true);
+        }
+
+        // userRequiredFields should be array if present
+        if (resource.fieldMetadata.userRequiredFields) {
+          expect(Array.isArray(resource.fieldMetadata.userRequiredFields)).toBe(true);
+        }
+
+        // Each field entry should have valid structure
+        for (const fieldPath of Object.keys(resource.fieldMetadata.fields)) {
+          const field = resource.fieldMetadata.fields[fieldPath];
+          expect(typeof field).toBe('object');
+
+          // If serverDefault is present, should be boolean
+          if (field.serverDefault !== undefined) {
+            expect(typeof field.serverDefault).toBe('boolean');
+          }
+
+          // If requiredFor is present, should have valid structure
+          if (field.requiredFor) {
+            expect(typeof field.requiredFor).toBe('object');
+            if (field.requiredFor.create !== undefined) {
+              expect(typeof field.requiredFor.create).toBe('boolean');
+            }
+            if (field.requiredFor.update !== undefined) {
+              expect(typeof field.requiredFor.update).toBe('boolean');
+            }
+          }
+        }
+      }
+    }
+  });
 });

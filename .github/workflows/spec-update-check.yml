@@ -3,7 +3,7 @@ name: API Spec Update Check
 on:
   schedule:
     # Run daily at 2 AM UTC (adjust as needed)
-    - cron: "0 2 * * *"
+    - cron: 0 2 * * *
   workflow_dispatch: # Allow manual trigger
 
 jobs:

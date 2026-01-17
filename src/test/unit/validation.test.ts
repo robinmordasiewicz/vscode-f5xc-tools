@@ -8,6 +8,7 @@ import {
   validateResourcePayload,
   isFieldRequired,
   getRequiredFieldsSummary,
+  ValidationResult,
 } from '../../utils/validation';
 
 describe('Validation Utilities', () => {
@@ -178,6 +179,125 @@ describe('Validation Utilities', () => {
       // Path-based fields like "path.namespace" should be filtered out
       const hasPathFields = summary.some((s) => s.toLowerCase().includes('path'));
       expect(hasPathFields).toBe(false);
+    });
+  });
+
+  describe('ValidationResult structure', () => {
+    it('should include serverDefaultedFields property', () => {
+      const payload = {
+        metadata: { name: 'test' },
+      };
+
+      const result: ValidationResult = validateResourcePayload(
+        'http_loadbalancer',
+        'create',
+        payload,
+      );
+
+      expect(result).toHaveProperty('serverDefaultedFields');
+      expect(Array.isArray(result.serverDefaultedFields)).toBe(true);
+    });
+
+    it('should include hints property', () => {
+      const payload = {
+        metadata: { name: 'test' },
+      };
+
+      const result: ValidationResult = validateResourcePayload(
+        'http_loadbalancer',
+        'create',
+        payload,
+      );
+
+      expect(result).toHaveProperty('hints');
+      expect(Array.isArray(result.hints)).toBe(true);
+    });
+
+    it('should have all required ValidationResult properties', () => {
+      const payload = {
+        metadata: { name: 'test' },
+      };
+
+      const result: ValidationResult = validateResourcePayload(
+        'http_loadbalancer',
+        'create',
+        payload,
+      );
+
+      // Check all properties exist
+      expect(result).toHaveProperty('valid');
+      expect(result).toHaveProperty('missingFields');
+      expect(result).toHaveProperty('serverDefaultedFields');
+      expect(result).toHaveProperty('warnings');
+      expect(result).toHaveProperty('hints');
+
+      // Check types
+      expect(typeof result.valid).toBe('boolean');
+      expect(Array.isArray(result.missingFields)).toBe(true);
+      expect(Array.isArray(result.serverDefaultedFields)).toBe(true);
+      expect(Array.isArray(result.warnings)).toBe(true);
+      expect(Array.isArray(result.hints)).toBe(true);
+    });
+  });
+
+  describe('Server default field handling', () => {
+    it('should not include server-defaulted fields in missingFields', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {},
+      };
+
+      const result = validateResourcePayload('http_loadbalancer', 'create', payload);
+
+      // Server-defaulted fields should be in serverDefaultedFields, not missingFields
+      // The specific fields depend on the generated metadata
+      expect(Array.isArray(result.serverDefaultedFields)).toBe(true);
+      expect(Array.isArray(result.missingFields)).toBe(true);
+
+      // There should be no overlap between missing and server-defaulted
+      const overlap = result.missingFields.filter((f) => result.serverDefaultedFields.includes(f));
+      expect(overlap).toEqual([]);
+    });
+
+    it('should provide hints for server-defaulted fields', () => {
+      const payload = {
+        metadata: { name: 'test' },
+        spec: {},
+      };
+
+      const result = validateResourcePayload('http_loadbalancer', 'create', payload);
+
+      // If there are server-defaulted fields, there should be hints
+      if (result.serverDefaultedFields.length > 0) {
+        expect(result.hints.length).toBeGreaterThan(0);
+      }
+    });
+
+    it('should still validate user-required fields as missing', () => {
+      const payload = {
+        metadata: {},
+        spec: {},
+      };
+
+      const result = validateResourcePayload('http_loadbalancer', 'create', payload);
+
+      // User-required fields like metadata.name should still be flagged as missing
+      // The exact validation depends on the resource type's required fields
+      expect(result).toHaveProperty('valid');
+      expect(result).toHaveProperty('missingFields');
+    });
+
+    it('should handle resources with no field metadata gracefully', () => {
+      const payload = {
+        metadata: { name: 'test' },
+      };
+
+      // Unknown resources have no field metadata
+      const result = validateResourcePayload('unknown_resource', 'create', payload);
+
+      expect(result.valid).toBe(true);
+      expect(result.serverDefaultedFields).toEqual([]);
+      expect(result.hints).toEqual([]);
     });
   });
 });

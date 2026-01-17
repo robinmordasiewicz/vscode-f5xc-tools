@@ -14,6 +14,8 @@ import {
   isBuiltInNamespace,
   getDangerLevel,
   getSideEffects,
+  getFieldDefaults,
+  getServerDefaultFields,
 } from '../api/resourceTypes';
 import { filterResource, getFilterOptionsForViewMode, ViewMode } from '../utils/resourceFilter';
 import { ResourceNodeData } from '../tree/treeTypes';
@@ -805,7 +807,60 @@ export function registerCrudCommands(
 }
 
 /**
- * Create a resource template for a given type
+ * Set a nested value in an object using dot-separated path.
+ * Creates intermediate objects as needed.
+ *
+ * @param obj - The object to modify
+ * @param path - Dot-separated path (e.g., 'spec.monitoring.enabled')
+ * @param value - The value to set
+ */
+function setNestedValue(obj: Record<string, unknown>, path: string, value: unknown): void {
+  const parts = path.split('.');
+  if (parts.length === 0) {
+    return;
+  }
+
+  let current: Record<string, unknown> = obj;
+
+  for (let i = 0; i < parts.length - 1; i++) {
+    const part = parts[i] as string; // Safe: loop bounds ensure this is defined
+    if (!(part in current) || typeof current[part] !== 'object' || current[part] === null) {
+      current[part] = {};
+    }
+    current = current[part] as Record<string, unknown>;
+  }
+
+  const lastPart = parts[parts.length - 1] as string; // Safe: we checked parts.length > 0
+  current[lastPart] = value;
+}
+
+/**
+ * Build a spec object with server defaults pre-populated.
+ *
+ * @param resourceTypeKey - The resource type key
+ * @returns Object with spec defaults populated
+ */
+function buildSpecWithDefaults(resourceTypeKey: string): Record<string, unknown> {
+  const defaults = getFieldDefaults(resourceTypeKey);
+  const spec: Record<string, unknown> = {};
+
+  for (const [path, value] of Object.entries(defaults)) {
+    // Remove 'spec.' prefix if present since we're building the spec object
+    const specPath = path.startsWith('spec.') ? path.slice(5) : path;
+    if (specPath) {
+      setNestedValue(spec, specPath, value);
+    }
+  }
+
+  return spec;
+}
+
+/**
+ * Create a resource template for a given type.
+ *
+ * Uses field metadata to pre-populate server defaults when available.
+ * Falls back to hardcoded templates for complex types that need
+ * more sophisticated structure (e.g., nested arrays, references).
  */
 function createResourceTemplate(resourceTypeKey: string, namespace: string): object {
   const baseTemplate = {
@@ -818,7 +873,12 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
     spec: {},
   };
 
-  // Add type-specific spec templates
+  // Check if we have field metadata with server defaults
+  const serverDefaultFields = getServerDefaultFields(resourceTypeKey);
+  const hasServerDefaults = serverDefaultFields.length > 0;
+
+  // Add type-specific spec templates for complex types
+  // These require more sophisticated structure than just defaults
   switch (resourceTypeKey) {
     case 'http_loadbalancer':
       return {
@@ -839,6 +899,8 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
             },
           ],
           advertise_on_public_default_vip: {},
+          // Merge in any server defaults we have
+          ...(hasServerDefaults ? buildSpecWithDefaults(resourceTypeKey) : {}),
         },
       };
 
@@ -858,10 +920,21 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
             use_host_header_as_sni: {},
           },
           loadbalancer_algorithm: 'LB_OVERRIDE',
+          ...(hasServerDefaults ? buildSpecWithDefaults(resourceTypeKey) : {}),
         },
       };
 
     case 'app_firewall':
+      // For app_firewall, use server defaults if available, otherwise fall back to hardcoded
+      if (hasServerDefaults) {
+        return {
+          ...baseTemplate,
+          spec: {
+            blocking: {},
+            ...buildSpecWithDefaults(resourceTypeKey),
+          },
+        };
+      }
       return {
         ...baseTemplate,
         spec: {
@@ -875,6 +948,13 @@ function createResourceTemplate(resourceTypeKey: string, namespace: string): obj
       };
 
     default:
+      // For other types, use server defaults if available
+      if (hasServerDefaults) {
+        return {
+          ...baseTemplate,
+          spec: buildSpecWithDefaults(resourceTypeKey),
+        };
+      }
       return baseTemplate;
   }
 }

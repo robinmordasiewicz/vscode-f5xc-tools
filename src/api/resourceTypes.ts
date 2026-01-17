@@ -1436,3 +1436,157 @@ export function getResourceTypeTierRequirement(resourceKey: string): string | un
   }
   return getDomainTierRequirement(domain);
 }
+
+// =====================================================
+// Field Metadata Helper Functions
+// =====================================================
+
+/**
+ * Get all field defaults for a resource type.
+ * Returns a map of field paths to their default values.
+ *
+ * @param resourceKey - The resource type key (e.g., 'app_firewall')
+ * @returns Object mapping field paths to their default values
+ */
+export function getFieldDefaults(resourceKey: string): Record<string, unknown> {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMetadata = generated?.fieldMetadata;
+  if (!fieldMetadata) {
+    return {};
+  }
+
+  const defaults: Record<string, unknown> = {};
+  for (const [path, meta] of Object.entries(fieldMetadata.fields)) {
+    if (meta.default !== undefined) {
+      defaults[path] = meta.default;
+    }
+  }
+  return defaults;
+}
+
+/**
+ * Get the default value for a specific field.
+ *
+ * @param resourceKey - The resource type key
+ * @param fieldPath - The dot-separated field path (e.g., 'spec.monitoring')
+ * @returns The default value or undefined if not set
+ */
+export function getFieldDefault(resourceKey: string, fieldPath: string): unknown {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMeta = generated?.fieldMetadata?.fields[fieldPath];
+  return fieldMeta?.default;
+}
+
+/**
+ * Get the list of field paths that have server defaults.
+ *
+ * @param resourceKey - The resource type key
+ * @returns Array of field paths with server defaults
+ */
+export function getServerDefaultFields(resourceKey: string): string[] {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  return generated?.fieldMetadata?.serverDefaultFields ?? [];
+}
+
+/**
+ * Check if a specific field has a server-applied default.
+ *
+ * @param resourceKey - The resource type key
+ * @param fieldPath - The dot-separated field path
+ * @returns True if server applies a default for this field
+ */
+export function isFieldServerDefaulted(resourceKey: string, fieldPath: string): boolean {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMeta = generated?.fieldMetadata?.fields[fieldPath];
+  // Server-defaulted if either x-f5xc-server-default is true OR has a default value
+  return fieldMeta?.serverDefault === true || fieldMeta?.default !== undefined;
+}
+
+/**
+ * Get the list of fields that user must provide for an operation.
+ * These are fields marked as required for the operation but NOT server-defaulted.
+ *
+ * @param resourceKey - The resource type key
+ * @param operation - The operation type ('create' or 'update'), defaults to 'create'
+ * @returns Array of field paths that user must provide
+ */
+export function getUserRequiredFields(
+  resourceKey: string,
+  operation: 'create' | 'update' = 'create',
+): string[] {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMetadata = generated?.fieldMetadata;
+  if (!fieldMetadata) {
+    return [];
+  }
+
+  // If userRequiredFields is pre-computed and we're asking for create, use it
+  if (operation === 'create' && fieldMetadata.userRequiredFields) {
+    return fieldMetadata.userRequiredFields;
+  }
+
+  // Otherwise compute from field metadata
+  const required: string[] = [];
+  for (const [path, meta] of Object.entries(fieldMetadata.fields)) {
+    const reqFor = meta.requiredFor;
+    const isRequired = operation === 'create' ? reqFor?.create : reqFor?.update;
+
+    // Required AND not server-defaulted
+    if (isRequired === true && !meta.serverDefault && meta.default === undefined) {
+      required.push(path);
+    }
+  }
+
+  return required.sort();
+}
+
+/**
+ * Get full field metadata for a resource type.
+ *
+ * @param resourceKey - The resource type key
+ * @returns The complete field metadata or undefined
+ */
+export function getFieldMetadata(resourceKey: string):
+  | {
+      fields: Record<
+        string,
+        {
+          default?: unknown;
+          serverDefault?: boolean;
+          requiredFor?: { create?: boolean; update?: boolean };
+        }
+      >;
+      serverDefaultFields?: string[];
+      userRequiredFields?: string[];
+    }
+  | undefined {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  return generated?.fieldMetadata;
+}
+
+/**
+ * Check if a field is required for a specific operation.
+ * A field is considered required if it's marked required AND not server-defaulted.
+ *
+ * @param resourceKey - The resource type key
+ * @param fieldPath - The dot-separated field path
+ * @param operation - The operation type ('create' or 'update')
+ * @returns True if user must provide this field
+ */
+export function isFieldUserRequired(
+  resourceKey: string,
+  fieldPath: string,
+  operation: 'create' | 'update' = 'create',
+): boolean {
+  const generated = GENERATED_RESOURCE_TYPES[resourceKey];
+  const fieldMeta = generated?.fieldMetadata?.fields[fieldPath];
+  if (!fieldMeta) {
+    return false;
+  }
+
+  const reqFor = fieldMeta.requiredFor;
+  const isRequired = operation === 'create' ? reqFor?.create : reqFor?.update;
+
+  // Required AND not server-defaulted
+  return isRequired === true && !fieldMeta.serverDefault && fieldMeta.default === undefined;
+}
