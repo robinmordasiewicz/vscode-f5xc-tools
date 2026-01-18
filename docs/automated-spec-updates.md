@@ -101,10 +101,12 @@ Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.co
 #### Validation Phase
 
 1. **Sync Specs:** `npm run specs:ensure`
+
    - Downloads latest specs from upstream
    - Extracts to `docs/specifications/api/`
 
 2. **Generate Code:** `npm run generate`
+
    - Parses 38+ domain OpenAPI specs
    - Generates TypeScript resource types
    - Creates domain categories and documentation URLs
@@ -118,6 +120,7 @@ Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.co
 #### Testing Phase
 
 1. **Multi-Platform Tests:**
+
    - Ubuntu, macOS, Windows
    - Lint, type check, unit tests
    - Integration tests with VSCode
@@ -129,6 +132,7 @@ Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.co
 #### Build Phase
 
 1. **Webpack Production Build:**
+
    - Bundles extension code
    - Minifies and tree-shakes
    - Generates source maps
@@ -140,11 +144,13 @@ Co-Authored-By: github-actions[bot] <github-actions[bot]@users.noreply.github.co
 #### Release Phase (Main branch only)
 
 1. **Version Generation:**
+
    - Format: `2.YYMM.DDHHMMSS`
    - Example: `2.2601.161430` (2026-01-16 14:30)
    - Includes upstream spec version in metadata
 
 2. **GitHub Release:**
+
    - Creates git tag
    - Publishes VSIX to GitHub Releases
    - Includes changelog and upstream version

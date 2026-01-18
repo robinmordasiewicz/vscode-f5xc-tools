@@ -252,8 +252,8 @@ const RESOURCE_TYPE_OVERRIDES: Record<string, ResourceTypeOverride> = {
     icon: 'cloud',
   },
   healthcheck: {
-    // upstream x-f5xc-primary-resources specifies category: "Monitoring", map to Observability
-    category: ResourceCategory.Observability,
+    // Health checks are used with origin pools and load balancers - group with Load Balancing
+    category: ResourceCategory.LoadBalancing,
     supportsCustomOps: false,
     icon: 'heart',
   },
