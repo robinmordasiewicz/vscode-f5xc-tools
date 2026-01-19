@@ -17,6 +17,8 @@ import { registerObservabilityCommands } from './commands/observability';
 import { registerDiagramCommands } from './commands/diagram';
 import { registerCloudStatusCommands } from './commands/cloudStatus';
 import { HealthcheckFormProvider } from './providers/healthcheckFormProvider';
+import { F5XCSchemaProvider } from './providers/f5xcSchemaProvider';
+import { getSchemaRegistry } from './schema/schemaRegistry';
 import { getLogger, Logger } from './utils/logger';
 
 let logger: Logger;
@@ -68,6 +70,16 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Initialize the describe provider for formatted resource descriptions
   const describeProvider = new F5XCDescribeProvider(profileManager);
+
+  // Initialize and register the schema provider for JSON IntelliSense
+  const schemaProvider = new F5XCSchemaProvider();
+  context.subscriptions.push(
+    vscode.workspace.registerTextDocumentContentProvider('f5xc-schema', schemaProvider),
+  );
+
+  // Pre-warm schema cache for commonly used resource types
+  const schemaRegistry = getSchemaRegistry();
+  schemaRegistry.prewarmCache(['http_loadbalancer', 'origin_pool', 'healthcheck', 'app_firewall']);
 
   // Initialize the subscription dashboard provider for Plan and Quotas views
   const subscriptionDashboardProvider = new SubscriptionDashboardProvider(profileManager);
@@ -192,6 +204,17 @@ export function activate(context: vscode.ExtensionContext): void {
         namespace = nodeData.namespace;
       }
       await healthcheckFormProvider.show(namespace);
+    }),
+  );
+
+  // Configure JSON schema associations for f5xc:// documents
+  // This ensures IntelliSense works when editing F5 XC resources
+  context.subscriptions.push(
+    vscode.workspace.onDidOpenTextDocument((document) => {
+      if (document.uri.scheme === 'f5xc' && document.uri.path.endsWith('.json')) {
+        // Ensure the document is treated as JSON
+        void vscode.languages.setTextDocumentLanguage(document, 'json');
+      }
     }),
   );
 

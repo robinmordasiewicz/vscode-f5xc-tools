@@ -525,19 +525,35 @@
     "jsonValidation": [
       {
         "fileMatch": "*.f5xc.json",
-        "url": "./schemas/f5xc-resource.schema.json"
+        "url": "f5xc-schema://schemas/generic.json"
       },
       {
         "fileMatch": "*.http_loadbalancer.json",
-        "url": "./schemas/http_loadbalancer.schema.json"
+        "url": "f5xc-schema://schemas/http_loadbalancer.json"
       },
       {
         "fileMatch": "*.origin_pool.json",
-        "url": "./schemas/origin_pool.schema.json"
+        "url": "f5xc-schema://schemas/origin_pool.json"
       },
       {
         "fileMatch": "*.app_firewall.json",
-        "url": "./schemas/app_firewall.schema.json"
+        "url": "f5xc-schema://schemas/app_firewall.json"
+      },
+      {
+        "fileMatch": "*.healthcheck.json",
+        "url": "f5xc-schema://schemas/healthcheck.json"
+      },
+      {
+        "fileMatch": "*.tcp_loadbalancer.json",
+        "url": "f5xc-schema://schemas/tcp_loadbalancer.json"
+      },
+      {
+        "fileMatch": "*.dns_load_balancer.json",
+        "url": "f5xc-schema://schemas/dns_load_balancer.json"
+      },
+      {
+        "fileMatch": "*.virtual_site.json",
+        "url": "f5xc-schema://schemas/virtual_site.json"
       }
     ]
   },
