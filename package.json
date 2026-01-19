@@ -333,6 +333,12 @@
         "title": "Activate Addon Service",
         "category": "F5 XC",
         "icon": "$(rocket)"
+      },
+      {
+        "command": "f5xc.createHealthcheckForm",
+        "title": "Create Healthcheck (Form)",
+        "category": "F5 XC",
+        "icon": "$(add)"
       }
     ],
     "menus": {
@@ -386,8 +392,18 @@
         },
         {
           "command": "f5xc.create",
-          "when": "view == f5xc.explorer && viewItem =~ /resourceType/",
+          "when": "view == f5xc.explorer && viewItem =~ /resourceType/ && viewItem != resourceType:healthcheck",
           "group": "inline"
+        },
+        {
+          "command": "f5xc.createHealthcheckForm",
+          "when": "view == f5xc.explorer && viewItem == resourceType:healthcheck",
+          "group": "inline"
+        },
+        {
+          "command": "f5xc.createHealthcheckForm",
+          "when": "view == f5xc.explorer && viewItem == resourceType:healthcheck",
+          "group": "1_create@1"
         },
         {
           "command": "f5xc.describe",
@@ -576,6 +592,7 @@
     ]
   },
   "dependencies": {
+    "@vscode/webview-ui-toolkit": "^1.4.0",
     "node-forge": "^1.3.1"
   },
   "devDependencies": {
