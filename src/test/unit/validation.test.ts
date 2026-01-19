@@ -376,6 +376,7 @@ describe('Validation Utilities', () => {
     });
 
     it('should not have recommended value hints when all provided', () => {
+      // Provide ALL fields that have recommended values for healthcheck
       const payload = {
         metadata: { name: 'test' },
         spec: {
@@ -384,6 +385,13 @@ describe('Validation Utilities', () => {
           unhealthy_threshold: 2,
           healthy_threshold: 2,
           jitter_percent: 20,
+          // HTTP health check fields with recommended values
+          http_health_check: {
+            path: '/health',
+            expected_status_codes: ['200'],
+            use_http2: false,
+            use_origin_server_name: {},
+          },
         },
       };
 

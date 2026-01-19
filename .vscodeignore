@@ -3,6 +3,7 @@
 src/**
 test/**
 node_modules/**
+!node_modules/@vscode/webview-ui-toolkit/**
 .gitignore
 .eslintrc.json
 tsconfig.json
@@ -14,3 +15,24 @@ docs/specifications/**
 .github/**
 *.md
 !README.md
+# Additional excludes
+.auto-claude/**
+.claude/**
+.husky/**
+.serena/**
+coverage/**
+out/**
+scripts/**
+site/**
+docs/**
+.gitleaks.toml
+.markdownlint.json
+.markdownlintignore
+.pre-commit-config.yaml
+.prettierignore
+.vscode-test.mjs
+.yamllint.yaml
+commitlint.config.js
+eslint.config.mjs
+jest.config.js
+mkdocs.yml

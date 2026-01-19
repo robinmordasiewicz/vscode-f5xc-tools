@@ -16,6 +16,7 @@ import { registerProfileCommands } from './commands/profile';
 import { registerObservabilityCommands } from './commands/observability';
 import { registerDiagramCommands } from './commands/diagram';
 import { registerCloudStatusCommands } from './commands/cloudStatus';
+import { HealthcheckFormProvider } from './providers/healthcheckFormProvider';
 import { getLogger, Logger } from './utils/logger';
 
 let logger: Logger;
@@ -174,6 +175,25 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Register cloud status commands
   registerCloudStatusCommands(context, cloudStatusProvider, cloudStatusDashboardProvider);
+
+  // Register healthcheck form provider
+  const healthcheckFormProvider = new HealthcheckFormProvider(
+    context,
+    profileManager,
+    explorerProvider,
+    describeProvider,
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('f5xc.createHealthcheckForm', async (arg?: unknown) => {
+      // Extract namespace from context if available
+      let namespace: string | undefined;
+      if (arg && typeof arg === 'object' && 'getData' in arg) {
+        const nodeData = (arg as { getData: () => { namespace?: string } }).getData();
+        namespace = nodeData.namespace;
+      }
+      await healthcheckFormProvider.show(namespace);
+    }),
+  );
 
   // Register views
   context.subscriptions.push(explorerView);
