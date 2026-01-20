@@ -110,6 +110,9 @@ jobs:
       - name: Run linting
         run: npm run lint
 
+      - name: Validate form defaults
+        run: npm run validate:forms
+
       - name: Run type checking
         run: npm run typecheck
 

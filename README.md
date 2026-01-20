@@ -145,6 +145,36 @@ npm run format       # Format code with Prettier
 Press `F5` in VS Code to launch the Extension Development Host with the
 extension loaded.
 
+### Form Maintenance
+
+The healthcheck form (`src/providers/healthcheckFormProvider.ts`) must maintain
+alignment with API spec recommendations to ensure consistency across all
+resource creation methods (form-based, JSON editing, inline completions).
+
+**Validation**: Run `npm run validate:forms` before committing changes
+
+**Source of Truth**:
+
+- API Specs: `docs/specifications/api/domains/virtual.json`
+- Generated Types: `src/generated/resourceTypesBase.ts`
+- Field Metadata: `x-f5xc-recommended-value` annotations
+
+**Validation Process**:
+
+```bash
+# Validate form defaults match API spec recommendations
+npm run validate:forms
+
+# This runs automatically during pretest
+npm test
+```
+
+**If form defaults need to diverge from specs**:
+
+1. Document the reason in code comments with clear justification
+2. Add exception to validation script (`scripts/validate-form-defaults.ts`)
+3. Consider filing issue in upstream spec repo if spec is incorrect
+
 ## Contributing
 
 Contributions are welcome! Please read our contributing guidelines before

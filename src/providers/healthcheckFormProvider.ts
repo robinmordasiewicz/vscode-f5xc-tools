@@ -599,13 +599,27 @@ export class HealthcheckFormProvider {
         </div>
       </section>
 
+      <!--
+        =================================================================
+        HEALTHCHECK FORM DEFAULTS
+        =================================================================
+        IMPORTANT: All default values must match API spec recommendations
+        Run "npm run validate:forms" to verify alignment
+
+        Source: docs/specifications/api/domains/virtual.json
+        Generated: src/generated/resourceTypesBase.ts (healthcheck resource)
+        Validation: scripts/validate-form-defaults.ts
+        =================================================================
+      -->
+
       <!-- HTTP Settings (shown only when Type = HTTP) -->
       <section class="section type-section" id="http-section">
         <h2 class="section-title">HTTP Settings</h2>
 
         <div class="field">
-          <label for="path">Path</label>
-          <vscode-text-field id="path" value="/health" placeholder="/health"></vscode-text-field>
+          <label for="path">Path <span class="badge">recommended: /</span></label>
+          <!-- Path default per API spec x-f5xc-recommended-value: "/" -->
+          <vscode-text-field id="path" value="/" placeholder="/" required></vscode-text-field>
         </div>
 
         <div class="field">
@@ -622,10 +636,11 @@ export class HealthcheckFormProvider {
         </div>
 
         <div class="field">
-          <label>Expected Status Codes</label>
+          <label>Expected Status Codes <span class="badge">recommended: 200</span></label>
+          <!-- Status codes default per API spec x-f5xc-recommended-value: ["200"] -->
           <div class="repeatable-list" id="status-codes-list">
             <div class="repeatable-item">
-              <vscode-text-field class="status-code-input" value="200-299" placeholder="200 or 200-299"></vscode-text-field>
+              <vscode-text-field class="status-code-input" value="200" placeholder="200"></vscode-text-field>
               <vscode-button appearance="icon" class="remove-btn" title="Remove">×</vscode-button>
             </div>
           </div>
