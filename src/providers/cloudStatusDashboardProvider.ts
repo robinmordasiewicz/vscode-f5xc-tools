@@ -184,6 +184,7 @@ export class CloudStatusDashboardProvider {
    */
   private getWebviewContent(summary: SummaryResponse): string {
     const nonce = this.getNonce();
+    const cspSource = this.panel!.webview.cspSource;
 
     // Group components by their group_id
     const groups = new Map<string, Component>();
@@ -271,7 +272,7 @@ export class CloudStatusDashboardProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <title>F5 Cloud Status</title>
   <style>${this.getStyles()}</style>
 </head>
@@ -434,12 +435,13 @@ export class CloudStatusDashboardProvider {
    */
   private getErrorContent(message: string): string {
     const nonce = this.getNonce();
+    const cspSource = this.panel!.webview.cspSource;
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <title>F5 Cloud Status - Error</title>
   <style>${this.getStyles()}</style>
 </head>
@@ -912,7 +914,7 @@ export class CloudStatusDashboardProvider {
       },
     );
 
-    panel.webview.html = this.getMaintenanceDetailsContent(maintenance);
+    panel.webview.html = this.getMaintenanceDetailsContent(maintenance, panel.webview);
 
     panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
       switch (message.command) {
@@ -926,8 +928,12 @@ export class CloudStatusDashboardProvider {
   /**
    * Generate HTML content for maintenance details
    */
-  private getMaintenanceDetailsContent(maintenance: ScheduledMaintenance): string {
+  private getMaintenanceDetailsContent(
+    maintenance: ScheduledMaintenance,
+    webview: vscode.Webview,
+  ): string {
     const nonce = this.getNonce();
+    const cspSource = webview.cspSource;
     const scheduledFor = new Date(maintenance.scheduled_for).toLocaleString();
     const scheduledUntil = new Date(maintenance.scheduled_until).toLocaleString();
     const createdAt = new Date(maintenance.created_at).toLocaleString();
@@ -955,7 +961,7 @@ export class CloudStatusDashboardProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <title>Maintenance Details</title>
   <style>${this.getMaintenanceStyles()}</style>
 </head>
@@ -1279,7 +1285,7 @@ export class CloudStatusDashboardProvider {
       },
     );
 
-    panel.webview.html = this.getIncidentDetailsContent(incident);
+    panel.webview.html = this.getIncidentDetailsContent(incident, panel.webview);
 
     panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
       switch (message.command) {
@@ -1293,8 +1299,9 @@ export class CloudStatusDashboardProvider {
   /**
    * Generate HTML content for incident details
    */
-  private getIncidentDetailsContent(incident: Incident): string {
+  private getIncidentDetailsContent(incident: Incident, webview: vscode.Webview): string {
     const nonce = this.getNonce();
+    const cspSource = webview.cspSource;
     const startedAt = new Date(incident.started_at).toLocaleString();
     const resolvedAt = incident.resolved_at
       ? new Date(incident.resolved_at).toLocaleString()
@@ -1324,7 +1331,7 @@ export class CloudStatusDashboardProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <title>Incident Details</title>
   <style>${this.getMaintenanceStyles()}
     .incident-icon::before {
@@ -1459,7 +1466,11 @@ export class CloudStatusDashboardProvider {
     // Fetch related incidents for this component
     const relatedIncidents = await this.client.getIncidentsForComponent(component.id);
 
-    panel.webview.html = this.getComponentDetailsContent(component, relatedIncidents);
+    panel.webview.html = this.getComponentDetailsContent(
+      component,
+      relatedIncidents,
+      panel.webview,
+    );
 
     panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
       switch (message.command) {
@@ -1473,8 +1484,13 @@ export class CloudStatusDashboardProvider {
   /**
    * Generate HTML content for component details
    */
-  private getComponentDetailsContent(component: Component, incidents: Incident[]): string {
+  private getComponentDetailsContent(
+    component: Component,
+    incidents: Incident[],
+    webview: vscode.Webview,
+  ): string {
     const nonce = this.getNonce();
+    const cspSource = webview.cspSource;
     const createdAt = new Date(component.created_at).toLocaleString();
     const updatedAt = new Date(component.updated_at).toLocaleString();
     const startDate = component.start_date
@@ -1539,7 +1555,7 @@ export class CloudStatusDashboardProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <title>Service Details</title>
   <style>${this.getMaintenanceStyles()}
     .component-icon::before {
@@ -1763,6 +1779,7 @@ export class CloudStatusDashboardProvider {
       xcSite,
       relatedIncidents,
       coordinates,
+      panel.webview,
     );
 
     panel.webview.onDidReceiveMessage(async (message: { command: string }) => {
@@ -1783,8 +1800,10 @@ export class CloudStatusDashboardProvider {
     xcSite: Site | null,
     incidents: Incident[],
     coordinates: Coordinates | null,
+    webview: vscode.Webview,
   ): string {
     const nonce = this.getNonce();
+    const cspSource = webview.cspSource;
     const updatedAt = new Date(component.updated_at).toLocaleString();
 
     // Parse location from component name (e.g., "Ashburn (dc12), VA, United States")
@@ -1932,7 +1951,7 @@ export class CloudStatusDashboardProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <title>PoP Details</title>
   <style>${this.getMaintenanceStyles()}
     .pop-icon::before {
