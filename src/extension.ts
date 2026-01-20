@@ -18,6 +18,8 @@ import { registerDiagramCommands } from './commands/diagram';
 import { registerCloudStatusCommands } from './commands/cloudStatus';
 import { HealthcheckFormProvider } from './providers/healthcheckFormProvider';
 import { F5XCSchemaProvider } from './providers/f5xcSchemaProvider';
+import { F5XCCompletionProvider } from './providers/f5xcCompletionProvider';
+import { F5XCInlineCompletionProvider } from './providers/f5xcInlineCompletionProvider';
 import { getSchemaRegistry } from './schema/schemaRegistry';
 import { getLogger, Logger } from './utils/logger';
 
@@ -72,14 +74,59 @@ export function activate(context: vscode.ExtensionContext): void {
   const describeProvider = new F5XCDescribeProvider(profileManager);
 
   // Initialize and register the schema provider for JSON IntelliSense
+  console.log('[Extension] Registering F5XC Schema Provider');
   const schemaProvider = new F5XCSchemaProvider();
   context.subscriptions.push(
     vscode.workspace.registerTextDocumentContentProvider('f5xc-schema', schemaProvider),
   );
+  console.log('[Extension] Schema provider registered');
 
   // Pre-warm schema cache for commonly used resource types
   const schemaRegistry = getSchemaRegistry();
+  console.log('[Extension] Pre-warming schema cache for common resource types');
   schemaRegistry.prewarmCache(['http_loadbalancer', 'origin_pool', 'healthcheck', 'app_firewall']);
+  const cacheStats = schemaRegistry.getCacheStats();
+  console.log(
+    '[Extension] Schema cache stats:',
+    `${cacheStats.cachedCount}/${cacheStats.availableCount}`,
+  );
+
+  // Register completion providers for enhanced IntelliSense
+  try {
+    logger.info('Registering completion providers');
+
+    // Document selectors for F5 XC JSON files
+    const f5xcDocumentSelector: vscode.DocumentSelector = [
+      { scheme: 'f5xc', language: 'json' }, // f5xc:// scheme (editing resources)
+      { scheme: 'file', language: 'json' }, // All JSON files
+    ];
+
+    // Register multi-line completion provider (dropdown completions)
+    const completionProvider = new F5XCCompletionProvider();
+    context.subscriptions.push(
+      vscode.languages.registerCompletionItemProvider(
+        f5xcDocumentSelector,
+        completionProvider,
+        '"', // Trigger on quote
+        '{', // Trigger on opening brace
+        ':', // Trigger on colon
+      ),
+    );
+
+    // Register inline completion provider (ghost text)
+    const inlineCompletionProvider = new F5XCInlineCompletionProvider();
+    context.subscriptions.push(
+      vscode.languages.registerInlineCompletionItemProvider(
+        f5xcDocumentSelector,
+        inlineCompletionProvider,
+      ),
+    );
+
+    logger.info('Completion providers registered successfully');
+  } catch (error) {
+    logger.error('Failed to register completion providers', error as Error);
+    // Continue extension activation even if completion providers fail
+  }
 
   // Initialize the subscription dashboard provider for Plan and Quotas views
   const subscriptionDashboardProvider = new SubscriptionDashboardProvider(profileManager);

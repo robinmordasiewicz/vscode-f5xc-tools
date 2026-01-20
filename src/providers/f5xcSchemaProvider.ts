@@ -30,21 +30,56 @@ export class F5XCSchemaProvider implements vscode.TextDocumentContentProvider {
    * VSCode's JSON language service calls this when it needs a schema.
    */
   provideTextDocumentContent(uri: vscode.Uri): string {
+    // Debug logging
+    console.log('[SchemaProvider] provideTextDocumentContent called');
+    console.log('[SchemaProvider] URI:', uri.toString());
+    console.log('[SchemaProvider] URI scheme:', uri.scheme);
+    console.log('[SchemaProvider] URI authority:', uri.authority);
+    console.log('[SchemaProvider] URI path:', uri.path);
+
     // Parse the URI to extract resource type
     // URI format: f5xc-schema://schemas/{resourceType}.json
-    const path = uri.path;
-    const match = path.match(/\/schemas\/(.+)\.json$/);
+    // VSCode parses this as:
+    //   - scheme: "f5xc-schema"
+    //   - authority: "schemas"
+    //   - path: "/{resourceType}.json"
 
-    if (!match) {
-      logger.warn(`Invalid schema URI format: ${uri.toString()}`);
+    let resourceType: string | undefined;
+
+    // First check if authority is "schemas" and extract from path
+    if (uri.authority === 'schemas') {
+      // Path format: /{resourceType}.json or {resourceType}.json
+      const match = uri.path.match(/\/?(.+)\.json$/);
+      if (match) {
+        resourceType = match[1];
+      }
+    } else {
+      // Fallback: try old format where "schemas" is in the path
+      const match = uri.path.match(/\/?schemas\/(.+)\.json$/);
+      if (match) {
+        resourceType = match[1];
+      }
+    }
+
+    if (!resourceType) {
+      logger.warn(
+        `Invalid schema URI format: ${uri.toString()}, authority: ${uri.authority}, path: ${uri.path}`,
+      );
+      console.log('[SchemaProvider] Invalid URI format - no resource type extracted');
+      console.log('[SchemaProvider] Authority:', JSON.stringify(uri.authority));
+      console.log('[SchemaProvider] Path:', JSON.stringify(uri.path));
       return this.getErrorSchema(uri.toString());
     }
 
-    const resourceType = match[1] as string;
+    console.log('[SchemaProvider] Resource type extracted:', resourceType);
     logger.debug(`Providing schema for resource type: ${resourceType}`);
 
     const registry = getSchemaRegistry();
-    return registry.getSchemaContent(resourceType);
+    const schemaContent = registry.getSchemaContent(resourceType);
+    console.log('[SchemaProvider] Schema content length:', schemaContent.length);
+    console.log('[SchemaProvider] Schema preview:', schemaContent.substring(0, 200));
+
+    return schemaContent;
   }
 
   /**
