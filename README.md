@@ -1,5 +1,7 @@
 # F5 Distributed Cloud Tools for VS Code
 
+![Node Version](https://img.shields.io/badge/node-22.x-brightgreen)
+
 Manage F5 Distributed Cloud (F5 XC) resources directly from Visual Studio Code.
 
 ## Features
@@ -95,8 +97,18 @@ The extension supports 236 F5 XC resource types organized by category:
 
 ### Prerequisites
 
-- Node.js 22.x or higher
-- VS Code 1.85.0 or higher
+- **Node.js 22.x** - Required for development and building
+  - The repository includes `.nvmrc` file for automatic version management
+  - Use [nvm](https://github.com/nvm-sh/nvm) to easily switch Node versions:
+
+    ```bash
+    nvm use  # Automatically reads .nvmrc and switches to Node 22
+    ```
+
+- **VS Code 1.85.0 or higher**
+
+For reproducible builds that match the CI/CD pipeline, see
+[Build Reproduction Guide](claudedocs/BUILD_REPRODUCTION.md).
 
 ### Setup
 
@@ -105,8 +117,11 @@ The extension supports 236 F5 XC resource types organized by category:
 git clone https://github.com/robinmordasiewicz/vscode-f5xc-tools.git
 cd vscode-f5xc-tools
 
-# Install dependencies
-npm install
+# Ensure Node 22 is active (reads .nvmrc)
+nvm use
+
+# Install dependencies (use npm ci for deterministic builds)
+npm ci
 
 # Compile the extension
 npm run compile
@@ -131,13 +146,14 @@ npm run test:all
 ### Development Commands
 
 ```bash
-npm run compile      # Build with webpack
-npm run watch        # Watch mode for development
-npm run package      # Production build
-npm run lint         # Run ESLint
-npm run lint:fix     # Auto-fix ESLint issues
-npm run typecheck    # TypeScript type checking
-npm run format       # Format code with Prettier
+npm run compile        # Build with webpack
+npm run watch          # Watch mode for development
+npm run package        # Production build
+npm run build:ci-local # CI/CD-aligned build (see BUILD_REPRODUCTION.md)
+npm run lint           # Run ESLint
+npm run lint:fix       # Auto-fix ESLint issues
+npm run typecheck      # TypeScript type checking
+npm run format         # Format code with Prettier
 ```
 
 ### Debugging

@@ -249,6 +249,7 @@ export class SubscriptionDashboardProvider {
     accessStatuses: Map<string, AccessStatus>,
   ): string {
     const nonce = this.getNonce();
+    const cspSource = this.planPanel!.webview.cspSource;
 
     const tierBadge =
       planInfo.tier === 'advanced'
@@ -268,7 +269,7 @@ export class SubscriptionDashboardProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <style>
     ${this.getStyles()}
   </style>
@@ -479,6 +480,7 @@ export class SubscriptionDashboardProvider {
    */
   private getQuotasWebviewContent(quotaUsage: QuotaUsage): string {
     const nonce = this.getNonce();
+    const cspSource = this.quotasPanel!.webview.cspSource;
 
     // Calculate summary stats
     const allItems = [...quotaUsage.objects, ...quotaUsage.resources];
@@ -491,7 +493,7 @@ export class SubscriptionDashboardProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <style>
     ${this.getStyles()}
   </style>

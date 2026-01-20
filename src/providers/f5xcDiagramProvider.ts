@@ -753,13 +753,14 @@ export class F5XCDiagramProvider {
    */
   private getWebviewContent(mermaidCode: string, resourceName: string): string {
     const nonce = this.getNonce();
+    const cspSource = this.panel!.webview.cspSource;
 
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}' https://cdn.jsdelivr.net; img-src data:;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource} https://cdn.jsdelivr.net; img-src data:;">
   <title>Diagram: ${this.escapeHtml(resourceName)}</title>
   <style>
     ${this.getStyles()}

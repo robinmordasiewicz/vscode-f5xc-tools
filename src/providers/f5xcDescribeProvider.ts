@@ -343,6 +343,7 @@ export class F5XCDescribeProvider {
     quotaInfo?: QuotaItem,
   ): string {
     const nonce = this.getNonce();
+    const cspSource = this.panel!.webview.cspSource;
     const metadata = resource.metadata as Record<string, unknown> | undefined;
     const systemMetadata = resource.system_metadata as Record<string, unknown> | undefined;
     const spec = resource.spec as Record<string, unknown> | undefined;
@@ -358,7 +359,7 @@ export class F5XCDescribeProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
   <style>
     ${this.getStyles()}
   </style>

@@ -50,11 +50,19 @@ jobs:
         run: echo "filename=$(ls *.vsix)" >> $GITHUB_OUTPUT
 
       - name: Publish to Open VSX Registry
+        id: openvsx_publish
         uses: HaaLeo/publish-vscode-extension@v2
+        continue-on-error: true
         with:
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
           extensionFile: ${{ steps.vsix.outputs.filename }}
           skipDuplicate: true
+
+      - name: Open VSX publish status
+        if: steps.openvsx_publish.outcome == 'failure'
+        run: |
+          echo "::warning::Open VSX publish failed, but continuing release pipeline"
+          echo "::warning::Please check the Open VSX Registry manually or retry later"
 
   # Publish to VS Code Marketplace (skip BETA releases)
   publish-marketplace:
