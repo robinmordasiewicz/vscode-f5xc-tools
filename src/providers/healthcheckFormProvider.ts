@@ -483,6 +483,14 @@ export class HealthcheckFormProvider {
     const toolkitUri = this.getToolkitUri();
     const quotaExceeded = quotaInfo ? quotaInfo.usage >= quotaInfo.limit : false;
 
+    // Debug logging for CSP and toolkit URI
+    console.log('[Healthcheck] Nonce:', nonce);
+    console.log('[Healthcheck] Toolkit URI:', toolkitUri.toString());
+    console.log('[Healthcheck] CSP Source:', this.panel!.webview.cspSource);
+
+    const csp = `default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';`;
+    console.log('[Healthcheck] CSP:', csp);
+
     return `<!DOCTYPE html>
 <html lang="en">
 <head>

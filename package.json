@@ -31,8 +31,7 @@
     "theme": "dark"
   },
   "activationEvents": [
-    "onView:f5xc.explorer",
-    "onCommand:f5xc.addProfile"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {

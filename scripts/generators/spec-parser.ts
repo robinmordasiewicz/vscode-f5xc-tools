@@ -806,6 +806,29 @@ function extractOperationMetadata(operation: Operation | undefined): OperationMe
 // ============================================================================
 
 /**
+ * Check if a default value is empty/meaningless and should be ignored.
+ * Empty defaults include: null, undefined, empty objects, empty arrays.
+ *
+ * @param value - The value to check
+ * @returns true if the value is empty/meaningless
+ */
+function isEmptyDefault(value: unknown): boolean {
+  if (value === null) {
+    return true;
+  }
+  if (value === undefined) {
+    return true;
+  }
+  if (typeof value === 'object') {
+    if (Array.isArray(value)) {
+      return value.length === 0;
+    }
+    return Object.keys(value).length === 0;
+  }
+  return false;
+}
+
+/**
  * Extract field metadata from a schema property recursively.
  *
  * @param property - The schema property to process
@@ -823,6 +846,7 @@ function extractFieldMetadataFromProperty(
     type?: string;
     description?: string;
     default?: unknown;
+    enum?: unknown[];
     'x-f5xc-server-default'?: boolean;
     'x-f5xc-required-for'?: {
       minimum_config?: boolean;
@@ -845,8 +869,23 @@ function extractFieldMetadataFromProperty(
   const hasServerDefault = prop['x-f5xc-server-default'] === true;
   const hasRequiredFor = prop['x-f5xc-required-for'] !== undefined;
   const hasRecommendedValue = prop['x-f5xc-recommended-value'] !== undefined;
+  const hasSingleEnum = prop.enum && Array.isArray(prop.enum) && prop.enum.length === 1;
 
-  if (hasDefault || hasServerDefault || hasRequiredFor || hasRecommendedValue) {
+  // Determine effective recommended value with priority
+  let effectiveRecommendedValue: unknown = undefined;
+
+  if (hasRecommendedValue) {
+    // Priority 1: Explicit recommended value (highest priority)
+    effectiveRecommendedValue = prop['x-f5xc-recommended-value'];
+  } else if (hasDefault && !isEmptyDefault(prop.default)) {
+    // Priority 2: Non-empty default value
+    effectiveRecommendedValue = prop.default;
+  } else if (hasSingleEnum && prop.enum) {
+    // Priority 3: Single enum value (implicit default)
+    effectiveRecommendedValue = prop.enum[0];
+  }
+
+  if (hasDefault || hasServerDefault || hasRequiredFor || effectiveRecommendedValue !== undefined) {
     const fieldMeta: FieldMetadata = {
       path: basePath,
     };
@@ -870,8 +909,8 @@ function extractFieldMetadataFromProperty(
       }
     }
 
-    if (hasRecommendedValue) {
-      fieldMeta.recommendedValue = prop['x-f5xc-recommended-value'];
+    if (effectiveRecommendedValue !== undefined) {
+      fieldMeta.recommendedValue = effectiveRecommendedValue;
     }
 
     if (prop.description) {
