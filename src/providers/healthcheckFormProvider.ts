@@ -68,7 +68,6 @@ export class HealthcheckFormProvider {
   private quotaInfo: QuotaItem | undefined;
 
   constructor(
-    private readonly context: vscode.ExtensionContext,
     private readonly profileManager: ProfileManager,
     private readonly explorer: F5XCExplorerProvider,
     private readonly describeProvider: F5XCDescribeProvider,
@@ -92,7 +91,7 @@ export class HealthcheckFormProvider {
       {
         enableScripts: true,
         retainContextWhenHidden: true,
-        localResourceRoots: [vscode.Uri.joinPath(this.context.extensionUri, 'node_modules')],
+        localResourceRoots: [], // Toolkit loaded from CDN, no local resources needed
       },
     );
 
@@ -460,36 +459,18 @@ export class HealthcheckFormProvider {
   }
 
   /**
-   * Get the webview UI toolkit script URI
-   */
-  private getToolkitUri(): vscode.Uri {
-    return this.panel!.webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this.context.extensionUri,
-        'node_modules',
-        '@vscode',
-        'webview-ui-toolkit',
-        'dist',
-        'toolkit.min.js',
-      ),
-    );
-  }
-
-  /**
    * Generate HTML content for the webview
    */
   private getWebviewContent(namespaces: string[], quotaInfo?: QuotaItem): string {
     const nonce = this.getNonce();
-    const toolkitUri = this.getToolkitUri();
     const quotaExceeded = quotaInfo ? quotaInfo.usage >= quotaInfo.limit : false;
     const cspSource = this.panel!.webview.cspSource;
 
-    // Debug logging for CSP and toolkit URI
+    // Debug logging for CSP
     console.log('[Healthcheck] Nonce:', nonce);
-    console.log('[Healthcheck] Toolkit URI:', toolkitUri.toString());
     console.log('[Healthcheck] CSP Source:', cspSource);
 
-    const csp = `default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};`;
+    const csp = `default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource} https://cdn.jsdelivr.net;`;
     console.log('[Healthcheck] CSP:', csp);
 
     return `<!DOCTYPE html>
@@ -497,8 +478,31 @@ export class HealthcheckFormProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};">
-  <script type="module" nonce="${nonce}" src="${toolkitUri.toString()}"></script>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource} https://cdn.jsdelivr.net;">
+  <script type="module" nonce="${nonce}">
+    import {
+      provideVSCodeDesignSystem,
+      vsCodeButton,
+      vsCodeTextField,
+      vsCodeDropdown,
+      vsCodeOption,
+      vsCodeRadio,
+      vsCodeRadioGroup,
+      vsCodeCheckbox
+    } from 'https://cdn.jsdelivr.net/npm/@vscode/webview-ui-toolkit@1.4.0/dist/toolkit.min.js';
+
+    provideVSCodeDesignSystem().register(
+      vsCodeButton(),
+      vsCodeTextField(),
+      vsCodeDropdown(),
+      vsCodeOption(),
+      vsCodeRadio(),
+      vsCodeRadioGroup(),
+      vsCodeCheckbox()
+    );
+
+    console.log('[Healthcheck] Toolkit loaded from CDN');
+  </script>
   <style>
     ${this.getStyles()}
   </style>
