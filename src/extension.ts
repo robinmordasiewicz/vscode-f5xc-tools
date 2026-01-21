@@ -237,7 +237,6 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Register healthcheck form provider
   const healthcheckFormProvider = new HealthcheckFormProvider(
-    context,
     profileManager,
     explorerProvider,
     describeProvider,
