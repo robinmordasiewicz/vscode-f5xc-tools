@@ -1,6 +1,6 @@
 # F5 Distributed Cloud Tools for VS Code
 
-![Node Version](https://img.shields.io/badge/node-22.x-brightgreen)
+![Node Version](https://img.shields.io/badge/node-24.x-brightgreen)
 
 Manage F5 Distributed Cloud (F5 XC) resources directly from Visual Studio Code.
 
@@ -97,12 +97,12 @@ The extension supports 236 F5 XC resource types organized by category:
 
 ### Prerequisites
 
-- **Node.js 22.x** - Required for development and building
+- **Node.js 24.x** - Required for development and building
   - The repository includes `.nvmrc` file for automatic version management
   - Use [nvm](https://github.com/nvm-sh/nvm) to easily switch Node versions:
 
     ```bash
-    nvm use  # Automatically reads .nvmrc and switches to Node 22
+    nvm use  # Automatically reads .nvmrc and switches to Node 24
     ```
 
 - **VS Code 1.85.0 or higher**
@@ -117,7 +117,7 @@ For reproducible builds that match the CI/CD pipeline, see
 git clone https://github.com/robinmordasiewicz/vscode-f5xc-tools.git
 cd vscode-f5xc-tools
 
-# Ensure Node 22 is active (reads .nvmrc)
+# Ensure Node 24 is active (reads .nvmrc)
 nvm use
 
 # Install dependencies (use npm ci for deterministic builds)
