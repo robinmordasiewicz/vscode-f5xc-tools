@@ -67,7 +67,7 @@ jobs:
           echo "✅ Generation is idempotent and deterministic"
 
       - name: Upload generated files artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: generated-files
           path: src/generated/
@@ -182,7 +182,7 @@ jobs:
         run: vsce package --no-dependencies
 
       - name: Upload VSIX artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: vscode-f5xc-tools-vsix
           path: "*.vsix"
