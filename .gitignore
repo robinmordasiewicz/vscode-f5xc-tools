@@ -21,3 +21,6 @@ site/
 
 # Auto Claude data directory
 .auto-claude/
+
+# Claude Code documentation (investigation notes, not source code)
+claudedocs/
