@@ -630,7 +630,7 @@
     "@vscode/test-electron": "^2.3.8",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^10.0.1",
-    "glob": "^13.0.0",
+    "glob": "^13.0.1",
     "globals": "^17.3.0",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
