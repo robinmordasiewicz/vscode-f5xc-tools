@@ -1,13 +1,21 @@
-name: Build and Deploy Docs
-
+name: GitHub Pages Deploy
 on:
   push:
     branches: [main]
     paths:
-      - docs/**
-      - .github/workflows/github-pages-deploy.yml
+      - 'docs/**'
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
-  build-and-deploy:
+  docs:
     uses: robinmordasiewicz/f5xc-template/.github/workflows/github-pages-deploy.yml@main
