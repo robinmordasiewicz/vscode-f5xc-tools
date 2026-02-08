@@ -1,26 +1,7 @@
-out
-dist
-node_modules
-src/generated/
-.vscode-test/
-*.vsix
 .DS_Store
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+node_modules/
+dist/
 .env
-.env.local
-coverage/
-.nyc_output/
-
-# API specs - fetched at build time from upstream
-docs/specifications/
-.specs-temp/
-site/
-
-# Auto Claude data directory
-.auto-claude/
-
-# Claude Code documentation (investigation notes, not source code)
-claudedocs/
+.env.*
+*.log
+.astro/
