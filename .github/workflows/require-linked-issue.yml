@@ -1,0 +1,21 @@
+name: Require Linked Issue
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  issues: read
+  pull-requests: write
+
+jobs:
+  check-linked-issue:
+    runs-on: ubuntu-latest
+    name: Check linked issues
+    steps:
+      - uses: nearform-actions/github-action-check-linked-issues@v1
+        with:
+          exclude-branches: "dependabot/**"
+          custom-message: "This PR must be linked to a GitHub issue. Use 'Closes #123' in the PR description, or link an issue from the sidebar."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

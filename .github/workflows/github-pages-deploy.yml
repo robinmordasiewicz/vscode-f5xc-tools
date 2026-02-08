@@ -1,0 +1,13 @@
+name: Build and Deploy Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - docs/**
+      - .github/workflows/github-pages-deploy.yml
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    uses: robinmordasiewicz/f5xc-template/.github/workflows/github-pages-deploy.yml@main

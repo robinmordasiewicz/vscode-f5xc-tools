@@ -1,56 +1,15 @@
-# EditorConfig helps maintain consistent coding styles across different editors
-# See https://editorconfig.org
-
 root = true
 
-# Default settings for all files
 [*]
 charset = utf-8
 end_of_line = lf
-indent_style = space
-indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
-max_line_length = 100
-
-# TypeScript and JavaScript files
-[*.{ts,tsx,js,jsx}]
+indent_style = space
 indent_size = 2
 
-# JSON files
-[*.json]
-indent_size = 2
-
-# YAML files
-[*.{yaml,yml}]
-indent_size = 2
-
-# Markdown files
 [*.md]
 trim_trailing_whitespace = false
-max_line_length = off
 
-# Configuration files
-[{package.json,tsconfig.json,.eslintrc.json,.prettierrc}]
-indent_size = 2
-
-# Shell scripts
-[*.sh]
-indent_size = 2
-shell_variant = bash
-
-# Makefiles require tabs
 [Makefile]
 indent_style = tab
-
-# Git files
-[.git*]
-indent_size = 2
-
-# SVG files
-[*.svg]
-indent_size = 2
-
-# Keep trailing whitespace in diff files
-[*.{diff,patch}]
-trim_trailing_whitespace = false

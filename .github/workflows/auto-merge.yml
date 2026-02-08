@@ -1,0 +1,8 @@
+name: Auto Merge
+
+on:
+  pull_request:
+
+jobs:
+  auto-merge:
+    uses: robinmordasiewicz/f5xc-template/.github/workflows/auto-merge.yml@main

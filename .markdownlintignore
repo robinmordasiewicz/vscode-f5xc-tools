@@ -1,2 +1,6 @@
 # Auto-generated files
 CHANGELOG.md
+
+# GitHub templates (frontmatter not recognized as heading)
+.github/ISSUE_TEMPLATE/
+.github/PULL_REQUEST_TEMPLATE.md

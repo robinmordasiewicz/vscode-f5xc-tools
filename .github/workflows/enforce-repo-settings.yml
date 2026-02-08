@@ -1,0 +1,12 @@
+name: Enforce Repository Settings
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  enforce:
+    uses: robinmordasiewicz/f5xc-template/.github/workflows/enforce-repo-settings.yml@main
+    secrets:
+      repo-admin-token: ${{ secrets.REPO_ADMIN_TOKEN }}

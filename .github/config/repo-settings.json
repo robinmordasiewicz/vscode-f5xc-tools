@@ -1,0 +1,7 @@
+{
+  "repository": {
+    "description": "F5 Distributed Cloud extension for Visual Studio Code",
+    "homepage": "https://robinmordasiewicz.github.io/vscode-f5xc-tools/"
+  },
+  "topics": ["f5xc", "vscode", "extension"]
+}

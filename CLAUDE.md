@@ -1,7 +1,40 @@
-# CLAUDE.md
+# Claude Code Project Instructions
 
-This file provides guidance to Claude Code (claude.ai/code) when working with
-code in this repository.
+## Repository Workflow
+
+This repo enforces a strict governance workflow. Follow it exactly:
+
+1. **Create a GitHub issue** before making any changes
+2. **Create a feature branch** from `main` — never commit to `main` directly
+3. **Open a PR** that links to the issue using `Closes #N`
+4. **CI must pass** — the "Check linked issues" check blocks PRs without a
+   linked issue
+5. **Merge** — squash merge preferred, branch auto-deletes after merge
+
+## Use the `/ship` Skill
+
+When available, use `/ship` to handle the full workflow (issue creation, branch,
+commit, PR) in one step.
+
+## Branch Naming
+
+Use the format `<prefix>/<issue-number>-short-description`:
+
+- `feature/42-add-rate-limiting`
+- `fix/17-correct-threshold`
+- `docs/8-update-guide`
+
+## Rules
+
+- Never push directly to `main`
+- Never force push
+- Every PR must link to an issue
+- Fill out the PR template completely
+- Follow conventional commit messages (`feat:`, `fix:`, `docs:`)
+
+## Reference
+
+Read `CONTRIBUTING.md` for full governance details.
 
 ## Build Commands
 
@@ -99,147 +132,12 @@ const cspSource = webview.cspSource;
                script-src 'nonce-${nonce}' ${cspSource};">
 ```
 
-### Examples
-
-#### Standard WebView (uses this.panel)
-
-```typescript
-private getWebviewContent(): string {
-  const nonce = this.getNonce();
-  const cspSource = this.panel!.webview.cspSource;
-
-  return `<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none';
-                 style-src ${cspSource} 'unsafe-inline';
-                 script-src 'nonce-${nonce}' ${cspSource};">
-</head>
-...`;
-}
-```
-
-#### Detail View (creates new panel)
-
-```typescript
-showDetails(item: Item): void {
-  const panel = vscode.window.createWebviewPanel(...);
-  panel.webview.html = this.getDetailsContent(item, panel.webview);
-}
-
-private getDetailsContent(item: Item, webview: vscode.Webview): string {
-  const nonce = this.getNonce();
-  const cspSource = webview.cspSource;
-
-  return `<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none';
-                 style-src ${cspSource} 'unsafe-inline';
-                 script-src 'nonce-${nonce}' ${cspSource};">
-</head>
-...`;
-}
-```
-
-#### WebView with External Resources (e.g., CDN)
-
-```typescript
-private getWebviewContent(): string {
-  const nonce = this.getNonce();
-  const cspSource = this.panel!.webview.cspSource;
-
-  return `<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none';
-                 style-src ${cspSource} 'unsafe-inline';
-                 script-src 'nonce-${nonce}' ${cspSource} https://cdn.jsdelivr.net;
-                 img-src data:;">
-  <!-- Note: cspSource comes BEFORE external CDN -->
-</head>
-...`;
-}
-```
-
 ### Current Providers
 
 All providers have been updated with correct CSP:
 
-- ✅ `healthcheckFormProvider.ts` - Form for creating healthchecks
-- ✅ `subscriptionDashboardProvider.ts` - Plan and quota dashboards
-- ✅ `cloudStatusDashboardProvider.ts` - Cloud status and detail views
-- ✅ `f5xcDescribeProvider.ts` - Resource description viewer
-- ✅ `f5xcDiagramProvider.ts` - HTTP Load Balancer diagrams
-
-### Testing CSP Configuration
-
-When creating or modifying webview providers, verify CSP:
-
-1. **Open webview** with developer tools (`Cmd+Alt+I` or `Ctrl+Shift+I`)
-2. **Check Console** for CSP logs and errors:
-
-```text
-✅ Good: CSP Source: vscode-webview://...
-❌ Bad: CSP Source: undefined
-❌ Bad: CSP violation errors
-```
-
-3. **Test interactivity**:
-
-- Input fields accept keyboard input
-- Buttons respond to clicks
-- Dropdowns open and respond
-- No read-only behavior
-
-### Common Mistakes
-
-❌ **WRONG** - Missing cspSource:
-
-```typescript
-const csp = `default-src 'none'; style-src 'unsafe-inline'; script-src 'nonce-${nonce}';`;
-```
-
-❌ **WRONG** - Forgot to get cspSource:
-
-```typescript
-private getWebviewContent(): string {
-  const nonce = this.getNonce();
-  // Missing: const cspSource = this.panel!.webview.cspSource;
-  return `<meta http-equiv="Content-Security-Policy" content="...">`;
-}
-```
-
-❌ **WRONG** - External CDN comes before cspSource:
-
-```typescript
-script-src 'nonce-${nonce}' https://cdn.jsdelivr.net ${cspSource};
-// Should be: script-src 'nonce-${nonce}' ${cspSource} https://cdn.jsdelivr.net;
-```
-
-✅ **CORRECT** - Complete pattern:
-
-```typescript
-private getWebviewContent(): string {
-  const nonce = this.getNonce();
-  const cspSource = this.panel!.webview.cspSource;
-
-  const csp = `default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${cspSource};`;
-
-  return `<meta http-equiv="Content-Security-Policy" content="${csp}">`;
-}
-```
-
-### Related Issues
-
-- Issue #111: CSP regression causing non-interactive healthcheck forms
-- PR #112: Restored `cspSource` to healthcheck form provider
-- PR #XXX: Added `cspSource` to all remaining webview providers
-
-### References
-
-- [VSCode Webview API - Content Security Policy](https://code.visualstudio.com/api/extension-guides/webview#content-security-policy)
-- [MDN - Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+- `healthcheckFormProvider.ts` - Form for creating healthchecks
+- `subscriptionDashboardProvider.ts` - Plan and quota dashboards
+- `cloudStatusDashboardProvider.ts` - Cloud status and detail views
+- `f5xcDescribeProvider.ts` - Resource description viewer
+- `f5xcDiagramProvider.ts` - HTTP Load Balancer diagrams
