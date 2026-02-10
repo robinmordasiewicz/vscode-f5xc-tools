@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: nearform-actions/github-action-check-linked-issues@v1
         with:
-          exclude-branches: "dependabot/**,release/**"
+          exclude-branches: "dependabot/**,release/**,openapi-sync/**,plugin-sync/**,deps/**,sync/**,docs/update-*"
           custom-message: >-
             This PR must be linked to a GitHub issue. Use 'Closes #123'
             in the PR description, or link an issue from the sidebar.
