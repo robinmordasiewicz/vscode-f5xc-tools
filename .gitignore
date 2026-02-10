@@ -10,3 +10,4 @@ projects/
 .venv/
 .playwright-mcp/
 .serena/
+claudedocs/
