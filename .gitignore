@@ -11,3 +11,5 @@ projects/
 .playwright-mcp/
 .serena/
 claudedocs/
+cache/
+src/generated/
