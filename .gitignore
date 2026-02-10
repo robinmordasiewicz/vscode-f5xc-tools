@@ -9,3 +9,4 @@ site/
 projects/
 .venv/
 .playwright-mcp/
+.serena/
