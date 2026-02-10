@@ -1,15 +1,79 @@
+# OS
 .DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node
 node_modules/
 dist/
+
+# Environment
 .env
 .env.*
+
+# Logs
 *.log
+
+# Astro
 .astro/
 site/
-projects/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Python virtual environments
+venv/
+env/
+ENV/
 .venv/
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Build artifacts
+reports/
+
+# Projects
+projects/
+
+# Tool-specific
 .playwright-mcp/
 .serena/
 claudedocs/
 cache/
 src/generated/
+
+# API spec pipeline
+specs/original/
+specs/discovered/diffs/
+specs/discovered/endpoints/
+specs/discovered/schemas/
+docs/specifications/api/
+.version
+.etag
+.github_release
