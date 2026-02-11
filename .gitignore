@@ -54,6 +54,7 @@ ENV/
 # Test coverage
 .coverage
 htmlcov/
+coverage/
 
 # Build artifacts
 reports/
