@@ -642,7 +642,7 @@
     "ts-jest": "^29.4.6",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
-    "typescript-eslint": "^8.54.0",
+    "typescript-eslint": "^8.55.0",
     "webpack": "^5.105.1",
     "webpack-cli": "^6.0.0"
   }
