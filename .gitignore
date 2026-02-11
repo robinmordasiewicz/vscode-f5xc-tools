@@ -76,6 +76,7 @@ specs/discovered/diffs/
 specs/discovered/endpoints/
 specs/discovered/schemas/
 docs/specifications/api/
+docs/api-reference/
 .version
 .etag
 .github_release
