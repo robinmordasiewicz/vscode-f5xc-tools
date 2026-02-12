@@ -6,6 +6,10 @@ on:
     - cron: 0 2 * * *
   workflow_dispatch: # Allow manual trigger
 
+concurrency:
+  group: spec-update-check
+  cancel-in-progress: true
+
 jobs:
   check-specs:
     name: Check for API Spec Updates
