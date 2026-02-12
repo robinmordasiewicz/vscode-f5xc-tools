@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: enforce-repo-settings
+  cancel-in-progress: true
+
 jobs:
   enforce:
     uses: robinmordasiewicz/f5xc-template/.github/workflows/enforce-repo-settings.yml@main
