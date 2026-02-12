@@ -30,6 +30,30 @@ Use the format `<prefix>/<issue-number>-short-description`:
 - Fill out the PR template completely
 - Follow conventional commit messages (`feat:`, `fix:`, `docs:`)
 
+## CI Monitoring and Problem Reporting
+
+When monitoring CI workflows, **never ignore
+failures** — even pre-existing or unrelated ones.
+You are authorized to create GitHub issues without
+asking for confirmation. This is a standing
+instruction, not a suggestion.
+
+For every problem observed:
+
+1. **Immediately create a GitHub issue** — do not
+   ask whether to create it, just create it
+   - Use a clear, descriptive title
+   - Include the workflow run URL or relevant logs
+   - Note it was discovered during CI monitoring
+   - Apply the `bug` label
+2. **Continue with your primary task** — issue
+   creation must not block your current work
+3. **Report to the user** what issues you created
+
+Do not ask "Want me to create an issue?" — the
+answer is always yes. See a problem, file an issue,
+move on.
+
 ## Reference
 
 Read `CONTRIBUTING.md` for full governance details.
