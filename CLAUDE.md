@@ -61,10 +61,12 @@ workflows succeed, and local branches are cleaned.
 
 ### Cleanup (Steps 9-10)
 
-9. **Delete local feature branches** — only after
-    all workflows succeed:
+9. **Clean up branches** — only after all workflows
+    succeed. Delete your feature branch and any other
+    stale local branches already merged to `main`:
     ```
     git branch -d <branch-name>
+    git branch --merged main | grep -v '^\*\|main' | xargs -r git branch -d
     ```
 
 10. **Verify completion** — confirm clean state:
@@ -84,6 +86,7 @@ following are true:
 - All workflows triggered by the merge completed
   successfully
 - Local feature branch deleted
+- No stale merged branches remain locally
 - Current branch is `main` with clean working tree
 
 If any post-merge workflow fails due to your
@@ -107,6 +110,7 @@ Use the format `<prefix>/<issue-number>-short-description`:
 - Follow conventional commit messages (`feat:`, `fix:`, `docs:`)
 - Never consider a task complete until post-merge workflows pass
 - Always delete local feature branches after successful merge
+- Always clean up stale merged branches and workspace clutter when noticed
 
 ## CI Monitoring and Problem Reporting
 
@@ -131,6 +135,29 @@ For every problem observed:
 Do not ask "Want me to create an issue?" — the
 answer is always yes. See a problem, file an issue,
 move on.
+
+## Workspace Hygiene
+
+Apply the same proactive approach as CI monitoring
+to local workspace cleanliness. Do not ignore
+problems just because they predate your current
+task.
+
+When you notice stale local branches, leftover
+files, or other workspace issues:
+
+1. **Fix it immediately** — delete merged branches,
+   remove temp files, clean up artifacts
+2. **Report what you cleaned** — tell the user what
+   housekeeping you performed
+3. **Do not skip cleanup because "it's not my
+   task"** — a clean workspace is everyone's
+   responsibility
+
+Stale branch cleanup command:
+```
+git branch --merged main | grep -v '^\*\|main' | xargs -r git branch -d
+```
 
 ## Documentation Pipeline
 
