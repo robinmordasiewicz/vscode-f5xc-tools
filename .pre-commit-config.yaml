@@ -1,5 +1,31 @@
 ---
+# =============================================================================
+# GOVERNANCE CHECKS (fail-fast)
+#
+# These run FIRST. Direct commits to main are forbidden — all changes must
+# go through a pull request linked to a GitHub issue. If this hook fails:
+#
+#   1. Create a GitHub issue describing the change
+#   2. Create a feature branch:  git checkout -b feat/<issue>-description
+#   3. Commit to the feature branch, then open a PR with "Closes #<issue>"
+#
+# See CONTRIBUTING.md for the full workflow.
+# =============================================================================
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: no-commit-to-branch
+        name: "GOVERNANCE: never commit directly to main"
+        args: ["--branch", "main"]
+
+  # ===========================================================================
+  # Repository-specific hooks (escape hatch)
+  #
+  # Runs scripts/pre-commit-local.sh if present and executable. Repos use
+  # this for language-specific checks (ruff, eslint, tsc, etc.) that do not
+  # belong in the universal config.
+  # ===========================================================================
   - repo: local
     hooks:
       - id: local-hooks
@@ -9,11 +35,12 @@ repos:
         always_run: true
         pass_filenames: false
 
+  # ===========================================================================
+  # File hygiene
+  # ===========================================================================
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      - id: no-commit-to-branch
-        args: ["--branch", "main"]
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: mixed-line-ending
@@ -26,11 +53,17 @@ repos:
       - id: check-merge-conflict
       - id: detect-private-key
 
+  # ===========================================================================
+  # Security
+  # ===========================================================================
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.0
     hooks:
       - id: gitleaks
 
+  # ===========================================================================
+  # Linting
+  # ===========================================================================
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.38.0
     hooks:
