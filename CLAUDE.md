@@ -61,14 +61,32 @@ shared pipeline:
 
 | Repo | Role |
 | ---- | ---- |
-| `f5xc-docs-theme` | Astro Starlight plugin (CSS, logos, config) |
-| `f5xc-docs-builder` | Docker image that compiles MDX to HTML |
-| `f5xc-template` | Reusable workflow that runs the container in CI |
+| `f5xc-docs-theme` | Astro/Starlight config, CSS, logos, layout |
+| `f5xc-docs-builder` | Dockerfile, npm deps, build scripts |
+| `f5xc-template` | CI workflow, governance files |
 
 Content repos only need a `docs/` directory — the
 build container and workflow handle everything else.
 CI builds trigger when files in `docs/` change on
 `main`.
+
+### Where to make changes
+
+- **Site appearance, navigation, or Astro config** —
+  change `f5xc-docs-theme` (owns
+  `astro.config.mjs`, `content.config.ts`,
+  CSS, and logos)
+- **Build process, Docker image, or npm deps** —
+  change `f5xc-docs-builder` (owns the
+  Dockerfile and dependency set)
+- **CI workflow or governance files** —
+  change `f5xc-template`
+- **Page content and images** —
+  change the `docs/` directory in the content
+  repo itself
+- **Never** add `astro.config.mjs`,
+  `package.json`, or build config to a content
+  repo — the pipeline provides these
 
 ## Content Authoring
 
