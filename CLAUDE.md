@@ -7,12 +7,14 @@ This repo enforces a strict governance workflow. Follow it exactly:
 1. **Create a GitHub issue** before making any changes
 2. **Create a feature branch** from `main` — never commit to `main` directly
 3. **Open a PR** that links to the issue using `Closes #N`
-4. **CI must pass** — the "Check linked issues" check blocks PRs without a linked issue
+4. **CI must pass** — the "Check linked issues" check blocks PRs without a
+   linked issue
 5. **Merge** — squash merge preferred, branch auto-deletes after merge
 
 ## Use the `/ship` Skill
 
-When available, use `/ship` to handle the full workflow (issue creation, branch, commit, PR) in one step.
+When available, use `/ship` to handle the full workflow (issue creation, branch,
+commit, PR) in one step.
 
 ## Branch Naming
 
