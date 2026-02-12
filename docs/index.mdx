@@ -1,16 +1,8 @@
 ---
-title: F5 Distributed Cloud Tools
-description: VS Code extension for managing F5 Distributed Cloud resources
-template: splash
-sidebar:
-  hidden: true
+title: VS Code Extension
+description: VS Code extension for managing Cloud resources
 hero:
-  tagline: VS Code extension for managing F5 Distributed Cloud resources
-  actions:
-    - text: Get Started
-      link: automated-spec-updates/
-      icon: right-arrow
-      variant: primary
+  tagline: VS Code extension for managing Cloud resources
 ---
 
 ## Installation
@@ -35,26 +27,19 @@ code --install-extension vscode-f5xc-tools-*.vsix
 
 ### Create a Profile
 
-1. Open the F5 XC sidebar in VS Code
+1. Open the extension from the VS Code sidebar
 2. Click **+** in the Profiles view
 3. Enter your tenant URL (e.g., `https://tenant.console.ves.volterra.io`)
 4. Select authentication method and provide credentials
 
 ### Authentication
 
-**API Token:**
+**API Token or P12 Certificate**
 
-1. Log in to F5 XC Console
+1. Log in to the Console
 2. Go to **Administration** → **Personal Management** → **Credentials**
-3. Click **Add Credentials** → **API Token**
-4. Copy the generated token
-
-**P12 Certificate:**
-
-1. Log in to F5 XC Console
-2. Go to **Administration** → **Personal Management** → **Credentials**
-3. Click **Add Credentials** → **API Certificate**
-4. Download the `.p12` file and note the password
+3. Click **Add Credentials** → **API Token** or **API Certificate**
+4. Copy the generated token or Download the `.p12` file and note the password
 
 ## Usage
 
@@ -82,11 +67,11 @@ Networking, Sites, IAM, Observability, and Certificates.
 ## Requirements
 
 - VS Code 1.85.0+
-- F5 Distributed Cloud tenant access
+- Cloud tenant access
 - Valid credentials (API Token or P12 certificate)
 
 ## Links
 
 - [GitHub](https://github.com/robinmordasiewicz/vscode-f5xc-tools)
 - [Issues](https://github.com/robinmordasiewicz/vscode-f5xc-tools/issues)
-- [F5 XC Documentation](https://docs.cloud.f5.com/)
+- [F5 XC Documentation](https://robinmordasiewicz.github.io/vscode-f5xc-tools/)
