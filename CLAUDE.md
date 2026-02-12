@@ -2,17 +2,93 @@
 
 ## Repository Workflow
 
-This repo enforces a strict governance workflow. Follow it exactly:
+This repo enforces a strict governance workflow.
+**DO NOT STOP after creating a PR** — the task is
+not complete until the PR is merged, all post-merge
+workflows succeed, and local branches are cleaned.
 
-1. **Create a GitHub issue** before making any changes
-2. **Create a feature branch** from `main` — never commit to `main` directly
-3. **Open a PR** that links to the issue using `Closes #N`
-4. **CI must pass** — the "Check linked issues" check blocks PRs without a linked issue
-5. **Merge** — squash merge preferred, branch auto-deletes after merge
+### Making Changes (Steps 1-5)
 
-## Use the `/ship` Skill
+1. **Create a GitHub issue** before making any
+   changes
+2. **Create a feature branch** from `main` — never
+   commit to `main` directly
+3. **Commit changes** with conventional format
+   (`feat:`, `fix:`, `docs:`) and push to remote
+4. **Open a PR** that links to the issue using
+   `Closes #N` — fill out the PR template completely
+5. **Fix any CI failures** — monitor checks with
+   `gh pr checks <NUMBER>`, fix locally, push to
+   trigger re-runs
 
-When available, use `/ship` to handle the full workflow (issue creation, branch, commit, PR) in one step.
+### Waiting for Auto-Merge (Step 6)
+
+6. **Wait for auto-merge** — PRs merge automatically
+   (squash) once all CI checks pass. Poll until the
+   PR state is `MERGED`:
+   ```
+   gh pr view <NUMBER> --json state --jq '.state'
+   ```
+   If the PR is not merging, check for issues:
+   ```
+   gh pr view <NUMBER> --json mergeable,mergeStateStatus
+   ```
+
+### Post-Merge Monitoring (Steps 7-8)
+
+7. **Monitor post-merge workflows** — merging to
+   `main` triggers additional workflows (docs
+   builds, governance sync, etc.). Discover and
+   watch them:
+   ```
+   git checkout main && git pull origin main
+   MERGE_SHA=$(git rev-parse HEAD)
+   sleep 10
+   gh run list --branch main --commit $MERGE_SHA
+   gh run watch <RUN-ID> --exit-status
+   ```
+
+8. **Iterate on failures** — if any workflow fails:
+   - View logs: `gh run view <RUN-ID> --log-failed`
+   - Analyze the root cause
+   - Fix the code locally
+   - Create a new issue, branch, and PR with the fix
+   - Return to Step 5 and repeat until all workflows
+     pass
+   - For pre-existing failures unrelated to your
+     changes: create a GitHub issue (per CI
+     Monitoring rules below) and continue
+
+### Cleanup (Steps 9-10)
+
+9. **Delete local feature branches** — only after
+    all workflows succeed:
+    ```
+    git branch -d <branch-name>
+    ```
+
+10. **Verify completion** — confirm clean state:
+    ```
+    git status
+    git branch
+    gh run list --branch main --limit 5
+    ```
+
+## Task Completion Criteria
+
+A task is **not complete** until ALL of the
+following are true:
+
+- GitHub issue created and linked to PR
+- PR merged to `main` via auto-merge
+- All workflows triggered by the merge completed
+  successfully
+- Local feature branch deleted
+- Current branch is `main` with clean working tree
+
+If any post-merge workflow fails due to your
+changes, fix and resubmit. Do not clean up branches
+until all workflows are green.
 
 ## Branch Naming
 
@@ -29,6 +105,8 @@ Use the format `<prefix>/<issue-number>-short-description`:
 - Every PR must link to an issue
 - Fill out the PR template completely
 - Follow conventional commit messages (`feat:`, `fix:`, `docs:`)
+- Never consider a task complete until post-merge workflows pass
+- Always delete local feature branches after successful merge
 
 ## CI Monitoring and Problem Reporting
 
