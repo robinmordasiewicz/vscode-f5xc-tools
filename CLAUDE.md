@@ -26,10 +26,13 @@ workflows succeed, and local branches are cleaned.
 6. **Wait for auto-merge** — PRs merge automatically
    (squash) once all CI checks pass. Poll until the
    PR state is `MERGED`:
+
    ```
    gh pr view <NUMBER> --json state --jq '.state'
    ```
+
    If the PR is not merging, check for issues:
+
    ```
    gh pr view <NUMBER> --json mergeable,mergeStateStatus
    ```
@@ -40,6 +43,7 @@ workflows succeed, and local branches are cleaned.
    `main` triggers additional workflows (docs
    builds, governance sync, etc.). Discover and
    watch them:
+
    ```
    git checkout main && git pull origin main
    MERGE_SHA=$(git rev-parse HEAD)
@@ -64,12 +68,14 @@ workflows succeed, and local branches are cleaned.
 9. **Clean up branches** — only after all workflows
     succeed. Delete your feature branch and any other
     stale local branches already merged to `main`:
+
     ```
     git branch -d <branch-name>
     git branch --merged main | grep -v '^\*\|main' | xargs -r git branch -d
     ```
 
 10. **Verify completion** — confirm clean state:
+
     ```
     git status
     git branch
@@ -155,6 +161,7 @@ files, or other workspace issues:
    responsibility
 
 Stale branch cleanup command:
+
 ```
 git branch --merged main | grep -v '^\*\|main' | xargs -r git branch -d
 ```
