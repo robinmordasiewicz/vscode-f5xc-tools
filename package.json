@@ -630,7 +630,7 @@
     "@vscode/test-electron": "^2.3.8",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.0.1",
-    "glob": "^13.0.2",
+    "glob": "^13.0.3",
     "globals": "^17.3.0",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
@@ -642,8 +642,8 @@
     "ts-jest": "^29.4.6",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
-    "typescript-eslint": "^8.54.0",
-    "webpack": "^5.105.1",
+    "typescript-eslint": "^8.55.0",
+    "webpack": "^5.105.2",
     "webpack-cli": "^6.0.0"
   }
 }
