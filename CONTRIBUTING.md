@@ -1,13 +1,12 @@
 # Contributing
 
-This document describes the workflow and rules that all contributors — human and
-AI — must follow.
+This document describes the workflow and rules that all contributors — human and AI — must follow.
 
 ## Workflow Overview
 
 Every change follows this path:
 
-```text
+```
 Issue → Branch → PR (linked to issue) → CI passes → Merge → Branch auto-deleted
 ```
 
@@ -27,11 +26,11 @@ Blank issues are disabled. Pick the template that best fits your change.
 
 Branch from `main` using one of these naming conventions:
 
-| Prefix     | Use for       | Example                         |
-| ---------- | ------------- | ------------------------------- |
-| `feature/` | New features  | `feature/42-add-rate-limiting`  |
-| `fix/`     | Bug fixes     | `fix/17-correct-threshold-calc` |
-| `docs/`    | Documentation | `docs/8-update-setup-guide`     |
+| Prefix | Use for | Example |
+|--------|---------|---------|
+| `feature/` | New features | `feature/42-add-rate-limiting` |
+| `fix/` | Bug fixes | `fix/17-correct-threshold-calc` |
+| `docs/` | Documentation | `docs/8-update-setup-guide` |
 
 Format: `<prefix>/<issue-number>-short-description`
 
@@ -52,8 +51,7 @@ git checkout -b feature/42-add-rate-limiting
 ## Step 4: Open a Pull Request
 
 1. Push your branch and open a PR against `main`
-2. **Link the issue** — use `Closes #42` in the PR description, or link from the
-   sidebar
+2. **Link the issue** — use `Closes #42` in the PR description, or link from the sidebar
 3. Fill out the PR template (it loads automatically)
 4. The **"Check linked issues"** CI check will block merge if no issue is linked
 
@@ -62,8 +60,7 @@ git checkout -b feature/42-add-rate-limiting
 - All CI checks must pass before merge
 - Auto-merge is enabled — PRs merge automatically once all checks pass
 - Squash merge is preferred
-- The branch is automatically deleted after merge (`delete_branch_on_merge` is
-  enabled)
+- The branch is automatically deleted after merge (`delete_branch_on_merge` is enabled)
 
 ## Branch Protection Rules
 
@@ -76,16 +73,13 @@ The `main` branch is protected. The following rules are enforced:
 
 ## AI Assistant Guidelines
 
-If you are Claude Code, Copilot, or another AI coding assistant, follow these
-rules:
+If you are Claude Code, Copilot, or another AI coding assistant, follow these rules:
 
 1. **Always create a GitHub issue before writing code.** No issue = no work.
 2. **Always work on a feature branch.** Never commit directly to `main`.
 3. **Always link the PR to the issue.** Use `Closes #N` in the PR description.
-4. **Use the `/ship` skill** when available — it handles the full Issue → Branch
-   → PR flow.
+4. **Use the `/ship` skill** when available — it handles the full Issue → Branch → PR flow.
 5. **Never force push** or attempt to bypass branch protection.
 6. **Fill out the PR template checklist** completely.
-7. **Follow the branch naming convention**: `feature/<issue>-desc`,
-   `fix/<issue>-desc`, `docs/<issue>-desc`.
+7. **Follow the branch naming convention**: `feature/<issue>-desc`, `fix/<issue>-desc`, `docs/<issue>-desc`.
 8. **Respect CODEOWNERS** — `@robinmordasiewicz` is the default reviewer.
