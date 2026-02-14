@@ -2,11 +2,11 @@ name: Enforce Repository Settings
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: '0 */6 * * *'
   push:
     branches: [main]
     paths:
-      - ".github/config/**"
+      - '.github/config/**'
   workflow_dispatch:
 
 permissions:
