@@ -11,6 +11,10 @@ on:
   repository_dispatch:
     types: [theme-updated]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # Validate that code generation is deterministic
   validate-generation:
