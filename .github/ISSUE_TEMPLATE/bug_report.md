@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 description: Report a bug or unexpected behavior
-labels: ["bug"]
+labels: ['bug']
 ---
 
 ## Describe the Bug

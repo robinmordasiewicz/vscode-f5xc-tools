@@ -1,7 +1,7 @@
 ---
 name: Documentation
 description: Suggest a documentation improvement or report missing docs
-labels: ["documentation"]
+labels: ['documentation']
 ---
 
 ## What Needs to Be Documented
@@ -10,7 +10,8 @@ Describe the topic, feature, or area that needs documentation.
 
 ## Current State
 
-Describe the current state of the documentation (missing, incomplete, outdated, unclear).
+Describe the current state of the documentation (missing, incomplete, outdated,
+unclear).
 
 ## Suggested Improvement
 

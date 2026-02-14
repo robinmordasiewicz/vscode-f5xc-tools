@@ -13,7 +13,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as https from 'https';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
 const SPECS_DIR = path.join(PROJECT_ROOT, 'docs/specifications/api');
@@ -126,7 +126,7 @@ function extractZip(zipPath: string, destDir: string): void {
 
   // Use unzip command (available on macOS, Linux, and Windows with Git Bash)
   try {
-    execSync(`unzip -o "${zipPath}" -d "${destDir}"`, { stdio: 'pipe' });
+    execFileSync('unzip', ['-o', zipPath, '-d', destDir], { stdio: 'pipe' });
   } catch (error) {
     throw new Error(
       `Failed to extract zip: ${error instanceof Error ? error.message : String(error)}`,

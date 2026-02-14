@@ -2,39 +2,39 @@
 version: 2
 updates:
   # --- GitHub Actions ---
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: weekly
+      day: monday
     commit-message:
       prefix: "chore(deps):"
     labels:
-      - "dependencies"
+      - dependencies
     assignees:
-      - "robinmordasiewicz"
+      - robinmordasiewicz
     open-pull-requests-limit: 10
     groups:
       actions-minor-patch:
         update-types:
-          - "minor"
-          - "patch"
+          - minor
+          - patch
 
   # --- npm ---
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: weekly
+      day: monday
     commit-message:
       prefix: "chore(deps):"
     labels:
-      - "dependencies"
+      - dependencies
     assignees:
-      - "robinmordasiewicz"
+      - robinmordasiewicz
     open-pull-requests-limit: 10
     groups:
       npm-minor-patch:
         update-types:
-          - "minor"
-          - "patch"
+          - minor
+          - patch
