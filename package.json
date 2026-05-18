@@ -613,7 +613,7 @@
     "node-forge": "^1.4.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.3",
+    "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
     "@eslint/js": "^10.0.1",
     "@semantic-release/changelog": "^6.0.3",
